@@ -25,7 +25,7 @@
             <input :type="!type ? 'password' : 'text'" :value="password" @input="password = $event.target.value.trim()" placeholder="Введите пароль">
             <Icons name="password" @click="type = !type" />
           </div>
-          <button type="submit" @click="handleLogin" class="login-create">Входить</button>
+          <button type="button" @click="handleLogin" class="login-create">Входить</button>
         </form>
       </div>
     </div>
@@ -55,7 +55,7 @@ export default {
     showSvg:false,
     password: '',
     type: false,
-    loading: false, // Loading qo‘shamiz
+    loading: false, 
     toastOptions: {
       open: false,
       text: "",
@@ -64,7 +64,8 @@ export default {
   }
 },
 methods: {
-  async handleLogin() {
+  async handleLogin(e) {
+    
     if (!this.login || !this.password) {
       this.toastOptions = {
         open: true,
@@ -74,7 +75,7 @@ methods: {
       return;
     }
 
-    this.loading = true; // Yuklanishni boshlash
+    this.loading = true; 
 
     try {
       const response = await axios.post('/api/manager/login', {
@@ -105,7 +106,7 @@ methods: {
 mounted() {
   setTimeout(() => {
     this.showSvg = true;
-  }, 500); 
+  }, 700); 
 }
 
 }
