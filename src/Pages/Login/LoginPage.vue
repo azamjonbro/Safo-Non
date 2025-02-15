@@ -98,14 +98,14 @@ methods: {
         type: "error"
       };
     } finally {
-      this.loading = false; // Yuklanishni tugatish
+      this.loading = false;
     }
   }
 },
 mounted() {
   setTimeout(() => {
     this.showSvg = true;
-  }, 500); // SVG 500ms kechikib yuklanadi
+  }, 500); 
 }
 
 }
