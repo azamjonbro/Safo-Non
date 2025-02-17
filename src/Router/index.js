@@ -1,6 +1,6 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import LoginPage from '@/Pages/Login/LoginPage.vue';
-import HomePage from '@/Pages/Home/HomePage.vue';
+import { createRouter, createWebHistory } from 'vue-router';
+import LoginPage from '@/View/Login/LoginPage.vue';
+import HomePage from '@/View/Home/HomePage.vue';
 
 const routes = [
     {
@@ -12,19 +12,11 @@ const routes = [
         path: '/',
         name: 'Home',
         component: HomePage,
-        beforeEnter: (to, from, next) => {
-            const token = localStorage.getItem('user'); 
-            if (!token) {
-                next('/login'); 
-            } else {
-                next(); 
-            }
-        }
     }
 ];
 
 const router = createRouter({
-    history:  createWebHashHistory(),
+    history:  createWebHistory(),
     routes
 });
 

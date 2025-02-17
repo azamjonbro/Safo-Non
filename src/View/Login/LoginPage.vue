@@ -13,7 +13,7 @@
               fill="white" />
             <circle cx="493" cy="513" r="76" fill="white" />
           </svg>
-          <h2 class="login-title">Добро пожаловать</h2>
+          <h3 class="login-title">Добро пожаловать</h3>
           <p>Пожалуйста, введите логин и пароль</p>
         </div>
         <form class="login-container-form">
@@ -64,7 +64,7 @@ export default {
   }
 },
 methods: {
-  async handleLogin(e) {
+  async handleLogin() {
     
     if (!this.login || !this.password) {
       this.toastOptions = {
@@ -82,7 +82,8 @@ methods: {
         username: this.login,
         password: this.password
       });
-
+      console.log(response);
+      
       if (response.status === 200) {
         this.toastOptions = {
           open: true,
@@ -106,7 +107,7 @@ methods: {
 mounted() {
   setTimeout(() => {
     this.showSvg = true;
-  }, 700); 
+  }, 0); 
 }
 
 }

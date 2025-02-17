@@ -66,7 +66,11 @@
   font-family: "Noto Sans", sans-serif;
   user-select: none;
 }
-
+::-webkit-scrollbar{
+  width: 4px; 
+  background: gray;
+  margin-right: 10px;
+}
 html,
 body,
 #app {
@@ -250,6 +254,11 @@ li {
 .text16 {
   font-size: 16px;
 }
+.left-item>a{
+  font-size: 16px;
+  font-weight: 400;
+  display: block;
+}
 
 /* page info and item style */
 
@@ -327,11 +336,8 @@ li {
 
 .login-title {
   color: #000;
-
   font-size: 60px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
+  font-weight: 500;
 }
 
 .login-container-form {
@@ -390,12 +396,13 @@ li {
   justify-content: center;
   align-items: center;
 }
-
-/* defpage style */
 .page {
-  width: 83%;
+  width: 100%;
   height: 100%;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .page-top-buttons {
@@ -404,7 +411,7 @@ li {
 
 .page-bottom {
   width: 100%;
-  height: 100%;
+  height: 93%;
   border: 1px solid #919191;
   border-radius: 8px;
   padding: 12px;
@@ -419,7 +426,7 @@ li {
   letter-spacing: 0.72px;
 }
 
-/* home banner */
+
 .home-banner {
   width: 83%;
   height: 100%;
@@ -684,18 +691,63 @@ tbody>tr>td{
   min-width: 500px;
 }
 
+.burgericon{
+  position: fixed;
+  top: 50%;
+  left: 0px;
+  width: 30px;
+  height: 80px;
+  background: #6a8ffd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0px 10px 10px 0px;
+  display: none;
+}
+.home-page {
+  display: flex;
+  height: 100%;
+}
+.main{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 @media (max-width:768px){
+  .login-title{
+    font-size: 42px;
+    font-weight: 500;
+  }
   .login>.left-content{
     width: 100%;
   }
   .login>.right-content{
     display: none;
   }
+  .burgericon{
+    display: flex;
+  }
+  .burgericon>h3{
+    text-transform: capitalize;
+  }
+  .navbar-menu{
+    height: 80%;
+  }
+  .main{
+    flex: 11;
+  }
+  .sidebar-logo{
+    width: 180px;
+  }
 }
 
 @media (max-width:580px){
   .login-title{
     font-size: 36px;
+    font-weight: 400;
   }
   .login-container-form{
     width: 100%;
@@ -706,3 +758,4 @@ tbody>tr>td{
   }
   
 }
+
