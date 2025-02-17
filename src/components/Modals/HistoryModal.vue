@@ -23,13 +23,13 @@ export default {
   },
   methods: {
     handleTouchStart(event) {
-      this.touchStartX = event.touches[0].clientX; // Barmoq bosilgan joy
+      this.touchStartX = event.touches[0].clientX;
     },
     handleTouchMove(event) {
-      this.touchEndX = event.touches[0].clientX; // Barmoq harakatlanayotgan joy
+      this.touchEndX = event.touches[0].clientX; 
       
-      if (this.touchStartX - this.touchEndX >= -100) {
-        this.$emit("close"); // 100px chapga surilsa modal yopiladi
+      if (this.touchEndX-this.touchStartX   >= 70) {
+        this.$emit("close"); 
       }
     },
   },
