@@ -16,7 +16,7 @@ export default {
     handlePageShow(event) {
       if (event.persisted) {
         console.log("Sahifa bfcache dan yuklandi!");
-        window.location.reload(); // Sahifani qayta yuklash
+        window.location.reload();
       }
     }
   },
