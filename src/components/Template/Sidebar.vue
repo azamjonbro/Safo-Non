@@ -51,8 +51,8 @@
                 <Icons @click="exitLogin" name="exit" />
             </div>
         </div>
-        <div class="burgericon" >
-            <Icons name="openmenu" @click="handleOpenMenu"/>
+        <div class="burgericon" @click="handleOpenMenu">
+            <Icons name="openmenu" />
         </div>
     </div>
 </template>

@@ -1,18 +1,101 @@
-<template >
-    <div class="page ">
-        <div class="page-top  d-flex j-between a-center">
-            <h2>Dashboard</h2>
+<template>
+    <div class="page">
+      <div class="page-top d-flex j-between a-center">
+        <b>Dashboard</b>
+      </div>
+      <div class="page-bottom scroll">
+        <div class="infobox d-flex wrap">
+          <div class="card" v-for="(data, index) in manager" :key="index" @click="openModal = true">
+            <Icons :name="data?.iconname" />
+            <span class="info-item">
+              <h3>{{ data.title }}</h3>
+              <b>{{ formatPrice(data.price || 0) }}</b>
+            </span>
+          </div>
         </div>
-        <div class="page-bottom scroll">
-            <h2>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga id modi laborum ducimus incidunt enim sunt provident, dolor qui consequuntur hic fugit. Commodi ullam distinctio totam ipsa sint autem laboriosam maxime est quaerat ipsum deleniti fugiat culpa dolores quam suscipit repellendus itaque inventore amet excepturi ea repudiandae saepe, voluptates non iste! Dolores voluptatem explicabo dolor culpa in aspernatur adipisci corporis quam, incidunt velit vel, eius qui quidem, sunt facere repellat ullam labore voluptas officia fugiat exercitationem? Consequuntur perferendis dolor dolorum velit. Cum iusto tenetur unde corporis possimus illum velit recusandae nulla est! Deserunt suscipit nemo sint exercitationem iusto! Veritatis reiciendis quasi dolores reprehenderit, ullam molestiae vel animi vitae velit sunt harum sequi voluptate perspiciatis earum laborum! Ipsum deserunt enim nobis quam recusandae quis est id, delectus vitae eveniet obcaecati animi cupiditate consequatur necessitatibus, architecto non repudiandae, illo rerum. Quasi earum fugit nobis perspiciatis nisi quam, deserunt dicta tempora ratione consequatur a qui sunt, fugiat voluptates! Assumenda cupiditate recusandae vitae sequi. Modi libero consequuntur reprehenderit eius sed, perferendis nostrum. Praesentium ex explicabo obcaecati repellat aliquid doloribus alias? Consequatur neque ipsa hic tempore magnam repellat ut, autem sequi aperiam quos quaerat nostrum inventore numquam commodi necessitatibus odit omnis similique molestiae! Expedita quibusdam ducimus illum et molestiae pariatur eius ad, qui deserunt vero amet, quaerat magni suscipit nulla debitis laborum, sequi laboriosam in praesentium. Iste modi nemo aspernatur sit similique distinctio maxime pariatur, temporibus numquam excepturi natus a id veniam perferendis maiores delectus omnis velit suscipit, animi mollitia quas, voluptatum quo incidunt! Consequatur itaque, minus unde iusto repellat rem doloribus modi enim molestiae at nisi sequi quas animi corporis? Necessitatibus dolore odit, distinctio cum natus, iusto, laboriosam doloremque libero sit voluptatibus animi! Laborum rem est nostrum provident obcaecati sint ad cumque, omnis ipsum? Similique labore accusantium ad dolor perferendis fuga qui praesentium voluptatibus, earum blanditiis! Ullam ad, beatae numquam hic doloribus odio aperiam optio veritatis impedit at cupiditate molestias temporibus officiis libero esse sequi sapiente dolores aut soluta commodi? Quis vitae quae itaque, a, voluptatem minima delectus impedit dolorum temporibus eum hic illum laudantium aliquam dolores eos debitis reiciendis laboriosam rerum molestiae eveniet ut quibusdam perspiciatis quo! Facere a aliquam doloribus excepturi, aperiam minus reiciendis harum laboriosam, sit, deserunt dignissimos distinctio magni corporis praesentium eos reprehenderit? Distinctio deleniti iusto repellat nisi! Cumque, eius dignissimos recusandae in et, eaque odio minus, nobis similique impedit expedita consequuntur delectus neque fugiat provident! Atque dolorem, libero cumque eveniet consequatur sapiente ab sint earum similique voluptatem delectus consequuntur excepturi architecto accusantium quas? Cumque soluta tenetur expedita temporibus consectetur, vitae dolor accusantium est eaque, animi in necessitatibus. Vel tempore, excepturi minus provident fugit impedit architecto. Tempora at repellendus quo suscipit quasi libero possimus iste fuga impedit, quis cum laboriosam, eum culpa ullam. Ducimus quas expedita velit minima, asperiores ut architecto recusandae molestias culpa? Similique, omnis doloribus. Dolorem culpa quam corrupti ex reiciendis? Hic provident deleniti quibusdam laboriosam, atque animi pariatur ullam? Labore nemo recusandae, iure nesciunt sed est, debitis pariatur, consequuntur dolor totam ipsum. Maiores, facilis ducimus, reiciendis incidunt a cupiditate ut porro perspiciatis fugit sunt tempora quidem? Eum, sed cum repudiandae alias sint esse numquam laudantium? Consectetur numquam quod hic temporibus placeat ipsam fugiat repellat, sunt saepe ad, accusantium consequuntur excepturi. Deserunt provident, fugiat recusandae magni repellat odit sunt eum quaerat voluptatum, magnam nemo hic soluta iusto expedita itaque tempora nisi illum distinctio ipsam a officiis. Odio sapiente totam eos dicta ullam aut ea non, explicabo ex! Voluptate obcaecati incidunt et ut doloremque distinctio ea quibusdam excepturi eveniet reprehenderit aliquid magni reiciendis aliquam molestiae unde consequatur non ducimus nostrum, odit dignissimos ad harum at inventore! Reprehenderit veritatis numquam natus cupiditate voluptatum, sint, consequuntur ullam ab quidem aperiam laudantium perspiciatis aliquam vitae eos. Natus voluptatem fugiat quam. Molestiae mollitia nesciunt praesentium illum quis reiciendis porro optio sed recusandae a exercitationem dolore laudantium sunt facere nihil vel voluptatem, ipsam ipsum culpa et, autem placeat asperiores at officiis! Voluptatum delectus hic consectetur? Iusto eos iste, odit quas nostrum voluptates quae illum voluptate. In ullam quibusdam quis dolore reprehenderit a, soluta est laudantium cupiditate perspiciatis nihil consequuntur quisquam nisi earum magni illo nostrum enim sint voluptate fugit ab. Similique hic corrupti commodi! Quasi voluptate sint, magni distinctio eos possimus harum obcaecati omnis. Veniam odio ut fuga nemo ratione magni qui, iusto, ex magnam placeat aut! Beatae accusantium molestiae hic ducimus culpa eaque error qui id fugiat cum delectus debitis, ad minima sequi quod asperiores voluptas magni porro, tempore, doloremque enim laboriosam adipisci nihil! Et id consequatur similique exercitationem dolore corporis harum deleniti sit itaque deserunt, nihil ea accusamus dolorum praesentium impedit sapiente eius. Odit quibusdam assumenda aliquid ipsam voluptatum sint nostrum dolorem ad reiciendis id veritatis voluptas numquam officia velit eum molestias perferendis, recusandae sed distinctio saepe suscipit. Error sint iure, voluptatibus quo facilis tenetur? Odit ad quasi perferendis asperiores aperiam, exercitationem nam amet at totam molestias praesentium, ipsam officiis cumque labore consequatur pariatur enim a? Iusto at, nihil quod provident, repellendus minus accusantium tempora earum amet porro vitae maiores corporis non impedit veritatis, optio in expedita voluptate incidunt ad. Enim in provident omnis dolorum beatae ea esse ab incidunt ducimus atque odio recusandae voluptatibus molestiae possimus, voluptatem cum sint ipsa quam debitis temporibus consequuntur repellendus sit ex asperiores? Nesciunt, magni illo! Illo facilis, fugit amet consequatur laborum aperiam enim adipisci ex quis corporis magnam recusandae accusantium reiciendis ullam fuga! Dolorum, delectus molestiae itaque eius sequi, doloremque quia deserunt modi quod quasi ratione ad sit labore minima tempora a praesentium minus non. Corrupti, totam? Quia dolores maxime at nemo quasi? Nostrum iusto aut doloribus sed soluta, consequatur est, deserunt sapiente asperiores ad eum quis unde itaque ea dignissimos rem omnis quam iure odio! Veniam nesciunt maiores error assumenda sit est. Molestiae repudiandae repellendus optio, iusto magnam vel corrupti labore dolorem ut omnis rem facere quia voluptas culpa quam mollitia ipsam! Optio mollitia soluta aliquam voluptatibus at repudiandae ea qui error officiis obcaecati necessitatibus culpa consequatur nobis placeat veritatis veniam ipsa, incidunt, numquam libero eaque quos. Obcaecati, reprehenderit in nobis facere mollitia dolores.</h2>
-        </div>
+      </div>
+      <HistoryModal v-if="openModal" @close="closeModal"/>
     </div>
-</template>
-<script>
-export default {
-    
-}
-</script>
-<style >
-    
-</style>
+  </template>
+  
+  <script>
+  import HistoryModal from '@/components/Modals/HistoryModal.vue';
+  import Icons from '@/components/Template/Icons.vue';
+  
+  export default {
+    components: {
+      Icons,
+      HistoryModal
+    },
+    data() {
+      return {
+        openModal: false,
+        manager: [
+          { iconname: "allIncr", title: "Umumiy kirim", price: 450000 },
+          { iconname: "dayIncr", title: "Kunlik kirim", price: 300000 },
+          { iconname: "wallet", title: "Hamyon", price: 200000 },
+          { iconname: "allIncr", title: "Umumiy chiqim", price: 500000 },
+          { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+          { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+          { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+          { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+          { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+
+        ]
+      };
+    },
+    methods: {
+      formatPrice(price) {
+        return new Intl.NumberFormat('ru-RU').format(price);
+      },
+      closeModal() {
+        this.openModal = false;
+      }
+    }
+  };
+  </script>
+  <style>
+  .infobox {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .card {
+      background: #5565ff;
+      width: 32%;
+      min-width: 365px;
+      height: 120px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      gap: 12px;
+  }
+  .card>div>svg>path,.card>span{
+      stroke: #fff;
+      color: #fff;
+  }
+  .card>span>h3{
+      font-weight: 300;
+      color: #ffffff9d;
+      font-size: 13px;
+  }
+  .card>span>b{
+      font-size: 22px;
+  }
+  .card:nth-child(3n+2){
+      background: red;
+  }
+  .card:nth-child(3n+3){
+      background: #874BFF;
+  }
+  @media (max-width:1140px){
+      .infobox{
+          display: flex;
+          justify-content: center;
+      }
+      .infobox>.card{
+          min-width: 95%;
+      }
+  }
+  </style>

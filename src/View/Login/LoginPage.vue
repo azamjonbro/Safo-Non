@@ -78,7 +78,7 @@ methods: {
     this.loading = true; 
 
     try {
-      const response = await axios.post('/api/manager/login', {
+      const response = await axios.post('/api/login', {
         username: this.login,
         password: this.password
       });

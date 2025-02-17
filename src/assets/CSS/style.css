@@ -70,6 +70,7 @@
   width: 4px; 
   background: gray;
   margin-right: 10px;
+  border-radius: 10px;
 }
 html,
 body,
@@ -589,11 +590,11 @@ th {
 }
 
 .modal-content {
-  width: 80%;
+  width: 90%;
   height: 100%;
   background: #fff;
   border-radius: 30px 0px 0px 30px;
-  padding: 70px 140px ;
+  padding: 70px 40px ;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -760,6 +761,10 @@ tbody>tr>td{
   }
   .navbar{
     margin: 0;
+  }
+  .modal-content{
+    width: 100%;
+    border-radius: 0px;
   }
 }
 

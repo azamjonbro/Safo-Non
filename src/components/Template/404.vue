@@ -105,15 +105,11 @@
     margin-top: 30px;
     width: 1142px;
     margin: 0 auto;
+    
   }
   
   .js-ag-hide {
     display: none;
-  }
-  
-  .ag-page-404 {
-    padding: 100px 0 0;
-    /* background: url(../../assets/Images/toaster-bg.png) no-repeat 380px 100%; */
   }
   
   .ag-canvas-404_img {
@@ -133,7 +129,6 @@
     display: table;
     margin: 0 auto;
     padding: 200px 0 0;
-  
     position: relative;
   }
   .ag-toaster {
