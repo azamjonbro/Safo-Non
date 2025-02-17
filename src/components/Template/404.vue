@@ -1,5 +1,6 @@
 <template>
-    <div class="ag-page-404">
+    <div class="ag-page-404 d-flex column gap24 a-center">
+      <h2  class="not-found">Sahifa mavjud emas</h2>
       <div class="ag-toaster-wrap">
         <div class="ag-toaster">
           <div class="ag-toaster_back"></div>

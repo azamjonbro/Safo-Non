@@ -16,7 +16,7 @@
                     <Icons name="home" />
                     <router-link to="/">Asosiy</router-link>
                 </li>
-                <li :class="activePage === 'kassa' ? 'active' : 'left-item'" class="d-flex" @click="setActive('kassa')">
+                <li :class="activePage === 'workers' ? 'active' : 'left-item'" class="d-flex" @click="setActive('workers')">
                     <Icons name="workers" />
                     <router-link to="/">Nonvoylar</router-link>
                 </li>
@@ -24,8 +24,8 @@
                     <Icons name="delivery" />
                     <router-link to="/">Yetkazuvchilar</router-link>
                 </li>
-                <li :class="activePage === 'product' ? 'active' : 'left-item'" class="d-flex"
-                    @click="setActive('product')">
+                <li :class="activePage === 'store' ? 'active' : 'left-item'" class="d-flex"
+                    @click="setActive('store')">
                     <Icons name="product" />
                     <router-link to="/">Do'konlar</router-link>
                 </li>
@@ -86,7 +86,24 @@ export default {
         },
         closeSidebar() {
             this.isOpen = false;
+        },
+        handleTouchStart(event) {
+            this.touchStartX = event.touches[0].clientX;
+        },
+        handleTouchMove(event) {
+            this.touchEndX = event.touches[0].clientX;
+            if (this.touchEndX - this.touchStartX >= 100) {
+                this.isOpen = true;
+            }
         }
+    },
+    mounted() {
+        document.addEventListener('touchstart', this.handleTouchStart);
+        document.addEventListener('touchmove', this.handleTouchMove);
+    },
+    beforeUnmount() {
+        document.removeEventListener('touchstart', this.handleTouchStart);
+        document.removeEventListener('touchmove', this.handleTouchMove);
     }
 }
 </script>

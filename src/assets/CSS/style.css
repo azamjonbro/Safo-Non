@@ -695,14 +695,21 @@ tbody>tr>td{
   position: fixed;
   top: 50%;
   left: 0px;
-  width: 30px;
-  height: 80px;
+  width: 20px;
+  height: 60px;
   background: #6a8ffd;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 0px 10px 10px 0px;
   display: none;
+}
+.burgericon>div>svg{
+  width: 18px;
+  height: 18px;
+}
+.burgericon>div>svg>path{
+  stroke-width: 1.5px;
 }
 .home-page {
   display: flex;
@@ -715,7 +722,13 @@ tbody>tr>td{
   align-items: center;
   justify-content: center;
 }
-
+.not-found{
+  font-size: 28px;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
 @media (max-width:768px){
   .login-title{
     font-size: 42px;
@@ -741,6 +754,12 @@ tbody>tr>td{
   }
   .sidebar-logo{
     width: 180px;
+  }
+  .page{
+    padding: 12px;
+  }
+  .navbar{
+    margin: 0;
   }
 }
 
