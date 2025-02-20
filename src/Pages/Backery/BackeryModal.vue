@@ -47,10 +47,11 @@
 
 <script>
 import Icons from "@/components/Template/Icons.vue";
-
+import Api from "@/Utils/axios"
 export default {
     components: {
         Icons,
+        Api
     },
     data() {
         return {
@@ -101,6 +102,7 @@ export default {
 
             this.isSubmitting = true;
             try {
+                Api.post('/api')
                 this.closeModal();
                 this.isSubmitting=true
             } catch (error) {

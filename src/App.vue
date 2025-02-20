@@ -21,13 +21,13 @@ export default {
     }
   },
   mounted(){
-    // const token= localStorage.getItem('user')
-    // if(!token){
-    //   this.$router.push('/login')
-    // }else{
-    //   this.$router.push('/')
+    const token= localStorage.getItem('user')
+    if(!token){
+      this.$router.push('/login')
+    }else{
+      this.$router.push('/')
 
-    // }
+    }
   }
 };
 </script>

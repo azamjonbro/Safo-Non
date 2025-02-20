@@ -13,15 +13,19 @@ const api = axios.create({
 
 api.interceptors.request.use(
   (config) => {
-    const token = JSON.parse(localStorage.getItem('user')).accessToken; 
+    const userData = localStorage.getItem('user');
+    const token = userData ? JSON.parse(userData).accessToken : null;
+    console.log(token);
+    
     if (token) {
-      config.headers.authorization = `${token}`; 
+      config.headers.authorization = `${token}`;
     }
+    
     return config;
   },
   (error) => {
     return Promise.reject(error);
   }
-);
+)
 
 export default api;
