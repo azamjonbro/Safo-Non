@@ -3,7 +3,9 @@
         <Sidebar class="sidebar" @menu-click="changePage($event)"/>
         <main class="main">
             <Dashboard v-if="activePage=='dashboard'"/>
-            <ErrorPage v-else/>
+            <Backery v-if="activePage=='workers'"/>
+            <!-- <ErrorPage v-else/> -->
+
         </main>
     </div>
 </template>
@@ -12,11 +14,13 @@
 import Sidebar from '@/components/Template/Sidebar.vue';
 import Dashboard from '@/Pages/Dashboard/dashboard.vue';
 import ErrorPage from '@/components/Template/404.vue'
+import Backery from '@/Pages/Backery/backery.vue';
 export default {
     name: 'HomePage',
     components: {
         Sidebar,
         Dashboard,
+        Backery,
         ErrorPage
     },
     data() {

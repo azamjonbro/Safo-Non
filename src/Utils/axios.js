@@ -10,4 +10,18 @@ const api = axios.create({
   },
 });
 
+
+api.interceptors.request.use(
+  (config) => {
+    const token = JSON.parse(localStorage.getItem('user')).accessToken; 
+    if (token) {
+      config.headers.authorization = `${token}`; 
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export default api;

@@ -412,7 +412,7 @@ li {
 
 .page-bottom {
   width: 100%;
-  height: 93%;
+  height: 92%;
   border: 1px solid #919191;
   border-radius: 8px;
   padding: 12px;
@@ -597,7 +597,7 @@ th {
   padding: 70px 40px ;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   animation: modalPostion 0.8s ;
   transform: translateX(0);
   z-index: 100;
@@ -730,6 +730,9 @@ tbody>tr>td{
   text-align: center;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+
+
+
 @media (max-width:768px){
   .login-title{
     font-size: 42px;

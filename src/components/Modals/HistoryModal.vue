@@ -28,7 +28,7 @@ export default {
     handleTouchMove(event) {
       this.touchEndX = event.touches[0].clientX; 
       
-      if (this.touchEndX-this.touchStartX   >= 70) {
+      if (this.touchEndX-this.touchStartX   >= 120 ||this.touchStartX  -this.touchEndX >= 120 ) {
         this.$emit("close"); 
       }
     },
