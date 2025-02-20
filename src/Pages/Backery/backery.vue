@@ -70,15 +70,7 @@ export default {
         formatPrice(price) {
       return new Intl.NumberFormat('ru-RU').format(price);
     },
-        async getAllWorker() {
-            api.get('/api/sellers')
-                .then((response) => {
-                    this.allWorkers = response?.data?.sellers
-                    console.log(response);
-                    
-                })
-
-        }
+       
     },
     mounted() {
         this.getAllWorker()
@@ -90,3 +82,13 @@ export default {
         stroke:#fff
     }
 </style>
+
+<!-- async getAllWorker() {
+    api.get('/api/sellers')
+        .then((response) => {
+            this.allWorkers = response?.data?.sellers
+            console.log(response);
+            
+        })
+
+} -->
