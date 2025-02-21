@@ -14,7 +14,7 @@
                         </div>
                         <div class="form-group">
                             <label for="ovenId">Foydalanuvchiga tegishli tandir raqami</label>
-                            <input id="ovenId" type="number" v-model="user.ovenId"
+                            <input id="ovenId" type="text" v-model="user.ovenId"
                                 placeholder="Foydalanuvchi tandir raqamini kiriting" @blur="validateField('ovenId')" />
                             <p v-if="errors.ovenId" class="error-text">{{ errors.ovenId }}</p>
                         </div>
@@ -102,7 +102,7 @@ export default {
 
             this.isSubmitting = true;
             try {
-                Api.post('/api')
+                Api.post('/api/')
                 this.closeModal();
                 this.isSubmitting=true
             } catch (error) {
