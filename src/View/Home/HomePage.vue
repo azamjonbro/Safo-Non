@@ -7,6 +7,7 @@
       <Settings v-if="activePage == 'settings'" />
       <TypeOfBreadVue v-if="activePage == 'typeOfBread'" />
       <DeliveryVue v-if="activePage == 'delivery'" />
+      <MagazineVue v-if="activePage == 'magazine'" />
       <!-- <ErrorPage v-else/> -->
     </main>
   </div>
@@ -20,6 +21,7 @@ import Backery from "@/Pages/Backery/backery.vue";
 import Settings from "@/Pages/Settings/settings.vue";
 import TypeOfBreadVue from "@/Pages/typeOfBread/typeOfBread.vue";
 import DeliveryVue from "@/Pages/Delivery/delivery.vue";
+import MagazineVue from '@/Pages/Magazine/magazine.vue';
 export default {
   name: "HomePage",
   components: {
@@ -30,6 +32,7 @@ export default {
     Settings,
     TypeOfBreadVue,
     DeliveryVue,
+    MagazineVue
   },
   data() {
     return {

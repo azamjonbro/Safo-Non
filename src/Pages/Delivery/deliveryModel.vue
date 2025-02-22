@@ -1,5 +1,6 @@
 <template>
-  <div class="modal" @click.self="$emit('close')">
+  <transition name="slide-modal">
+    <div class="modal" @click.self="$emit('close')">
     <div class="modal-content relative">
       <Icons name="xIcon" class="xIcon" @click="closeModal" />
       <h2>Nonvoy yaratish</h2>
@@ -55,6 +56,7 @@
       </div>
     </div>
   </div>
+  </transition>
 </template>
 <script>
 import Icons from "@/components/Template/Icons.vue";
