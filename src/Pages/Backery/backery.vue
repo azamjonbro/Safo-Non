@@ -17,7 +17,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="data in allWorkers">
+                    <tr v-for="data in allWorkers" :key="data.ovenId">
                         <td>{{data?.ovenId?data.ovenId:'-----------'}}</td>
                         <td>{{ data?.username }}</td>
                         <td>{{data?.phone}}</td>

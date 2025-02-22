@@ -5,6 +5,7 @@
             <Dashboard v-if="activePage=='dashboard'"/>
             <Backery v-if="activePage=='workers'"/>
             <Settings v-if="activePage=='settings'" />
+            <TypeOfBreadVue v-if="activePage=='typeOfBread'" />
             <!-- <ErrorPage v-else/> -->
 
         </main>
@@ -17,6 +18,7 @@ import Dashboard from '@/Pages/Dashboard/dashboard.vue';
 import ErrorPage from '@/components/Template/404.vue'
 import Backery from '@/Pages/Backery/backery.vue';
 import Settings from "@/Pages/Settings/settings.vue"
+import TypeOfBreadVue from '@/Pages/typeOfBread/typeOfBread.vue';
 export default {
     name: 'HomePage',
     components: {
@@ -25,6 +27,7 @@ export default {
         Backery,
         ErrorPage,
         Settings,
+        TypeOfBreadVue
     },
     data() {
         return {
