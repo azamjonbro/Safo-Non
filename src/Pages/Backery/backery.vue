@@ -17,13 +17,8 @@
                     </tr>
                 </thead>
                 <tbody>
-<<<<<<< HEAD
-                    <tr v-for="data in allWorkers">
-                        <td>{{ data?.ovenId ? data.ovenId : '-----------' }}</td>
-=======
                     <tr v-for="data in allWorkers" :key="data.ovenId">
-                        <td>{{data?.ovenId?data.ovenId:'-----------'}}</td>
->>>>>>> 5c2b138c5cd9b01e9478994bf98aeb159d9ca852
+                        <td>{{ data?.ovenId ? data.ovenId : '-----------' }}</td>
                         <td>{{ data?.username }}</td>
                         <td>{{ data?.phone }}</td>
                         <td>{{ formatPrice(data?.price || 0) }} sum</td>
