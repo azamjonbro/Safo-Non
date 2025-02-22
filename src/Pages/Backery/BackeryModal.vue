@@ -4,7 +4,7 @@
             <div class="modal-content relative">
                 <Icons name="xIcon" class="xIcon" @click="closeModal" />
                 <h2>Nonvoy yaratish</h2>
-                <form @submit.prevent="submitForm">
+                <form>
                     <div class="modal-form">
                         <div class="form-group">
                             <label for="username">Foydalanuvchi nomi</label>
@@ -32,14 +32,14 @@
                         </div>
                     </div>
                 </form>
-                    <div class="modal-buttons d-flex j-end a-center gap24">
-                        <button type="button" class="action-button" @click="closeModal">
-                            Chiqish
-                        </button>
-                        <button type="submit" class="action-button" :disabled="isSubmitting">
-                            {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
-                        </button>
-                    </div>
+                <div class="modal-buttons d-flex j-end a-center gap24">
+                    <button type="button" class="action-button" @click="closeModal">
+                        Chiqish
+                    </button>
+                    <button type="button" @click="submitForm()" class="action-button" :disabled="isSubmitting">
+                        {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
+                    </button>
+                </div>
             </div>
         </div>
     </transition>
@@ -74,7 +74,7 @@ export default {
             if (field === "username" && !this.user.username.trim()) {
                 this.errors.username = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
             }
-            if (field === "ovenId" && (!this.user.ovenId || isNaN(this.user.ovenId))) {
+            if (field === "ovenId" && (!this.user.ovenId)) {
                 this.errors.ovenId = "Tandir raqami raqam bo‘lishi kerak";
             }
             if (field === "phone") {
@@ -82,6 +82,7 @@ export default {
                 if (!this.user.phone.trim()) {
                     this.errors.phone = "Telefon raqamini kiriting";
                 } else if (!regex.test(this.user.phone)) {
+
                     this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998XXXXXXXXX)";
                 }
             }
@@ -90,23 +91,36 @@ export default {
             }
         },
         async submitForm() {
+
             this.errors = {};
             this.validateField("username");
             this.validateField("phone");
             this.validateField("price");
             this.validateField("ovenId");
 
-            if (Object.keys(this.errors).length > 0) {
+            if (!Object.keys(this.errors).length) {
                 return;
             }
 
             this.isSubmitting = true;
             try {
-                Api.post('/api/')
-                this.closeModal();
-                this.isSubmitting=true
+                const response = await Api.post('/api/seller', this.user);
+                console.log(response);
+
+                if (response?.status == 201) {
+                    this.$emit('status', { status: 'success', message: "Nonvoy muvaffaqqiyatli qo'shildi" })
+                    this.closeModal();
+                }
+                else {
+                    this.$emit('status', { status: 'error', message: "Nonvoy qo'shishda hatolik" })
+                }
+                this.isSubmitting = true
             } catch (error) {
-                console.error("Xatolik yuz berdi:", error);
+                this.$emit('status', {
+                    status: 'error',
+                    message: error.response?.data?.message || error.message || "Xatolik yuz berdi"
+                });
+
             } finally {
                 this.isSubmitting = false;
             }
