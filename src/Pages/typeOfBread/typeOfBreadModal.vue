@@ -4,7 +4,7 @@
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Non turini yaratish</h2>
-        <form>
+        <form @submit.prevent="submitForm">
           <div class="modal-form">
             <div class="form-group">
               <label for="title">Nomi</label>
@@ -19,7 +19,7 @@
                 {{ errors.title }}
               </p>
             </div>
-              <div class="form-group">
+            <div class="form-group">
               <label for="price">Narxi</label>
               <input
                 id="price"
@@ -38,7 +38,12 @@
           <button type="button" class="action-button" @click="closeModal">
             Chiqish
           </button>
-          <button type="submit" class="action-button" :disabled="isSubmitting">
+          <button
+            type="submit"
+            @click="submitForm"
+            class="action-button"
+            :disabled="isSubmitting"
+          >
             {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
           </button>
         </div>
@@ -48,6 +53,7 @@
 </template>
 <script>
 import Icons from "@/components/Template/Icons.vue";
+import api from "@/Utils/axios";
 export default {
   components: {
     Icons,
@@ -71,11 +77,47 @@ export default {
       if (field === "title" && !this.typeOfBread.title.trim()) {
         this.errors.title = "Non turini nomi bo'sh bo'lmasligi kerak";
       }
-    if (
+      if (
         field === "price" &&
-        (!this.typeOfBread.price || isNaN(this.typeOfBread.price) || this.typeOfBread.price <= 0)
+        (!this.typeOfBread.price ||
+          isNaN(this.typeOfBread.price) ||
+          this.typeOfBread.price <= 0)
       ) {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
+      } 
+    },
+   async submitForm() {
+      this.errors = {};
+      this.validateField("title");
+      this.validateField("price");
+      
+     for (const error in this.errors) {      
+      if(this.errors[error] !== ""){
+       return;
+      }
+      
+     }
+      this.isSubmitting = true;
+      
+      try {
+        const token = localStorage.getItem("user")
+          ? JSON.parse(localStorage.getItem("user"))?.accessToken
+          : "";
+        await api.post(
+          "/api/typeOfBread",
+          { title: this.typeOfBread.title, price: this.typeOfBread.price },
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        this.closeModal();
+        this.isSubmitting = false;
+      } catch (error) {
+        console.error("Xatolik yuz berdi:", error);
+      } finally {
+        this.isSubmitting = false;        
       }
     },
   },
