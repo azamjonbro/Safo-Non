@@ -75,6 +75,8 @@ export default {
         setActive(page) {
             this.activePage = page;
             this.$emit('menu-click', page);
+            console.log(this.activePage);
+            
             this.closeSidebar();
         },
         exitLogin() {
