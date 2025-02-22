@@ -59,7 +59,6 @@ export default {
     toastOptions: {
       open: false,
       text: "",
-      style: { background: "#4CAF50" }
     },
   }
 },

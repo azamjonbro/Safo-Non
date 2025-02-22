@@ -18,15 +18,15 @@
                 </thead>
                 <tbody>
                     <tr v-for="data in allWorkers" :key="data.ovenId">
-                        <td>{{data?.ovenId?data.ovenId:'-----------'}}</td>
+                        <td>{{ data?.ovenId ? data.ovenId : '-----------' }}</td>
                         <td>{{ data?.username }}</td>
-                        <td>{{data?.phone}}</td>
-                        <td>{{formatPrice(data?.price||0)}} sum</td>
-                        <td>{{formatPrice(data.totalPrice||0)}} sum</td>
+                        <td>{{ data?.phone }}</td>
+                        <td>{{ formatPrice(data?.price || 0) }} sum</td>
+                        <td>{{ formatPrice(data.totalPrice || 0) }} sum</td>
                         <td class="d-flex a-center j-end gap12">
                             <Icons name="payed" title="To'lov" class="icon info setting" />
                             <Icons name="setting" title="sozlama" class="icon info setting" />
-                            <Icons name="deleted" title="o'chirish" class="icon danger"/>
+                            <Icons name="deleted" title="o'chirish" class="icon danger" />
                             <Icons name="bottomArrow" />
                         </td>
                     </tr>
@@ -35,22 +35,30 @@
             <p class="text16 d-flex j-center p-24" v-if="!allWorkers">Hozircha nonvoy mavjud emas</p>
         </div>
     </div>
-    <BackeryModal v-if="openModal" @close="openModal = false" />
+    <BackeryModal v-if="openModal" @close="openModal = false" @status="handleStatus($event)" />
+    <Toastiff :toastOptions="toastOptions" />
+
 </template>
 <script>
 import Icons from '@/components/Template/Icons.vue';
 import api from '@/Utils/axios';
 import BackeryModal from './BackeryModal.vue';
+import Toastiff from '@/Utils/Toastiff.vue';
 
 export default {
     components: {
         Icons,
-        BackeryModal
+        BackeryModal,
+        Toastiff
     },
     data() {
         return {
             allWorkers: [],
-            openModal: false
+            openModal: false,
+            toastOptions: {
+                open: false,
+                text: "",
+            },
         }
     },
     methods: {
@@ -63,6 +71,15 @@ export default {
         },
         formatPrice(price) {
             return new Intl.NumberFormat('ru-RU').format(price);
+        },
+       async handleStatus(data) {      
+            this.toastOptions = {
+                open: true,
+                text: data?.message,
+                type: data?.status
+            }
+            this.openModal=false
+            await this.getAllWorker()
         },
         async getAllWorker() {
             api.get('/api/sellers')
@@ -84,13 +101,3 @@ export default {
     stroke: #fff
 }
 </style>
-
-<!-- async getAllWorker() {
-    api.get('/api/sellers')
-        .then((response) => {
-            this.allWorkers = response?.data?.sellers
-            console.log(response);
-            
-        })
-
-} -->
