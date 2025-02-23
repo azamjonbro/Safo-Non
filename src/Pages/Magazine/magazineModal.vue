@@ -4,7 +4,7 @@
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Dokon yaratish</h2>
-           <div class="modal-form">
+        <div class="modal-form">
           <div class="form-group">
             <label for="title">Nomi</label>
             <input
@@ -59,7 +59,7 @@
             </p>
           </div>
 
-           <div class="form-group">
+          <div class="form-group">
             <label for="remainprice">RemainPrice</label>
             <input
               id="remainprice"
@@ -93,6 +93,7 @@
 
 <script>
 import Icons from "@/components/Template/Icons.vue";
+import api from "@/Utils/axios";
 export default {
   components: {
     Icons,
@@ -126,7 +127,7 @@ export default {
         const regex = /^\+998\d{9}$/;
         if (!this.magazine.phone.trim()) {
           this.errors.phone = "Telefon raqamini kiriting";
-        } else if (!regex.test(this.user.phone)) {
+        } else if (!regex.test(this.magazine.phone)) {
           this.errors.phone =
             "Telefon raqami noto‘g‘ri formatda (+998XXXXXXXXX)";
         }
@@ -147,7 +148,22 @@ export default {
       ) {
         this.errors.remainprice = "Narx musbat son bo‘lishi kerak";
       }
-
+    },
+    submitForm() {
+      this.isSubmitting = true;
+      const token = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : "";
+      api.post("/api/magazine", this.magazine, {
+        headers: {
+          authorization: token,
+        },
+      }).then(({status})=>{
+        if(status === 201){
+          this.closeModal()
+          this.isSubmitting = false
+        }
+      })
     },
   },
 };

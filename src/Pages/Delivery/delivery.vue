@@ -40,21 +40,29 @@
     </div>
   </div>
   <DeliveryModelVue v-if="openModal" @close="handleClose" />
+  <ToastiffVue :toastOptions="toastOptions" />
 </template>
 
 <script>
 import api from "@/Utils/axios";
 import Icons from "@/components/Template/Icons.vue";
 import DeliveryModelVue from "./deliveryModel.vue";
+import ToastiffVue from "@/Utils/Toastiff.vue";
 export default {
   components: {
     Icons,
     DeliveryModelVue,
+    ToastiffVue,
   },
   data() {
     return {
       allDelivery: [],
       openModal: false,
+      toastOptions: {
+        open: false,
+        text: "",
+        style: { background: "#4CAF50" },
+      },
     };
   },
   methods: {
@@ -76,6 +84,11 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allDelivery = data?.deliveries;
+            this.toastOptions = {
+              open: true,
+              text: "Yetkazuvchilar keldi",
+              style: { background: "#4CAF50" },
+            };
           }
         });
     },
@@ -83,15 +96,17 @@ export default {
       const token = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))?.accessToken
         : "";
-        api.delete("/api/delivery/" + id,{
-            headers:{
-                "authorization":token
-            }
-        }).then(({status})=>{
-            if(status === 200){
-                this.getDeliveries()
-            }
+      api
+        .delete("/api/delivery/" + id, {
+          headers: {
+            authorization: token,
+          },
         })
+        .then(({ status }) => {
+          if (status === 200) {
+            this.getDeliveries();
+          }
+        });
     },
   },
   mounted() {

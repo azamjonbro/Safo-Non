@@ -33,7 +33,7 @@
                 name="deleted"
                 title="o'chirish"
                 class="icon danger"
-                @click="deleteMagzine(data?._id)"
+                @click="openDeleteModal(data?._id)"
               />
             </td>
           </tr>
@@ -41,25 +41,43 @@
       </table>
     </div>
   </div>
-  <MagazineModalVue v-if="openModal" @click="handleClose" />
+  <RequiredModalVue
+    :isVisible="deleteVisible"
+    @response="closeDeleteModal($event)"
+  />
+  <MagazineModalVue v-if="openModal" @close="handleClose" />
 </template>
 
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
 import MagazineModalVue from "./magazineModal.vue";
+import RequiredModalVue from "@/components/Modals/requiredModal.vue";
 export default {
   components: {
     Icons,
     MagazineModalVue,
+    RequiredModalVue,
   },
   data() {
     return {
       openModal: false,
       allMagazine: [],
+      deleteVisible: false,
+      selectedItem: null,
     };
   },
   methods: {
+    closeDeleteModal(emit) {
+      if (emit) {
+        this.deleteMagzine(this.selectedItem)
+      }
+      this.deleteVisible = false;
+    },
+    openDeleteModal(item) {
+      this.selectedItem = item;
+      this.deleteVisible = true;
+    },
     handleClose() {
       this.openModal = false;
       this.getMagazine();
@@ -78,7 +96,6 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allMagazine = data?.magazines;
-            console.log(data.magazines);
           }
         });
     },

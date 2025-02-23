@@ -3,7 +3,7 @@
     <div class="modal" @click.self="$emit('close')">
     <div class="modal-content relative">
       <Icons name="xIcon" class="xIcon" @click="closeModal" />
-      <h2>Nonvoy yaratish</h2>
+      <h2>Yetkazuvchi yaratish</h2>
 
       <div class="modal-form">
         <div class="form-group">
@@ -61,6 +61,8 @@
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
+import ToastiffVue from "@/Utils/Toastiff.vue";
+
 export default {
   components: {
     Icons,

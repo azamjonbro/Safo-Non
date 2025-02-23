@@ -123,7 +123,47 @@ export default {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }
     },
-   
+    async submitForm() {
+      this.errors = {};
+      this.validateField("username");
+      this.validateField("phone");
+      this.validateField("price");
+      this.validateField("ovenId");
+
+      if (!Object.keys(this.errors).length) {
+        return;
+      }
+
+      this.isSubmitting = true;
+      try {
+        const response = await Api.post("/api/seller", this.user);
+        console.log(response);
+
+        if (response?.status == 201) {
+          this.$emit("status", {
+            status: "success",
+            message: "Nonvoy muvaffaqqiyatli qo'shildi",
+          });
+          this.closeModal();
+        } else {
+          this.$emit("status", {
+            status: "error",
+            message: "Nonvoy qo'shishda hatolik",
+          });
+        }
+        this.isSubmitting = true;
+      } catch (error) {
+        this.$emit("status", {
+          status: "error",
+          message:
+            error.response?.data?.message ||
+            error.message ||
+            "Xatolik yuz berdi",
+        });
+      } finally {
+        this.isSubmitting = false;
+      }
+    },
   },
 };
 </script>
