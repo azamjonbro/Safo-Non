@@ -28,7 +28,7 @@
             <td>{{ data?.pending ? data?.pending : "" }}</td>
             <td>{{ data?.remainprice ? data?.remainprice : "" }}</td>
             <td class="d-flex a-center j-end gap12">
-              <Icons name="setting" title="sozlama" class="icon info setting" />
+              <Icons name="setting" title="sozlama" class="icon info setting" @click="openUpdateModal({title:data?.title,phone:data?.phone,address:data?.address,pending:data?.pending,remainprice:data?.remainprice,id:data?._id})" />
               <Icons
                 name="deleted"
                 title="o'chirish"
@@ -45,7 +45,9 @@
     :isVisible="deleteVisible"
     @response="closeDeleteModal($event)"
   />
+  <ToastiffVue :toastOptions="toastOptions" />
   <MagazineModalVue v-if="openModal" @close="handleClose" />
+  <MagazineModalVue v-if="updateVisible" :update="update" @close="closeUpdateModal" />
 </template>
 
 <script>
@@ -53,11 +55,13 @@ import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
 import MagazineModalVue from "./magazineModal.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
+import ToastiffVue from "@/Utils/Toastiff.vue";
 export default {
   components: {
     Icons,
     MagazineModalVue,
     RequiredModalVue,
+    ToastiffVue,
   },
   data() {
     return {
@@ -65,12 +69,21 @@ export default {
       allMagazine: [],
       deleteVisible: false,
       selectedItem: null,
+      updateVisible: false,
+      toastOptions: {
+        open: false,
+        text: "",
+        style: { background: "#4CAF50" },
+      },
+      update: {
+        isUpdate: false,
+      },
     };
   },
   methods: {
     closeDeleteModal(emit) {
       if (emit) {
-        this.deleteMagzine(this.selectedItem)
+        this.deleteMagzine(this.selectedItem);
       }
       this.deleteVisible = false;
     },
@@ -81,6 +94,15 @@ export default {
     handleClose() {
       this.openModal = false;
       this.getMagazine();
+    },
+    closeUpdateModal() {
+      this.updateVisible = false;
+      this.update = {isUpdate:false}
+      this.getMagazine();
+    },
+    openUpdateModal(item) {
+      this.update = Object.assign(item, { isUpdate: true });
+      this.updateVisible = true;
     },
     getMagazine() {
       const token = localStorage.getItem("user")
@@ -96,7 +118,21 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allMagazine = data?.magazines;
+            this.toastOptions = {
+              open: true,
+              type:"success",
+              text: "Do`konlar keldi",
+              style: { background: "#4CAF50" },
+            };
           }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            type: "error",
+            text: "Xatolik yuzberdi",
+          };
         });
     },
     deleteMagzine(id) {
@@ -112,7 +148,20 @@ export default {
         .then(({ status }) => {
           if (status === 200) {
             this.getMagazine();
+            this.toastOptions = {
+              open: true,
+              text: "Do`kon o`chib keti",
+              style: { background: "#4CAF50" },
+            };
           }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            type: "error",
+            text: "Xatolik yuzberdi",
+          };
         });
     },
   },
