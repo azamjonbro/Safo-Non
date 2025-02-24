@@ -132,22 +132,10 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allDelivery = data?.deliveries;
-            this.toastOptions = {
-              open: true,
-              text: "Yetkazuvchilar keldi",
-              type: "success",
-              style: { background: "#4CAF50" },
-            };
-            e;
           }
         })
         .catch((error) => {
           console.error(error);
-          // this.toastOptions = {
-          //   open: true,
-          //   text: "Xatolik yuz berdi",
-          //   type: "error",
-          // };
         });
     },
     deleteDelivery(id) {
@@ -163,21 +151,12 @@ export default {
         .then(({ status }) => {
           if (status === 200) {
             this.getDeliveries();
-            this.toastOptions = {
-              open: true,
-              type: "warning",
-              text: "Yetkazuvchilar o`chdi",
-              style: { background: "#4CAF50" },
-            };
+           
           }
         })
         .catch((error) => {
           console.error(error);
-          this.toastOptions = {
-            open: true,
-            text: "Xatolik yuz berdi",
-            type: "error",
-          };
+         
         });
     },
   },

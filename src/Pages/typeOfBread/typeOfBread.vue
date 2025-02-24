@@ -112,21 +112,11 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allTypeOfBread = data?.typeOfBreads;
-            this.toastOptions = {
-              open: true,
-              type:"success",
-              text: "Non turlari keldi",
-              style: { background: "#4CAF50" },
-            };
+           
           }
         })
         .catch((error) => {
           console.error(error);
-          this.toastOptions = {
-            open: true,
-            type: "error",
-            text: "Xatolik yuzberdi",
-          };
         });
     },
     deleteTypeOfBread(id) {
@@ -142,20 +132,11 @@ export default {
         .then(({ status }) => {
           if (status === 200) {
             this.getallTypeOfBread();
-            this.toastOptions = {
-              open: true,
-              text: "Non turi o`chirib tashlandi",
-              style: { background: "#4CAF50" },
-            };
+           
           }
         })
         .catch((error) => {
           console.error(error);
-          this.toastOptions = {
-            open: true,
-            type: "error",
-            text: "Xatolik yuzberdi",
-          };
         });
     },
   },

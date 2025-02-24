@@ -118,21 +118,12 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allMagazine = data?.magazines;
-            this.toastOptions = {
-              open: true,
-              type:"success",
-              text: "Do`konlar keldi",
-              style: { background: "#4CAF50" },
-            };
+          
           }
         })
         .catch((error) => {
           console.error(error);
-          this.toastOptions = {
-            open: true,
-            type: "error",
-            text: "Xatolik yuzberdi",
-          };
+         
         });
     },
     deleteMagzine(id) {
