@@ -1,53 +1,10 @@
 <template>
-<<<<<<< HEAD
-    <transition name="slide-modal">
-        <div class="modal" @click.self="$emit('close')">
-            <div class="modal-content relative">
-                <Icons name="xIcon" class="xIcon" @click="closeModal" />
-                <h2>Nonvoy yaratish</h2>
-                <form>
-                    <div class="modal-form">
-                        <div class="form-group">
-                            <label for="username">Foydalanuvchi nomi</label>
-                            <input id="username" type="text" v-model="user.username"
-                                placeholder="Foydalanuvchi nomini kiriting" @blur="validateField('username')" />
-                            <p v-if="errors.username" class="error-text">{{ errors.username }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label for="ovenId">Foydalanuvchiga tegishli tandir raqami</label>
-                            <input id="ovenId" type="text" v-model="user.ovenId"
-                                placeholder="Foydalanuvchi tandir raqamini kiriting" @blur="validateField('ovenId')" />
-                            <p v-if="errors.ovenId" class="error-text">{{ errors.ovenId }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Telefon raqami</label>
-                            <input id="phone" type="text" v-model="user.phone" placeholder="Telefon raqamini kiriting"
-                                @blur="validateField('phone')" />
-                            <p v-if="errors.phone" class="error-text">{{ errors.phone }}</p>
-                        </div>
-                        <div class="form-group">
-                            <label for="price">Har bir non uchun narxi</label>
-                            <input id="price" type="number" v-model="user.price" placeholder="Summa kiriting"
-                                @blur="validateField('price')" />
-                            <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
-                        </div>
-                    </div>
-                </form>
-                <div class="modal-buttons d-flex j-end a-center gap24">
-                    <button type="button" class="action-button" @click="closeModal">
-                        Chiqish
-                    </button>
-                    <button type="button" @click="submitForm()" class="action-button" :disabled="isSubmitting">
-                        {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
-                    </button>
-                </div>
-=======
   <transition name="slide-modal">
     <div class="modal" @click.self="$emit('close')">
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Nonvoy yaratish</h2>
-        <form @submit.prevent="submitForm">
+        <form>
           <div class="modal-form">
             <div class="form-group">
               <label for="username">Foydalanuvchi nomi</label>
@@ -61,7 +18,6 @@
               <p v-if="errors.username" class="error-text">
                 {{ errors.username }}
               </p>
->>>>>>> 5c2b138c5cd9b01e9478994bf98aeb159d9ca852
             </div>
             <div class="form-group">
               <label for="ovenId">Foydalanuvchiga tegishli tandir raqami</label>
@@ -102,7 +58,12 @@
           <button type="button" class="action-button" @click="closeModal">
             Chiqish
           </button>
-          <button type="submit" class="action-button" :disabled="isSubmitting">
+          <button
+            type="button"
+            @click="submitForm()"
+            class="action-button"
+            :disabled="isSubmitting"
+          >
             {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
           </button>
         </div>
@@ -162,68 +123,6 @@ export default {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }
     },
-<<<<<<< HEAD
-    methods: {
-        closeModal() {
-            this.$emit("close");
-        },
-        validateField(field) {
-            this.errors[field] = "";
-            if (field === "username" && !this.user.username.trim()) {
-                this.errors.username = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
-            }
-            if (field === "ovenId" && (!this.user.ovenId)) {
-                this.errors.ovenId = "Tandir raqami raqam bo‘lishi kerak";
-            }
-            if (field === "phone") {
-                const regex = /^\+998\d{9}$/;
-                if (!this.user.phone.trim()) {
-                    this.errors.phone = "Telefon raqamini kiriting";
-                } else if (!regex.test(this.user.phone)) {
-
-                    this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998XXXXXXXXX)";
-                }
-            }
-            if (field === "price" && (!this.user.price || isNaN(this.user.price) || this.user.price <= 0)) {
-                this.errors.price = "Narx musbat son bo‘lishi kerak";
-            }
-        },
-        async submitForm() {
-
-            this.errors = {};
-            this.validateField("username");
-            this.validateField("phone");
-            this.validateField("price");
-            this.validateField("ovenId");
-
-            if (!Object.keys(this.errors).length) {
-                return;
-            }
-
-            this.isSubmitting = true;
-            try {
-                const response = await Api.post('/api/seller', this.user);
-                console.log(response);
-
-                if (response?.status == 201) {
-                    this.$emit('status', { status: 'success', message: "Nonvoy muvaffaqqiyatli qo'shildi" })
-                    this.closeModal();
-                }
-                else {
-                    this.$emit('status', { status: 'error', message: "Nonvoy qo'shishda hatolik" })
-                }
-                this.isSubmitting = true
-            } catch (error) {
-                this.$emit('status', {
-                    status: 'error',
-                    message: error.response?.data?.message || error.message || "Xatolik yuz berdi"
-                });
-
-            } finally {
-                this.isSubmitting = false;
-            }
-        },
-=======
     async submitForm() {
       this.errors = {};
       this.validateField("username");
@@ -231,21 +130,39 @@ export default {
       this.validateField("price");
       this.validateField("ovenId");
 
-      if (Object.keys(this.errors).length > 0) {
+      if (!Object.keys(this.errors).length) {
         return;
       }
 
       this.isSubmitting = true;
       try {
-        Api.post("/api/");
-        this.closeModal();
+        const response = await Api.post("/api/seller", this.user);
+        console.log(response);
+
+        if (response?.status == 201) {
+          this.$emit("status", {
+            status: "success",
+            message: "Nonvoy muvaffaqqiyatli qo'shildi",
+          });
+          this.closeModal();
+        } else {
+          this.$emit("status", {
+            status: "error",
+            message: "Nonvoy qo'shishda hatolik",
+          });
+        }
         this.isSubmitting = true;
       } catch (error) {
-        console.error("Xatolik yuz berdi:", error);
+        this.$emit("status", {
+          status: "error",
+          message:
+            error.response?.data?.message ||
+            error.message ||
+            "Xatolik yuz berdi",
+        });
       } finally {
         this.isSubmitting = false;
       }
->>>>>>> 5c2b138c5cd9b01e9478994bf98aeb159d9ca852
     },
   },
 };

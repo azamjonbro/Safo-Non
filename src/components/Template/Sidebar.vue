@@ -46,9 +46,9 @@
           <router-link to="/">Yetkazuvchilar</router-link>
         </li>
         <li
-          :class="activePage === 'store' ? 'active' : 'left-item'"
+          :class="activePage === 'magazine' ? 'active' : 'left-item'"
           class="d-flex"
-          @click="setActive('store')"
+          @click="setActive('magazine')"
         >
           <Icons name="product" />
           <router-link to="/">Do'konlar</router-link>
@@ -112,7 +112,6 @@ export default {
     setActive(page) {
       this.activePage = page;
       this.$emit("menu-click", page);
-      console.log(this.activePage);
 
       this.closeSidebar();
     },

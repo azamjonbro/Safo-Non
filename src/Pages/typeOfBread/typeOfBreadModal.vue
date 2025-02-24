@@ -95,7 +95,6 @@ export default {
       if(this.errors[error] !== ""){
        return;
       }
-      
      }
       this.isSubmitting = true;
       
