@@ -8,6 +8,8 @@
       <TypeOfBreadVue v-if="activePage == 'typeOfBread'" />
       <DeliveryVue v-if="activePage == 'delivery'" />
       <MagazineVue v-if="activePage == 'magazine'" />
+      <DebtVue v-if="activePage == 'debt'" />
+      <WarehouseVue v-if="activePage == 'warehouse'" />
       <!-- <ErrorPage v-else/> -->
     </main>
   </div>
@@ -22,6 +24,8 @@ import Settings from "@/Pages/Settings/settings.vue";
 import TypeOfBreadVue from "@/Pages/typeOfBread/typeOfBread.vue";
 import DeliveryVue from "@/Pages/Delivery/delivery.vue";
 import MagazineVue from '@/Pages/Magazine/magazine.vue';
+import DebtVue from '@/Pages/Debt/debt.vue';
+import WarehouseVue from '@/Pages/WareHouse/warehouse.vue';
 export default {
   name: "HomePage",
   components: {
@@ -32,7 +36,9 @@ export default {
     Settings,
     TypeOfBreadVue,
     DeliveryVue,
-    MagazineVue
+    MagazineVue,
+    DebtVue,
+    WarehouseVue
   },
   data() {
     return {

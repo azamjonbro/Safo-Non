@@ -180,7 +180,7 @@ export default {
       const token = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))
         : "";
-      if (!this.update.isUpdate) {
+      if (!this.isUpdate) {
         api
           .post("/api/magazine/", this.magazine, {
             headers: {

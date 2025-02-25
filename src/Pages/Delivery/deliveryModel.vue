@@ -41,13 +41,12 @@
             />
             <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
           </div>
-          <div class="form-group">
+          <div class="form-group" v-if="isUpdate">
             <label for="price">Parolli</label>
             <input
               id="password"
               type="text"
               placeholder="Yetkazuvchini parollini kiriting"
-              v-if="isUpdate"
               v-model="delivery.password"
               @blur="validateField('password')"
             />
@@ -112,7 +111,7 @@ export default {
   methods: {
     closeModal() {
       this.$emit("close");
-      this.isUpdate = false
+      this.isUpdate = false;
     },
     validateField(field) {
       this.errors[field] = "";
@@ -154,7 +153,7 @@ export default {
       const token = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))?.accessToken
         : "";
-      if (!this.update.isUpdate) {
+      if (!this.isUpdate) {
         this.validateField("password");
 
         api
@@ -176,6 +175,9 @@ export default {
               this.closeModal();
               this.isSubmitting = false;
             }
+          })
+          .catch((error) => {
+            console.error(error);
           });
       } else {
         api
@@ -184,10 +186,13 @@ export default {
               authorization: token,
             },
           })
-          .then(() => {            
+          .then(() => {
             this.closeModal();
             this.isSubmitting = false;
             this.isUpdate = false;
+          })
+          .catch((error) => {
+            console.error(error);
           });
       }
     },

@@ -131,8 +131,7 @@ export default {
         })
         .then(({ status }) => {
           if (status === 200) {
-            this.getallTypeOfBread();
-           
+            this.getallTypeOfBread();   
           }
         })
         .catch((error) => {

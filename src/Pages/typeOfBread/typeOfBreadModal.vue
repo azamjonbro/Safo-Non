@@ -44,7 +44,15 @@
             class="action-button"
             :disabled="isSubmitting"
           >
-            {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
+            {{
+              !isUpdate
+                ? isSubmitting
+                  ? "Yaratilmoqda..."
+                  : "Yaratish"
+                : isSubmitting
+                ? "Yangilanyapti"
+                : "Yangilamoq"
+            }}
           </button>
         </div>
       </div>
@@ -66,6 +74,7 @@ export default {
         price: 0,
       },
       errors: {},
+      isUpdate: false,
     };
   },
   props: {
@@ -105,7 +114,7 @@ export default {
       const token = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))?.accessToken
         : "";
-      if (!this.update.isUpdate) {
+      if (!this.isUpdate) {
         try {
           await api.post(
             "/api/typeOfBread",
