@@ -44,7 +44,15 @@
             class="action-button"
             :disabled="isSubmitting"
           >
-            {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
+            {{
+              !isUpdate
+                ? isSubmitting
+                  ? "Yaratilmoqda..."
+                  : "Yaratish"
+                : isSubmitting
+                ? "Yangilanyapti"
+                : "Yangilamoq"
+            }}
           </button>
         </div>
       </div>
@@ -66,7 +74,13 @@ export default {
         price: 0,
       },
       errors: {},
+      isUpdate: false,
     };
+  },
+  props: {
+    update: {
+      type: Object,
+    },
   },
   methods: {
     closeModal() {
@@ -84,41 +98,69 @@ export default {
           this.typeOfBread.price <= 0)
       ) {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
-      } 
+      }
     },
-   async submitForm() {
+    async submitForm() {
       this.errors = {};
       this.validateField("title");
       this.validateField("price");
-      
-     for (const error in this.errors) {      
-      if(this.errors[error] !== ""){
-       return;
+
+      for (const error in this.errors) {
+        if (this.errors[error] !== "") {
+          return;
+        }
       }
-     }
       this.isSubmitting = true;
-      
-      try {
-        const token = localStorage.getItem("user")
-          ? JSON.parse(localStorage.getItem("user"))?.accessToken
-          : "";
-        await api.post(
-          "/api/typeOfBread",
-          { title: this.typeOfBread.title, price: this.typeOfBread.price },
-          {
-            headers: {
-              authorization: token,
-            },
-          }
-        );
-        this.closeModal();
-        this.isSubmitting = false;
-      } catch (error) {
-        console.error("Xatolik yuz berdi:", error);
-      } finally {
-        this.isSubmitting = false;        
+      const token = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))?.accessToken
+        : "";
+      if (!this.isUpdate) {
+        try {
+          await api.post(
+            "/api/typeOfBread",
+            { title: this.typeOfBread.title, price: this.typeOfBread.price },
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          this.closeModal();
+          this.isSubmitting = false;
+        } catch (error) {
+          console.error("Xatolik yuz berdi:", error);
+        } finally {
+          this.isSubmitting = false;
+        }
+      } else {
+        try {
+          await api.put(
+            "/api/typeOfBread/" + this.update.id,
+            this.typeOfBread,
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          );
+          this.closeModal();
+          this.isSubmitting = false;
+        } catch (error) {
+          console.error("Xatolik yuz berdi:", error);
+        } finally {
+          this.isSubmitting = false;
+        }
       }
     },
+  },
+  mounted() {
+    if (this?.update?.isUpdate) {
+      this.typeOfBread = {
+        title: this?.update?.title,
+        price: this?.update?.price,
+      };
+      this.isUpdate = true;
+    }
   },
 };
 </script>

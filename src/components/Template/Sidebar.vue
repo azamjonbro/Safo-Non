@@ -54,18 +54,18 @@
           <router-link to="/">Do'konlar</router-link>
         </li>
         <li
-          :class="activePage === 'rasxod' ? 'active' : 'left-item'"
+          :class="activePage === 'debt' ? 'active' : 'left-item'"
           class="d-flex"
-          @click="setActive('rasxod')"
+          @click="setActive('debt')"
         >
           <Icons name="rasxod" />
           <router-link to="/">Chiqimlar</router-link>
         </li>
 
         <li
-          :class="activePage === 'firma' ? 'active' : 'left-item'"
+          :class="activePage === 'warehouse' ? 'active' : 'left-item'"
           class="d-flex gap12"
-          @click="setActive('firma')"
+          @click="setActive('warehouse')"
         >
           <Icons name="firma" />
           <router-link to="/">Omborxona</router-link>

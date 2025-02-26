@@ -27,8 +27,8 @@
               placeholder="Do`kon telefon raqamini kiriting"
               @blur="validateField('phone')"
             />
-            <p v-if="errors.title" class="error-text">
-              {{ errors.title }}
+            <p v-if="errors.phone" class="error-text">
+              {{ errors.phone }}
             </p>
           </div>
           <div class="form-group">
@@ -40,8 +40,8 @@
               placeholder="Do`kon addressini kiriting"
               @blur="validateField('address')"
             />
-            <p v-if="errors.title" class="error-text">
-              {{ errors.title }}
+            <p v-if="errors.address" class="error-text">
+              {{ errors.address }}
             </p>
           </div>
 
@@ -54,8 +54,8 @@
               placeholder="Do`kon pendingini kiriting"
               @blur="validateField('pending')"
             />
-            <p v-if="errors.title" class="error-text">
-              {{ errors.title }}
+            <p v-if="errors.pending" class="error-text">
+              {{ errors.pending }}
             </p>
           </div>
 
@@ -68,8 +68,8 @@
               placeholder="Do`kon remainpriceini kiriting"
               @blur="validateField('remainprice')"
             />
-            <p v-if="errors.title" class="error-text">
-              {{ errors.title }}
+            <p v-if="errors.remainprice" class="error-text">
+              {{ errors.remainprice }}
             </p>
           </div>
         </div>
@@ -83,20 +83,28 @@
             class="action-button"
             :disabled="isSubmitting"
           >
-            {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
+            {{ !isUpdate ? isSubmitting ? "Yaratilmoqda..." : "Yaratish" : isSubmitting ? "Yangilanyapti":"Yangilamoq" }}
           </button>
         </div>
       </div>
     </div>
   </transition>
+  <ToastiffVue :toastOptions="toastOptions" />
 </template>
 
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
+import ToastiffVue from "@/Utils/Toastiff.vue";
 export default {
   components: {
     Icons,
+    ToastiffVue,
+  },
+  props: {
+    update: {
+      type: Object,
+    },
   },
   data() {
     return {
@@ -109,19 +117,26 @@ export default {
         remainprice: 0,
       },
       errors: {},
+      toastOptions: {
+        open: false,
+        text: "",
+        style: { background: "#4CAF50" },
+      },
+      isUpdate: false,
     };
   },
   methods: {
     closeModal() {
       this.$emit("close");
+      this.isUpdate = false
     },
     validateField(field) {
       this.errors[field] = "";
       if (field === "title" && !this.magazine.title.trim()) {
-        this.errors.title = "Non turini nomi bo'sh bo'lmasligi kerak";
+        this.errors.title = "Magazine nomi bo'sh bo'lmasligi kerak";
       }
-      if (field === "address" && !this.magazine.title.trim()) {
-        this.errors.title = "Non turini nomi bo'sh bo'lmasligi kerak";
+      if (field === "address" && !this.magazine.address.trim()) {
+        this.errors.address = "Magazine addressi bo'sh bo'lmasligi kerak";
       }
       if (field === "phone") {
         const regex = /^\+998\d{9}$/;
@@ -150,21 +165,88 @@ export default {
       }
     },
     submitForm() {
+      this.validateField("title");
+      this.validateField("address");
+      this.validateField("phone");
+      this.validateField("pending");
+      this.validateField("remainprice");
+      for (const error in this.errors) {
+        console.log(this.errors[error]);
+        if (this.errors[error] !== "") {
+          return;
+        }
+      }
       this.isSubmitting = true;
       const token = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))
         : "";
-      api.post("/api/magazine", this.magazine, {
-        headers: {
-          authorization: token,
-        },
-      }).then(({status})=>{
-        if(status === 201){
-          this.closeModal()
-          this.isSubmitting = false
-        }
-      })
+      if (!this.isUpdate) {
+        api
+          .post("/api/magazine/", this.magazine, {
+            headers: {
+              authorization: token,
+            },
+          })
+          .then(({ status }) => {
+            if (status === 201) {
+              this.toastOptions = {
+                open: true,
+                text: "Do`kon yaratildi",
+                style: { background: "#4CAF50" },
+              };
+              this.closeModal();
+              this.isSubmitting = false;
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              text: "Xatolik yuzberdi",
+            };
+          });
+      } else {
+        api
+          .put("/api/magazine/" + this.update.id, this.magazine, {
+            headers: {
+              authorization: token,
+            },
+          })
+          .then(({ status }) => {
+            if (status === 200) {
+              this.toastOptions = {
+                open: true,
+                text: "Do`kon yangilandi",
+                style: { background: "#4CAF50" },
+              };
+              this.closeModal();
+              this.isSubmitting = false;
+              this.isUpdate = false
+            }
+          })
+          .catch((error) => {
+            console.error(error);
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              text: "Xatolik yuzberdi",
+            };
+          });
+      }
     },
+  },
+  mounted() {
+    if (this?.update?.isUpdate) {
+      this.magazine = {
+        title: this?.update?.title,
+        phone: this?.update?.phone,
+        address: this?.update?.address,
+        pending: this?.update?.pending,
+        remainprice: this?.update?.remainprice,
+      };
+      this.isUpdate = true;
+    }
   },
 };
 </script>

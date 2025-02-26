@@ -22,8 +22,13 @@
             <td>{{ data?.title ? data?.title : "" }}</td>
             <td>{{ data?.price ? data?.price : 0 }}</td>
             <td class="d-flex a-center j-end gap12">
-              <Icons name="setting" title="sozlama" class="icon info setting" />
-              <Icons name="deleted" title="o'chirish" class="icon danger" @click="deleteTypeOfBread(data?._id)" />
+              <Icons name="setting" title="sozlama" class="icon info setting" @click="openUpdateModal({title:data?.title,price:data?.price,id:data?._id})" />
+              <Icons
+                name="deleted"
+                title="o'chirish"
+                class="icon danger"
+                @click="openDeleteModal(data?._id)"
+              />
             </td>
           </tr>
         </tbody>
@@ -31,24 +36,64 @@
     </div>
   </div>
   <TypeOfBreadModalVue v-if="openModal" @close="handleClose" />
+  <TypeOfBreadModalVue :update="update" v-if="updateModalVisible" @close="closeUpdateModal" />
+  <ToastiffVue :toastOptions="toastOptions" />
+  <RequiredModalVue
+    :isVisible="deleteModalVisible"
+    @response="closeDeleteModal($event)"
+  />
 </template>
 
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import TypeOfBreadModalVue from "./typeOfBreadModal.vue";
 import api from "@/Utils/axios";
+import ToastiffVue from "@/Utils/Toastiff.vue";
+import RequiredModalVue from "@/components/Modals/requiredModal.vue";
 export default {
   components: {
     TypeOfBreadModalVue,
     Icons,
+    ToastiffVue,
+    RequiredModalVue,
   },
   data() {
     return {
       openModal: false,
       allTypeOfBread: [],
+      deleteModalVisible: false,
+      updateModalVisible: false,
+      selectedItem: null,
+      toastOptions: {
+        open: false,
+        text: "",
+        style: { background: "#4CAF50" },
+      },
+      update: {
+        isUpdate: false,
+      },
     };
   },
   methods: {
+    closeDeleteModal(emit) {
+      if (emit) {
+        this.deleteTypeOfBread(this.selectedItem);
+      }
+      this.deleteModalVisible = false;
+    },
+    openDeleteModal(item) {
+      this.selectedItem = item;
+      this.deleteModalVisible = true;
+    },
+    openUpdateModal(item) {
+      this.updateModalVisible = true;
+      this.update = Object.assign(item, { isUpdate: true });
+    },
+    closeUpdateModal(){
+      this.updateModalVisible = false
+      this.update = {isUpdate:false}
+      this.getallTypeOfBread()
+    },
     handleClose() {
       this.openModal = false;
       this.getallTypeOfBread();
@@ -67,22 +112,31 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allTypeOfBread = data?.typeOfBreads;
+           
           }
+        })
+        .catch((error) => {
+          console.error(error);
         });
     },
     deleteTypeOfBread(id) {
       const token = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))?.accessToken
         : "";
-      api.delete("/api/typeOfBread/" + id, {
-        headers: {
-          authorization: token,
-        },
-      }).then(({status})=>{
-        if(status === 200){
-           this.getallTypeOfBread()
-        }
-      })
+      api
+        .delete("/api/typeOfBread/" + id, {
+          headers: {
+            authorization: token,
+          },
+        })
+        .then(({ status }) => {
+          if (status === 200) {
+            this.getallTypeOfBread();   
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
   },
   mounted() {

@@ -1,30 +1,32 @@
 <template>
   <div class="page">
-    <div class="page-top d-flex a-center j-between">
-      <h3>Yetkazuvchilar</h3>
-      <button class="create-button" @click="openModal = true">
-        Yetkazuvchi yaratish
+    <div class="d-flex a-center j-between">
+      <h3>Chiqimlar</h3>
+      <button class="create-button" @click="debtModalVisible = true">
+        Chiqim yaratish
       </button>
     </div>
-    <div class="scroll page-bottom p-24">
+    <div class="page-bottom scroll p-24">
       <table>
         <thead>
           <tr>
             <th>№</th>
-            <th>username</th>
-            <th>phone</th>
-            <th>password</th>
-            <th>price</th>
+            <th>Rasxod id</th>
+            <th>quantity</th>
+            <th>description</th>
+            <th>reason</th>
+            <th>sellerId</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(data, index) in allDelivery" :key="index">
+          <tr v-for="(data, index) in debts" :key="index">
             <td>{{ index + 1 }}</td>
-            <td>{{ data?.username ? data?.username : "" }}</td>
-            <td>{{ data?.phone ? data?.phone : "" }}</td>
-            <td>---------</td>
-            <td>{{ data?.price ? data?.price : "" }}</td>
+            <td>{{ data?.debtId ? data?.debtId?.title : "id" }}</td>
+            <td>{{ data?.quantity ? data?.quantity : 0 }}</td>
+            <td>{{ data?.description ? data?.description : "" }}</td>
+            <td>{{ data?.reason ? data?.reason : "" }}</td>
+            <td>{{ data?.sellerId ? data?.sellerId?.username : "id" }}</td>
             <td class="d-flex a-center j-end gap12">
               <Icons
                 name="setting"
@@ -32,10 +34,11 @@
                 class="icon info setting"
                 @click="
                   openUpdateModal({
-                    username: data?.username,
-                    phone: data?.phone,
-                    price: data?.price,
-                    password: data?.password,
+                    debtId: data?.debtId._id,
+                    quantity: data?.quantity,
+                    description: data?.description,
+                    reason: data?.reason,
+                    sellerId: data?.sellerId._id,
                     id: data?._id,
                   })
                 "
@@ -52,50 +55,49 @@
       </table>
     </div>
   </div>
-  <RequiredModalVue
-    :isVisible="deleteVisible"
-    @response="closeDeleteModal($event)"
-  />
-  <DeliveryModelVue
-    v-if="openModal"
+  <DebtModelVue
+    v-if="debtModalVisible"
     @close="handleClose"
     @status="handleStatus($event)"
   />
-  <DeliveryModelVue
+  <DebtModelVue
     :update="update"
-    v-if="updateVisible"
-    @close="handleUpdateClose"
+    v-if="updateModalVisible"
+    @close="closeUpdateModal"
     @status="handleStatus($event)"
+  />
+  <RequiredModalVue
+    :isVisible="deleteModalVisible"
+    @response="closeDeleteModal($event)"
   />
   <ToastiffVue :toastOptions="toastOptions" />
 </template>
-
 <script>
 import api from "@/Utils/axios";
 import Icons from "@/components/Template/Icons.vue";
-import DeliveryModelVue from "./deliveryModel.vue";
-import ToastiffVue from "@/Utils/Toastiff.vue";
+import DebtModelVue from "./debtModel.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
+import ToastiffVue from "@/Utils/Toastiff.vue";
 export default {
   components: {
     Icons,
-    DeliveryModelVue,
-    ToastiffVue,
+    DebtModelVue,
     RequiredModalVue,
+    ToastiffVue,
   },
   data() {
     return {
-      allDelivery: [],
-      openModal: false,
-      deleteVisible: false,
-      updateVisible: false,
+      debts: [],
+      debtModalVisible: false,
+      deleteModalVisible: false,
+      selectedItem: null,
+      updateModalVisible: false,
       update: {
         isUpdate: false,
       },
       toastOptions: {
         open: false,
         text: "",
-        style: { background: "#4CAF50" },
       },
     };
   },
@@ -109,53 +111,47 @@ export default {
     },
     closeDeleteModal(emit) {
       if (emit) {
-        this.deleteDelivery(this.selectedItem);
+        this.deleteDebt(this.selectedItem);
       }
-      this.deleteVisible = false;
+      this.deleteModalVisible = false;
     },
     openDeleteModal(item) {
       this.selectedItem = item;
-      this.deleteVisible = true;
+      this.deleteModalVisible = true;
     },
     openUpdateModal(item) {
+      this.updateModalVisible = true;
       this.update = Object.assign(item, { isUpdate: true });
-      this.updateVisible = true;
     },
     handleClose() {
-      this.openModal = false;
-      this.getDeliveries();
+      this.debtModalVisible = false;
+      this.getDebts();
     },
-    handleUpdateClose() {
-      this.updateVisible = false;
-      this.update = { isUpdate: false };
-      this.getDeliveries();
+    closeUpdateModal() {
+      (this.updateModalVisible = false), this.getDebts();
     },
-    getDeliveries() {
+    getDebts() {
       const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
+        ? JSON.parse(localStorage.getItem("user")).token
         : "";
-
       api
-        .get("/api/deliveries", {
+        .get("/api/debt2s", {
           headers: {
             authorization: token,
           },
         })
         .then(({ data, status }) => {
           if (status === 200) {
-            this.allDelivery = data?.deliveries;
+            this.debts = data?.debt2s;
           }
-        })
-        .catch((error) => {
-          console.error(error);
         });
     },
-    deleteDelivery(id) {
+    deleteDebt(id) {
       const token = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))?.accessToken
         : "";
       api
-        .delete("/api/delivery/" + id, {
+        .delete("/api/debt2/" + id, {
           headers: {
             authorization: token,
           },
@@ -164,14 +160,14 @@ export default {
           if (status === 200) {
             this.toastOptions = {
               open: true,
-              text: "Yetkazuvchi o`chirildi",
+              text: "Chiqim o`chirilib keti",
               type: "success",
             };
-            this.getDeliveries();
+            this.getDebts();
           } else {
             this.toastOptions = {
               open: true,
-              text: "Yetkazuvchi o`chirishda hatolik yuzberdi",
+              text: "Chiqim o`chirilib ketishda hatolik yuz berdi",
               type: "error",
             };
           }
@@ -182,7 +178,7 @@ export default {
     },
   },
   mounted() {
-    this.getDeliveries();
+    this.getDebts();
   },
 };
 </script>
