@@ -64,7 +64,15 @@
             class="action-button"
             :disabled="isSubmitting"
           >
-            {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
+            {{
+              isUpdate
+                ? isSubmitting
+                  ? "Yaratilmoqda..."
+                  : "Yaratish"
+                : isSubmitting
+                ? "Yangilanyapti..."
+                : "Yangilash"
+            }}
           </button>
         </div>
       </div>
@@ -80,6 +88,11 @@ export default {
     Icons,
     Api,
   },
+  props: {
+    update: {
+      type: Object,
+    },
+  },
   data() {
     return {
       isSubmitting: false,
@@ -90,6 +103,7 @@ export default {
         ovenId: "",
       },
       errors: {},
+      isUpdate: false,
     };
   },
   methods: {
@@ -164,6 +178,10 @@ export default {
         this.isSubmitting = false;
       }
     },
+  },
+  mounted() {
+    if (this?.update?.isUpdate) {
+    }
   },
 };
 </script>

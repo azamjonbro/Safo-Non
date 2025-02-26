@@ -66,6 +66,7 @@
     v-if="backeryUpdateVisible"
     @close="closeUpdateModal"
     @status="handleStatus($event)"
+    :update="update"
   />
   <Toastiff :toastOptions="toastOptions" />
   <RequiredModalVue
@@ -143,7 +144,6 @@ export default {
     async getAllWorker() {
       await api.get("/api/sellers").then((response) => {
         this.allWorkers = response?.data?.sellers;
-        console.log(response);
       });
     },
     deleteBackery(id) {
