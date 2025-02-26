@@ -102,8 +102,8 @@ export default {
     closeModal() {
       this.$emit("close");
     },
-    selectWarehouseId(id){
-      this.warehouse.typeId = id
+    selectWarehouseId(id) {
+      this.warehouse.typeId = id;
     },
     validateField(field) {
       this.errors[field] = "";
@@ -163,8 +163,17 @@ export default {
           })
           .then(({ status }) => {
             if (status === 201) {
+              this.$emit("status", {
+                status: "success",
+                message: "Omborxona yaratildi",
+              });
               this.closeModal();
               this.isSubmitting = false;
+            } else {
+              this.$emit("status", {
+                status: "error",
+                message: "Omborxona yaratilishida hatolik yuz berdi",
+              });
             }
           })
           .catch((error) => {
@@ -179,18 +188,25 @@ export default {
           })
           .then(({ status }) => {
             if (status === 200) {
+              this.$emit("status", {
+                status: "success",
+                message: "Omborxona yangilandi",
+              });
               this.closeModal();
               this.isSubmitting = false;
             }
           })
           .catch((error) => {
             console.error(error);
+            this.$emit("status", {
+              status: "error",
+              message: "Omborxona yanglilanishida hatolik yuz berdi",
+            });
           });
       }
     },
   },
   mounted() {
-    
     if (this?.update?.isUpdate) {
       this.warehouse = {
         typeId: this?.update?.typeId?._id,

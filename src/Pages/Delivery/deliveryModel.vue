@@ -48,7 +48,6 @@
               type="text"
               placeholder="Yetkazuvchini parollini kiriting"
               v-model="delivery.password"
-              @blur="validateField('password')"
             />
             <p v-if="errors.password" class="error-text">
               {{ errors.password }}
@@ -154,8 +153,6 @@ export default {
         ? JSON.parse(localStorage.getItem("user"))?.accessToken
         : "";
       if (!this.isUpdate) {
-        this.validateField("password");
-
         api
           .post(
             "/api/delivery",
@@ -195,12 +192,24 @@ export default {
               authorization: token,
             },
           })
-          .then(() => {
-            this.closeModal();
-            this.isSubmitting = false;
-            this.isUpdate = false;
+          .then(({ status }) => {
+            if (status === 200) {
+              this.$emit("status", {
+                status: "success",
+                message: "yetkazuvchi yangilandi",
+              });
+              this.closeModal();
+              this.isSubmitting = false;
+              this.isUpdate = false;
+            } else {
+              this.$emit("status", {
+                status: "error",
+                message: "yetkazuvchi yangilanishida hatolik yuz berdi",
+              });
+            }
           })
           .catch((error) => {
+            this.isSubmitting = false
             console.error(error);
           });
       }
