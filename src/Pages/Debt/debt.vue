@@ -34,11 +34,11 @@
                 class="icon info setting"
                 @click="
                   openUpdateModal({
-                    debtId: data?.debtId,
+                    debtId: data?.debtId._id,
                     quantity: data?.quantity,
                     description: data?.description,
                     reason: data?.reason,
-                    sellerId: data?.sellerId,
+                    sellerId: data?.sellerId._id,
                     id: data?._id,
                   })
                 "
@@ -55,23 +55,35 @@
       </table>
     </div>
   </div>
-  <DebtModelVue v-if="debtModalVisible" @close="handleClose" />
-  <DebtModelVue :update="update" v-if="updateModalVisible" @close="closeUpdateModal" />
+  <DebtModelVue
+    v-if="debtModalVisible"
+    @close="handleClose"
+    @status="handleStatus($event)"
+  />
+  <DebtModelVue
+    :update="update"
+    v-if="updateModalVisible"
+    @close="closeUpdateModal"
+    @status="handleStatus($event)"
+  />
   <RequiredModalVue
     :isVisible="deleteModalVisible"
     @response="closeDeleteModal($event)"
   />
+  <ToastiffVue :toastOptions="toastOptions" />
 </template>
 <script>
 import api from "@/Utils/axios";
 import Icons from "@/components/Template/Icons.vue";
 import DebtModelVue from "./debtModel.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
+import ToastiffVue from "@/Utils/Toastiff.vue";
 export default {
   components: {
     Icons,
     DebtModelVue,
     RequiredModalVue,
+    ToastiffVue,
   },
   data() {
     return {
@@ -83,9 +95,20 @@ export default {
       update: {
         isUpdate: false,
       },
+      toastOptions: {
+        open: false,
+        text: "",
+      },
     };
   },
   methods: {
+    handleStatus(data) {
+      this.toastOptions = {
+        open: true,
+        text: data?.message,
+        type: data?.status,
+      };
+    },
     closeDeleteModal(emit) {
       if (emit) {
         this.deleteDebt(this.selectedItem);
@@ -104,9 +127,8 @@ export default {
       this.debtModalVisible = false;
       this.getDebts();
     },
-    closeUpdateModal(){
-      this.updateModalVisible = false,
-      this.getDebts()
+    closeUpdateModal() {
+      (this.updateModalVisible = false), this.getDebts();
     },
     getDebts() {
       const token = localStorage.getItem("user")
@@ -136,7 +158,18 @@ export default {
         })
         .then(({ status }) => {
           if (status === 200) {
+            this.toastOptions = {
+              open: true,
+              text: "Chiqim o`chirilib keti",
+              type: "success",
+            };
             this.getDebts();
+          } else {
+            this.toastOptions = {
+              open: true,
+              text: "Chiqim o`chirilib ketishda hatolik yuz berdi",
+              type: "error",
+            };
           }
         })
         .catch((error) => {

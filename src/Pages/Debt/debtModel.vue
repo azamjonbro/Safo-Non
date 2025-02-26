@@ -8,12 +8,12 @@
         <div class="modal-form">
           <div class="form-group">
             <label for="debtId">Rasxod turi</label>
-            <input
-              id="debtId"
-              type="text"
-              placeholder="Rasxod nomini kiriting"
-              v-model="debt.debtId"
+            <CustomSelectVue
+              @click="getDebtIds"
               @blur="validateField('debtId')"
+              @input="sellectDebtId($event)"
+              :options="debtIds"
+              :placeholder="'Rasxod turini  tanlang'"
             />
             <p v-if="errors.debtId" class="error-text">{{ errors.debtId }}</p>
           </div>
@@ -61,12 +61,12 @@
 
           <div class="form-group">
             <label for="sellerId">Seller Id</label>
-            <input
-              id="sellerId"
-              type="text"
-              placeholder="Rasxod sellerIdni kiriting"
-              v-model="debt.sellerId"
+            <CustomSelectVue
+              :options="sellerIds"
+              @input="sellectSellerId($event)"
+              :placeholder="'Rasxod sellerIdni tanlang'"
               @blur="validateField('sellerId')"
+              @click="getSellerIds"
             />
             <p v-if="errors.sellerId" class="error-text">
               {{ errors.sellerId }}
@@ -103,9 +103,11 @@
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
+import CustomSelectVue from "@/components/Template/customSelect.vue";
 export default {
   components: {
     Icons,
+    CustomSelectVue,
   },
   data() {
     return {
@@ -119,6 +121,8 @@ export default {
         sellerId: "",
       },
       errors: {},
+      debtIds: [],
+      sellerIds: [],
     };
   },
   props: {
@@ -131,6 +135,54 @@ export default {
     closeModal() {
       this.$emit("close");
       this.isUpdate = false;
+    },
+    getDebtIds() {
+      const token = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))?.accessToken
+        : "";
+      api
+        .get("/api/typeOfDebts", {
+          headers: {
+            authorization: token,
+          },
+        })
+        .then(({ data, status }) => {
+          if (status === 200) {
+            this.debtIds = data.typeOfDebts.map((item) => {
+              return { text: item.title, value: item._id };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getSellerIds() {
+      const token = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))?.accessToken
+        : "";
+      api
+        .get("/api/sellers", {
+          headers: {
+            authorization: token,
+          },
+        })
+        .then(({ data, status }) => {
+          if (status === 200) {
+            this.sellerIds = data.sellers.map((item) => {
+              return { text: item.username, value: item._id };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    sellectDebtId(id) {
+      this.debt.debtId = id;
+    },
+    sellectSellerId(id) {
+      this.debt.sellerId = id;
     },
     validateField(field) {
       this.errors[field] = "";
@@ -183,12 +235,25 @@ export default {
           })
           .then(({ status }) => {
             if (status === 201) {
+              this.$emit("status", {
+                status: "success",
+                message: "Rasxod yaratildi",
+              });
               this.closeModal();
               this.isSubmitting = false;
+            } else {
+              this.$emit("error", {
+                status: "error",
+                message: "Rasxod qo`shishda hatolik",
+              });
             }
           })
           .catch((error) => {
             console.error(error);
+            this.$emit("status", {
+              status: "error",
+              message: "Xatolik yuz berdi" || error.message,
+            });
           });
       } else {
         api
@@ -209,8 +274,17 @@ export default {
           )
           .then(({ status }) => {
             if (status === 200) {
-              this.closeModal();
+               this.$emit("status", {
+                status: "success",
+                message: "Rasxod yangilandi",
+              });
+              this.closeModal();  
               this.isSubmitting = false;
+            }else{
+               this.$emit("status", {
+                status: "error",
+                message: "Rasxod yangilanishida",
+              });
             }
           })
           .catch((error) => {

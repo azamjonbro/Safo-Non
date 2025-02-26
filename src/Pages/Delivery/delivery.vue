@@ -56,11 +56,16 @@
     :isVisible="deleteVisible"
     @response="closeDeleteModal($event)"
   />
-  <DeliveryModelVue v-if="openModal" @close="handleClose" />
+  <DeliveryModelVue
+    v-if="openModal"
+    @close="handleClose"
+    @status="handleStatus($event)"
+  />
   <DeliveryModelVue
     :update="update"
     v-if="updateVisible"
     @close="handleUpdateClose"
+    @status="handleStatus($event)"
   />
   <ToastiffVue :toastOptions="toastOptions" />
 </template>
@@ -95,6 +100,13 @@ export default {
     };
   },
   methods: {
+    handleStatus(data) {
+      this.toastOptions = {
+        open: true,
+        text: data?.message,
+        type: data?.status,
+      };
+    },
     closeDeleteModal(emit) {
       if (emit) {
         this.deleteDelivery(this.selectedItem);
@@ -113,9 +125,9 @@ export default {
       this.openModal = false;
       this.getDeliveries();
     },
-    handleUpdateClose(){
-      this.updateVisible = false
-      this.update = {isUpdate:false}
+    handleUpdateClose() {
+      this.updateVisible = false;
+      this.update = { isUpdate: false };
       this.getDeliveries();
     },
     getDeliveries() {
@@ -150,13 +162,22 @@ export default {
         })
         .then(({ status }) => {
           if (status === 200) {
+            this.toastOptions = {
+              open: true,
+              text: "Yetkazuvchi o`chirildi",
+              type: "success",
+            };
             this.getDeliveries();
-           
+          } else {
+            this.toastOptions = {
+              open: true,
+              text: "Yetkazuvchi o`chirishda hatolik yuzberdi",
+              type: "error",
+            };
           }
         })
         .catch((error) => {
           console.error(error);
-         
         });
     },
   },

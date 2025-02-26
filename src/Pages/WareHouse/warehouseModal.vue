@@ -7,11 +7,11 @@
       <div class="modal-form">
         <div class="form-group">
           <label for="typeId">TypeId</label>
-          <input
-            id="typeId"
-            type="text"
-            v-model="warehouse.typeId"
-            placeholder="Omborxona turini nomini kiriting"
+          <CustomSelectVue
+            :options="warehouseTypyIds"
+            @click="getWareHouseTypeIds"
+            :placeholder="'Omborxona turini tanglang'"
+            @input="selectWarehouseId($event)"
             @blur="validateField('typeId')"
           />
           <p v-if="errors.typeId" class="error-text">
@@ -22,7 +22,7 @@
           <label for="price">Narxi</label>
           <input
             id="price"
-            type="text"
+            type="number"
             v-model="warehouse.price"
             placeholder="Omborxona narxi  kiriting"
             @blur="validateField('price')"
@@ -35,7 +35,7 @@
           <label for="quantity">Sonni</label>
           <input
             id="quantity"
-            type="text"
+            type="number"
             v-model="warehouse.quantity"
             placeholder="Omborxona sonini  kiriting"
             @blur="validateField('quantity')"
@@ -74,9 +74,11 @@
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
+import CustomSelectVue from "@/components/Template/customSelect.vue";
 export default {
   components: {
     Icons,
+    CustomSelectVue,
   },
   props: {
     update: {
@@ -93,11 +95,15 @@ export default {
       },
       errors: {},
       isUpdate: false,
+      warehouseTypyIds: [],
     };
   },
   methods: {
     closeModal() {
       this.$emit("close");
+    },
+    selectWarehouseId(id){
+      this.warehouse.typeId = id
     },
     validateField(field) {
       this.errors[field] = "";
@@ -113,6 +119,27 @@ export default {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }
     },
+    getWareHouseTypeIds() {
+      const token = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))?.accessToken
+        : "";
+      api
+        .get("/api/typeOfWareHouses", {
+          headers: {
+            authorization: token,
+          },
+        })
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.warehouseTypyIds = data?.typeOfWareHouses.map((item) => {
+              return { text: item.name, value: item._id };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
     submitForm() {
       this.validateField("typeId");
       this.validateField("quantity");
@@ -126,6 +153,7 @@ export default {
       const token = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))?.accessToken
         : "";
+
       if (!this.isUpdate) {
         api
           .post("/api/warehouse", this.warehouse, {
@@ -162,13 +190,14 @@ export default {
     },
   },
   mounted() {
+    
     if (this?.update?.isUpdate) {
       this.warehouse = {
         typeId: this?.update?.typeId?._id,
         price: this?.update?.price,
         quantity: this?.update?.quantity,
       };
-      this.isUpdate = true
+      this.isUpdate = true;
     }
   },
 };

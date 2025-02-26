@@ -37,6 +37,7 @@
     </div>
     <BackeryModal v-if="openModal" @close="openModal = false" @status="handleStatus($event)" />
     <Toastiff :toastOptions="toastOptions" />
+    <RequiredModalVue :isVisible="backeryDeleteVisible"  />
 
 </template>
 <script>
@@ -44,12 +45,14 @@ import Icons from '@/components/Template/Icons.vue';
 import api from '@/Utils/axios';
 import BackeryModal from './BackeryModal.vue';
 import Toastiff from '@/Utils/Toastiff.vue';
+import RequiredModalVue from '@/components/Modals/requiredModal.vue';
 
 export default {
     components: {
         Icons,
         BackeryModal,
-        Toastiff
+        Toastiff,
+        RequiredModalVue
     },
     data() {
         return {
@@ -59,6 +62,7 @@ export default {
                 open: false,
                 text: "",
             },
+            backeryDeleteVisible: false,
         }
     },
     methods: {

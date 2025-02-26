@@ -172,8 +172,17 @@ export default {
           )
           .then(({ status }) => {
             if (status === 201) {
+              this.$emit("status", {
+                status: "success",
+                message: "Yetkazuvchi yaratildi",
+              });
               this.closeModal();
               this.isSubmitting = false;
+            } else {
+              this.$emit("status", {
+                status: "error",
+                message: "Yetkazuvchi yaratilishida hatolik yuz berdi",
+              });
             }
           })
           .catch((error) => {
