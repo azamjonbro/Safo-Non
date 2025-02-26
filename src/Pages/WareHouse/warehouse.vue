@@ -49,16 +49,18 @@
       </table>
     </div>
   </div>
-  <WarehouseModalVue v-if="createModalVisible" @close="closeCreateModal" />
+  <WarehouseModalVue v-if="createModalVisible" @close="closeCreateModal" @status="handleStatus($event)" />
   <WarehouseModalVue
     :update="update"
     v-if="updateModalVisible"
     @close="closeUpdateModal"
+    @status="handleStatus($event)"
   />
   <RequiredModalVue
     :isVisible="deleteModalVisible"
     @response="closeDeleteModal($event)"
   />
+  <ToastiffVue :toastOptions="toastOptions" />
 </template>
 
 <script>
@@ -66,11 +68,13 @@ import api from "@/Utils/axios";
 import Icons from "@/components/Template/Icons.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
 import WarehouseModalVue from "./warehouseModal.vue";
+import ToastiffVue from "@/Utils/Toastiff.vue";
 export default {
   components: {
     Icons,
     RequiredModalVue,
     WarehouseModalVue,
+    ToastiffVue,
   },
   data() {
     return {
@@ -82,9 +86,22 @@ export default {
       update: {
         isUpdate: false,
       },
+      toastOptions: {
+        open: false,
+        type: "",
+        text: "",
+        style: { background: "#4CAF50" },
+      },
     };
   },
   methods: {
+    handleStatus(data) {
+      this.toastOptions = {
+        open: true,
+        text: data?.message,
+        type: data?.status,
+      };
+    },
     openUpdateModal(item) {
       this.updateModalVisible = true;
       this.update = Object.assign(item, { isUpdate: true });
@@ -138,7 +155,18 @@ export default {
         })
         .then(({ status }) => {
           if (status === 200) {
+            this.toastOptions = {
+              open: true,
+              type: "success",
+              text: "Omborxona o`chirildi",
+            };
             this.getWareHouses();
+          } else {
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              text: "Omborxona o`chirilishida hatolik yuz berdi",
+            };
           }
         })
         .catch((error) => {

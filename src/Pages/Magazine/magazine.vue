@@ -28,7 +28,21 @@
             <td>{{ data?.pending ? data?.pending : "" }}</td>
             <td>{{ data?.remainprice ? data?.remainprice : "" }}</td>
             <td class="d-flex a-center j-end gap12">
-              <Icons name="setting" title="sozlama" class="icon info setting" @click="openUpdateModal({title:data?.title,phone:data?.phone,address:data?.address,pending:data?.pending,remainprice:data?.remainprice,id:data?._id})" />
+              <Icons
+                name="setting"
+                title="sozlama"
+                class="icon info setting"
+                @click="
+                  openUpdateModal({
+                    title: data?.title,
+                    phone: data?.phone,
+                    address: data?.address,
+                    pending: data?.pending,
+                    remainprice: data?.remainprice,
+                    id: data?._id,
+                  })
+                "
+              />
               <Icons
                 name="deleted"
                 title="o'chirish"
@@ -46,8 +60,13 @@
     @response="closeDeleteModal($event)"
   />
   <ToastiffVue :toastOptions="toastOptions" />
-  <MagazineModalVue v-if="openModal" @close="handleClose" />
-  <MagazineModalVue v-if="updateVisible" :update="update" @close="closeUpdateModal" />
+  <MagazineModalVue v-if="openModal" @close="handleClose" @status="handleStatus($event)" />
+  <MagazineModalVue
+    v-if="updateVisible"
+    :update="update"
+    @close="closeUpdateModal"
+    @status="handleStatus($event)"
+  />
 </template>
 
 <script>
@@ -97,8 +116,15 @@ export default {
     },
     closeUpdateModal() {
       this.updateVisible = false;
-      this.update = {isUpdate:false}
+      this.update = { isUpdate: false };
       this.getMagazine();
+    },
+    handleStatus(data){
+      this.toastOptions = {
+        open:true,
+        type:data?.status,
+        text:data?.message
+      }
     },
     openUpdateModal(item) {
       this.update = Object.assign(item, { isUpdate: true });
@@ -118,12 +144,10 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allMagazine = data?.magazines;
-          
           }
         })
         .catch((error) => {
           console.error(error);
-         
         });
     },
     deleteMagzine(id) {
@@ -141,8 +165,14 @@ export default {
             this.getMagazine();
             this.toastOptions = {
               open: true,
-              text: "Do`kon o`chib keti",
-              style: { background: "#4CAF50" },
+              text: "Do`kon o`chirib tashlandi",
+              type: "success",
+            };
+          } else {
+            this.toastOptions = {
+              open: true,
+              text: "Do`kon o`chirib tashlandi",
+              type: "error",
             };
           }
         })

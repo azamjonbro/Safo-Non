@@ -83,23 +83,28 @@
             class="action-button"
             :disabled="isSubmitting"
           >
-            {{ !isUpdate ? isSubmitting ? "Yaratilmoqda..." : "Yaratish" : isSubmitting ? "Yangilanyapti":"Yangilamoq" }}
+            {{
+              !isUpdate
+                ? isSubmitting
+                  ? "Yaratilmoqda..."
+                  : "Yaratish"
+                : isSubmitting
+                ? "Yangilanyapti"
+                : "Yangilamoq"
+            }}
           </button>
         </div>
       </div>
     </div>
   </transition>
-  <ToastiffVue :toastOptions="toastOptions" />
 </template>
 
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
-import ToastiffVue from "@/Utils/Toastiff.vue";
 export default {
   components: {
     Icons,
-    ToastiffVue,
   },
   props: {
     update: {
@@ -117,18 +122,14 @@ export default {
         remainprice: 0,
       },
       errors: {},
-      toastOptions: {
-        open: false,
-        text: "",
-        style: { background: "#4CAF50" },
-      },
+
       isUpdate: false,
     };
   },
   methods: {
     closeModal() {
       this.$emit("close");
-      this.isUpdate = false
+      this.isUpdate = false;
     },
     validateField(field) {
       this.errors[field] = "";
@@ -189,13 +190,17 @@ export default {
           })
           .then(({ status }) => {
             if (status === 201) {
-              this.toastOptions = {
-                open: true,
-                text: "Do`kon yaratildi",
-                style: { background: "#4CAF50" },
-              };
+              this.$emit("status", {
+                status: "success",
+                message: "Do`kon yaratildi",
+              });
               this.closeModal();
               this.isSubmitting = false;
+            } else {
+              this.$emit("status", {
+                status: "error",
+                message: "Do`kon yaratilishida hatolik yuz berdi",
+              });
             }
           })
           .catch((error) => {
@@ -215,23 +220,26 @@ export default {
           })
           .then(({ status }) => {
             if (status === 200) {
-              this.toastOptions = {
-                open: true,
-                text: "Do`kon yangilandi",
-                style: { background: "#4CAF50" },
-              };
+              this.$emit("status", {
+                status: "success",
+                message: "Do`kon yangilandi",
+              });
               this.closeModal();
               this.isSubmitting = false;
-              this.isUpdate = false
+              this.isUpdate = false;
+            } else {
+              this.$emit("status", {
+                status: "error",
+                message: "Do`kon yangilanishida hatolik yuz berdi",
+              });
             }
           })
           .catch((error) => {
             console.error(error);
-            this.toastOptions = {
-              open: true,
-              type: "error",
-              text: "Xatolik yuzberdi",
-            };
+            this.$emit("status", {
+              status: "error",
+              message: "Xatolik yuzberdi",
+            });
           });
       }
     },

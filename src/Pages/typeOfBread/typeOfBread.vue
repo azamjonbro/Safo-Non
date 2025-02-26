@@ -22,7 +22,18 @@
             <td>{{ data?.title ? data?.title : "" }}</td>
             <td>{{ data?.price ? data?.price : 0 }}</td>
             <td class="d-flex a-center j-end gap12">
-              <Icons name="setting" title="sozlama" class="icon info setting" @click="openUpdateModal({title:data?.title,price:data?.price,id:data?._id})" />
+              <Icons
+                name="setting"
+                title="sozlama"
+                class="icon info setting"
+                @click="
+                  openUpdateModal({
+                    title: data?.title,
+                    price: data?.price,
+                    id: data?._id,
+                  })
+                "
+              />
               <Icons
                 name="deleted"
                 title="o'chirish"
@@ -35,8 +46,13 @@
       </table>
     </div>
   </div>
-  <TypeOfBreadModalVue v-if="openModal" @close="handleClose" />
-  <TypeOfBreadModalVue :update="update" v-if="updateModalVisible" @close="closeUpdateModal" />
+  <TypeOfBreadModalVue v-if="openModal" @close="handleClose" @status="handleStatus($event)" />
+  <TypeOfBreadModalVue
+    :update="update"
+    v-if="updateModalVisible"
+    @close="closeUpdateModal"
+    @status="handleStatus($event)"
+  />
   <ToastiffVue :toastOptions="toastOptions" />
   <RequiredModalVue
     :isVisible="deleteModalVisible"
@@ -75,6 +91,13 @@ export default {
     };
   },
   methods: {
+    handleStatus(data) {
+      this.toastOptions = {
+        open: true,
+        text: data?.message,
+        type: data?.status,
+      };
+    },
     closeDeleteModal(emit) {
       if (emit) {
         this.deleteTypeOfBread(this.selectedItem);
@@ -89,10 +112,10 @@ export default {
       this.updateModalVisible = true;
       this.update = Object.assign(item, { isUpdate: true });
     },
-    closeUpdateModal(){
-      this.updateModalVisible = false
-      this.update = {isUpdate:false}
-      this.getallTypeOfBread()
+    closeUpdateModal() {
+      this.updateModalVisible = false;
+      this.update = { isUpdate: false };
+      this.getallTypeOfBread();
     },
     handleClose() {
       this.openModal = false;
@@ -112,7 +135,6 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allTypeOfBread = data?.typeOfBreads;
-           
           }
         })
         .catch((error) => {
@@ -131,7 +153,18 @@ export default {
         })
         .then(({ status }) => {
           if (status === 200) {
-            this.getallTypeOfBread();   
+            this.toastOptions = {
+              open: true,
+              type: "success",
+              text: "Non turi o`chirilib tashlandi",
+            };
+            this.getallTypeOfBread();
+          } else {
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              text: "Non turi o`chirilib tashlanishida hatolkik yuz berdi",
+            };
           }
         })
         .catch((error) => {

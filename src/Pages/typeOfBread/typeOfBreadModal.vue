@@ -125,10 +125,18 @@ export default {
               },
             }
           );
+          this.$emit("status", {
+            status: "success",
+            message: "Non turi yaratildi",
+          });
           this.closeModal();
           this.isSubmitting = false;
         } catch (error) {
           console.error("Xatolik yuz berdi:", error);
+          this.$emit("status", {
+            status: "error",
+            message: "Non turi yaratilishida hatolik yuz berdi",
+          });
         } finally {
           this.isSubmitting = false;
         }
@@ -143,10 +151,18 @@ export default {
               },
             }
           );
+          this.$emit("status", {
+            status: "success",
+            message: "Non turi yangilandi",
+          });
           this.closeModal();
           this.isSubmitting = false;
         } catch (error) {
           console.error("Xatolik yuz berdi:", error);
+           this.$emit("status", {
+            status: "error",
+            message: "Non turi yangilanishida hatolik yuz berdi",
+          });
         } finally {
           this.isSubmitting = false;
         }
