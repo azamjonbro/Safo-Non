@@ -65,7 +65,7 @@
             :disabled="isSubmitting"
           >
             {{
-              isUpdate
+              !isUpdate
                 ? isSubmitting
                   ? "Yaratilmoqda..."
                   : "Yaratish"
@@ -82,11 +82,10 @@
 
 <script>
 import Icons from "@/components/Template/Icons.vue";
-import Api from "@/Utils/axios";
+import api from '@/Utils/axios';
 export default {
   components: {
     Icons,
-    Api,
   },
   props: {
     update: {
@@ -149,38 +148,74 @@ export default {
       }
 
       this.isSubmitting = true;
-      try {
-        const response = await Api.post("/api/seller", this.user);
-        console.log(response);
+      if (!this.isUpdate) {
+        try {
+          const response = await api.post("/api/seller", this.user);
+          console.log(response);
 
-        if (response?.status == 201) {
-          this.$emit("status", {
-            status: "success",
-            message: "Nonvoy muvaffaqqiyatli qo'shildi",
-          });
-          this.closeModal();
-        } else {
+          if (response?.status == 201) {
+            this.$emit("status", {
+              status: "success",
+              message: "Nonvoy muvaffaqqiyatli qo'shildi",
+            });
+            this.closeModal();
+          } else {
+            this.$emit("status", {
+              status: "error",
+              message: "Nonvoy qo'shishda hatolik",
+            });
+          }
+          this.isSubmitting = true;
+        } catch (error) {
           this.$emit("status", {
             status: "error",
-            message: "Nonvoy qo'shishda hatolik",
+            message:
+              error.response?.data?.message ||
+              error.message ||
+              "Xatolik yuz berdi",
           });
+        } finally {
+          this.isSubmitting = false;
         }
-        this.isSubmitting = true;
-      } catch (error) {
-        this.$emit("status", {
-          status: "error",
-          message:
-            error.response?.data?.message ||
-            error.message ||
-            "Xatolik yuz berdi",
-        });
-      } finally {
-        this.isSubmitting = false;
+      } else {
+        try {
+          const response = await api.put("/api/seller/" + this?.update?.id, this.user);
+          if (response?.status == 200) {
+            this.$emit("status", {
+              status: "success",
+              message: "Nonvoy muvaffaqqiyatli yangilandi",
+            });
+            this.closeModal();
+          } else {
+            this.$emit("status", {
+              status: "error",
+              message: "Nonvoy yangilanishida hatolik",
+            });
+          }
+          this.isSubmitting = true;
+        } catch (error) {
+          this.$emit("status", {
+            status: "error",
+            message:
+              error.response?.data?.message ||
+              error.message ||
+              "Xatolik yuz berdi",
+          });
+        } finally {
+          this.isSubmitting = false;
+        }
       }
     },
   },
   mounted() {
     if (this?.update?.isUpdate) {
+      this.user = {
+        username: this?.update?.username,
+        phone: this?.update?.phone,
+        price: this?.update?.price,
+        ovenId: this?.update?.ovenId,
+      };
+      this.isUpdate = true;
     }
   },
 };
