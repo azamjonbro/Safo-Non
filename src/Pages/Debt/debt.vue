@@ -2,9 +2,14 @@
   <div class="page">
     <div class="d-flex a-center j-between">
       <h3>Chiqimlar</h3>
-      <button class="create-button" @click="debtModalVisible = true">
+     <div class="d-flex gap12">
+        <button class="create-button" @click="typeOfDebtModalVisible = true">
+        Rasxod yaratish
+      </button>
+      <button class="create-button"  @click="debtModalVisible = true">
         Chiqim yaratish
       </button>
+     </div>
     </div>
     <div class="page-bottom scroll p-24">
       <table>
@@ -60,10 +65,16 @@
     @close="handleClose"
     @status="handleStatus($event)"
   />
+
   <DebtModelVue
     :update="update"
     v-if="updateModalVisible"
     @close="closeUpdateModal"
+    @status="handleStatus($event)"
+  />
+  <TypeOfDebtModalVue
+    v-if="typeOfDebtModalVisible"
+    @close="closeTypeOfDebtModal"
     @status="handleStatus($event)"
   />
   <RequiredModalVue
@@ -78,12 +89,14 @@ import Icons from "@/components/Template/Icons.vue";
 import DebtModelVue from "./debtModel.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
 import ToastiffVue from "@/Utils/Toastiff.vue";
+import TypeOfDebtModalVue from "./typeOfDebtModal.vue";
 export default {
   components: {
     Icons,
     DebtModelVue,
     RequiredModalVue,
     ToastiffVue,
+    TypeOfDebtModalVue,
   },
   data() {
     return {
@@ -92,6 +105,7 @@ export default {
       deleteModalVisible: false,
       selectedItem: null,
       updateModalVisible: false,
+      typeOfDebtModalVisible: false,
       update: {
         isUpdate: false,
       },
@@ -108,6 +122,9 @@ export default {
         text: data?.message,
         type: data?.status,
       };
+    },
+    closeTypeOfDebtModal() {
+      this.typeOfDebtModalVisible = false;
     },
     closeDeleteModal(emit) {
       if (emit) {

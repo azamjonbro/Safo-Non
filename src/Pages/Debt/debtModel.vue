@@ -6,7 +6,7 @@
         <h2>Chiqim yaratish</h2>
 
         <form>
-          <div class="modal-form">
+          <div class="modal-form">  
             <div class="form-group">
               <label for="debtId">Rasxod turi</label>
               <CustomSelectVue
