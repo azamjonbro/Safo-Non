@@ -26,7 +26,12 @@
             <td>{{ formatPrice(data?.price || 0) }} sum</td>
             <td>{{ formatPrice(data.totalPrice || 0) }} sum</td>
             <td class="d-flex a-center j-end gap12">
-              <Icons name="payed" title="To'lov" class="icon info setting" />
+              <Icons
+                name="payed"
+                title="To'lov"
+                class="icon info setting"
+                @click="openPayedModal(data?._id)"
+              />
               <Icons
                 name="setting"
                 title="sozlama"
@@ -36,7 +41,7 @@
                     ovenId: data?.ovenId,
                     username: data?.username,
                     phone: data?.phone,
-                    price: formatPrice(data?.price),
+                    price: data?.price,
                     id: data?._id,
                   })
                 "
@@ -66,7 +71,9 @@
     v-if="backeryUpdateVisible"
     @close="closeUpdateModal"
     @status="handleStatus($event)"
+    :update="update"
   />
+  <PayedBackeryVue v-if="backeryPayedVisible" @close="closePayedModal" :selectedItemPayed="selectedItemPayed" @status="handleStatus($event)" />
   <Toastiff :toastOptions="toastOptions" />
   <RequiredModalVue
     :isVisible="backeryDeleteVisible"
@@ -79,13 +86,14 @@ import api from "@/Utils/axios";
 import BackeryModal from "./BackeryModal.vue";
 import Toastiff from "@/Utils/Toastiff.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
-
+import PayedBackeryVue from "./PayedBackery.vue";
 export default {
   components: {
     Icons,
     BackeryModal,
     Toastiff,
     RequiredModalVue,
+    PayedBackeryVue,
   },
   data() {
     return {
@@ -101,9 +109,20 @@ export default {
       update: {
         isUpdate: false,
       },
+      backeryPayedVisible: false,
+      selectedItemPayed: null,
     };
   },
   methods: {
+    openPayedModal(item) {
+      this.selectedItemPayed = item;
+      this.backeryPayedVisible = true;
+    },
+    closePayedModal() {
+      this.backeryPayedVisible = false;
+      this.getAllWorker();
+      this.selectedItemPayed = null;
+    },
     openDeleteModal(item) {
       this.selectedItem = item;
       this.backeryDeleteVisible = true;
@@ -119,7 +138,7 @@ export default {
       this.update = Object.assign(item, { isUpdate: true });
     },
     closeUpdateModal() {
-      (this.backeryUpdateVisible = false), this.getDebts();
+      (this.backeryUpdateVisible = false), this.getAllWorker();
     },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
@@ -143,7 +162,6 @@ export default {
     async getAllWorker() {
       await api.get("/api/sellers").then((response) => {
         this.allWorkers = response?.data?.sellers;
-        console.log(response);
       });
     },
     deleteBackery(id) {

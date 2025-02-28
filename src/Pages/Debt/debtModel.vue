@@ -14,6 +14,7 @@
               @input="sellectDebtId($event)"
               :options="debtIds"
               :placeholder="'Rasxod turini  tanlang'"
+              :selected="debt.debtId"
             />
             <p v-if="errors.debtId" class="error-text">{{ errors.debtId }}</p>
           </div>
@@ -67,6 +68,7 @@
               :placeholder="'Rasxod sellerIdni tanlang'"
               @blur="validateField('sellerId')"
               @click="getSellerIds"
+              :selected="debt.sellerId"
             />
             <p v-if="errors.sellerId" class="error-text">
               {{ errors.sellerId }}
@@ -274,14 +276,14 @@ export default {
           )
           .then(({ status }) => {
             if (status === 200) {
-               this.$emit("status", {
+              this.$emit("status", {
                 status: "success",
                 message: "Rasxod yangilandi",
               });
-              this.closeModal();  
+              this.closeModal();
               this.isSubmitting = false;
-            }else{
-               this.$emit("status", {
+            } else {
+              this.$emit("status", {
                 status: "error",
                 message: "Rasxod yangilanishida",
               });

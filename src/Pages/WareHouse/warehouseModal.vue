@@ -13,6 +13,7 @@
             :placeholder="'Omborxona turini tanglang'"
             @input="selectWarehouseId($event)"
             @blur="validateField('typeId')"
+            :selected="warehouse.typeId"
           />
           <p v-if="errors.typeId" class="error-text">
             {{ errors.typeId }}
