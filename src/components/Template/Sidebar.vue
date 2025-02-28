@@ -71,7 +71,7 @@
           <router-link to="/">Omborxona</router-link>
         </li>
         <li :class="activePage === 'typeOfBread' ? `active` : `left-item`"  class="d-flex gap12" @click="setActive('typeOfBread')">
-          <Icons name="firma"  />
+          <Icons name="bread"  />
           <router-link to="/">Non turlari</router-link>
         </li>
         <li
