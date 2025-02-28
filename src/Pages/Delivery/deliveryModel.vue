@@ -5,55 +5,57 @@
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Yetkazuvchi yaratish</h2>
 
-        <div class="modal-form">
-          <div class="form-group">
-            <label for="username">Nomi</label>
-            <input
-              id="username"
-              type="text"
-              placeholder="Yetkazuvchini ismini kiriting"
-              v-model="delivery.username"
-              @blur="validateField('username')"
-            />
-            <p v-if="errors.username" class="error-text">
-              {{ errors.username }}
-            </p>
+        <form>
+          <div class="modal-form">
+            <div class="form-group">
+              <label for="username">Nomi</label>
+              <input
+                id="username"
+                type="text"
+                placeholder="Yetkazuvchini ismini kiriting"
+                v-model="delivery.username"
+                @blur="validateField('username')"
+              />
+              <p v-if="errors.username" class="error-text">
+                {{ errors.username }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="phone">Telefon raqam</label>
+              <input
+                id="phone"
+                type="text"
+                placeholder="Yetkazuvchini telefon raqamini kiriting"
+                v-model="delivery.phone"
+                @blur="validateField('phone')"
+              />
+              <p v-if="errors.phone" class="error-text">{{ errors.phone }}</p>
+            </div>
+            <div class="form-group">
+              <label for="price">Narxi</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="Yetkazuvchini narxini kiriting"
+                v-model="delivery.price"
+                @blur="validateField('price')"
+              />
+              <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
+            </div>
+            <div class="form-group" v-if="isUpdate">
+              <label for="price">Parolli</label>
+              <input
+                id="password"
+                type="text"
+                placeholder="Yetkazuvchini parollini kiriting"
+                v-model="delivery.password"
+              />
+              <p v-if="errors.password" class="error-text">
+                {{ errors.password }}
+              </p>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="phone">Telefon raqam</label>
-            <input
-              id="phone"
-              type="text"
-              placeholder="Yetkazuvchini telefon raqamini kiriting"
-              v-model="delivery.phone"
-              @blur="validateField('phone')"
-            />
-            <p v-if="errors.phone" class="error-text">{{ errors.phone }}</p>
-          </div>
-          <div class="form-group">
-            <label for="price">Narxi</label>
-            <input
-              id="price"
-              type="number"
-              placeholder="Yetkazuvchini narxini kiriting"
-              v-model="delivery.price"
-              @blur="validateField('price')"
-            />
-            <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
-          </div>
-          <div class="form-group" v-if="isUpdate">
-            <label for="price">Parolli</label>
-            <input
-              id="password"
-              type="text"
-              placeholder="Yetkazuvchini parollini kiriting"
-              v-model="delivery.password"
-            />
-            <p v-if="errors.password" class="error-text">
-              {{ errors.password }}
-            </p>
-          </div>
-        </div>
+        </form>
 
         <div class="modal-buttons d-flex j-end a-center gap24">
           <button type="button" class="action-button" @click="closeModal">
@@ -209,7 +211,7 @@ export default {
             }
           })
           .catch((error) => {
-            this.isSubmitting = false
+            this.isSubmitting = false;
             console.error(error);
           });
       }

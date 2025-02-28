@@ -5,76 +5,78 @@
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Chiqim yaratish</h2>
 
-        <div class="modal-form">
-          <div class="form-group">
-            <label for="debtId">Rasxod turi</label>
-            <CustomSelectVue
-              @click="getDebtIds"
-              @blur="validateField('debtId')"
-              @input="sellectDebtId($event)"
-              :options="debtIds"
-              :placeholder="'Rasxod turini  tanlang'"
-              :selected="debt.debtId"
-            />
-            <p v-if="errors.debtId" class="error-text">{{ errors.debtId }}</p>
-          </div>
+        <form>
+          <div class="modal-form">
+            <div class="form-group">
+              <label for="debtId">Rasxod turi</label>
+              <CustomSelectVue
+                @click="getDebtIds"
+                @blur="validateField('debtId')"
+                @input="sellectDebtId($event)"
+                :options="debtIds"
+                :placeholder="'Rasxod turini  tanlang'"
+                :selected="debt.debtId"
+              />
+              <p v-if="errors.debtId" class="error-text">{{ errors.debtId }}</p>
+            </div>
 
-          <div class="form-group">
-            <label for="quantity">Sonni</label>
-            <input
-              id="quantity"
-              type="number"
-              placeholder="Rasxod sonini kiriting"
-              v-model="debt.quantity"
-              @blur="validateField('quantity')"
-            />
-            <p v-if="errors.quantity" class="error-text">
-              {{ errors.quantity }}
-            </p>
-          </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <input
-              id="description"
-              type="text"
-              placeholder="Rasxod descriptionni kiriting"
-              v-model="debt.description"
-              @blur="validateField('description')"
-            />
-            <p v-if="errors.description" class="error-text">
-              {{ errors.description }}
-            </p>
-          </div>
+            <div class="form-group">
+              <label for="quantity">Sonni</label>
+              <input
+                id="quantity"
+                type="number"
+                placeholder="Rasxod sonini kiriting"
+                v-model="debt.quantity"
+                @blur="validateField('quantity')"
+              />
+              <p v-if="errors.quantity" class="error-text">
+                {{ errors.quantity }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input
+                id="description"
+                type="text"
+                placeholder="Rasxod descriptionni kiriting"
+                v-model="debt.description"
+                @blur="validateField('description')"
+              />
+              <p v-if="errors.description" class="error-text">
+                {{ errors.description }}
+              </p>
+            </div>
 
-          <div class="form-group">
-            <label for="reason">Reason</label>
-            <input
-              id="reason"
-              type="text"
-              placeholder="Rasxod reasonni kiriting"
-              v-model="debt.reason"
-              @blur="validateField('reason')"
-            />
-            <p v-if="errors.reason" class="error-text">
-              {{ errors.reason }}
-            </p>
-          </div>
+            <div class="form-group">
+              <label for="reason">Reason</label>
+              <input
+                id="reason"
+                type="text"
+                placeholder="Rasxod reasonni kiriting"
+                v-model="debt.reason"
+                @blur="validateField('reason')"
+              />
+              <p v-if="errors.reason" class="error-text">
+                {{ errors.reason }}
+              </p>
+            </div>
 
-          <div class="form-group">
-            <label for="sellerId">Seller Id</label>
-            <CustomSelectVue
-              :options="sellerIds"
-              @input="sellectSellerId($event)"
-              :placeholder="'Rasxod sellerIdni tanlang'"
-              @blur="validateField('sellerId')"
-              @click="getSellerIds"
-              :selected="debt.sellerId"
-            />
-            <p v-if="errors.sellerId" class="error-text">
-              {{ errors.sellerId }}
-            </p>
+            <div class="form-group">
+              <label for="sellerId">Seller Id</label>
+              <CustomSelectVue
+                :options="sellerIds"
+                @input="sellectSellerId($event)"
+                :placeholder="'Rasxod sellerIdni tanlang'"
+                @blur="validateField('sellerId')"
+                @click="getSellerIds"
+                :selected="debt.sellerId"
+              />
+              <p v-if="errors.sellerId" class="error-text">
+                {{ errors.sellerId }}
+              </p>
+            </div>
           </div>
-        </div>
+        </form>
 
         <div class="modal-buttons d-flex j-end a-center gap24">
           <button type="button" class="action-button" @click="closeModal">

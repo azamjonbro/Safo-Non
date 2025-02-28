@@ -4,75 +4,77 @@
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Dokon yaratish</h2>
-        <div class="modal-form">
-          <div class="form-group">
-            <label for="title">Nomi</label>
-            <input
-              id="title"
-              type="text"
-              v-model="magazine.title"
-              placeholder="Do`kon nomini kiriting"
-              @blur="validateField('title')"
-            />
-            <p v-if="errors.title" class="error-text">
-              {{ errors.title }}
-            </p>
-          </div>
-          <div class="form-group">
-            <label for="phone">Telefon raqam</label>
-            <input
-              id="phone"
-              type="text"
-              v-model="magazine.phone"
-              placeholder="Do`kon telefon raqamini kiriting"
-              @blur="validateField('phone')"
-            />
-            <p v-if="errors.phone" class="error-text">
-              {{ errors.phone }}
-            </p>
-          </div>
-          <div class="form-group">
-            <label for="address">Address</label>
-            <input
-              id="address"
-              type="text"
-              v-model="magazine.address"
-              placeholder="Do`kon addressini kiriting"
-              @blur="validateField('address')"
-            />
-            <p v-if="errors.address" class="error-text">
-              {{ errors.address }}
-            </p>
-          </div>
+        <form>
+          <div class="modal-form">
+            <div class="form-group">
+              <label for="title">Nomi</label>
+              <input
+                id="title"
+                type="text"
+                v-model="magazine.title"
+                placeholder="Do`kon nomini kiriting"
+                @blur="validateField('title')"
+              />
+              <p v-if="errors.title" class="error-text">
+                {{ errors.title }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="phone">Telefon raqam</label>
+              <input
+                id="phone"
+                type="text"
+                v-model="magazine.phone"
+                placeholder="Do`kon telefon raqamini kiriting"
+                @blur="validateField('phone')"
+              />
+              <p v-if="errors.phone" class="error-text">
+                {{ errors.phone }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input
+                id="address"
+                type="text"
+                v-model="magazine.address"
+                placeholder="Do`kon addressini kiriting"
+                @blur="validateField('address')"
+              />
+              <p v-if="errors.address" class="error-text">
+                {{ errors.address }}
+              </p>
+            </div>
 
-          <div class="form-group">
-            <label for="pending">Pending</label>
-            <input
-              id="pending"
-              type="number"
-              v-model="magazine.pending"
-              placeholder="Do`kon pendingini kiriting"
-              @blur="validateField('pending')"
-            />
-            <p v-if="errors.pending" class="error-text">
-              {{ errors.pending }}
-            </p>
-          </div>
+            <div class="form-group">
+              <label for="pending">Pending</label>
+              <input
+                id="pending"
+                type="number"
+                v-model="magazine.pending"
+                placeholder="Do`kon pendingini kiriting"
+                @blur="validateField('pending')"
+              />
+              <p v-if="errors.pending" class="error-text">
+                {{ errors.pending }}
+              </p>
+            </div>
 
-          <div class="form-group">
-            <label for="remainprice">RemainPrice</label>
-            <input
-              id="remainprice"
-              type="number"
-              v-model="magazine.remainprice"
-              placeholder="Do`kon remainpriceini kiriting"
-              @blur="validateField('remainprice')"
-            />
-            <p v-if="errors.remainprice" class="error-text">
-              {{ errors.remainprice }}
-            </p>
+            <div class="form-group">
+              <label for="remainprice">RemainPrice</label>
+              <input
+                id="remainprice"
+                type="number"
+                v-model="magazine.remainprice"
+                placeholder="Do`kon remainpriceini kiriting"
+                @blur="validateField('remainprice')"
+              />
+              <p v-if="errors.remainprice" class="error-text">
+                {{ errors.remainprice }}
+              </p>
+            </div>
           </div>
-        </div>
+        </form>
         <div class="modal-buttons d-flex j-end a-center gap24">
           <button type="button" class="action-button" @click="closeModal">
             Chiqish
