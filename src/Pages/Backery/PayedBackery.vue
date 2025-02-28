@@ -14,7 +14,14 @@
               placeholder="Fordalanuvchi priceni kiriting"
               @blur="validateField('price')"
             />
-            <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
+            <input
+              type="number"
+              id="price"
+              v-model="bakcery.type"
+              placeholder="Fordalanuvchi priceni kiriting"
+              @blur="validateField('price')"
+            />
+            <p v-if="errors.type" class="error-text">{{ errors.type }}</p>
           </div>
         </div>
         <div class="modal-buttons d-flex j-end a-center gap24">
