@@ -7,79 +7,74 @@
       </button>
     </div>
     <div class="scroll page-bottom p-24">
-      <table>
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Ismi</th>
-            <th>Raqami</th>
-            <th>Maoshi</th>
-            <th>Summa</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="data in allWorkers" :key="data.ovenId">
-            <td>{{ data?.ovenId ? data.ovenId : "-----------" }}</td>
-            <td>{{ data?.username }}</td>
-            <td>{{ data?.phone }}</td>
-            <td>{{ formatPrice(data?.price || 0) }} sum</td>
-            <td>{{ formatPrice(data.totalPrice || 0) }} sum</td>
-            <td class="d-flex a-center j-end gap12">
-              <Icons
-                name="payed"
-                title="To'lov"
-                class="icon info setting"
-                @click="openPayedModal(data?._id)"
-              />
-              <Icons
-                name="setting"
-                title="sozlama"
-                class="icon info setting"
-                @click="
-                  openUpdateModal({
-                    ovenId: data?.ovenId,
-                    username: data?.username,
-                    phone: data?.phone,
-                    price: data?.price,
-                    id: data?._id,
-                  })
-                "
-              />
-              <Icons
-                name="deleted"
-                title="o'chirish"
-                class="icon danger"
-                @click="openDeleteModal(data?._id)"
-              />
-              <Icons name="bottomArrow" />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="text16 d-flex j-center p-24" v-if="!allWorkers">
-        Hozircha nonvoy mavjud emas
-      </p>
+      <div class="table">
+        <div class="table-header">
+          <div class="row">
+            <div class="cell">No</div>
+            <div class="cell">Ismi</div>
+            <div class="cell">Raqami</div>
+            <div class="cell">Maoshi</div>
+            <div class="cell">Summa</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+        <div class="table-body">
+          <div v-for="data in allWorkers" :key="data.ovenId">
+            <!-- Asosiy qator -->
+            <div class="row-items">
+              <div class="top">
+                <div class="cell">{{ data?.ovenId || "-----------" }}</div>
+                <div class="cell">{{ data?.username }}</div>
+                <div class="cell">{{ data?.phone }}</div>
+                <div class="cell">{{ formatPrice(data?.price || 0) }} sum</div>
+                <div class="cell">{{ formatPrice(data.totalPrice || 0) }} sum</div>
+                <div class="cell d-flex a-center j-end gap12">
+                  <Icons name="payed" title="To'lov" class="icon info setting" @click="openPayedModal(data?._id)" />
+                  <Icons name="setting" title="sozlama" class="icon info setting" @click="openUpdateModal(data)" />
+                  <Icons name="deleted" title="o'chirish" class="icon danger" @click="openDeleteModal(data?._id)" />
+                  <Icons name="bottomArrow" class="icon" :class="{ rotated: expanedId === data.ovenId }"
+                    @click="toggleHistory(data?._id)" />
+                </div>
+              </div>
+
+
+              <!-- Tarix (history) qatori -->
+              <div v-if="expanedId === data?._id" class="history">
+                <div class="history-header">
+                  <div class="row">
+                    <div class="cell">Sana</div>
+                    <div class="cell">Summa</div>
+                    <div class="cell">Holat</div>
+                    <div class="cell">Turi</div>
+                  </div>
+                </div>
+                <div class="history-body">
+                  <div v-for="(item, index) in historyData" :key="index" class="row">
+                    <div class="cell">{{ item.createdAt }}</div>
+                    <div class="cell">{{ item.price }}</div>
+                    <div class="cell">{{ item.statusId.status }}</div>
+                    <div class="cell">{{ item.typeId.type }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <p class="text16 d-flex j-center p-24" v-if="!allWorkers">Hozircha nonvoy mavjud emas</p>
     </div>
   </div>
-  <BackeryModal
-    v-if="openModal"
-    @close="openModal = false"
-    @status="handleStatus($event)"
-  />
-  <BackeryModal
-    v-if="backeryUpdateVisible"
-    @close="closeUpdateModal"
-    @status="handleStatus($event)"
-    :update="update"
-  />
-  <PayedBackeryVue v-if="backeryPayedVisible" @close="closePayedModal" :selectedItemPayed="selectedItemPayed" @status="handleStatus($event)" />
+
+  <!-- Modallar -->
+  <BackeryModal v-if="openModal" @close="openModal = false" @status="handleStatus($event)" />
+  <BackeryModal v-if="backeryUpdateVisible" @close="closeUpdateModal" @status="handleStatus($event)" :update="update" />
+  <PayedBackeryVue v-if="backeryPayedVisible" @close="closePayedModal" :selectedItemPayed="selectedItemPayed"
+    @status="handleStatus($event)" />
   <Toastiff :toastOptions="toastOptions" />
-  <RequiredModalVue
-    :isVisible="backeryDeleteVisible"
-    @response="closeDeleteModal($event)"
-  />
+  <RequiredModalVue :isVisible="backeryDeleteVisible" @response="closeDeleteModal($event)" />
 </template>
+
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
@@ -111,6 +106,8 @@ export default {
       },
       backeryPayedVisible: false,
       selectedItemPayed: null,
+      expanedId: null,
+      historyData: [],
     };
   },
   methods: {
@@ -140,6 +137,25 @@ export default {
     closeUpdateModal() {
       (this.backeryUpdateVisible = false), this.getAllWorker();
     },
+    toggleHistory(id) {
+      console.log(id);
+      
+      // Agar shu ovenId oldin ochilgan bo‘lsa, yopamiz
+      if (this.expanedId === id) {
+        this.expanedId = null;
+        return;
+      }
+
+      // Avval barcha ochilganlarini yopamiz
+      this.expanedId = id;
+
+      // Fake history data, backendga so‘rov qilish mumkin
+      api.get("/api/history/seller/" + id).then(({status,data})=>{
+        if(status === 200){
+           this.historyData = data.history.flat()
+        }
+      })
+    },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -162,6 +178,8 @@ export default {
     async getAllWorker() {
       await api.get("/api/sellers").then((response) => {
         this.allWorkers = response?.data?.sellers;
+        console.log(response.data.sellers);
+
       });
     },
     deleteBackery(id) {
@@ -189,7 +207,53 @@ export default {
 };
 </script>
 <style>
-.setting > svg > path {
+.setting>svg>path {
   stroke: #fff;
+}
+
+.table,
+.history {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.row-items {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.row-items>.top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cell {
+  flex: 1;
+  padding: 8px;
+  text-align: left;
+}
+
+.table-header .row {
+  font-weight: bold;
+  background-color: #f5f5f5;
+}
+
+.history {
+  background: #fafafa;
+  padding: 10px;
+}
+
+.history-header .row {
+  font-weight: bold;
 }
 </style>

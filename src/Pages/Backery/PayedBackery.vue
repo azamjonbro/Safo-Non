@@ -1,7 +1,6 @@
 <template>
   <transition name="slide-modal">
-    <div class="modal" @click.self="closeModal()">
-      <form>
+    <!-- <div class="modal" @click.self="closeModal()">
         <div class="modal-content relative">
           <Icons name="xIcon" class="xIcon" @click="closeModal()" />
           <h2>Tolov qilish</h2>
@@ -32,7 +31,70 @@
             </button>
           </div>
         </div>
-      </form>
+    </div> -->
+
+    <div class="modal" @click.self="closeModal()">
+      <div class="modal-content relative">
+        <Icons name="xIcon" class="xIcon" @click="closeModal()" />
+        <h2>Tolov qilish</h2>
+        <form>
+          <div class="modal-form">
+            <div class="form-group">
+              <label for="price">To`lov</label>
+              <input
+                type="number"
+                id="price"
+                v-model="bakcery.price"
+                placeholder="To`lov priceni tanlang"
+                @blur="validateField('price')"
+              />
+              <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
+            </div>
+
+            <div class="form-group">
+              <label for="statusId">To`lov holati</label>
+              <CustomSelectVue
+                :placeholder="'To`lov holatini kiriting'"
+                id="statusId"
+                @click="getPayedStates"
+                @input="sellectPayedState($event)"
+                :options="payedStatus"
+                @blur="validateField('statusId')"
+              />
+              <p v-if="errors.statusId" class="error-text">
+                {{ errors.statusId }}
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label for="typeId">To`lov turi</label>
+              <CustomSelectVue
+                :placeholder="'To`lov turini tanlang'"
+                id="typeId"
+                @click="getPayedType"
+                @input="sellectPayedType($event)"
+                :options="payedType"
+                @blur="validateField('typeId')"
+              />
+              <p v-if="errors.typeId" class="error-text">{{ errors.typeId }}</p>
+            </div>
+          </div>
+        </form>
+        <div class="modal-buttons d-flex j-end a-center gap24">
+          <button type="button" class="action-button" @click="closeModal">
+            Chiqish
+          </button>
+
+          <button
+            type="button"
+            @click="submitForm()"
+            class="action-button"
+            :disabled="isSubmitting"
+          >
+            {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
+          </button>
+        </div>
+      </div>
     </div>
   </transition>
 </template>
@@ -40,9 +102,11 @@
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
+import CustomSelectVue from "@/components/Template/customSelect.vue";
 export default {
   components: {
     Icons,
+    CustomSelectVue,
   },
   props: {
     selectedItemPayed: String,
@@ -50,16 +114,53 @@ export default {
   data() {
     return {
       bakcery: {
-        sellerId: "",
-        price: "",
+        typeId: "",
+        price: 0,
+        statusId: "",
       },
       errors: {},
       isSubmitting: false,
+      payedStatus: [],
+      payedType: [],
     };
   },
   methods: {
     closeModal() {
       this.$emit("close");
+    },
+    getPayedStates() {
+      api
+        .get("/api/payedStatuses")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.payedStatus = data?.payedStatus.map((item) => {
+              return { text: item.status, value: item._id };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getPayedType() {
+      api
+        .get("/api/typeOfPayeds")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.payedType = data?.typeOfPayeds.map((item) => {
+              return { text: item.type, value: item._id };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    sellectPayedState(id) {
+      this.bakcery.statusId = id;
+    },
+    sellectPayedType(id) {
+      this.bakcery.typeId = id;
     },
     validateField(field) {
       this.errors[field] = "";
@@ -69,9 +170,28 @@ export default {
       ) {
         this.errors.price = "Tandir raqami raqam bo‘lishi kerak";
       }
+      if (field === "typeId" && !this.bakcery.typeId.trim()) {
+        this.errors.typeId = "To`lov turi bo'sh bo'lmasligi kerak";
+      }
+      if (field === "statusId" && !this.bakcery.statusId.trim()) {
+        this.errors.statusId = "To`lov holati turi bo'sh bo'lmasligi kerak";
+      }
     },
     submitForm() {
+      this.errors = {};
+      this.validateField("price")
+      this.validateField("typeId")
+      this.validateField("statusId")
+
+     for (const error in this.errors) {
+        if (this.errors[error] !== "") {
+          return;
+        }
+      }
+
       this.isSubmitting = true;
+
+
       api
         .post("/api/sellerPayed", this.bakcery)
         .then(({ status }) => {
