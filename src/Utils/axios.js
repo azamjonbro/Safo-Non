@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://api.alphae.uz',
+  baseURL: 'https://api.alphae.uz',
   // baseURL:"http://localhost:3500",
   withCredentials: true,
   timeout: 40000,
