@@ -253,12 +253,7 @@ export default {
         })
         .catch((error) => {
           console.error(error);
-          this.toastOptions = {
-            open: true,
-            type: "error",
-            text: error.message || "Xatolik yuz berdi",
-          };
-        });
+        })
     },
     deleteBackeryPayed(id) {
       api
@@ -267,7 +262,7 @@ export default {
           if (status === 200) {
             this.toastOptions = {
               open: true,
-              message: "Non voy to`lovi o`chirilib keti",
+              text: "Non voy to`lovi o`chirilib keti",
               type: "success",
             };
             this.getAllWorker();
@@ -275,7 +270,7 @@ export default {
             this.toastOptions = {
               open: true,
               type: "error",
-              message: "Non voy to`lovi o`chirilib ketishida hatolik yuz berdi",
+              text: "Non voy to`lovi o`chirilib ketishida hatolik yuz berdi",
             };
           }
         })
@@ -284,7 +279,7 @@ export default {
           this.toastOptions = {
             open: true,
             type: "error",
-            message: error.message || "Xatolik yuz berdi",
+            text: error.message || "Xatolik yuz berdi",
           };
         });
     },
