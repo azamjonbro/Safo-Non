@@ -82,14 +82,14 @@ export default {
 }
 
 .card {
-  background: #5565ff;
+  background: #6a8ffd;
   width: 32%;
   min-width: 365px;
   height: 120px;
   border-radius: 10px;
   display: flex;
   align-items: center;
-  padding: 12px;
+  padding-left: 24px;
   gap: 12px;
 }
 
@@ -106,15 +106,7 @@ export default {
 }
 
 .card>span>b {
-  font-size: 22px;
-}
-
-.card:nth-child(3n+2) {
-  background: red;
-}
-
-.card:nth-child(3n+3) {
-  background: #874BFF;
+  font-size: 24px;
 }
 
 @media (max-width:1140px) {

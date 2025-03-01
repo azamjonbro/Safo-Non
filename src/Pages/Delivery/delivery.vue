@@ -7,49 +7,60 @@
       </button>
     </div>
     <div class="scroll page-bottom p-24">
-      <table>
-        <thead>
-          <tr>
-            <th>№</th>
-            <th>username</th>
-            <th>phone</th>
-            <th>password</th>
-            <th>price</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(data, index) in allDelivery" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ data?.username ? data?.username : "" }}</td>
-            <td>{{ data?.phone ? data?.phone : "" }}</td>
-            <td>---------</td>
-            <td>{{ data?.price ? data?.price : "" }}</td>
-            <td class="d-flex a-center j-end gap12">
-              <Icons
-                name="setting"
-                title="sozlama"
-                class="icon info setting"
-                @click="
-                  openUpdateModal({
-                    username: data?.username,
-                    phone: data?.phone,
-                    price: data?.price,
-                    password: data?.password,
-                    id: data?._id,
-                  })
-                "
-              />
-              <Icons
-                name="deleted"
-                title="o'chirish"
-                class="icon danger"
-                @click="openDeleteModal(data?._id)"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table">
+        <div class="table-header">
+          <div class="row">
+            <div class="cell">№</div>
+            <div class="cell">username</div>
+            <div class="cell">phone</div>
+            <div class="cell">password</div>
+            <div class="cell">price</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+        <div class="table-body">
+          <div v-for="(data, index) in allDelivery" :key="index">
+            <!-- Asosiy qator -->
+            <div class="row">
+              <div class="cell">{{ index + 1 }}</div>
+              <div class="cell">{{ data?.username || "" }}</div>
+              <div class="cell">{{ data?.phone || "" }}</div>
+              <div class="cell">---------</div>
+              <div class="cell">{{ data?.price || "" }}</div>
+              <div class="cell d-flex a-center j-end gap12">
+                <Icons class="info icon" name="payed" />
+                <Icons name="setting" title="sozlama" class="icon info setting" />
+                <Icons name="deleted" title="o'chirish" class="icon danger" />
+                <Icons
+                  name="bottomArrow"
+                  :class="{ rotated: expandedUserId === data._id }"
+                  @click="toggleHistory(data._id)"
+                />
+              </div>
+            </div>
+    
+            <!-- History qismi -->
+            <div  v-if="expandedUserId === data._id"  class="history">
+              <div class="history-header">
+                <div class="row">
+                  <div class="cell">Sana</div>
+                  <div class="cell">Summa</div>
+                  <div class="cell">Holat</div>
+                  <div class="cell">Turi</div>
+                </div>
+              </div>
+              <div class="history-body">
+                <!-- <div v-for="(item, i) in historyData[data._id]" :key="i" class="row">
+                  <div class="cell">{{ item.date }}</div>
+                  <div class="cell">{{ item.amount }}</div>
+                  <div class="cell">{{ item.status }}</div>
+                  <div class="cell">{{ item.type }}</div>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <RequiredModalVue
@@ -97,7 +108,9 @@ export default {
         text: "",
         style: { background: "#4CAF50" },
       },
+      expandedUserId: null,
     };
+    
   },
   methods: {
     handleStatus(data) {
@@ -112,6 +125,13 @@ export default {
         this.deleteDelivery(this.selectedItem);
       }
       this.deleteVisible = false;
+    },
+    toggleHistory(id) {
+      if (this.expandedUserId === id) {
+        this.expandedUserId = null;
+        return;
+      }
+      this.expandedUserId = id;
     },
     openDeleteModal(item) {
       this.selectedItem = item;
