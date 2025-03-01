@@ -36,12 +36,9 @@
                     @click="toggleHistory(data?._id)" />
                 </div>
               </div>
-
-
-              <!-- Tarix (history) qatori -->
               <div v-if="expanedId === data?._id" class="history">
                 <div class="history-header">
-                  <div class="row">
+                  <div class="row-top">
                     <div class="cell">Sana</div>
                     <div class="cell">Summa</div>
                     <div class="cell">Holat</div>
@@ -138,16 +135,12 @@ export default {
       (this.backeryUpdateVisible = false), this.getAllWorker();
     },
     toggleHistory(id) {
-      console.log(id);
-      
-      // Agar shu ovenId oldin ochilgan bo‘lsa, yopamiz
       if (this.expanedId === id) {
         this.expanedId = null;
         return;
       }
-
-      // Avval barcha ochilganlarini yopamiz
       this.expanedId = id;
+
 
       // Fake history data, backendga so‘rov qilish mumkin
       api.get("/api/seller/" + id + "/payed").then(({status,data})=>{
@@ -225,7 +218,12 @@ export default {
   padding: 12px;
   border-bottom: 1px solid #ddd;
 }
-
+.row-top{
+  padding: 6px 8px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+}
 .row-items {
   display: flex;
   flex-direction: column;
@@ -247,14 +245,21 @@ export default {
 .table-header .row {
   font-weight: bold;
   background-color: #f5f5f5;
+  border-radius: 8px;
 }
 
 .history {
   background: #fafafa;
   padding: 10px;
+  border-radius: 8px;
+
 }
 
 .history-header .row {
   font-weight: bold;
+}
+.rotated {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
 }
 </style>

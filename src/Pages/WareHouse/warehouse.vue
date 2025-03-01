@@ -24,6 +24,7 @@
             <td>{{ data?.price ? data?.price : 0 }}</td>
             <td>{{ data?.quantity ? data?.quantity : 0 }}</td>
             <td class="d-flex a-center j-end gap12">
+              <Icons name="create" class="info icon"/>
               <Icons
                 name="setting"
                 title="sozlama"
@@ -43,6 +44,7 @@
                 class="icon danger"
                 @click="openDeleteModal(data?._id)"
               />
+              <Icons name="bottomArrow" class="icon"/>
             </td>
           </tr>
         </tbody>

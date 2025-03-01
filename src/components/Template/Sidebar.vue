@@ -162,7 +162,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   background: white;
-  border: 1px solid #919191;
+  border: 1px solid #d1d1d1;
   border-radius: 10px;
   padding: 24px;
 }
