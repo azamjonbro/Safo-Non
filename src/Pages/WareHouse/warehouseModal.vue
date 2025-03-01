@@ -4,48 +4,50 @@
       <Icons name="xIcon" class="xIcon" @click="closeModal" />
       <h3>Omborxona yaratish</h3>
 
-      <div class="modal-form">
-        <div class="form-group">
-          <label for="typeId">TypeId</label>
-          <CustomSelectVue
-            :options="warehouseTypyIds"
-            @click="getWareHouseTypeIds"
-            :placeholder="'Omborxona turini tanglang'"
-            @input="selectWarehouseId($event)"
-            @blur="validateField('typeId')"
-            :selected="warehouse.typeId"
-          />
-          <p v-if="errors.typeId" class="error-text">
-            {{ errors.typeId }}
-          </p>
+      <form>
+        <div class="modal-form">
+          <div class="form-group">
+            <label for="typeId">TypeId</label>
+            <CustomSelectVue
+              :options="warehouseTypyIds"
+              @click="getWareHouseTypeIds"
+              :placeholder="'Omborxona turini tanglang'"
+              @input="selectWarehouseId($event)"
+              @blur="validateField('typeId')"
+              :selected="warehouse.typeId"
+            />
+            <p v-if="errors.typeId" class="error-text">
+              {{ errors.typeId }}
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="price">Narxi</label>
+            <input
+              id="price"
+              type="number"
+              v-model="warehouse.price"
+              placeholder="Omborxona narxi  kiriting"
+              @blur="validateField('price')"
+            />
+            <p v-if="errors.price" class="error-text">
+              {{ errors.price }}
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="quantity">Sonni</label>
+            <input
+              id="quantity"
+              type="number"
+              v-model="warehouse.quantity"
+              placeholder="Omborxona sonini  kiriting"
+              @blur="validateField('quantity')"
+            />
+            <p v-if="errors.quantity" class="error-text">
+              {{ errors.quantity }}
+            </p>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="price">Narxi</label>
-          <input
-            id="price"
-            type="number"
-            v-model="warehouse.price"
-            placeholder="Omborxona narxi  kiriting"
-            @blur="validateField('price')"
-          />
-          <p v-if="errors.price" class="error-text">
-            {{ errors.price }}
-          </p>
-        </div>
-        <div class="form-group">
-          <label for="quantity">Sonni</label>
-          <input
-            id="quantity"
-            type="number"
-            v-model="warehouse.quantity"
-            placeholder="Omborxona sonini  kiriting"
-            @blur="validateField('quantity')"
-          />
-          <p v-if="errors.quantity" class="error-text">
-            {{ errors.quantity }}
-          </p>
-        </div>
-      </div>
+      </form>
 
       <div class="modal-buttons d-flex j-end a-center gap24">
         <button type="button" class="action-button" @click="closeModal">

@@ -32,14 +32,14 @@
                   <Icons name="payed" title="To'lov" class="icon info setting" @click="openPayedModal(data?._id)" />
                   <Icons name="setting" title="sozlama" class="icon info setting" @click="openUpdateModal(data)" />
                   <Icons name="deleted" title="o'chirish" class="icon danger" @click="openDeleteModal(data?._id)" />
-                  <Icons name="bottomArrow" class="icon" :class="{ rotated: expandedOvenId === data.ovenId }"
-                    @click="toggleHistory(data.ovenId)" />
+                  <Icons name="bottomArrow" class="icon" :class="{ rotated: expanedId === data.ovenId }"
+                    @click="toggleHistory(data?._id)" />
                 </div>
               </div>
 
 
               <!-- Tarix (history) qatori -->
-              <div v-if="expandedOvenId === data.ovenId" class="history">
+              <div v-if="expanedId === data?._id" class="history">
                 <div class="history-header">
                   <div class="row">
                     <div class="cell">Sana</div>
@@ -49,11 +49,11 @@
                   </div>
                 </div>
                 <div class="history-body">
-                  <div v-for="(item, index) in historyData[data.ovenId]" :key="index" class="row">
-                    <div class="cell">{{ item.date }}</div>
-                    <div class="cell">{{ item.amount }}</div>
-                    <div class="cell">{{ item.status }}</div>
-                    <div class="cell">{{ item.type }}</div>
+                  <div v-for="(item, index) in historyData" :key="index" class="row">
+                    <div class="cell">{{ item.createdAt }}</div>
+                    <div class="cell">{{ item.price }}</div>
+                    <div class="cell">{{ item.statusId.status }}</div>
+                    <div class="cell">{{ item.typeId.type }}</div>
                   </div>
                 </div>
               </div>
@@ -106,8 +106,8 @@ export default {
       },
       backeryPayedVisible: false,
       selectedItemPayed: null,
-      expandedOvenId: null,
-      historyData: {},
+      expanedId: null,
+      historyData: [],
     };
   },
   methods: {
@@ -137,23 +137,24 @@ export default {
     closeUpdateModal() {
       (this.backeryUpdateVisible = false), this.getAllWorker();
     },
-    toggleHistory(ovenId) {
+    toggleHistory(id) {
+      console.log(id);
+      
       // Agar shu ovenId oldin ochilgan bo‘lsa, yopamiz
-      if (this.expandedOvenId === ovenId) {
-        this.expandedOvenId = null;
+      if (this.expanedId === id) {
+        this.expanedId = null;
         return;
       }
 
       // Avval barcha ochilganlarini yopamiz
-      this.expandedOvenId = ovenId;
+      this.expanedId = id;
 
       // Fake history data, backendga so‘rov qilish mumkin
-      this.historyData = {
-        [ovenId]: [
-          { date: "01.02.2024", amount: "500,000 sum", status: "To'landi", type: "Maosh" },
-          { date: "15.02.2024", amount: "300,000 sum", status: "Kutilmoqda", type: "Bonus" },
-        ],
-      };
+      api.get("/api/history/seller/" + id).then(({status,data})=>{
+        if(status === 200){
+           this.historyData = data.history.flat()
+        }
+      })
     },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
