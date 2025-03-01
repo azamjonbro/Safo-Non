@@ -27,13 +27,34 @@
                 <div class="cell">{{ data?.username }}</div>
                 <div class="cell">{{ data?.phone }}</div>
                 <div class="cell">{{ formatPrice(data?.price || 0) }} sum</div>
-                <div class="cell">{{ formatPrice(data.totalPrice || 0) }} sum</div>
+                <div class="cell">
+                  {{ formatPrice(data.totalPrice || 0) }} sum
+                </div>
                 <div class="cell d-flex a-center j-end gap12">
-                  <Icons name="payed" title="To'lov" class="icon info setting" @click="openPayedModal(data?._id)" />
-                  <Icons name="setting" title="sozlama" class="icon info setting" @click="openUpdateModal(data)" />
-                  <Icons name="deleted" title="o'chirish" class="icon danger" @click="openDeleteModal(data?._id)" />
-                  <Icons name="bottomArrow" class="icon" :class="{ rotated: expanedId === data.ovenId }"
-                    @click="toggleHistory(data?._id)" />
+                  <Icons
+                    name="payed"
+                    title="To'lov"
+                    class="icon info setting"
+                    @click="openPayedModal(data?._id)"
+                  />
+                  <Icons
+                    name="setting"
+                    title="sozlama"
+                    class="icon info setting"
+                    @click="openUpdateModal(data)"
+                  />
+                  <Icons
+                    name="deleted"
+                    title="o'chirish"
+                    class="icon danger"
+                    @click="openDeleteModal(data?._id)"
+                  />
+                  <Icons
+                    name="bottomArrow"
+                    class="icon"
+                    :class="{ rotated: expanedId === data.ovenId }"
+                    @click="toggleHistory(data?._id)"
+                  />
                 </div>
               </div>
               <div v-if="expanedId === data?._id" class="history">
@@ -46,30 +67,63 @@
                   </div>
                 </div>
                 <div class="history-body">
-                  <div v-for="(item, index) in data?.history" :key="index" class="row">
+                  <div
+                    v-for="(item, index) in data?.history"
+                    :key="index"
+                    class="row"
+                  >
                     <div class="cell">{{ item?.createdAt }}</div>
                     <div class="cell">{{ item?.price }}</div>
                     <div class="cell">{{ item?.statusId?.status }}</div>
                     <div class="cell">{{ item?.typeId?.type }}</div>
+                    <div class="cell">
+                      <Icons
+                        name="deleted"
+                        title="o'chirish"
+                        class="icon danger"
+                        @click="openBackeryPayedModal(item?._id)"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
       </div>
-      <p class="text16 d-flex j-center p-24" v-if="!allWorkers">Hozircha nonvoy mavjud emas</p>
+      <p class="text16 d-flex j-center p-24" v-if="!allWorkers">
+        Hozircha nonvoy mavjud emas
+      </p>
     </div>
   </div>
 
   <!-- Modallar -->
-  <BackeryModal v-if="openModal" @close="openModal = false" @status="handleStatus($event)" />
-  <BackeryModal v-if="backeryUpdateVisible" @close="closeUpdateModal" @status="handleStatus($event)" :update="update" />
-  <PayedBackeryVue v-if="backeryPayedVisible" @close="closePayedModal" :selectedItemPayed="selectedItemPayed"
-    @status="handleStatus($event)" />
+  <BackeryModal
+    v-if="openModal"
+    @close="openModal = false"
+    @status="handleStatus($event)"
+  />
+  <BackeryModal
+    v-if="backeryUpdateVisible"
+    @close="closeUpdateModal"
+    @status="handleStatus($event)"
+    :update="update"
+  />
+  <PayedBackeryVue
+    v-if="backeryPayedVisible"
+    @close="closePayedModal"
+    :selectedItemPayed="selectedItemPayed"
+    @status="handleStatus($event)"
+  />
   <Toastiff :toastOptions="toastOptions" />
-  <RequiredModalVue :isVisible="backeryDeleteVisible" @response="closeDeleteModal($event)" />
+  <RequiredModalVue
+    :isVisible="backeryDeleteVisible"
+    @response="closeDeleteModal($event)"
+  />
+  <RequiredModalVue
+    :isVisible="deleteBackeryPayedVisible"
+    @response="closeBackeryPayedModal($event)"
+  />
 </template>
 
 <script>
@@ -102,12 +156,24 @@ export default {
         isUpdate: false,
       },
       backeryPayedVisible: false,
+      deleteBackeryPayedVisible: false,
       selectedItemPayed: null,
       expanedId: null,
       historyData: [],
     };
   },
   methods: {
+    openBackeryPayedModal(id) {
+      this.selectedItem = id;
+      this.deleteBackeryPayedVisible = true;
+    },
+    closeBackeryPayedModal(emit) {
+      if (emit) {
+        this.deleteBackeryPayed(this.selectedItem);
+      }
+      this.selectedItem = null;
+      this.deleteBackeryPayedVisible = false;
+    },
     openPayedModal(item) {
       this.selectedItemPayed = item;
       this.backeryPayedVisible = true;
@@ -140,8 +206,6 @@ export default {
         return;
       }
       this.expanedId = id;
-
-         
     },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
@@ -165,26 +229,64 @@ export default {
     async getAllWorker() {
       await api.get("/api/sellers").then((response) => {
         this.allWorkers = response?.data?.sellers;
-        console.log('sellers=>',response.data.sellers);
+        console.log("sellers=>", response.data.sellers);
       });
     },
     deleteBackery(id) {
-      api.delete("/api/seller/" + id).then(({ status }) => {
-        if (status === 200) {
-          this.toastOptions = {
-            open: true,
-            message: "Non voy o`chirilib keti",
-            type: "success",
-          };
-          this.getAllWorker();
-        } else {
+      api
+        .delete("/api/seller/" + id)
+        .then(({ status }) => {
+          if (status === 200) {
+            this.toastOptions = {
+              open: true,
+              text: "Non voy o`chirilib keti",
+              type: "success",
+            };
+            this.getAllWorker();
+          } else {
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              text: "Non voy o`chirilib ketishida hatolik yuz berdi",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
           this.toastOptions = {
             open: true,
             type: "error",
-            message: "Non voy o`chirilib ketishida hatolik yuz berdi",
+            text: error.message || "Xatolik yuz berdi",
           };
-        }
-      });
+        });
+    },
+    deleteBackeryPayed(id) {
+      api
+        .delete("/api/sellerPayed/" + id)
+        .then(({ status }) => {
+          if (status === 200) {
+            this.toastOptions = {
+              open: true,
+              message: "Non voy to`lovi o`chirilib keti",
+              type: "success",
+            };
+            this.getAllWorker();
+          } else {
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              message: "Non voy to`lovi o`chirilib ketishida hatolik yuz berdi",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            type: "error",
+            message: error.message || "Xatolik yuz berdi",
+          };
+        });
     },
   },
   mounted() {
@@ -193,7 +295,7 @@ export default {
 };
 </script>
 <style>
-.setting>svg>path {
+.setting > svg > path {
   stroke: #fff;
 }
 
@@ -210,7 +312,7 @@ export default {
   padding: 12px;
   border-bottom: 1px solid #ddd;
 }
-.row-top{
+.row-top {
   padding: 6px 8px;
   display: flex;
   justify-content: space-between;
@@ -223,7 +325,7 @@ export default {
   border-bottom: 1px solid #ddd;
 }
 
-.row-items>.top {
+.row-items > .top {
   display: flex;
   justify-content: space-between;
 }
@@ -244,7 +346,6 @@ export default {
   background: #fafafa;
   padding: 10px;
   border-radius: 8px;
-
 }
 
 .history-header .row {

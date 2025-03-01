@@ -42,7 +42,12 @@
                     })
                   "
                 />
-                <Icons name="deleted" title="o'chirish" class="icon danger" @click="openDeleteModal(data?._id)" />
+                <Icons
+                  name="deleted"
+                  title="o'chirish"
+                  class="icon danger"
+                  @click="openDeleteModal(data?._id)"
+                />
                 <Icons
                   name="bottomArrow"
                   :class="{ rotated: expandedUserId === data._id }"
@@ -59,6 +64,7 @@
                   <div class="cell">Summa</div>
                   <div class="cell">Holat</div>
                   <div class="cell">Turi</div>
+                  <div class="cell"></div>
                 </div>
               </div>
               <div class="history-body">
@@ -71,6 +77,14 @@
                   <div class="cell">{{ item?.price }}</div>
                   <div class="cell">{{ item?.statusId?.status }}</div>
                   <div class="cell">{{ item?.typeId?.type }}</div>
+                  <div class="cell">
+                    <Icons
+                      name="deleted"
+                      title="o'chirish"
+                      class="icon danger"
+                      @click="openDeliveryPayedModal(item?._id)"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -82,6 +96,10 @@
   <RequiredModalVue
     :isVisible="deleteVisible"
     @response="closeDeleteModal($event)"
+  />
+  <RequiredModalVue
+    :isVisible="deleteDeliveryPayedVisible"
+    @response="closeDeliveryPayedModal($event)"
   />
   <DeliveryModelVue
     v-if="openModal"
@@ -116,6 +134,7 @@ export default {
       openModal: false,
       deleteVisible: false,
       updateVisible: false,
+      deleteDeliveryPayedVisible: false,
       update: {
         isUpdate: false,
       },
@@ -135,11 +154,23 @@ export default {
         type: data?.status,
       };
     },
+    openDeliveryPayedModal(id) {
+      this.selectedItem = id;
+      this.deleteDeliveryPayedVisible = true;
+    },
+    closeDeliveryPayedModal(emit) {
+      if (emit) {
+       this.deleteDeliveryPayed(this.selectedItem);
+      }
+      this.deleteDeliveryPayedVisible = false;
+      this.selectedItem = null;
+    },
     closeDeleteModal(emit) {
       if (emit) {
         this.deleteDelivery(this.selectedItem);
       }
       this.deleteVisible = false;
+      this.selectedItem = null;
     },
     toggleHistory(id) {
       if (this.expandedUserId === id) {
@@ -179,7 +210,6 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allDelivery = data?.deliveries;
-            console.log(data.deliveries);
           }
         })
         .catch((error) => {
@@ -208,6 +238,29 @@ export default {
             this.toastOptions = {
               open: true,
               text: "Yetkazuvchi o`chirishda hatolik yuzberdi",
+              type: "error",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    deleteDeliveryPayed(id) {
+      api
+        .delete("/api/deliveryPayed/" + id)
+        .then(({ status }) => {
+          if (status === 200) {
+            this.toastOptions = {
+              open: true,
+              text: "Yetkazuvchi to`lovi o`chirildi",
+              type: "success",
+            };
+            this.getDeliveries();
+          } else {
+            this.toastOptions = {
+              open: true,
+              text: "Yetkazuvchi to`lovini o`chirishda hatolik yuzberdi",
               type: "error",
             };
           }
