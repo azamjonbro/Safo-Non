@@ -29,8 +29,20 @@
               <div class="cell">{{ data?.price || "" }}</div>
               <div class="cell d-flex a-center j-end gap12">
                 <Icons class="info icon" name="payed" />
-                <Icons name="setting" title="sozlama" class="icon info setting" />
-                <Icons name="deleted" title="o'chirish" class="icon danger" />
+                <Icons
+                  name="setting"
+                  title="sozlama"
+                  class="icon info setting"
+                  @click="
+                    openUpdateModal({
+                      username: data?.username,
+                      phone: data?.phone,
+                      price: data?.price,
+                      id: data?._id,
+                    })
+                  "
+                />
+                <Icons name="deleted" title="o'chirish" class="icon danger" @click="openDeleteModal(data?._id)" />
                 <Icons
                   name="bottomArrow"
                   :class="{ rotated: expandedUserId === data._id }"
@@ -38,9 +50,9 @@
                 />
               </div>
             </div>
-    
+
             <!-- History qismi -->
-            <div  v-if="expandedUserId === data._id"  class="history">
+            <div v-if="expandedUserId === data._id" class="history">
               <div class="history-header">
                 <div class="row">
                   <div class="cell">Sana</div>
@@ -50,12 +62,16 @@
                 </div>
               </div>
               <div class="history-body">
-                <!-- <div v-for="(item, i) in historyData[data._id]" :key="i" class="row">
-                  <div class="cell">{{ item.date }}</div>
-                  <div class="cell">{{ item.amount }}</div>
-                  <div class="cell">{{ item.status }}</div>
-                  <div class="cell">{{ item.type }}</div>
-                </div> -->
+                <div
+                  v-for="(item, i) in data?.deliveryPayed"
+                  :key="i"
+                  class="row"
+                >
+                  <div class="cell">{{ item?.createdAt }}</div>
+                  <div class="cell">{{ item?.price }}</div>
+                  <div class="cell">{{ item?.statusId?.status }}</div>
+                  <div class="cell">{{ item?.typeId?.type }}</div>
+                </div>
               </div>
             </div>
           </div>
@@ -110,7 +126,6 @@ export default {
       },
       expandedUserId: null,
     };
-    
   },
   methods: {
     handleStatus(data) {
@@ -164,6 +179,7 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allDelivery = data?.deliveries;
+            console.log(data.deliveries);
           }
         })
         .catch((error) => {

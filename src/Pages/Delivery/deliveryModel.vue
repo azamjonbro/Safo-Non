@@ -218,6 +218,7 @@ export default {
     },
   },
   mounted() {
+    
     if (this?.update?.isUpdate) {
       this.delivery = {
         username: this?.update?.username,
