@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-top d-flex j-between a-center">
-      <b>Dashboard</b>
+      <h3>Dashboard</h3>
     </div>
     <div class="page-bottom scroll">
       <div class="infobox d-flex wrap">

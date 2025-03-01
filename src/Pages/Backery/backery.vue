@@ -140,8 +140,6 @@ export default {
         return;
       }
       this.expanedId = id;
-
-         
     },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
@@ -173,7 +171,7 @@ export default {
         if (status === 200) {
           this.toastOptions = {
             open: true,
-            message: "Non voy o`chirilib keti",
+            message: "Nonvoy muvaffaqqiyatli o'chirildi",
             type: "success",
           };
           this.getAllWorker();
