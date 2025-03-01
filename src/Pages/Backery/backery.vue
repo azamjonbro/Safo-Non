@@ -46,7 +46,7 @@
                   </div>
                 </div>
                 <div class="history-body">
-                  <div v-for="(item, index) in historyData" :key="index" class="row">
+                  <div v-for="(item, index) in data?.history" :key="index" class="row">
                     <div class="cell">{{ item?.createdAt }}</div>
                     <div class="cell">{{ item?.price }}</div>
                     <div class="cell">{{ item?.statusId?.status }}</div>
@@ -163,8 +163,7 @@ export default {
     async getAllWorker() {
       await api.get("/api/sellers").then((response) => {
         this.allWorkers = response?.data?.sellers;
-        console.log(response.data.sellers);
-
+        console.log('sellers=>',response.data.sellers);
       });
     },
     deleteBackery(id) {
