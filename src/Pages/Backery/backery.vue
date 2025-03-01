@@ -50,10 +50,10 @@
                 </div>
                 <div class="history-body">
                   <div v-for="(item, index) in historyData" :key="index" class="row">
-                    <div class="cell">{{ item.createdAt }}</div>
-                    <div class="cell">{{ item.price }}</div>
-                    <div class="cell">{{ item.statusId.status }}</div>
-                    <div class="cell">{{ item.typeId.type }}</div>
+                    <div class="cell">{{ item?.createdAt }}</div>
+                    <div class="cell">{{ item?.price }}</div>
+                    <div class="cell">{{ item?.statusId?.status }}</div>
+                    <div class="cell">{{ item?.typeId?.type }}</div>
                   </div>
                 </div>
               </div>
@@ -150,9 +150,10 @@ export default {
       this.expanedId = id;
 
       // Fake history data, backendga so‘rov qilish mumkin
-      api.get("/api/history/seller/" + id).then(({status,data})=>{
+      api.get("/api/seller/" + id + "/payed").then(({status,data})=>{
         if(status === 200){
-           this.historyData = data.history.flat()
+           this.historyData = data.history
+           
         }
       })
     },
