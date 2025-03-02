@@ -85,6 +85,12 @@ export default {
       },
       errors: {},
       isSubmitting: false,
+
+      payedStatus: [{ text: "Bonus", value: "Bonus" }],
+      payedType: [
+        { text: "To`landi", value: "To`landi" },
+        { text: "To`lanmoqda", value: "To`lanmoqda" },
+      ],
       payedStatus: [
         {
           text:"To'landi",

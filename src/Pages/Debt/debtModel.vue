@@ -262,7 +262,7 @@ export default {
           .put(
             "/api/debt2/" + this?.update?.id,
             {
-              debtId: this.debt?.debtId,
+              title: this.debt?.title,
               quantity: this.debt?.quantity,
               description: this.debt?.description,
               reason: this.debt?.reason,

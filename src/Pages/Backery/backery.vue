@@ -77,7 +77,7 @@
                     <div class="cell">{{ formatPrice(item?.price) }}</div>
                     <div class="cell">{{ item?.status }}</div>
                     <div class="cell">{{ item?.type }}</div>
-                    <div class="cell">
+                    <div class="cell d-flex j-end">
                       <Icons
                         name="deleted"
                         title="o'chirish"
