@@ -163,9 +163,8 @@ export default {
   flex-direction: column;
   gap: 2px;
   box-shadow: 1px 0px 14px lightgray;
-  height: auto;
-  min-height: 90px;
-  max-height: 400px;
+  max-height: 300px;  
+  min-height: 200px;
 }
 
 .search-input {
