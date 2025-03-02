@@ -23,7 +23,6 @@
               <CustomSelectVue
                 :placeholder="'To`lov holatini kiriting'"
                 id="statusId"
-                @click="getPayedStates"
                 @input="sellectPayedState($event)"
                 :options="payedStatus"
                 @blur="validateField('statusId')"
@@ -80,12 +79,17 @@ export default {
   data() {
     return {
       bakcery: {
-        typeId: "",
+        type: "",
         price: 0,
-        statusId: "",
+        status: "",
       },
       errors: {},
       isSubmitting: false,
+      payedStatus: [{ text: "Bonus", value: "Bonus" }],
+      payedType: [
+        { text: "To`landi", value: "To`landi" },
+        { text: "To`lanmoqda", value: "To`lanmoqda" },
+
       payedStatus: [
         {
           text:"To'landi",
@@ -112,11 +116,41 @@ export default {
     closeModal() {
       this.$emit("close");
     },
+    // getPayedStates() {
+    //   api
+    //     .get("/api/payedStatuses")
+    //     .then(({ status, data }) => {
+    //       if (status === 200) {
+    //         this.payedStatus = data?.payedStatus.map((item) => {
+    //           return { text: item.status, value: item._id };
+    //         });
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
+    // getPayedType() {
+    //   api
+    //     .get("/api/typeOfPayeds")
+    //     .then(({ status, data }) => {
+    //       if (status === 200) {
+    //         console.log(this.payedType);
+
+    //         this.payedType = data?.typeOfPayeds.map((item) => {
+    //           return { text: item.type, value: item._id };
+    //         });
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
     sellectPayedState(id) {
-      this.bakcery.statusId = id;
+      this.bakcery.status = id;
     },
     sellectPayedType(id) {
-      this.bakcery.typeId = id;
+      this.bakcery.type = id;
     },
     validateField(field) {
       this.errors[field] = "";
@@ -126,27 +160,26 @@ export default {
       ) {
         this.errors.price = "Tandir raqami raqam bo‘lishi kerak";
       }
-      if (field === "typeId" && !this.bakcery.typeId.trim()) {
-        this.errors.typeId = "To`lov turi bo'sh bo'lmasligi kerak";
+      if (field === "type" && !this.bakcery.type.trim()) {
+        this.errors.type = "To`lov turi bo'sh bo'lmasligi kerak";
       }
-      if (field === "statusId" && !this.bakcery.statusId.trim()) {
-        this.errors.statusId = "To`lov holati turi bo'sh bo'lmasligi kerak";
+      if (field === "status" && !this.bakcery.status.trim()) {
+        this.errors.status = "To`lov holati turi bo'sh bo'lmasligi kerak";
       }
     },
     submitForm() {
       this.errors = {};
-      this.validateField("price")
-      this.validateField("typeId")
-      this.validateField("statusId")
+      this.validateField("price");
+      this.validateField("typeId");
+      this.validateField("statusId");
 
-     for (const error in this.errors) {
+      for (const error in this.errors) {
         if (this.errors[error] !== "") {
           return;
         }
       }
 
       this.isSubmitting = true;
-
 
       api
         .post("/api/sellerPayed", this.bakcery)
@@ -174,6 +207,8 @@ export default {
     },
   },
   mounted() {
+    // this.getPayedStates();
+    // this.getPayedType();
     this.bakcery.sellerId = this?.selectedItemPayed;
   },
 };

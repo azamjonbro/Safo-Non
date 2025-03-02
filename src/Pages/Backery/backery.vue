@@ -52,7 +52,7 @@
                   <Icons
                     name="bottomArrow"
                     class="icon"
-                    :class="{ rotated: expanedId === data.ovenId }"
+                    :class="{ rotated: expanedId === data._id }"
                     @click="toggleHistory(data?._id)"
                   />
                 </div>
@@ -64,6 +64,7 @@
                     <div class="cell">Summa</div>
                     <div class="cell">Holat</div>
                     <div class="cell">Turi</div>
+                    <div class="cell"></div>
                   </div>
                 </div>
                 <div class="history-body">
@@ -72,10 +73,10 @@
                     :key="index"
                     class="row"
                   >
-                    <div class="cell">{{ item?.createdAt }}</div>
-                    <div class="cell">{{ item?.price }}</div>
-                    <div class="cell">{{ item?.statusId?.status }}</div>
-                    <div class="cell">{{ item?.typeId?.type }}</div>
+                    <div class="cell">{{ formatDate(new Date(item?.createdAt)) }}</div>
+                    <div class="cell">{{ formatPrice(item?.price) }}</div>
+                    <div class="cell">{{ item?.status }}</div>
+                    <div class="cell">{{ item?.type }}</div>
                     <div class="cell">
                       <Icons
                         name="deleted"
@@ -229,7 +230,6 @@ export default {
     async getAllWorker() {
       await api.get("/api/sellers").then((response) => {
         this.allWorkers = response?.data?.sellers;
-        console.log("sellers=>", response.data.sellers);
       });
     },
     deleteBackery(id) {
