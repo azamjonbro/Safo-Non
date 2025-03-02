@@ -89,7 +89,7 @@ export default {
       payedType: [
         { text: "To`landi", value: "To`landi" },
         { text: "To`lanmoqda", value: "To`lanmoqda" },
-
+      ],
       payedStatus: [
         {
           text:"To'landi",
