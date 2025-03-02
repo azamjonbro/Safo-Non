@@ -52,7 +52,7 @@
                   <Icons
                     name="bottomArrow"
                     class="icon"
-                    :class="{ rotated: expanedId === data.ovenId }"
+                    :class="{ rotated: expanedId === data._id }"
                     @click="toggleHistory(data?._id)"
                   />
                 </div>
@@ -74,8 +74,8 @@
                   >
                     <div class="cell">{{ item?.createdAt }}</div>
                     <div class="cell">{{ item?.price }}</div>
-                    <div class="cell">{{ item?.statusId?.status }}</div>
-                    <div class="cell">{{ item?.typeId?.type }}</div>
+                    <div class="cell">{{ item?.status }}</div>
+                    <div class="cell">{{ item?.type }}</div>
                     <div class="cell">
                       <Icons
                         name="deleted"

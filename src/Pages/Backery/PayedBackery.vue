@@ -114,9 +114,9 @@ export default {
   data() {
     return {
       bakcery: {
-        typeId: "",
+        type: "",
         price: 0,
-        statusId: "",
+        status: "",
       },
       errors: {},
       isSubmitting: false,
@@ -157,10 +157,10 @@ export default {
         });
     },
     sellectPayedState(id) {
-      this.bakcery.statusId = id;
+      this.bakcery.status = id;
     },
     sellectPayedType(id) {
-      this.bakcery.typeId = id;
+      this.bakcery.type = id;
     },
     validateField(field) {
       this.errors[field] = "";
@@ -170,11 +170,11 @@ export default {
       ) {
         this.errors.price = "Tandir raqami raqam bo‘lishi kerak";
       }
-      if (field === "typeId" && !this.bakcery.typeId.trim()) {
-        this.errors.typeId = "To`lov turi bo'sh bo'lmasligi kerak";
+      if (field === "type" && !this.bakcery.type.trim()) {
+        this.errors.type = "To`lov turi bo'sh bo'lmasligi kerak";
       }
-      if (field === "statusId" && !this.bakcery.statusId.trim()) {
-        this.errors.statusId = "To`lov holati turi bo'sh bo'lmasligi kerak";
+      if (field === "status" && !this.bakcery.status.trim()) {
+        this.errors.status = "To`lov holati turi bo'sh bo'lmasligi kerak";
       }
     },
     submitForm() {

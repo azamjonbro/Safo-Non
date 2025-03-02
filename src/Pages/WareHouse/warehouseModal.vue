@@ -8,14 +8,14 @@
         <div class="modal-form">
           <div class="form-group">
             <label for="typeId">TypeId</label>
-            <CustomSelectVue
+            <!-- <CustomSelectVue
               :options="warehouseTypyIds"
-              @click="getWareHouseTypeIds"
               :placeholder="'Omborxona turini tanglang'"
               @input="selectWarehouseId($event)"
               @blur="validateField('typeId')"
               :selected="warehouse.typeId"
-            />
+            /> -->
+            <input id="typeId" type="text" placeholder="Omborxona turini tanglang" @blur="validateField('name')" v-model="warehouse.name" />
             <p v-if="errors.typeId" class="error-text">
               {{ errors.typeId }}
             </p>
@@ -92,26 +92,22 @@ export default {
     return {
       isSubmitting: false,
       warehouse: {
-        typeId: "",
+        name: "",
         price: 0,
         quantity: 0,
       },
       errors: {},
       isUpdate: false,
-      warehouseTypyIds: [],
     };
   },
   methods: {
     closeModal() {
       this.$emit("close");
     },
-    selectWarehouseId(id) {
-      this.warehouse.typeId = id;
-    },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "typeId" && !this.warehouse.typeId.trim()) {
-        this.errors.typeId = "Non turini nomi bo'sh bo'lmasligi kerak";
+      if (field === "name" && !this.warehouse.name.trim()) {
+        this.errors.name = "Non turini nomi bo'sh bo'lmasligi kerak";
       }
       if (
         field === "price" &&
@@ -122,29 +118,8 @@ export default {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }
     },
-    getWareHouseTypeIds() {
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
-      api
-        .get("/api/typeOfWareHouses", {
-          headers: {
-            authorization: token,
-          },
-        })
-        .then(({ status, data }) => {
-          if (status === 200) {
-            this.warehouseTypyIds = data?.typeOfWareHouses.map((item) => {
-              return { text: item.name, value: item._id };
-            });
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
     submitForm() {
-      this.validateField("typeId");
+      this.validateField("name");
       this.validateField("quantity");
       this.validateField("price");
       for (const error in this.errors) {
@@ -159,7 +134,7 @@ export default {
 
       if (!this.isUpdate) {
         api
-          .post("/api/warehouse", this.warehouse, {
+          .post("/api/typeOfWareHouse", this.warehouse, {
             headers: {
               authorization: token,
             },
@@ -184,7 +159,7 @@ export default {
           });
       } else {
         api
-          .put("/api/warehouse/" + this?.update?.id, this.warehouse, {
+          .put("/api/typeOfWareHouse/" + this?.update?.id, this.warehouse, {
             headers: {
               authorization: token,
             },
@@ -212,7 +187,7 @@ export default {
   mounted() {
     if (this?.update?.isUpdate) {
       this.warehouse = {
-        typeId: this?.update?.typeId?._id,
+        name: this?.update?.name,
         price: this?.update?.price,
         quantity: this?.update?.quantity,
       };
