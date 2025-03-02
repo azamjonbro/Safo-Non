@@ -56,7 +56,6 @@
               <CustomSelectVue
                 :placeholder="'To`lov holatini kiriting'"
                 id="statusId"
-                @click="getPayedStates"
                 @input="sellectPayedState($event)"
                 :options="payedStatus"
                 @blur="validateField('statusId')"
@@ -71,7 +70,6 @@
               <CustomSelectVue
                 :placeholder="'To`lov turini tanlang'"
                 id="typeId"
-                @click="getPayedType"
                 @input="sellectPayedType($event)"
                 :options="payedType"
                 @blur="validateField('typeId')"
@@ -120,42 +118,47 @@ export default {
       },
       errors: {},
       isSubmitting: false,
-      payedStatus: [],
-      payedType: [],
+      payedStatus: [{ text: "Bonus", value: "Bonus" }],
+      payedType: [
+        { text: "To`landi", value: "To`landi" },
+        { text: "To`lanmoqda", value: "To`lanmoqda" },
+      ],
     };
   },
   methods: {
     closeModal() {
       this.$emit("close");
     },
-    getPayedStates() {
-      api
-        .get("/api/payedStatuses")
-        .then(({ status, data }) => {
-          if (status === 200) {
-            this.payedStatus = data?.payedStatus.map((item) => {
-              return { text: item.status, value: item._id };
-            });
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    getPayedType() {
-      api
-        .get("/api/typeOfPayeds")
-        .then(({ status, data }) => {
-          if (status === 200) {
-            this.payedType = data?.typeOfPayeds.map((item) => {
-              return { text: item.type, value: item._id };
-            });
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
+    // getPayedStates() {
+    //   api
+    //     .get("/api/payedStatuses")
+    //     .then(({ status, data }) => {
+    //       if (status === 200) {
+    //         this.payedStatus = data?.payedStatus.map((item) => {
+    //           return { text: item.status, value: item._id };
+    //         });
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
+    // getPayedType() {
+    //   api
+    //     .get("/api/typeOfPayeds")
+    //     .then(({ status, data }) => {
+    //       if (status === 200) {
+    //         console.log(this.payedType);
+
+    //         this.payedType = data?.typeOfPayeds.map((item) => {
+    //           return { text: item.type, value: item._id };
+    //         });
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
     sellectPayedState(id) {
       this.bakcery.status = id;
     },
@@ -179,18 +182,17 @@ export default {
     },
     submitForm() {
       this.errors = {};
-      this.validateField("price")
-      this.validateField("typeId")
-      this.validateField("statusId")
+      this.validateField("price");
+      this.validateField("typeId");
+      this.validateField("statusId");
 
-     for (const error in this.errors) {
+      for (const error in this.errors) {
         if (this.errors[error] !== "") {
           return;
         }
       }
 
       this.isSubmitting = true;
-
 
       api
         .post("/api/sellerPayed", this.bakcery)
@@ -218,6 +220,8 @@ export default {
     },
   },
   mounted() {
+    // this.getPayedStates();
+    // this.getPayedType();
     this.bakcery.sellerId = this?.selectedItemPayed;
   },
 };

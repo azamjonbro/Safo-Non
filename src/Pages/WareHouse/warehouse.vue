@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="scroll page-bottom p-24">
-      <table>
+      <div>
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
@@ -73,7 +73,7 @@
                     <div class="cell"></div>
                   </div>
                 </div>
-                <div class="history">
+                <div class="history-body">
                   <div
                     class="row"
                     v-for="(item, index) in data?.history"
@@ -96,7 +96,7 @@
             </div>
           </div>
         </div>
-      </table>
+      </div>
     </div>
   </div>
   <WarehouseModalVue

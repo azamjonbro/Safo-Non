@@ -26,9 +26,13 @@
               <div class="cell">{{ data?.username || "" }}</div>
               <div class="cell">{{ data?.phone || "" }}</div>
               <div class="cell">---------</div>
-              <div class="cell">{{ data?.price || "" }}</div>
+              <div class="cell">{{ formatPrice(data?.price) || 0 }} so`m </div>
               <div class="cell d-flex a-center j-end gap12">
-                <Icons class="info icon" name="payed" />
+                <Icons
+                  class="info icon"
+                  name="payed"
+                  @click="openAddDeliveryPayedModal(data?._id)"
+                />
                 <Icons
                   name="setting"
                   title="sozlama"
@@ -73,10 +77,12 @@
                   :key="i"
                   class="row"
                 >
-                  <div class="cell">{{ item?.createdAt }}</div>
-                  <div class="cell">{{ item?.price }}</div>
-                  <div class="cell">{{ item?.statusId?.status }}</div>
-                  <div class="cell">{{ item?.typeId?.type }}</div>
+                  <div class="cell">
+                    {{ formatDate(new Date(item?.createdAt)) }}
+                  </div>
+                  <div class="cell">{{ formatPrice(item?.price) }}</div>
+                  <div class="cell">{{ item?.status }}</div>
+                  <div class="cell">{{ item.type }}</div>
                   <div class="cell">
                     <Icons
                       name="deleted"
@@ -112,6 +118,12 @@
     @close="handleUpdateClose"
     @status="handleStatus($event)"
   />
+  <DeliveryPayedModalVue
+    v-if="deliveryPayedVisible"
+    :id="selectedItem"
+    @status="handleStatus($event)"
+    @close="closeAddDeliveryPayedModal"
+  />
   <ToastiffVue :toastOptions="toastOptions" />
 </template>
 
@@ -121,12 +133,14 @@ import Icons from "@/components/Template/Icons.vue";
 import DeliveryModelVue from "./deliveryModel.vue";
 import ToastiffVue from "@/Utils/Toastiff.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
+import DeliveryPayedModalVue from "./deliveryPayedModal.vue";
 export default {
   components: {
     Icons,
     DeliveryModelVue,
     ToastiffVue,
     RequiredModalVue,
+    DeliveryPayedModalVue,
   },
   data() {
     return {
@@ -135,6 +149,7 @@ export default {
       deleteVisible: false,
       updateVisible: false,
       deleteDeliveryPayedVisible: false,
+      deliveryPayedVisible: false,
       update: {
         isUpdate: false,
       },
@@ -144,6 +159,7 @@ export default {
         style: { background: "#4CAF50" },
       },
       expandedUserId: null,
+      selectedItem: null,
     };
   },
   methods: {
@@ -154,13 +170,21 @@ export default {
         type: data?.status,
       };
     },
+    openAddDeliveryPayedModal(id) {
+      this.selectedItem = id;
+      this.deliveryPayedVisible = true;
+    },
+    closeAddDeliveryPayedModal() {
+      this.selectedItem = null;
+      this.deliveryPayedVisible = false;
+    },
     openDeliveryPayedModal(id) {
       this.selectedItem = id;
       this.deleteDeliveryPayedVisible = true;
     },
     closeDeliveryPayedModal(emit) {
       if (emit) {
-       this.deleteDeliveryPayed(this.selectedItem);
+        this.deleteDeliveryPayed(this.selectedItem);
       }
       this.deleteDeliveryPayedVisible = false;
       this.selectedItem = null;
@@ -245,6 +269,16 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+    },
+    formatDate(date) {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+
+      return `${day}.${month}.${year}`;
+    },
+    formatPrice(price) {
+      return new Intl.NumberFormat("ru-RU").format(price);
     },
     deleteDeliveryPayed(id) {
       api
