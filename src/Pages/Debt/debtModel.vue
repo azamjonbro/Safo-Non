@@ -9,14 +9,15 @@
           <div class="modal-form">  
             <div class="form-group">
               <label for="debtId">Rasxod turi</label>
-              <CustomSelectVue
+              <!-- <CustomSelectVue
                 @click="getDebtIds"
                 @blur="validateField('debtId')"
                 @input="sellectDebtId($event)"
                 :options="debtIds"
                 :placeholder="'Rasxod turini  tanlang'"
                 :selected="debt.debtId"
-              />
+              /> -->
+              <input type="text" id="debtId" placeholder="Rasxod nomini kiriting" v-model="debt.title" @blur="validateField('debtId')"> 
               <p v-if="errors.debtId" class="error-text">{{ errors.debtId }}</p>
             </div>
 
@@ -118,7 +119,7 @@ export default {
       isUpdate: false,
       isSubmitting: false,
       debt: {
-        debtId: "",
+        title: "",
         quantity: 0,
         description: "",
         reason: "",
@@ -190,9 +191,6 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "debtId" && !this.debt.debtId.trim()) {
-        this.errors.debtId = "Rasxodni rasxod turi  bo'sh bo'lmasligi kerak";
-      }
       if (field === "sellerId" && !this.debt.sellerId.trim()) {
         this.errors.sellerId = "Rasxodni rasxod turi  bo'sh bo'lmasligi kerak";
       }
@@ -300,11 +298,11 @@ export default {
   mounted() {
     if (this?.update?.isUpdate) {
       this.debt = {
-        debtId: this?.update?.debtId?._id,
+        title: this?.update?.title,
         quantity: this?.update?.quantity,
         description: this?.update?.description,
         reason: this?.update?.reason,
-        sellerId: this?.update?.sellerId?._id,
+        sellerId: this?.update?.sellerId,
       };
       this.isUpdate = true;
     }

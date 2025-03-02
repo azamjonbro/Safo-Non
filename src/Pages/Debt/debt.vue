@@ -3,9 +3,6 @@
     <div class="d-flex a-center j-between">
       <h3>Chiqimlar</h3>
      <div class="d-flex gap12">
-        <button class="create-button" @click="typeOfDebtModalVisible = true">
-        Rasxod yaratish
-      </button>
       <button class="create-button"  @click="debtModalVisible = true">
         Chiqim yaratish
       </button>
@@ -16,10 +13,9 @@
         <thead>
           <tr>
             <th>№</th>
-            <th>Rasxod id</th>
+            <th>Title</th>
             <th>quantity</th>
             <th>description</th>
-            <th>reason</th>
             <th>sellerId</th>
             <th></th>
           </tr>
@@ -27,10 +23,10 @@
         <tbody>
           <tr v-for="(data, index) in debts" :key="index">
             <td>{{ index + 1 }}</td>
-            <td>{{ data?.debtId ? data?.debtId?.title : "id" }}</td>
+            <td>{{ data.title  }}</td>
+            <!-- <td>{{ data?.reason ? data?.reason : "" }}</td> -->
             <td>{{ data?.quantity ? data?.quantity : 0 }}</td>
-            <td>{{ data?.description ? data?.description : "" }}</td>
-            <td>{{ data?.reason ? data?.reason : "" }}</td>
+            <td>{{ data?.description ? data?.description.slice(0,40) : "" }}</td>
             <td>{{ data?.sellerId ? data?.sellerId?.username : "id" }}</td>
             <td class="d-flex a-center j-end gap12">
               <Icons
@@ -39,7 +35,7 @@
                 class="icon info setting"
                 @click="
                   openUpdateModal({
-                    debtId: data?.debtId._id,
+                    title: data?.title,
                     quantity: data?.quantity,
                     description: data?.description,
                     reason: data?.reason,

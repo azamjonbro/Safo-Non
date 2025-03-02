@@ -1,38 +1,5 @@
 <template>
   <transition name="slide-modal">
-    <!-- <div class="modal" @click.self="closeModal()">
-        <div class="modal-content relative">
-          <Icons name="xIcon" class="xIcon" @click="closeModal()" />
-          <h2>Tolov qilish</h2>
-          <div class="modal-form">
-            <div class="form-group">
-              <label for="price">To`lov</label>
-              <input
-                type="number"
-                id="price"
-                v-model="bakcery.price"
-                placeholder="Fordalanuvchi priceni kiriting"
-                @blur="validateField('price')"
-              />
-              <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
-            </div>
-          </div>
-          <div class="modal-buttons d-flex j-end a-center gap24">
-            <button type="button" class="action-button" @click="closeModal">
-              Chiqish
-            </button>
-            <button
-              type="button"
-              @click="submitForm()"
-              class="action-button"
-              :disabled="isSubmitting"
-            >
-              {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
-            </button>
-          </div>
-        </div>
-    </div> -->
-
     <div class="modal" @click.self="closeModal()">
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal()" />
@@ -65,7 +32,7 @@
               </p>
             </div>
 
-            <div class="form-group">
+            <div class="form-group relative">
               <label for="typeId">To`lov turi</label>
               <CustomSelectVue
                 :placeholder="'To`lov turini tanlang'"
@@ -122,6 +89,26 @@ export default {
       payedType: [
         { text: "To`landi", value: "To`landi" },
         { text: "To`lanmoqda", value: "To`lanmoqda" },
+
+      payedStatus: [
+        {
+          text:"To'landi",
+          value:"To'landi"
+        },
+        {
+          text:"To'landi",
+          value:"To'landi"
+        },
+      ],
+      payedType: [
+        {
+          text:"To'landi",
+          value:"To'landi"
+        },
+        {
+          text:"To'landi",
+          value:"To'landi"
+        },
       ],
     };
   },
