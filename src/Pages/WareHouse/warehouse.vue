@@ -80,9 +80,9 @@
                     :key="index"
                   >
                     <div class="cell">{{ formatDate(item?.createdAt) }}</div>
-                    <div class="cell">{{ item?.price }}</div>
                     <div class="cell">{{ item?.quantity }}</div>
-                    <div class="cell">
+                    <div class="cell">{{ item?.price }}</div>
+                    <div class="cell d-flex  j-end">
                       <Icons
                         name="deleted"
                         title="o'chirish"
