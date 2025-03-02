@@ -97,13 +97,17 @@ export default {
       ],
       payedType: [
         {
-          text:"To'landi",
-          value:"To'landi"
+          text:"Bonus",
+          value:"Bonus"
         },
         {
-          text:"To'landi",
-          value:"To'landi"
+          text:"Shtraf",
+          value:"Shtraf"
         },
+        {
+          text:"Kunlik",
+          value:"Kunlik"
+        }
       ],
     };
   },

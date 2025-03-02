@@ -229,7 +229,7 @@ export default {
     },
     async getAllWorker() {
       await api.get("/api/sellers").then((response) => {
-        this.allWorkers = response?.data?.sellers;
+        this.allWorkers = response?.data?.sellers;        
       });
     },
     deleteBackery(id) {
