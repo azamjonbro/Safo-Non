@@ -15,6 +15,7 @@
             <div class="cell">phone</div>
             <div class="cell">password</div>
             <div class="cell">price</div>
+            <div class="cell">totalPrice</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -27,6 +28,7 @@
               <div class="cell">{{ data?.phone || "" }}</div>
               <div class="cell">---------</div>
               <div class="cell">{{ formatPrice(data?.price) || 0 }} so`m </div>
+              <div class="cell">{{ formatPrice(data?.totalPrice) || 0 }} so`m </div>
               <div class="cell d-flex a-center j-end gap12">
                 <Icons
                   class="info icon"
@@ -68,6 +70,7 @@
                   <div class="cell">Summa</div>
                   <div class="cell">Holat</div>
                   <div class="cell">Turi</div>
+                  <div class="cell">Summasi</div>
                   <div class="cell"></div>
                 </div>
               </div>
@@ -177,6 +180,7 @@ export default {
     closeAddDeliveryPayedModal() {
       this.selectedItem = null;
       this.deliveryPayedVisible = false;
+      this.allDelivery()
     },
     openDeliveryPayedModal(id) {
       this.selectedItem = id;
