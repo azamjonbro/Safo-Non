@@ -32,6 +32,17 @@
                 </div>
                 <div class="cell d-flex a-center j-end gap12">
                   <Icons
+                    name="eyeIcon"
+                    @click="
+                      OpenLoginBackeryModal({
+                        username: data?.username,
+                        password: data?.password,
+                        id: data?._id,
+                        path:'seller'
+                      })
+                    "
+                  />
+                  <Icons
                     name="payed"
                     title="To'lov"
                     class="icon info setting"
@@ -73,7 +84,9 @@
                     :key="index"
                     class="row"
                   >
-                    <div class="cell">{{ formatDate(new Date(item?.createdAt)) }}</div>
+                    <div class="cell">
+                      {{ formatDate(new Date(item?.createdAt)) }}
+                    </div>
                     <div class="cell">{{ formatPrice(item?.price) }}</div>
                     <div class="cell">{{ item?.status }}</div>
                     <div class="cell">{{ item?.type }}</div>
@@ -125,6 +138,12 @@
     :isVisible="deleteBackeryPayedVisible"
     @response="closeBackeryPayedModal($event)"
   />
+  <LoginModalVue
+    :loginSturckture="login"
+    v-if="loginBackeryModalVisible"
+    :isVisible="loginBackeryModalVisible"
+    @response="closeLoginBackeryModal"
+  />
 </template>
 
 <script>
@@ -134,6 +153,7 @@ import BackeryModal from "./BackeryModal.vue";
 import Toastiff from "@/Utils/Toastiff.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
 import PayedBackeryVue from "./PayedBackery.vue";
+import LoginModalVue from "@/components/Modals/LoginModal.vue";
 export default {
   components: {
     Icons,
@@ -141,6 +161,7 @@ export default {
     Toastiff,
     RequiredModalVue,
     PayedBackeryVue,
+    LoginModalVue,
   },
   data() {
     return {
@@ -161,9 +182,22 @@ export default {
       selectedItemPayed: null,
       expanedId: null,
       historyData: [],
+      loginBackeryModalVisible: false,
+      login: {
+        username: "",
+        password: "",
+      },
     };
   },
   methods: {
+    OpenLoginBackeryModal(item) {
+      this.login = item;
+      this.loginBackeryModalVisible = true;
+    },
+    closeLoginBackeryModal() {
+      this.login = {}
+      this.loginBackeryModalVisible = false;
+    },
     openBackeryPayedModal(id) {
       this.selectedItem = id;
       this.deleteBackeryPayedVisible = true;
@@ -229,7 +263,7 @@ export default {
     },
     async getAllWorker() {
       await api.get("/api/sellers").then((response) => {
-        this.allWorkers = response?.data?.sellers;        
+        this.allWorkers = response?.data?.sellers;
       });
     },
     deleteBackery(id) {
@@ -253,7 +287,7 @@ export default {
         })
         .catch((error) => {
           console.error(error);
-        })
+        });
     },
     deleteBackeryPayed(id) {
       api

@@ -1,34 +1,66 @@
 <template>
-  <div class="modal-overlay" v-if="isVisible">
+  <div
+    class="modal-overlay"
+    v-if="isVisible"
+    @click.self="handleResponse(false)"
+  >
     <div class="return-content">
-      <h2>{{ message }}</h2>
+      <h2>Username:{{ username }}</h2>
+      <h2>Password:{{ password }}</h2>
       <div class="modal-buttons">
-        <button @click="handleResponse(true)" class="btn btn-yes">Ha</button>
-        <button @click="handleResponse(false)" class="btn btn-no">Yoq</button>
+        <button @click="handleResponse()" class="btn btn-yes">Yopish</button>
       </div>
     </div>
   </div>
 </template>
-  <script>
+
+<script>
+import api from "@/Utils/axios";
 export default {
   name: "ConfirmModal",
   props: {
     message: {
       type: String,
-      default: "Вы уверены, что хотите удалить это?",
+      default: "Login",
     },
     isVisible: {
       type: Boolean,
       default: false,
     },
+    loginSturckture: {
+      type: Object,
+    },
+  },
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
   },
   methods: {
-    handleResponse(response) {
-      this.$emit("response", response);
+    handleResponse() {
+      this.$emit("response");
     },
+    getUserNameAndPassowrd() {
+      api
+        .get(
+          `/api/${this?.loginSturckture?.path}/${this?.loginSturckture?.id}/password`
+        )
+        .then(({ data }) => {
+          this.username = data?.username;
+          this.password = data?.password;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+  },
+  mounted() {
+    this.getUserNameAndPassowrd();
   },
 };
 </script>
+
 <style>
 .modal-overlay {
   position: fixed;
@@ -44,8 +76,8 @@ export default {
 }
 
 .return-content {
-  width: 700px;
-  height: 150px;
+  width: 500px;
+  height: 250px;
   background: white;
   padding: 20px;
   border-radius: 8px;
