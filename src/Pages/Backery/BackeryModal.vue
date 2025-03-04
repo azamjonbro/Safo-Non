@@ -162,11 +162,11 @@ export default {
       if (!Object.keys(this.errors).length) {
         return;
       }
-
+        
       this.isSubmitting = true;
       if (!this.isUpdate) {
         try {
-          const response = await api.post("/api/seller", this.user);
+          const response = await api.post("/api/seller", {...this.user,password: this.password ? this.password : this.user.phone.slice(-4)});
           console.log(response);
 
           if (response?.status == 201) {
