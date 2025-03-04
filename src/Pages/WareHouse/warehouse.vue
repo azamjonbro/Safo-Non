@@ -11,10 +11,10 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
-            <div class="cell">name</div>
-            <div class="cell">price</div>
-            <div class="cell">quantity</div>
-            <div class="cell">total price</div>
+            <div class="cell">Nomi</div>
+            <div class="cell">Narxi</div>
+            <div class="cell">Soni</div>
+            <div class="cell">Umumiy summa</div>
             <div class="cell"></div>
           </div>
         </div>

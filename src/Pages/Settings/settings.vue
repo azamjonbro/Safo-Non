@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-top d-flex j-between a-center">
-      <b>Settings</b>
+      <h3>Sozlamalar</h3>
     </div>
     <form @submit="changePassowrd">
       <div class="settings-form">

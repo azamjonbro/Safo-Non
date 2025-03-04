@@ -10,7 +10,7 @@
       <div class="table">
         <div class="table-header">
           <div class="row">
-            <div class="cell">No</div>
+            <div class="cell">№</div>
             <div class="cell">Ismi</div>
             <div class="cell">Raqami</div>
             <div class="cell">Maoshi</div>
