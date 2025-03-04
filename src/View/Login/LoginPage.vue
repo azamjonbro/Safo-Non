@@ -16,19 +16,19 @@
             </clipPath>
             </defs>
             </svg>
-          <h3 class="login-title">Добро пожаловать</h3>
-          <p>Пожалуйста, введите логин и пароль</p>
+          <h3 class="login-title">Xush kelibsiz</h3>
+          <p>Iltimos login va parolingizni kiriting</p>
         </div>
         <form class="login-container-form">
           <div class="form-item d-flex radius1 border1">
-            <input type="text" :value="login" @input="login = $event.target.value.trim()" placeholder="Введите логин">
+            <input type="text" :value="login" @input="login = $event.target.value.trim()" placeholder="Ismingizni kiriting">
             <Icons name="user" />
           </div>
           <div class="form-item d-flex radius1 border1">
-            <input :type="!type ? 'password' : 'text'" :value="password" @input="password = $event.target.value.trim()" placeholder="Введите пароль">
+            <input :type="!type ? 'password' : 'text'" :value="password" @input="password = $event.target.value.trim()" placeholder="Parolingizni kiriting">
             <Icons name="password" @click="type = !type" />
           </div>
-          <button type="button" @click="handleLogin" class="login-create">Входить</button>
+          <button type="button" @click="handleLogin" class="login-create">Sahifaga kirish</button>
         </form>
       </div>
     </div>

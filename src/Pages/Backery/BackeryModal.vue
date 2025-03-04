@@ -131,7 +131,7 @@ export default {
       }
       if (
         field === "price" &&
-        (!this.user.price || isNaN(this.user.price) || this.user.price <= 0)
+        (!this.user.price || isNaN(this.user.price) || this.user.price < 0)
       ) {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }

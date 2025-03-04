@@ -13,10 +13,10 @@
         <thead>
           <tr>
             <th>№</th>
-            <th>Title</th>
-            <th>quantity</th>
-            <th>description</th>
-            <th>sellerId</th>
+            <th>Nomi</th>
+            <th>Soni</th>
+            <th>Tavsif</th>
+            <th>Nonvoy raqami</th>
             <th></th>
           </tr>
         </thead>
