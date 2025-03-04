@@ -70,11 +70,11 @@
               </div>
               <div class="history-body">
                 <div class="row" v-for="(item, i) in data?.history" :key="i">
-                  <div class="cel">{{ i + 1 }}</div>
+                  <div class="cell">{{ i + 1 }}</div>
                   <div class="cell">
                     {{ formatDate(new Date(item?.createdAt)) }}
                   </div>
-                  <div class="cell">{{ item.delivery?.username }}</div>
+                  <div class="cell">{{ item.deliveryId?.username }}</div>
                   <div class="cell">{{ item.totalPrice }}</div>
                 </div>
               </div>
@@ -134,6 +134,16 @@ export default {
     };
   },
   methods: {
+    formatDate(date) {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+
+      return `${day}.${month}.${year}`;
+    },
+    formatPrice(price) {
+      return new Intl.NumberFormat("ru-RU").format(price);
+    },
     closeDeleteModal(emit) {
       if (emit) {
         this.deleteMagzine(this.selectedItem);
