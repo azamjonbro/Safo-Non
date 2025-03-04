@@ -7,21 +7,21 @@
       </button>
     </div>
     <div class="scroll page-bottom p-24">
-      <table>
-        <thead>
-          <tr>
-            <th>№</th>
-            <th>Nomi</th>
-            <th>Narxi</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(data, index) in allTypeOfBread" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ data?.title ? data?.title : "" }}</td>
-            <td>{{ data?.price ? data?.price : 0 }}</td>
-            <td class="d-flex a-center j-end gap12">
+      <div class="table">
+        <div class="table-header">
+          <div class="row">
+            <div class="cell">№</div>
+            <div class="cell">Nomi</div>
+            <div class="cell">Narxi</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+        <div class="table-body">
+          <div v-for="(data, index) in allTypeOfBread" :key="index" class="row">
+            <div class="cell">{{ index + 1 }}</div>
+            <div class="cell">{{ data?.title ? data?.title : "" }}</div>
+            <div class="cell">{{ data?.price ? data?.price : 0 }}</div>
+            <div class="cell d-flex a-center j-end gap12">
               <Icons
                 name="setting"
                 title="sozlama"
@@ -40,10 +40,10 @@
                 class="icon danger"
                 @click="openDeleteModal(data?._id)"
               />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <TypeOfBreadModalVue v-if="openModal" @close="handleClose" @status="handleStatus($event)" />
