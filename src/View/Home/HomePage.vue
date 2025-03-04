@@ -10,6 +10,8 @@
       <MagazineVue v-if="activePage == 'magazine'" />
       <DebtVue v-if="activePage == 'debt'" />
       <WarehouseVue v-if="activePage == 'warehouse'" />
+      <SellerShopVue v-if="activePage == 'sellerShop'" />
+      <SellerNonVue v-if="activePage == 'sellerNon'" />
       <!-- <ErrorPage v-else/> -->
     </main>
   </div>
@@ -23,9 +25,11 @@ import Backery from "@/Pages/Backery/backery.vue";
 import Settings from "@/Pages/Settings/settings.vue";
 import TypeOfBreadVue from "@/Pages/typeOfBread/typeOfBread.vue";
 import DeliveryVue from "@/Pages/Delivery/delivery.vue";
-import MagazineVue from '@/Pages/Magazine/magazine.vue';
-import DebtVue from '@/Pages/Debt/debt.vue';
-import WarehouseVue from '@/Pages/WareHouse/warehouse.vue';
+import MagazineVue from "@/Pages/Magazine/magazine.vue";
+import DebtVue from "@/Pages/Debt/debt.vue";
+import WarehouseVue from "@/Pages/WareHouse/warehouse.vue";
+import SellerShopVue from "@/Pages/SellerShop/sellerShop.vue";
+import SellerNonVue from '@/Pages/sellerNon/sellerNon.vue';
 export default {
   name: "HomePage",
   components: {
@@ -38,7 +42,9 @@ export default {
     DeliveryVue,
     MagazineVue,
     DebtVue,
-    WarehouseVue
+    WarehouseVue,
+    SellerShopVue,
+    SellerNonVue
   },
   data() {
     return {
