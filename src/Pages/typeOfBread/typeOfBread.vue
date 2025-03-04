@@ -43,10 +43,17 @@
             </div>
           </div>
         </div>
+        <p class="text16 d-flex j-center p-24" v-if="!allTypeOfBread.length">
+          Hozircha non turlari mavjud emas
+        </p>
       </div>
     </div>
   </div>
-  <TypeOfBreadModalVue v-if="openModal" @close="handleClose" @status="handleStatus($event)" />
+  <TypeOfBreadModalVue
+    v-if="openModal"
+    @close="handleClose"
+    @status="handleStatus($event)"
+  />
   <TypeOfBreadModalVue
     :update="update"
     v-if="updateModalVisible"

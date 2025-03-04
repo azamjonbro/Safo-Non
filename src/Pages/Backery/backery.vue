@@ -38,7 +38,7 @@
                         username: data?.username,
                         password: data?.password,
                         id: data?._id,
-                        path:'seller'
+                        path: 'seller',
                       })
                     "
                   />
@@ -104,6 +104,9 @@
             </div>
           </div>
         </div>
+        <p class="text16 d-flex j-center p-24" v-if="!allWorkers.length">
+          Hozircha nonvoy mavjud emas
+        </p>
       </div>
       <p class="text16 d-flex j-center p-24" v-if="!allWorkers.length">
         Hozircha nonvoy mavjud emas
@@ -193,7 +196,7 @@ export default {
       this.loginBackeryModalVisible = true;
     },
     closeLoginBackeryModal() {
-      this.login = {}
+      this.login = {};
       this.loginBackeryModalVisible = false;
     },
     openBackeryPayedModal(id) {

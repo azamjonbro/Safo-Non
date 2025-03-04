@@ -89,6 +89,9 @@
             </div>
           </div>
         </div>
+        <p class="text16 d-flex j-center p-24" v-if="!allMagazine.length">
+          Hozircha do`konlar mavjud emas
+        </p>
       </div>
     </div>
   </div>
@@ -173,7 +176,7 @@ export default {
         this.deleteMagzine(this.selectedItem);
       }
       this.deleteVisible = false;
-      this.selectedItem = null
+      this.selectedItem = null;
     },
     toggleHistory(id) {
       if (this.expandedUserId === id) {

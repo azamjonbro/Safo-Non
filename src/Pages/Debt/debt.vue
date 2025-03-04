@@ -2,14 +2,13 @@
   <div class="page">
     <div class="d-flex a-center j-between">
       <h3>Chiqimlar</h3>
-     <div class="d-flex gap12">
-      <button class="create-button"  @click="debtModalVisible = true">
-        Chiqim yaratish
-      </button>
-     </div>
+      <div class="d-flex gap12">
+        <button class="create-button" @click="debtModalVisible = true">
+          Chiqim yaratish
+        </button>
+      </div>
     </div>
     <div class="page-bottom scroll p-24">
-
       <div class="table">
         <div class="table-header">
           <div class="row">
@@ -24,15 +23,21 @@
         <div class="table-body">
           <div v-for="(data, index) in debts" :key="index" class="">
             <div class="cell">{{ index + 1 }}</div>
-            <div class="cell">{{ data.title  }}</div>
+            <div class="cell">{{ data.title }}</div>
             <!-- <div>{{ data?.reason ? data?.reason : "" }}</div> -->
             <div class="cell">{{ data?.quantity ? data?.quantity : 0 }}</div>
-            <div class="cell">{{ data?.description ? data?.description.slice(0,40) : "" }}</div>
-            <div class="cell">{{ data?.sellerId ? data?.sellerId?.username : "id" }}</div>
-            <div class="cell d-flex a-center j-end gap12">
-                  </div>
+            <div class="cell">
+              {{ data?.description ? data?.description.slice(0, 40) : "" }}
+            </div>
+            <div class="cell">
+              {{ data?.sellerId ? data?.sellerId?.username : "id" }}
+            </div>
+            <div class="cell d-flex a-center j-end gap12"></div>
           </div>
         </div>
+        <p class="text16 d-flex j-center p-24" v-if="!debts.length">
+          Hozircha chiqimlar mavjud emas
+        </p>
       </div>
       <p class="text16 d-flex j-center p-24" v-if="!debts.length">
         Hozircha chiqimlar mavjud emas
