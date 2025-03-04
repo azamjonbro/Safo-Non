@@ -82,7 +82,7 @@
                     <div class="cell">{{ formatDate(item?.createdAt) }}</div>
                     <div class="cell">{{ item?.quantity }}</div>
                     <div class="cell">{{ item?.price }}</div>
-                    <div class="cell d-flex  j-end">
+                    <div class="cell d-flex j-end">
                       <Icons
                         name="deleted"
                         title="o'chirish"
@@ -96,6 +96,9 @@
             </div>
           </div>
         </div>
+        <p class="text16 d-flex j-center p-24" v-if="!warehouses.length">
+          Hozircha omborxona mavjud emas
+        </p>
       </div>
     </div>
   </div>

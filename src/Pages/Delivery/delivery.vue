@@ -32,7 +32,7 @@
               <div class="cell d-flex a-center j-end gap12">
                 <Icons
                   name="eyeIcon"
-                   class="icon info jingra"
+                  class="icon info jingra"
                   @click="
                     openLoginDeliveryModal({
                       username: data?.username,
@@ -51,7 +51,6 @@
                   name="setting"
                   title="sozlama"
                   class="icon info setting"
-                  
                   @click="
                     openUpdateModal({
                       username: data?.username,
@@ -111,6 +110,9 @@
             </div>
           </div>
         </div>
+        <p class="text16 d-flex j-center p-24" v-if="!allDelivery.length">
+          Hozircha Yetkazuvchilar mavjud emas
+        </p>
       </div>
     </div>
   </div>
