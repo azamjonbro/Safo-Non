@@ -62,8 +62,12 @@ export default {
           { title: "Sozlamalar", icon: "setting", page: "settings" },
         ],
         seller: [
-          { title: "Do'konlar", icon: "product", page: "magazine" },
-          { title: "Non turlari", icon: "bread", page: "typeOfBread" },
+          { title: "Dashboard", icon: "home", page: "sellerDash" },
+          { title: "Nonxona", icon: "bread", page: "sellerNon" },
+          { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" },
+          { title: "Do'kon", icon: "shop", page: "sellerShop" },
+          { title: "Sozlamalar", icon: "setting", page: "sellerSet"},
+
         ],
         delivery: [
           { title: "Omborxona", icon: "firma", page: "warehouse" },

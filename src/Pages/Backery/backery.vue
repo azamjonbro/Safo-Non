@@ -20,7 +20,6 @@
         </div>
         <div class="table-body">
           <div v-for="data in allWorkers" :key="data.ovenId">
-            <!-- Asosiy qator -->
             <div class="row-items">
               <div class="top">
                 <div class="cell">{{ data?.ovenId || "-----------" }}</div>
@@ -109,10 +108,11 @@
           Hozircha nonvoy mavjud emas
         </p>
       </div>
+      <p class="text16 d-flex j-center p-24" v-if="!allWorkers.length">
+        Hozircha nonvoy mavjud emas
+      </p>
     </div>
   </div>
-
-  <!-- Modallar -->
   <BackeryModal
     v-if="openModal"
     @close="openModal = false"

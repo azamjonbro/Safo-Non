@@ -39,6 +39,9 @@
           Hozircha chiqimlar mavjud emas
         </p>
       </div>
+      <p class="text16 d-flex j-center p-24" v-if="!debts.length">
+        Hozircha chiqimlar mavjud emas
+      </p>
     </div>
   </div>
   <DebtModelVue
