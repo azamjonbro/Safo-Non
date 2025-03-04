@@ -10,16 +10,11 @@
         </svg>
       </div>
       <ul class="navbar-menu d-flex column gap12">
-        <li
-        v-for="item in users[userName?.role] || []"
-        :key="item.page"
-        :class="activePage === item.page ? 'active' : 'left-item'"
-        class="d-flex gap12"
-        @click="setActive(item.page)"
-      >
-        <Icons :name="item.icon" />
-        <router-link to="/">{{ item.title }}</router-link>
-      </li>
+        <li v-for="item in users[userName?.role] || []" :key="item.page"
+          :class="activePage === item.page ? 'active' : 'left-item'" class="d-flex gap12" @click="setActive(item.page)">
+          <Icons :name="item.icon" />
+          <router-link to="/">{{ item.title }}</router-link>
+        </li>
       </ul>
       <div class="navbar-buttonbox">
         <div class="nav-name">{{ userName?.username }}</div>
@@ -43,11 +38,21 @@ export default {
     return {
       activePage: "dashboard",
       userName: JSON.parse(localStorage.getItem("user")),
-      role:this.username?.role,
+      role: this.username?.role,
       isOpen: false,
       users: {
         manager: [
-          {title:"Dashboard",icon:"home", page:"dashboard"},
+          { title: "Dashboard", icon: "home", page: "dashboard" },
+          { title: "Nonvoylar", icon: "workers", page: "workers" },
+          { title: "Yetkazuvchilar", icon: "delivery", page: "delivery" },
+          { title: "Do'konlar", icon: "product", page: "magazine" },
+          { title: "Chiqimlar", icon: "rasxod", page: "debt" },
+          { title: "Omborxona", icon: "firma", page: "warehouse" },
+          { title: "Non turlari", icon: "bread", page: "typeOfBread" },
+          { title: "Sozlamalar", icon: "setting", page: "settings" },
+        ],
+        superAdmin: [
+          { title: "Dashboard", icon: "home", page: "dashboard" },
           { title: "Nonvoylar", icon: "workers", page: "workers" },
           { title: "Yetkazuvchilar", icon: "delivery", page: "delivery" },
           { title: "Do'konlar", icon: "product", page: "magazine" },
@@ -160,12 +165,13 @@ export default {
   gap: 12px;
 }
 
-.navbar-menu > li.active {
+.navbar-menu>li.active {
   color: #fff;
   background: #6598f7;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
 }
-.navbar-menu > li.active > a {
+
+.navbar-menu>li.active>a {
   color: #fff;
   font-weight: 400;
   font-style: normal;
@@ -198,7 +204,7 @@ li.active div svg path {
   border: 1px solid #919191;
 }
 
-.navbar-buttonbox > :first-child {
+.navbar-buttonbox> :first-child {
   flex: 1;
 }
 
@@ -233,6 +239,7 @@ li.active div svg path {
     cursor: pointer;
   }
 }
+
 @media (max-width: 580px) {
   .navbar-box {
     padding: 12px;

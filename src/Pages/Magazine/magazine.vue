@@ -12,10 +12,10 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Nomi</div>
-            <div class="cell">telefon raqami</div>
-            <div class="cell">address</div>
-            <div class="cell">pending</div>
-            <div class="cell">remainprice</div>
+            <div class="cell">Raqami</div>
+            <div class="cell">Manzil</div>
+            <div class="cell">Qarzdorlik</div>
+            <!-- <div class="cell">remainprice</div> -->
             <div class="cell"></div>
           </div>
         </div>
@@ -27,9 +27,7 @@
               <div class="cell">{{ data?.phone ? data?.phone : "" }}</div>
               <div class="cell">{{ data?.address ? data?.address : "" }}</div>
               <div class="cell">{{ data?.pending ? data?.pending : "" }}</div>
-              <div class="cell">
-                {{ data?.remainprice ? data?.remainprice : "" }}
-              </div>
+              <!-- <div class="cell">{{ data?.remainprice ? data?.remainprice : "" }}</div> -->
               <div class="cell d-flex a-center j-end gap12">
                 <Icons
                   name="setting"

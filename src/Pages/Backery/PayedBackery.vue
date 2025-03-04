@@ -88,8 +88,8 @@ export default {
 
       payedStatus: [{ text: "Bonus", value: "Bonus" }],
       payedType: [
-        { text: "To`landi", value: "To`landi" },
-        { text: "To`lanmoqda", value: "To`lanmoqda" },
+        { text: "Karta", value: "Karta" },
+        { text: "Naqd pul", value: "Naqd pul" },
       ],
       payedStatus: [
         {
@@ -163,7 +163,7 @@ export default {
         field === "price" &&
         (!this.bakcery.price || isNaN(this.bakcery.price))
       ) {
-        this.errors.price = "Tandir raqami raqam bo‘lishi kerak";
+        this.errors.price = "Iltimos summa kiriting";
       }
       if (field === "type" && !this.bakcery.type.trim()) {
         this.errors.type = "To`lov turi bo'sh bo'lmasligi kerak";

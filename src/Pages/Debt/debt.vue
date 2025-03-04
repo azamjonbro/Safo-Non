@@ -9,14 +9,15 @@
      </div>
     </div>
     <div class="page-bottom scroll p-24">
+
       <div class="table">
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
-            <div class="cell">Title</div>
-            <div class="cell">quantity</div>
-            <div class="cell">description</div>
-            <div class="cell">sellerId</div>
+            <div class="cell">Nomi</div>
+            <div class="cell">Soni</div>
+            <div class="cell">Tavsif</div>
+            <div class="cell">Nonvoy</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -29,28 +30,7 @@
             <div class="cell">{{ data?.description ? data?.description.slice(0,40) : "" }}</div>
             <div class="cell">{{ data?.sellerId ? data?.sellerId?.username : "id" }}</div>
             <div class="cell d-flex a-center j-end gap12">
-              <Icons
-                name="setting"
-                title="sozlama"
-                class="icon info setting"
-                @click="
-                  openUpdateModal({
-                    title: data?.title,
-                    quantity: data?.quantity,
-                    description: data?.description,
-                    reason: data?.reason,
-                    sellerId: data?.sellerId._id,
-                    id: data?._id,
-                  })
-                "
-              />
-              <Icons
-                name="deleted"
-                title="o'chirish"
-                class="icon danger"
-                @click="openDeleteModal(data?._id)"
-              />
-            </div>
+                  </div>
           </div>
         </div>
       </div>

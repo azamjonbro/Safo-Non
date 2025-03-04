@@ -10,7 +10,7 @@
       <div class="table">
         <div class="table-header">
           <div class="row">
-            <div class="cell">No</div>
+            <div class="cell">№</div>
             <div class="cell">Ismi</div>
             <div class="cell">Raqami</div>
             <div class="cell">Maoshi</div>
@@ -33,6 +33,7 @@
                 <div class="cell d-flex a-center j-end gap12">
                   <Icons
                     name="eyeIcon"
+                    class="icon info jingra"
                     @click="
                       OpenLoginBackeryModal({
                         username: data?.username,
@@ -73,7 +74,7 @@
                   <div class="row-top">
                     <div class="cell">Sana</div>
                     <div class="cell">Summa</div>
-                    <div class="cell">Holat</div>
+                    <div class="cell">Status</div>
                     <div class="cell">Turi</div>
                     <div class="cell"></div>
                   </div>
