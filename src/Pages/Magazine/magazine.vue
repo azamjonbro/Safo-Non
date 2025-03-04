@@ -7,52 +7,81 @@
       </button>
     </div>
     <div class="scroll pt-24 page-bottom">
-      <table>
-        <thead>
-          <tr>
-            <th>№</th>
-            <th>Nomi</th>
-            <th>telefon raqami</th>
-            <th>address</th>
-            <th>pending</th>
-            <th>remainprice</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(data, index) in allMagazine" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ data?.title ? data?.title : "" }}</td>
-            <td>{{ data?.phone ? data?.phone : "" }}</td>
-            <td>{{ data?.address ? data?.address : "" }}</td>
-            <td>{{ data?.pending ? data?.pending : "" }}</td>
-            <td>{{ data?.remainprice ? data?.remainprice : "" }}</td>
-            <td class="d-flex a-center j-end gap12">
-              <Icons
-                name="setting"
-                title="sozlama"
-                class="icon info setting"
-                @click="
-                  openUpdateModal({
-                    title: data?.title,
-                    phone: data?.phone,
-                    address: data?.address,
-                    pending: data?.pending,
-                    remainprice: data?.remainprice,
-                    id: data?._id,
-                  })
-                "
-              />
-              <Icons
-                name="deleted"
-                title="o'chirish"
-                class="icon danger"
-                @click="openDeleteModal(data?._id)"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table">
+        <div class="table">
+          <div class="row">
+            <div class="cell">№</div>
+            <div class="cell">Nomi</div>
+            <div class="cell">telefon raqami</div>
+            <div class="cell">address</div>
+            <div class="cell">pending</div>
+            <div class="cell">remainprice</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+        <div class="table-body">
+          <div v-for="(data, index) in allMagazine" :key="index">
+            <div class="row">
+              <div class="cell">{{ index + 1 }}</div>
+              <div class="cell">{{ data?.title ? data?.title : "" }}</div>
+              <div class="cell">{{ data?.phone ? data?.phone : "" }}</div>
+              <div class="cell">{{ data?.address ? data?.address : "" }}</div>
+              <div class="cell">{{ data?.pending ? data?.pending : "" }}</div>
+              <div class="cell">
+                {{ data?.remainprice ? data?.remainprice : "" }}
+              </div>
+              <div class="cell d-flex a-center j-end gap12">
+                <Icons
+                  name="setting"
+                  title="sozlama"
+                  class="icon info setting"
+                  @click="
+                    openUpdateModal({
+                      title: data?.title,
+                      phone: data?.phone,
+                      address: data?.address,
+                      pending: data?.pending,
+                      remainprice: data?.remainprice,
+                      id: data?._id,
+                    })
+                  "
+                />
+                <Icons
+                  name="deleted"
+                  title="o'chirish"
+                  class="icon danger"
+                  @click="openDeleteModal(data?._id)"
+                />
+                <Icons
+                  name="bottomArrow"
+                  :class="{ rotated: expandedUserId === data._id }"
+                  @click="toggleHistory(data._id)"
+                />
+              </div>
+            </div>
+            <div v-if="expandedUserId === data?._id" class="history">
+              <div class="history-header">
+                <div class="row">
+                  <div class="cell">Index</div>
+                  <div class="cell">Yaratilgan</div>
+                  <div class="cell">Yetkazuvchi</div>
+                  <div class="cell">Summa</div>
+                </div>
+              </div>
+              <div class="history-body">
+                <div class="row" v-for="(item, i) in data?.history" :key="i">
+                  <div class="cel">{{ i + 1 }}</div>
+                  <div class="cell">
+                    {{ formatDate(new Date(item?.createdAt)) }}
+                  </div>
+                  <div class="cell">{{ item.delivery?.username }}</div>
+                  <div class="cell">{{ item.totalPrice }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <RequiredModalVue
@@ -60,7 +89,11 @@
     @response="closeDeleteModal($event)"
   />
   <ToastiffVue :toastOptions="toastOptions" />
-  <MagazineModalVue v-if="openModal" @close="handleClose" @status="handleStatus($event)" />
+  <MagazineModalVue
+    v-if="openModal"
+    @close="handleClose"
+    @status="handleStatus($event)"
+  />
   <MagazineModalVue
     v-if="updateVisible"
     :update="update"
@@ -97,6 +130,7 @@ export default {
       update: {
         isUpdate: false,
       },
+      expandedUserId: "",
     };
   },
   methods: {
@@ -105,6 +139,13 @@ export default {
         this.deleteMagzine(this.selectedItem);
       }
       this.deleteVisible = false;
+    },
+    toggleHistory(id) {
+      if (this.expandedUserId === id) {
+        this.expandedUserId = null;
+        return;
+      }
+      this.expandedUserId = id;
     },
     openDeleteModal(item) {
       this.selectedItem = item;
@@ -119,12 +160,12 @@ export default {
       this.update = { isUpdate: false };
       this.getMagazine();
     },
-    handleStatus(data){
+    handleStatus(data) {
       this.toastOptions = {
-        open:true,
-        type:data?.status,
-        text:data?.message
-      }
+        open: true,
+        type: data?.status,
+        text: data?.message,
+      };
     },
     openUpdateModal(item) {
       this.update = Object.assign(item, { isUpdate: true });
