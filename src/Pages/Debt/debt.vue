@@ -9,51 +9,31 @@
      </div>
     </div>
     <div class="page-bottom scroll p-24">
-      <table>
-        <thead>
-          <tr>
-            <th>№</th>
-            <th>Nomi</th>
-            <th>Soni</th>
-            <th>Tavsif</th>
-            <th>Nonvoy raqami</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(data, index) in debts" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ data.title  }}</td>
-            <!-- <td>{{ data?.reason ? data?.reason : "" }}</td> -->
-            <td>{{ data?.quantity ? data?.quantity : 0 }}</td>
-            <td>{{ data?.description ? data?.description.slice(0,40) : "" }}</td>
-            <td>{{ data?.sellerId ? data?.sellerId?.username : "id" }}</td>
-            <td class="d-flex a-center j-end gap12">
-              <Icons
-                name="setting"
-                title="sozlama"
-                class="icon info setting"
-                @click="
-                  openUpdateModal({
-                    title: data?.title,
-                    quantity: data?.quantity,
-                    description: data?.description,
-                    reason: data?.reason,
-                    sellerId: data?.sellerId._id,
-                    id: data?._id,
-                  })
-                "
-              />
-              <Icons
-                name="deleted"
-                title="o'chirish"
-                class="icon danger"
-                @click="openDeleteModal(data?._id)"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      <div class="table">
+        <div class="table-header">
+          <div class="row">
+            <div class="cell">№</div>
+            <div class="cell">Nomi</div>
+            <div class="cell">Soni</div>
+            <div class="cell">Tavsif</div>
+            <div class="cell">Nonvoy</div>
+            <div class="cell"></div>
+          </div>
+        </div>
+        <div class="table-body">
+          <div v-for="(data, index) in debts" :key="index" class="">
+            <div class="cell">{{ index + 1 }}</div>
+            <div class="cell">{{ data.title  }}</div>
+            <!-- <div>{{ data?.reason ? data?.reason : "" }}</div> -->
+            <div class="cell">{{ data?.quantity ? data?.quantity : 0 }}</div>
+            <div class="cell">{{ data?.description ? data?.description.slice(0,40) : "" }}</div>
+            <div class="cell">{{ data?.sellerId ? data?.sellerId?.username : "id" }}</div>
+            <div class="cell d-flex a-center j-end gap12">
+                  </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <DebtModelVue

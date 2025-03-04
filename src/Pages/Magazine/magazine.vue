@@ -8,7 +8,7 @@
     </div>
     <div class="scroll pt-24 page-bottom">
       <div class="table">
-        <div class="table">
+        <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Nomi</div>
@@ -64,6 +64,7 @@
                   <div class="cell">Yaratilgan</div>
                   <div class="cell">Yetkazuvchi</div>
                   <div class="cell">Summa</div>
+                  <div class="cell">Pending</div>
                 </div>
               </div>
               <div class="history-body">
@@ -74,6 +75,15 @@
                   </div>
                   <div class="cell">{{ item.deliveryId?.username }}</div>
                   <div class="cell">{{ item.totalPrice }}</div>
+                  <div class="cell">{{ item.pending }}</div>
+                  <div class="cell d-flex j-end">
+                    <Icons
+                      name="deleted"
+                      title="o'chirish"
+                      class="icon danger"
+                      @click="openHistoryModal(item?._id)"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -97,6 +107,10 @@
     :update="update"
     @close="closeUpdateModal"
     @status="handleStatus($event)"
+  />
+  <RequiredModalVue
+    :isVisible="deleteHistoryModal"
+    @response="closeHistoryModal($event)"
   />
 </template>
 
@@ -129,9 +143,21 @@ export default {
         isUpdate: false,
       },
       expandedUserId: "",
+      deleteHistoryModal: false,
     };
   },
   methods: {
+    closeHistoryModal(emit) {
+      if (emit) {
+        this.deleteHistoryModalAxios(this.selectedItem);
+      }
+      this.deleteHistoryModal = false;
+      this.selectedItem = null;
+    },
+    openHistoryModal(id) {
+      this.selectedItem = id;
+      this.deleteHistoryModal = true;
+    },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -147,6 +173,7 @@ export default {
         this.deleteMagzine(this.selectedItem);
       }
       this.deleteVisible = false;
+      this.selectedItem = null
     },
     toggleHistory(id) {
       if (this.expandedUserId === id) {
@@ -221,6 +248,34 @@ export default {
             this.toastOptions = {
               open: true,
               text: "Do`kon o`chirib tashlandi",
+              type: "error",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            type: "error",
+            text: "Xatolik yuzberdi",
+          };
+        });
+    },
+    deleteHistoryModalAxios(id) {
+      api
+        .delete("/api/sellingBreadToMagazine/" + id)
+        .then(({ status }) => {
+          if (status === 200) {
+            this.getMagazine();
+            this.toastOptions = {
+              open: true,
+              text: "Do`kon history o`chirib tashlandi",
+              type: "success",
+            };
+          } else {
+            this.toastOptions = {
+              open: true,
+              text: "Do`kon history o`chirib tashlandi",
               type: "error",
             };
           }
