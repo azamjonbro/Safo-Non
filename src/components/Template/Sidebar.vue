@@ -65,8 +65,8 @@ export default {
           { title: "Dashboard", icon: "home", page: "sellerDash" },
           { title: "Nonxona", icon: "bread", page: "sellerNon" },
           { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" },
-          { title: "Do'kon", icon: "shop", page: "sellerShop" },
-          { title: "Sozlamalar", icon: "setting", page: "sellerSet"},
+          { title: "Do'kon", icon: "firma", page: "sellerShop" },
+          { title: "Sozlamalar", icon: "setting", page: "settings"},
 
         ],
         delivery: [

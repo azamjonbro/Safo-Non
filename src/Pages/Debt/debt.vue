@@ -35,9 +35,6 @@
             <div class="cell d-flex a-center j-end gap12"></div>
           </div>
         </div>
-        <p class="text16 d-flex j-center p-24" v-if="!debts.length">
-          Hozircha chiqimlar mavjud emas
-        </p>
       </div>
       <p class="text16 d-flex j-center p-24" v-if="!debts.length">
         Hozircha chiqimlar mavjud emas

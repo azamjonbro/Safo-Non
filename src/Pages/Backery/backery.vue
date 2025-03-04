@@ -108,9 +108,7 @@
           Hozircha nonvoy mavjud emas
         </p>
       </div>
-      <p class="text16 d-flex j-center p-24" v-if="!allWorkers.length">
-        Hozircha nonvoy mavjud emas
-      </p>
+
     </div>
   </div>
   <BackeryModal
