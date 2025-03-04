@@ -15,6 +15,7 @@
             <div class="cell">phone</div>
             <div class="cell">password</div>
             <div class="cell">price</div>
+            <div class="cell">totalPrice</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -26,8 +27,22 @@
               <div class="cell">{{ data?.username || "" }}</div>
               <div class="cell">{{ data?.phone || "" }}</div>
               <div class="cell">---------</div>
-              <div class="cell">{{ formatPrice(data?.price) || 0 }} so`m </div>
+              <div class="cell">{{ formatPrice(data?.price) || 0 }} so`m</div>
+              <div class="cell">
+                {{ formatPrice(data?.totalPrice) || 0 }} so`m
+              </div>
               <div class="cell d-flex a-center j-end gap12">
+                <Icons
+                  name="eyeIcon"
+                  @click="
+                    openLoginDeliveryModal({
+                      username: data?.username,
+                      password: data?.password,
+                      id: data?._id,
+                      path: 'delivery',
+                    })
+                  "
+                />
                 <Icons
                   class="info icon"
                   name="payed"
@@ -68,6 +83,7 @@
                   <div class="cell">Summa</div>
                   <div class="cell">Holat</div>
                   <div class="cell">Turi</div>
+                  <div class="cell">Summasi</div>
                   <div class="cell"></div>
                 </div>
               </div>
@@ -125,6 +141,12 @@
     @close="closeAddDeliveryPayedModal"
   />
   <ToastiffVue :toastOptions="toastOptions" />
+  <LoginModalVue
+    v-if="loginDeliveryModalVisible"
+    :isVisible="loginDeliveryModalVisible"
+    :loginSturckture="login"
+    @response="closeLoginBackeryModal"
+  />
 </template>
 
 <script>
@@ -134,6 +156,7 @@ import DeliveryModelVue from "./deliveryModel.vue";
 import ToastiffVue from "@/Utils/Toastiff.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
 import DeliveryPayedModalVue from "./deliveryPayedModal.vue";
+import LoginModalVue from "@/components/Modals/LoginModal.vue";
 export default {
   components: {
     Icons,
@@ -141,6 +164,7 @@ export default {
     ToastiffVue,
     RequiredModalVue,
     DeliveryPayedModalVue,
+    LoginModalVue,
   },
   data() {
     return {
@@ -160,6 +184,12 @@ export default {
       },
       expandedUserId: null,
       selectedItem: null,
+      loginDeliveryModalVisible: false,
+      login: {
+        username: "",
+        password: "",
+        id: "",
+      },
     };
   },
   methods: {
@@ -170,6 +200,14 @@ export default {
         type: data?.status,
       };
     },
+    openLoginDeliveryModal(item) {
+      this.login = item;
+      this.loginDeliveryModalVisible = true;
+    },
+    closeLoginBackeryModal() {
+      this.login = {};
+      this.loginDeliveryModalVisible = false;
+    },
     openAddDeliveryPayedModal(id) {
       this.selectedItem = id;
       this.deliveryPayedVisible = true;
@@ -177,6 +215,7 @@ export default {
     closeAddDeliveryPayedModal() {
       this.selectedItem = null;
       this.deliveryPayedVisible = false;
+      this.getDeliveries();
     },
     openDeliveryPayedModal(id) {
       this.selectedItem = id;
@@ -233,6 +272,8 @@ export default {
         })
         .then(({ data, status }) => {
           if (status === 200) {
+            console.log(this.data);
+
             this.allDelivery = data?.deliveries;
           }
         })

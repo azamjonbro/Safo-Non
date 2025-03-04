@@ -84,10 +84,29 @@ export default {
         deliveryId: "",
       },
       errors: {},
-      payedStatus: [{ text: "Bonus", value: "Bonus" }],
+      payedStatus: [
+        {
+          text: "To'landi",
+          value: "To'landi",
+        },
+        {
+          text: "To'landi",
+          value: "To'landi",
+        },
+      ],
       payedType: [
-        { text: "To`landi", value: "To`landi" },
-        { text: "To`lanmoqda", value: "To`lanmoqda" },
+        {
+          text: "Bonus",
+          value: "Bonus",
+        },
+        {
+          text: "Shtraf",
+          value: "Shtraf",
+        },
+        {
+          text: "Kunlik",
+          value: "Kunlik",
+        },
       ],
     };
   },
@@ -138,7 +157,7 @@ export default {
               status: "success",
               message: "seller payed qilindi",
             });
-            this.isSubmitting = false
+            this.isSubmitting = false;
             this.closeModal();
           } else {
             this.$emit("status", {
