@@ -3,6 +3,7 @@
     <Sidebar class="sidebar" @menu-click="changePage($event)" />
     <main class="main">
       <Dashboard v-if="activePage == 'dashboard'" />
+      <Managers v-if="activePage=='managers'"/>
       <Backery v-if="activePage == 'workers'" />
       <Settings v-if="activePage == 'settings'" />
       <TypeOfBreadVue v-if="activePage == 'typeOfBread'" />
@@ -30,11 +31,13 @@ import DebtVue from "@/Pages/Debt/debt.vue";
 import WarehouseVue from "@/Pages/WareHouse/warehouse.vue";
 import SellerShopVue from "@/Pages/SellerShop/sellerShop.vue";
 import SellerNonVue from '@/Pages/sellerNon/sellerNon.vue';
+import Managers from "@/Pages/Managers/managers.vue";
 export default {
   name: "HomePage",
   components: {
     Sidebar,
     Dashboard,
+    Managers,
     Backery,
     ErrorPage,
     Settings,
@@ -44,7 +47,8 @@ export default {
     DebtVue,
     WarehouseVue,
     SellerShopVue,
-    SellerNonVue
+    SellerNonVue,
+
   },
   data() {
     return {
