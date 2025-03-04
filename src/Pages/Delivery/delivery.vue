@@ -11,11 +11,10 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
-            <div class="cell">username</div>
-            <div class="cell">phone</div>
-            <div class="cell">password</div>
-            <div class="cell">price</div>
-            <div class="cell">totalPrice</div>
+            <div class="cell">Ismi</div>
+            <div class="cell">Raqami</div>
+            <div class="cell">Summa(dona)</div>
+            <div class="cell">Umumiy hisob</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -26,7 +25,6 @@
               <div class="cell">{{ index + 1 }}</div>
               <div class="cell">{{ data?.username || "" }}</div>
               <div class="cell">{{ data?.phone || "" }}</div>
-              <div class="cell">---------</div>
               <div class="cell">{{ formatPrice(data?.price) || 0 }} so`m</div>
               <div class="cell">
                 {{ formatPrice(data?.totalPrice) || 0 }} so`m
@@ -34,6 +32,7 @@
               <div class="cell d-flex a-center j-end gap12">
                 <Icons
                   name="eyeIcon"
+                   class="icon info jingra"
                   @click="
                     openLoginDeliveryModal({
                       username: data?.username,
@@ -52,6 +51,7 @@
                   name="setting"
                   title="sozlama"
                   class="icon info setting"
+                  
                   @click="
                     openUpdateModal({
                       username: data?.username,
@@ -83,7 +83,6 @@
                   <div class="cell">Summa</div>
                   <div class="cell">Holat</div>
                   <div class="cell">Turi</div>
-                  <div class="cell">Summasi</div>
                   <div class="cell"></div>
                 </div>
               </div>

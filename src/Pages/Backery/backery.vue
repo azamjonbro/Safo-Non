@@ -33,6 +33,7 @@
                 <div class="cell d-flex a-center j-end gap12">
                   <Icons
                     name="eyeIcon"
+                    class="icon info jingra"
                     @click="
                       OpenLoginBackeryModal({
                         username: data?.username,
