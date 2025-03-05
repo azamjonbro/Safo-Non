@@ -57,7 +57,7 @@ export default {
       console.log(hashtoken);
       
       if (hashtoken) {
-        Api.get('/api/histories')
+        Api.get('/api/statics')
           .then(response => {
             console.log(response.data);
           })
