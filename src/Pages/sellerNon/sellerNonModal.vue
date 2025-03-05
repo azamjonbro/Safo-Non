@@ -7,16 +7,16 @@
         <form>
           <div class="modal-form">
             <div class="form-group">
-              <label for="username">Foydalanuvchi nomi</label>
+              <label for="name">Foydalanuvchi nomi</label>
               <input
-                id="username"
+                id="name"
                 type="text"
-                v-model="bread.username"
+                v-model="bread.name"
                 placeholder="Foydalanuvchi nomini kiriting"
-                @blur="validateField('username')"
+                @blur="validateField('name')"
               />
-              <p v-if="errors.username" class="error-text">
-                {{ errors.username }}
+              <p v-if="errors.name" class="error-text">
+                {{ errors.name }}
               </p>
             </div>
             <div class="form-group">
@@ -46,13 +46,62 @@
           </div>
         </form>
         <form>
-          <div
-            class="modal-form-2"
-            v-for="(_, index) in count"
-            :key="index"
-          ></div>
+          <div class="modal-form-2" v-for="(data, index) in count" :key="index">
+            <div class="form-group">
+              <label for="bread">Non turini tanlang</label>
+              <CustomSelectVue
+                :options="allTypeOfBread"
+                id="bread"
+                @input="selectBread($event, index)"
+                @blur="validateArrayField('breadId', index)"
+              />
+              <p v-if="data?.errors.breadId" class="error-text">
+                {{ data?.errors.breadId }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Narxi</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="Rasxod narxi"
+                v-model="data.price"
+                readonly
+              />
+              <!-- <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
+              </p> -->
+            </div>
+            <div class="form-group">
+              <label for="quantity">Sonni</label>
+              <input
+                id="quantity"
+                type="number"
+                placeholder="Rasxod sonini kiriting"
+                v-model="data.quantity"
+                @blur="validateArrayField('quantity', index)"
+              />
+              <p v-if="data?.errors.quantity" class="error-text">
+                {{ data?.errors.quantity }}
+              </p>
+            </div>
+          </div>
           <div class="d-flex j-end">
-            <button type="button" class="create-button" @click="count.push(count.length + 1)">Qo`shish</button>
+            <button
+              type="button"
+              class="create-button"
+              @click="
+                count.push({
+                  id: count.length,
+                  breadId: '',
+                  quantity: 0,
+                  price: 0,
+                  errors: {},
+                })
+              "
+            >
+              Qo`shish
+            </button>
           </div>
         </form>
         <div class="modal-buttons d-flex j-end a-center gap24">
@@ -84,9 +133,11 @@
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
+import CustomSelectVue from "@/components/Template/customSelect.vue";
 export default {
   components: {
     Icons,
+    CustomSelectVue,
   },
   props: {
     update: {
@@ -97,24 +148,50 @@ export default {
     return {
       isSubmitting: false,
       bread: {
-        username: "",
+        name: "",
         ovenId: "",
         quantity: "",
       },
       errors: {},
       isUpdate: false,
       allTypeOfBread: [],
-      count: [],
+      count: [{ id: 0, breadId: "", quantity: 0, price: 0, errors: {} }],
     };
   },
   methods: {
+    validateArrayField(field, index) {
+      console.log(this.count);
+
+      this.count = this.count.map((item) => {
+        if (item.id === index) {
+          item.errors[field] = "";
+          if (field === "breadId" && !item.breadId.trim()) {
+            item.errors.breadId = "Noni turini tanlang";
+          }
+          if (
+            field === "quantity" &&
+            (isNaN(item.quantity) || item.quantity <= 0)
+          ) {
+            item.errors.quantity = "Sonni musbat son bo‘lishi kerak";
+          }
+          return { ...item };
+        } else {
+          return item;
+        }
+      });
+    },
+    selectBread(id, index) {
+      this.count = this.count.map((item) =>
+        item.id === index ? { ...item, breadId: id._id, price: id.price } : item
+      );
+    },
     closeModal() {
       this.$emit("close");
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "username" && !this.bread.username.trim()) {
-        this.errors.username = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
+      if (field === "name" && !this.bread.name.trim()) {
+        this.errors.name = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
       }
       if (
         field === "ovenId" &&
@@ -146,6 +223,9 @@ export default {
     },
     async submitForm() {
       this.errors = {};
+      this.validateField("name");
+      this.validateField("ovenId");
+      this.validateField("quantity");
 
       if (!Object.keys(this.errors).length) {
         return;
@@ -154,9 +234,13 @@ export default {
       this.isSubmitting = true;
       if (!this.isUpdate) {
         try {
-          const response = await api.post("/api/seller", {
-            ...this.user,
-            password: this.password ? this.password : this.user.phone.slice(-4),
+          console.log(this.bread);
+
+          const response = await api.post("/api/sellerBread", {
+            ...this.bread,
+            typeOfBreadId: this.count.map((item) => {
+              return { breadId: item.breadId, quantity: item.quantity };
+            }),
           });
           console.log(response);
 
@@ -172,7 +256,7 @@ export default {
               message: "Nonvoy qo'shishda hatolik",
             });
           }
-          this.isSubmitting = true;
+          this.isSubmitting = false;
         } catch (error) {
           this.$emit("status", {
             status: "error",
@@ -221,7 +305,9 @@ export default {
         .get("/api/typeOfBreads")
         .then(({ data, status }) => {
           if (status === 200) {
-            this.allTypeOfBread = data?.typeOfBreads;
+            this.allTypeOfBread = data?.typeOfBreads.map((item) => {
+              return { text: item.title, value: item };
+            });
           }
         })
         .catch((error) => {
@@ -231,10 +317,17 @@ export default {
   },
   mounted() {
     this.getallTypeOfBread();
-    console.log(this.allTypeOfBread);
 
     if (this?.update?.isUpdate) {
-      this.user = {};
+      this.bread = {
+        name: this?.update?.name,
+        ovenId: this?.update?.ovenId,
+        quantity: this?.update?.quantity,
+      };
+      this.update.typeOfBreadId.map((item) => {
+        console.log(item);
+        return { breadId: item.breadId._id,value:item.breadId };
+      });
       this.isUpdate = true;
     }
   },
@@ -246,6 +339,8 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 .error-text {
   color: red;
