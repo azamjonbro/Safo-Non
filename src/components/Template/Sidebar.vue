@@ -60,7 +60,6 @@ export default {
           { title: "Chiqimlar", icon: "rasxod", page: "debt" },
           { title: "Omborxona", icon: "firma", page: "warehouse" },
           { title: "Non turlari", icon: "bread", page: "typeOfBread" },
-
           { title: "Sozlamalar", icon: "setting", page: "settings" },
         ],
         seller: [

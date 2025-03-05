@@ -38,7 +38,6 @@
                       username: data?.username,
                       password: data?.password,
                       id: data?._id,
-                      path: 'delivery',
                     })
                   "
                 />
