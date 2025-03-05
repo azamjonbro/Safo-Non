@@ -44,7 +44,7 @@ export default {
     getUserNameAndPassowrd() {
       api
         .get(
-          `/api/${this?.loginSturckture?.path}/${this?.loginSturckture?.id}/password`
+          `/api/auth/${this?.loginSturckture?.id}/password`
         )
         .then(({ data }) => {
           this.username = data?.username;
