@@ -52,6 +52,7 @@
               <CustomSelectVue
                 :options="allTypeOfBread"
                 id="bread"
+                :selected="data?.breadId"
                 @input="selectBread($event, index)"
                 @blur="validateArrayField('breadId', index)"
               />
@@ -242,7 +243,6 @@ export default {
               return { breadId: item.breadId, quantity: item.quantity };
             }),
           });
-          console.log(response);
 
           if (response?.status == 201) {
             this.$emit("status", {
@@ -271,8 +271,13 @@ export default {
       } else {
         try {
           const response = await api.put(
-            "/api/seller/" + this?.update?._id,
-            this.user
+            "/api/sellerBread/" + this?.update?._id,
+            {
+              ...this.bread,
+              typeOfBreadId: this.count.map((item) => {
+                return { breadId: item.breadId, quantity: item.quantity };
+              }),
+            }
           );
           if (response?.status == 200) {
             this.$emit("status", {
@@ -324,10 +329,16 @@ export default {
         ovenId: this?.update?.ovenId,
         quantity: this?.update?.quantity,
       };
-      this.update.typeOfBreadId.map((item) => {
-        console.log(item);
-        return { breadId: item.breadId._id,value:item.breadId };
+
+      this.count = this.update.typeOfBreadId.map((item) => {
+        return {
+          breadId: item.breadId._id,
+          quantity: item.quantity,
+          price: item.breadId.price,
+          errors: {},
+        };
       });
+
       this.isUpdate = true;
     }
   },
