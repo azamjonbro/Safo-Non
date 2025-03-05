@@ -2,7 +2,9 @@
   <div class="page">
     <div class="d-flex a-center j-between">
       <h3>Nonxona</h3>
-      <button class="create-button" @click="createModalVisible = true">Non yaratish</button>
+      <button class="create-button" @click="createModalVisible = true">
+        Non yaratish
+      </button>
     </div>
     <div class="scroll pt-24 page-bottom">
       <div class="table">
@@ -25,7 +27,16 @@
             <div class="cell">{{ data?.ovenId }}</div>
             <div class="cell">{{ data?.quantity }}</div>
             <div class="cell">{{ formatDate(new Date(data?.createdAt)) }}</div>
-            <div class="cell d-flex a-center j-end">
+            <div class="cell d-flex a-center j-end gap12">
+              <Icons
+                name="setting"
+                title="sozlama"
+                class="icon info setting"
+                @click="
+                  (updateModalVisible = true),
+                    (update = { ...data, isUpdate: true })
+                "
+              />
               <Icons
                 name="deleted"
                 title="o'chirish"
@@ -46,6 +57,11 @@
   <SellerNonModalVue
     v-if="createModalVisible"
     @close="(createModalVisible = false), getSellerNon()"
+  />
+    <SellerNonModalVue
+    v-if="updateModalVisible"
+    @close="(updateModalVisible = false), getSellerNon()"
+    :update="update"
   />
 </template>
 
@@ -68,6 +84,8 @@ export default {
       deleteModalVisible: false,
       selectedItem: null,
       createModalVisible: false,
+      updateModalVisible: false,
+      update: {},
     };
   },
   methods: {

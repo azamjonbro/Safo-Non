@@ -58,6 +58,7 @@ export default {
       default: false,
     },
     selected: String,
+
   },
   data() {
     return {
@@ -98,7 +99,7 @@ export default {
       this.selectedOption = option;
       this.isOpen = false;
       this.searchText = "";
-      this.$emit("input", option.value);
+      this.$emit("input",option.value);
     },
     closeDropdown(event) {
       const selectContainer = this.$refs.customSelect;
@@ -163,7 +164,7 @@ export default {
   flex-direction: column;
   gap: 2px;
   box-shadow: 1px 0px 14px lightgray;
-  max-height: 300px;  
+  max-height: 300px;
   min-height: 200px;
 }
 
