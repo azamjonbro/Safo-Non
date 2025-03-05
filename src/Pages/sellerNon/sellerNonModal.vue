@@ -11,7 +11,7 @@
               <input
                 id="username"
                 type="text"
-                v-model="user.username"
+                v-model="bread.username"
                 placeholder="Foydalanuvchi nomini kiriting"
                 @blur="validateField('username')"
               />
@@ -20,47 +20,39 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="ovenId">Foydalanuvchiga tegishli tandir raqami</label>
+              <label for="ovenId">Nonxonaga tegishli tandir raqami</label>
               <input
                 id="ovenId"
                 type="text"
-                v-model="user.ovenId"
+                v-model="bread.ovenId"
                 placeholder="Foydalanuvchi tandir raqamini kiriting"
                 @blur="validateField('ovenId')"
               />
               <p v-if="errors.ovenId" class="error-text">{{ errors.ovenId }}</p>
             </div>
             <div class="form-group">
-              <label for="phone">Telefon raqami</label>
+              <label for="quantity">Sonni</label>
               <input
-                id="phone"
-                type="text"
-                v-model="user.phone"
-                placeholder="Telefon raqamini kiriting"
-                @blur="validateField('phone')"
-              />
-              <p v-if="errors.phone" class="error-text">{{ errors.phone }}</p>
-            </div>
-            <div class="form-group">
-              <label for="price">Har bir non uchun narxi</label>
-              <input
-                id="price"
+                id="quantity"
                 type="number"
-                v-model="user.price"
-                placeholder="Summa kiriting"
-                @blur="validateField('price')"
+                placeholder="Rasxod sonini kiriting"
+                v-model="bread.quantity"
+                @blur="validateField('quantity')"
               />
-              <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
+              <p v-if="errors.quantity" class="error-text">
+                {{ errors.quantity }}
+              </p>
             </div>
-            <div class="form-group" v-if="isUpdate">
-              <label for="password">Parol</label>
-              <input
-                type="text"
-                id="password"
-                v-model="user.password"
-                placeholder="Nonvoy parolini kiriting"
-              />
-            </div>
+          </div>
+        </form>
+        <form>
+          <div
+            class="modal-form-2"
+            v-for="(_, index) in count"
+            :key="index"
+          ></div>
+          <div class="d-flex j-end">
+            <button type="button" class="create-button" @click="count.push(count.length + 1)">Qo`shish</button>
           </div>
         </form>
         <div class="modal-buttons d-flex j-end a-center gap24">
@@ -104,15 +96,15 @@ export default {
   data() {
     return {
       isSubmitting: false,
-      user: {
+      bread: {
         username: "",
-        phone: "",
-        price: "",
         ovenId: "",
-        password: "",
+        quantity: "",
       },
       errors: {},
       isUpdate: false,
+      allTypeOfBread: [],
+      count: [],
     };
   },
   methods: {
@@ -121,12 +113,12 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "username" && !this.user.username.trim()) {
+      if (field === "username" && !this.bread.username.trim()) {
         this.errors.username = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
       }
       if (
         field === "ovenId" &&
-        (!this.user.ovenId || isNaN(this.user.ovenId))
+        (!this.bread.ovenId || isNaN(this.bread.ovenId))
       ) {
         this.errors.ovenId = "Tandir raqami raqam bo‘lishi kerak";
       }
@@ -136,28 +128,24 @@ export default {
       // ) {
       //   this.errors.password = "Foydalanuvchi paroli bo‘lishi bo`lmasligi kerak";
       // }
-      if (field === "phone") {
-        const regex = /^\+998\d{9}$/;
-        if (!this.user.phone.trim()) {
-          this.errors.phone = "Telefon raqamini kiriting";
-        } else if (!regex.test(this.user.phone)) {
-          this.errors.phone =
-            "Telefon raqami noto‘g‘ri formatda (+998XXXXXXXXX)";
-        }
-      }
       if (
         field === "price" &&
         (!this.user.price || isNaN(this.user.price) || this.user.price < 0)
       ) {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }
+
+      if (
+        field === "quantity" &&
+        (!this.bread.quantity ||
+          isNaN(this.bread.quantity) ||
+          this.bread.quantity <= 0)
+      ) {
+        this.errors.quantity = "Sonni musbat son bo‘lishi kerak";
+      }
     },
     async submitForm() {
       this.errors = {};
-      this.validateField("username");
-      this.validateField("phone");
-      this.validateField("price");
-      this.validateField("ovenId");
 
       if (!Object.keys(this.errors).length) {
         return;
@@ -228,15 +216,25 @@ export default {
         }
       }
     },
+    getallTypeOfBread() {
+      api
+        .get("/api/typeOfBreads")
+        .then(({ data, status }) => {
+          if (status === 200) {
+            this.allTypeOfBread = data?.typeOfBreads;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
   mounted() {
+    this.getallTypeOfBread();
+    console.log(this.allTypeOfBread);
+
     if (this?.update?.isUpdate) {
-      this.user = {
-        username: this?.update?.username,
-        phone: this?.update?.phone,
-        price: this?.update?.price,
-        ovenId: this?.update?.ovenId,
-      };
+      this.user = {};
       this.isUpdate = true;
     }
   },
@@ -244,6 +242,11 @@ export default {
 </script>
 
 <style>
+.modal-form-2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
 .error-text {
   color: red;
   font-size: 14px;
