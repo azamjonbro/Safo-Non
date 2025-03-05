@@ -57,10 +57,12 @@
   <SellerNonModalVue
     v-if="createModalVisible"
     @close="(createModalVisible = false), getSellerNon()"
+    @status="handleStatus($event)"
   />
-    <SellerNonModalVue
+  <SellerNonModalVue
     v-if="updateModalVisible"
     @close="(updateModalVisible = false), getSellerNon()"
+    @status="handleStatus($event)"
     :update="update"
   />
 </template>
@@ -89,6 +91,15 @@ export default {
     };
   },
   methods: {
+    async handleStatus(data) {
+      this.toastOptions = {
+        open: true,
+        text: data?.message,
+        type: data?.status,
+      };
+      this.openModal = false;
+      await this.getSellerNon();
+    },
     closeDeleteModal(emit) {
       if (emit) {
         this.deleteSellerNon(this.selectedItem);
