@@ -130,15 +130,9 @@ export default {
     },
     getallTypeOfBread() {
       const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
 
       api
-        .get("/api/typeOfBreads", {
-          headers: {
-            authorization: token,
-          },
-        })
+        .get("/api/typeOfBreads")
         .then(({ data, status }) => {
           if (status === 200) {
             this.allTypeOfBread = data?.typeOfBreads;
