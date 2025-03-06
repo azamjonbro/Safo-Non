@@ -65,6 +65,7 @@ export default {
         seller: [
           { title: "Dashboard", icon: "home", page: "sellerDash" },
           { title: "Nonxona", icon: "bread", page: "sellerNon" },
+          { title: "Yetkazuvchi", icon: "delivery", page: "deliverySeller" },
           { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" },
           { title: "Do'kon", icon: "firma", page: "sellerShop" },
           { title: "Sozlamalar", icon: "setting", page: "settings"},
