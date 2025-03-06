@@ -31,8 +31,8 @@ export default {
     return {
       openModal: false,
       manager: [
-        { iconname: "allIncr", title: "Umumiy kirim", price: 450000 },
-        { iconname: "dayIncr", title: "Kunlik kirim", price: 300000 },
+        { iconname: "allIncr", title: "Umumiy kirim",key:"alldebt", price: 0 },
+        { iconname: "dayIncr", title: "Kunlik kirim",key:"allincr", price: 0 },
         { iconname: "wallet", title: "Hamyon", price: 200000 },
         { iconname: "allIncr", title: "Umumiy chiqim", price: 500000 },
         { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
