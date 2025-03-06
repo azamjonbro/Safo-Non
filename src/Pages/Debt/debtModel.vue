@@ -6,18 +6,23 @@
         <h2>Chiqim yaratish</h2>
 
         <form>
-          <div class="modal-form">  
+          <div class="modal-form">
             <div class="form-group">
-              <label for="debtId">Rasxod turi</label>
-              <!-- <CustomSelectVue
-                @click="getDebtIds"
-                @blur="validateField('debtId')"
+              <label for="omborxonaProId">Rasxod turi</label>
+              <CustomSelectVue
+                @blur="validateField('omborxonaProId')"
                 @input="sellectDebtId($event)"
                 :options="debtIds"
                 :placeholder="'Rasxod turini  tanlang'"
-                :selected="debt.debtId"
+                :selected="debt.omborxonaProId"
+              />
+              <!-- <input
+                type="text"
+                id="debtId"
+                placeholder="Rasxod nomini kiriting"
+                v-model="debt.title"
+                @blur="validateField('debtId')"
               /> -->
-              <input type="text" id="debtId" placeholder="Rasxod nomini kiriting" v-model="debt.title" @blur="validateField('debtId')"> 
               <p v-if="errors.debtId" class="error-text">{{ errors.debtId }}</p>
             </div>
 
@@ -69,11 +74,24 @@
                 @input="sellectSellerId($event)"
                 :placeholder="'Rasxod sellerIdni tanlang'"
                 @blur="validateField('sellerId')"
-                @click="getSellerIds"
                 :selected="debt.sellerId"
               />
               <p v-if="errors.sellerId" class="error-text">
                 {{ errors.sellerId }}
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label for="price">Narxi</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="Rasxod narxini kiriting"
+                v-model="debt.price"
+                @blur="validateField('price')"
+              />
+              <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
               </p>
             </div>
           </div>
@@ -119,11 +137,12 @@ export default {
       isUpdate: false,
       isSubmitting: false,
       debt: {
-        title: "",
+        omborxonaProId: "",
         quantity: 0,
         description: "",
         reason: "",
         sellerId: "",
+        price: 0,
       },
       errors: {},
       debtIds: [],
@@ -142,19 +161,12 @@ export default {
       this.isUpdate = false;
     },
     getDebtIds() {
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
       api
-        .get("/api/typeOfDebts", {
-          headers: {
-            authorization: token,
-          },
-        })
+        .get("/api/typeOfWareHouses")
         .then(({ data, status }) => {
           if (status === 200) {
-            this.debtIds = data.typeOfDebts.map((item) => {
-              return { text: item.title, value: item._id };
+            this.debtIds = data.typeOfWareHouses.map((item) => {
+              return { text: item.name, value: item._id };
             });
           }
         })
@@ -184,7 +196,7 @@ export default {
         });
     },
     sellectDebtId(id) {
-      this.debt.debtId = id;
+      this.debt.omborxonaProId = id;
     },
     sellectSellerId(id) {
       this.debt.sellerId = id;
@@ -193,6 +205,10 @@ export default {
       this.errors[field] = "";
       if (field === "sellerId" && !this.debt.sellerId.trim()) {
         this.errors.sellerId = "Rasxodni rasxod turi  bo'sh bo'lmasligi kerak";
+      }
+      if (field === "omborxonaProId" && !this.debt.omborxonaProId.trim()) {
+        this.errors.omborxonaProId =
+          "Rasxodni rasxod turi  bo'sh bo'lmasligi kerak";
       }
       if (field === "reason" && !this.debt.reason.trim()) {
         this.errors.reason = "Rasxod sababi bo'sh bo'lmasligi kerak";
@@ -210,13 +226,19 @@ export default {
       ) {
         this.errors.quantity = "Sonni musbat son bo‘lishi kerak";
       }
+      if (
+        field === "price" &&
+        (!this.debt.price || isNaN(this.debt.price) || this.debt.price <= 0)
+      ) {
+        this.errors.price = "Sonni musbat son bo‘lishi kerak";
+      }
     },
     submitForm() {
       this.validateField("username");
       this.validateField("description");
       this.validateField("reason");
       this.validateField("quantity");
-      this.validateField("debtId");
+      this.validateField("omborxonaProId");
       this.validateField("sellerId");
 
       for (const error in this.errors) {
@@ -230,11 +252,7 @@ export default {
         : "";
       if (!this.isUpdate) {
         api
-          .post("/api/debt2", this.debt, {
-            headers: {
-              authorization: token,
-            },
-          })
+          .post("/api/debt2", this.debt)
           .then(({ status }) => {
             if (status === 201) {
               this.$emit("status", {
@@ -296,9 +314,11 @@ export default {
     },
   },
   mounted() {
+    this.getDebtIds();
+    this.getSellerIds();
     if (this?.update?.isUpdate) {
       this.debt = {
-        title: this?.update?.title,
+        omborxonaProId: this?.update?.omborxonaProId?._id,
         quantity: this?.update?.quantity,
         description: this?.update?.description,
         reason: this?.update?.reason,

@@ -21,9 +21,9 @@
           </div>
         </div>
         <div class="table-body">
-          <div v-for="(data, index) in debts" :key="index" class="">
+          <div v-for="(data, index) in debts" :key="index" class="row">
             <div class="cell">{{ index + 1 }}</div>
-            <div class="cell">{{ data.title }}</div>
+            <div class="cell">{{ data.omborxonaProId?.name }}</div>
             <!-- <div>{{ data?.reason ? data?.reason : "" }}</div> -->
             <div class="cell">{{ data?.quantity ? data?.quantity : 0 }}</div>
             <div class="cell">
@@ -32,7 +32,9 @@
             <div class="cell">
               {{ data?.sellerId ? data?.sellerId?.username : "id" }}
             </div>
-            <div class="cell d-flex a-center j-end gap12"></div>
+            <div class="cell d-flex a-center j-end gap12">
+              <Icons name="deleted" title="o'chirish" class="icon danger" @click="openDeleteModal(data?._id)" />
+            </div>
           </div>
         </div>
       </div>
@@ -46,7 +48,6 @@
     @close="handleClose"
     @status="handleStatus($event)"
   />
-
   <DebtModelVue
     :update="update"
     v-if="updateModalVisible"
@@ -112,9 +113,11 @@ export default {
         this.deleteDebt(this.selectedItem);
       }
       this.deleteModalVisible = false;
+      this.selectedItem = null
     },
     openDeleteModal(item) {
       this.selectedItem = item;
+
       this.deleteModalVisible = true;
     },
     openUpdateModal(item) {
@@ -145,15 +148,8 @@ export default {
         });
     },
     deleteDebt(id) {
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
       api
-        .delete("/api/debt2/" + id, {
-          headers: {
-            authorization: token,
-          },
-        })
+        .delete("/api/debt2/" + id)
         .then(({ status }) => {
           if (status === 200) {
             this.toastOptions = {
