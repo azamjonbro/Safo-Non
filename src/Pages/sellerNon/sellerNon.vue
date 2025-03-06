@@ -46,6 +46,9 @@
             </div>
           </div>
         </div>
+        <p class="text16 d-flex j-center p-24" v-if="!sellerBreads.length">
+          Hozircha nonvoy mavjud emas
+        </p>
       </div>
     </div>
   </div>

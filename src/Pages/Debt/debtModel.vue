@@ -322,6 +322,7 @@ export default {
         quantity: this?.update?.quantity,
         description: this?.update?.description,
         reason: this?.update?.reason,
+        price: this?.update?.price,
         sellerId: this?.update?.sellerId,
       };
       this.isUpdate = true;

@@ -15,6 +15,7 @@
             <div class="cell">№</div>
             <div class="cell">Nomi</div>
             <div class="cell">Soni</div>
+            <div class="cell">Narxi</div>
             <div class="cell">Tavsif</div>
             <div class="cell">Nonvoy</div>
             <div class="cell"></div>
@@ -26,6 +27,7 @@
             <div class="cell">{{ data.omborxonaProId?.name }}</div>
             <!-- <div>{{ data?.reason ? data?.reason : "" }}</div> -->
             <div class="cell">{{ data?.quantity ? data?.quantity : 0 }}</div>
+            <div class="cell">{{ data?.price ? data?.price : 0 }}</div>
             <div class="cell">
               {{ data?.description ? data?.description.slice(0, 40) : "" }}
             </div>
@@ -40,6 +42,7 @@
                     quantity: data.quantity,
                     description: data.description,
                     reason: data.reason,
+                    price: data.price,
                     sellerId: data.sellerId,
                     id: data._id,
                   })
