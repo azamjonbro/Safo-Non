@@ -33,6 +33,7 @@
               {{ data?.sellerId ? data?.sellerId?.username : "id" }}
             </div>
             <div class="cell d-flex a-center j-end gap12">
+
               <Icons
                 @click="
                   openUpdateModal({
@@ -98,6 +99,7 @@ export default {
     RequiredModalVue,
     ToastiffVue,
     TypeOfDebtModalVue,
+    Icons
   },
   data() {
     return {
