@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="table-body">
-          <div v-for="(data, index) in debts" :key="index" class="">
+          <div v-for="(data, index) in debts" :key="index" class="row">
             <div class="cell">{{ index + 1 }}</div>
             <div class="cell">{{ data.title }}</div>
             <!-- <div>{{ data?.reason ? data?.reason : "" }}</div> -->
@@ -32,7 +32,11 @@
             <div class="cell">
               {{ data?.sellerId ? data?.sellerId?.username : "id" }}
             </div>
-            <div class="cell d-flex a-center j-end gap12"></div>
+            <div class="cell d-flex a-center j-end gap12">
+              <Icons @click="openDeleteModal(data._id)" name="setting" class="info icon"/>
+              <Icons @click="openDeleteModal(data._id)" name="deleted" class="danger icon"/>
+              
+            </div>
           </div>
         </div>
       </div>
@@ -78,6 +82,7 @@ export default {
     RequiredModalVue,
     ToastiffVue,
     TypeOfDebtModalVue,
+    Icons
   },
   data() {
     return {
