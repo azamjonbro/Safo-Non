@@ -48,7 +48,9 @@ export default {
         });
     },
   },
-  mounted() {},
+  mounted() {
+    this.getSellerDebts()
+  },
 };
 </script>
 

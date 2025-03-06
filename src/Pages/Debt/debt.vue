@@ -33,7 +33,26 @@
               {{ data?.sellerId ? data?.sellerId?.username : "id" }}
             </div>
             <div class="cell d-flex a-center j-end gap12">
-              <Icons name="deleted" title="o'chirish" class="icon danger" @click="openDeleteModal(data?._id)" />
+              <Icons
+                @click="
+                  openUpdateModal({
+                    omborxonaProId: data.omborxonaProId,
+                    quantity: data.quantity,
+                    description: data.description,
+                    reason: data.reason,
+                    sellerId: data.sellerId,
+                    id: data._id,
+                  })
+                "
+                name="setting"
+                class="icon info setting"
+              />
+              <Icons
+                name="deleted"
+                title="o'chirish"
+                class="icon danger"
+                @click="openDeleteModal(data?._id)"
+              />
             </div>
           </div>
         </div>
@@ -113,7 +132,7 @@ export default {
         this.deleteDebt(this.selectedItem);
       }
       this.deleteModalVisible = false;
-      this.selectedItem = null
+      this.selectedItem = null;
     },
     openDeleteModal(item) {
       this.selectedItem = item;
