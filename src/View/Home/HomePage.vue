@@ -13,6 +13,7 @@
       <WarehouseVue v-if="activePage == 'warehouse'" />
       <SellerShopVue v-if="activePage == 'sellerShop'" />
       <SellerNonVue v-if="activePage == 'sellerNon'" />
+      <SellerDebtVue v-if="activePage == 'sellerDebt'" />
       <!-- <ErrorPage v-else/> -->
     </main>
   </div>
@@ -32,6 +33,7 @@ import WarehouseVue from "@/Pages/WareHouse/warehouse.vue";
 import SellerShopVue from "@/Pages/SellerShop/sellerShop.vue";
 import SellerNonVue from '@/Pages/sellerNon/sellerNon.vue';
 import Managers from "@/Pages/Managers/managers.vue";
+import SellerDebtVue from '@/Pages/SellerDebt/sellerDebt.vue';
 export default {
   name: "HomePage",
   components: {
@@ -48,7 +50,7 @@ export default {
     WarehouseVue,
     SellerShopVue,
     SellerNonVue,
-
+    SellerDebtVue
   },
   data() {
     return {
