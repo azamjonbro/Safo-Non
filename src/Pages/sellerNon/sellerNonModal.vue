@@ -50,7 +50,11 @@
             <div class="form-group">
               <label for="bread">Non turini tanlang</label>
               <CustomSelectVue
-                :options="allTypeOfBread"
+                :options="
+                  allTypeOfBread.map((item) => {
+                    return { text: item.title, value: item._id };
+                  })
+                "
                 id="bread"
                 :selected="data?.breadId"
                 @input="selectBread($event, index)"
@@ -183,7 +187,13 @@ export default {
     },
     selectBread(id, index) {
       this.count = this.count.map((item) =>
-        item.id === index ? { ...item, breadId: id._id, price: id.price } : item
+        item.id === index
+          ? {
+              ...item,
+              breadId: id._id,
+              price: this.allTypeOfBread[index].price,
+            }
+          : item
       );
     },
     closeModal() {
@@ -310,9 +320,7 @@ export default {
         .get("/api/typeOfBreads")
         .then(({ data, status }) => {
           if (status === 200) {
-            this.allTypeOfBread = data?.typeOfBreads.map((item) => {
-              return { text: item.title, value: item };
-            });
+            this.allTypeOfBread = data?.typeOfBreads;
           }
         })
         .catch((error) => {
@@ -331,6 +339,8 @@ export default {
       };
 
       this.count = this.update.typeOfBreadId.map((item) => {
+        console.log(item);
+        
         return {
           breadId: item.breadId._id,
           quantity: item.quantity,
