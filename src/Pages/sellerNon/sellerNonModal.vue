@@ -190,7 +190,7 @@ export default {
         item.id === index
           ? {
               ...item,
-              breadId: id._id,
+              breadId: id,
               price: this.allTypeOfBread[index].price,
             }
           : item
@@ -245,7 +245,7 @@ export default {
       this.isSubmitting = true;
       if (!this.isUpdate) {
         try {
-          console.log(this.bread);
+          console.log(this.count);
 
           const response = await api.post("/api/sellerBread", {
             ...this.bread,
@@ -280,6 +280,8 @@ export default {
         }
       } else {
         try {
+          console.log(this.count);
+          
           const response = await api.put(
             "/api/sellerBread/" + this?.update?._id,
             {

@@ -234,10 +234,10 @@ export default {
       }
     },
     submitForm() {
-      this.validateField("username");
       this.validateField("description");
       this.validateField("reason");
       this.validateField("quantity");
+      this.validateField("price");
       this.validateField("omborxonaProId");
       this.validateField("sellerId");
 
@@ -247,9 +247,6 @@ export default {
         }
       }
       this.isSubmitting = true;
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
       if (!this.isUpdate) {
         api
           .post("/api/debt2", this.debt)
@@ -322,6 +319,7 @@ export default {
         quantity: this?.update?.quantity,
         description: this?.update?.description,
         reason: this?.update?.reason,
+        price: this?.update?.price,
         sellerId: this?.update?.sellerId,
       };
       this.isUpdate = true;
