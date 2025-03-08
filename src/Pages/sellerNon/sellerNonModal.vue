@@ -45,12 +45,8 @@
             </div>
           </div>
         </form>
-        <form>
-          <div
-            class="modal-form-2"
-            v-for="(data, index) in count"
-            :key="index"
-          >
+        <form class="scroll" style="height: 50%">
+          <div class="modal-form-2" v-for="(data, index) in count" :key="index">
             <div class="form-group">
               <label for="bread">Non turini tanlang</label>
               <CustomSelectVue
@@ -81,28 +77,26 @@
                 {{ errors.price }}
               </p> -->
             </div>
-            <div class="form-group">
-              <label for="quantity">Sonni</label>
-              <input
-                id="quantity"
-                type="number"
-                placeholder="Rasxod sonini kiriting"
-                v-model="data.quantity"
-                @blur="validateArrayField('quantity', index)"
-              />
-              <p v-if="data?.errors.quantity" class="error-text">
-                {{ data?.errors.quantity }}
-              </p>
-            </div>
-            <div class="d-flex j-end modal-form-end">
-              <button
-                class="danger-button"
+            <div style="display: flex; align-items: end" class="gap12">
+              <div class="form-group" style="width: 95%">
+                <label for="quantity">Sonni</label>
+                <input
+                  id="quantity"
+                  type="number"
+                  placeholder="Rasxod sonini kiriting"
+                  v-model="data.quantity"
+                  @blur="validateArrayField('quantity', index)"
+                />
+                <p v-if="data?.errors.quantity" class="error-text">
+                  {{ data?.errors.quantity }}
+                </p>
+              </div>
+              <Icons
+                name="deleted"
+                title="o'chirish"
+                class="icon danger"
                 @click="deleteRow(data?.id)"
-                v-if="count.length > 1 && data.id !== 0"
-                type="button"
-              >
-                delete
-              </button>
+              />
             </div>
           </div>
           <div class="d-flex j-end">
@@ -178,8 +172,8 @@ export default {
     };
   },
   methods: {
-    deleteRow(id) {
-      if (this.count > 1) {
+    deleteRow(id) {      
+      if (this.count.length > 1) {
         this.count = this.count.filter((item) => item.id !== id);
       }
     },
@@ -371,17 +365,14 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .modal-form-2 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  margin-top: 10px;
   margin-bottom: 10px;
 }
-.modal-form-end {
-  grid-column: 3;
-}
+
 .error-text {
   color: red;
   font-size: 14px;

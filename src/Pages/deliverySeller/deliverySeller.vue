@@ -25,7 +25,7 @@
               <div class="cell">{{ index + 1 }}</div>
               <div class="cell">{{ data?.quantity || "" }}</div>
               <div class="cell">{{ data?.description || "" }}</div>
-              <div class="cell">{{ data?.delivery.username || "" }}</div>
+              <div class="cell">{{ data?.deliveryId?.username || "" }}</div>
               <div class="cell">
                 {{ formatPrice(data?.totalPrice) || 0 }} so`m
               </div>

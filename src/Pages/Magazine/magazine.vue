@@ -15,8 +15,6 @@
             <div class="cell">Raqami</div>
             <div class="cell">Manzil</div>
             <div class="cell">Qarzdorlik</div>
-            <!-- <div class="cell">remainprice</div> -->
-            <div class="cell"></div>
           </div>
         </div>
         <div class="table-body">
@@ -27,8 +25,7 @@
               <div class="cell">{{ data?.phone ? data?.phone : "" }}</div>
               <div class="cell">{{ data?.address ? data?.address : "" }}</div>
               <div class="cell">{{ data?.pending ? data?.pending : "" }}</div>
-              <!-- <div class="cell">{{ data?.remainprice ? data?.remainprice : "" }}</div> -->
-              <div class="cell d-flex a-center j-end gap12">
+              <div class="cell d-flex  j-end gap12">
                 <Icons
                   name="setting"
                   title="sozlama"
