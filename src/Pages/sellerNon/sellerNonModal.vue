@@ -50,6 +50,7 @@
             <div class="form-group">
               <label for="bread">Non turini tanlang</label>
               <CustomSelectVue
+                :search="true"
                 :options="
                   allTypeOfBread.map((item) => {
                     return { text: item.title, value: item._id };
