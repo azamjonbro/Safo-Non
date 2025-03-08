@@ -35,16 +35,27 @@
             </div>
             <div class="form-group">
               <label for="delivery">Yetkazuvchi</label>
-              <CustomSelect :options="deliveries" id="delivery" />
+              <CustomSelect
+                :options="deliveries"
+                id="delivery"
+                @input="selectDelivery($event)"
+                :selected="delivery.deliveryId"
+                @blur="validateField('deliveryId')"
+              />
               <p v-if="errors.deliveryId" class="error-text">
                 {{ errors.deliveryId }}
               </p>
             </div>
             <div class="form-group">
               <label for="delivery">Non turlari</label>
-              <MultiSelectVue :options="deliveries" id="delivery" />
-              <p v-if="errors.deliveryId" class="error-text">
-                {{ errors.deliveryId }}
+              <MultiSelectVue
+                :options="deliveries"
+                id="delivery"
+                @input="selectArray($event)"
+                :activeWorker="delivery.typeOfBreadIds"
+              />
+              <p v-if="errors.typeOfBreadIds" class="error-text">
+                {{ errors.typeOfBreadIds }}
               </p>
             </div>
           </div>
@@ -79,10 +90,12 @@
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
 import CustomSelect from "@/components/Template/customSelect.vue";
+import MultiSelectVue from "@/components/Template/MultiSelect.vue";
 export default {
   components: {
     Icons,
     CustomSelect,
+    MultiSelectVue,
   },
   data() {
     return {
@@ -91,7 +104,7 @@ export default {
         description: "",
         quantity: 0,
         deliveryId: "",
-        breads: [],
+        typeOfBreadIds: [],
       },
       deliveries: [],
       errors: {},
@@ -104,6 +117,12 @@ export default {
     },
   },
   methods: {
+    selectDelivery(id) {
+      this.delivery.deliveryId = id;
+    },
+    selectArray(arr) {
+      this.delivery.typeOfBreadIds = arr;
+    },
     closeModal() {
       this.$emit("close");
       this.isUpdate = false;
@@ -114,6 +133,10 @@ export default {
         this.errors.description =
           "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
       }
+      if (field === "deliveryId" && !this.delivery.deliveryId.trim()) {
+        this.errors.deliveryId =
+          "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
+      }
       if (
         field === "quantity" &&
         (!this.delivery.quantity ||
@@ -122,36 +145,27 @@ export default {
       ) {
         this.errors.quantity = "Sonni musbat son bo‘lishi kerak";
       }
+      if (field === "typeOfBreadIds" && this.delivery.typeOfBreadIds.length === 0) {
+        this.errors.typeOfBreadIds = "Non turini tanlang";
+      }
+      
     },
     submitForm() {
       this.errors = {};
-      this.validateField("username");
-      this.validateField("phone");
-      this.validateField("price");
+      this.validateField("quantity");
+      this.validateField("description");
+      this.validateField("deliveryId");
+      this.validateField("typeOfBreadIds");
       for (const error in this.errors) {
         if (this.errors[error] !== "") {
           return;
         }
       }
       this.isSubmitting = true;
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
+
       if (!this.isUpdate) {
         api
-          .post(
-            "/api/delivery",
-            {
-              username: this.delivery.username,
-              phone: this.delivery.phone,
-              price: this.delivery.price,
-            },
-            {
-              headers: {
-                authorization: token,
-              },
-            }
-          )
+          .post("/api/orderWithDelivery", this.delivery)
           .then(({ status }) => {
             if (status === 201) {
               this.$emit("status", {
@@ -172,11 +186,7 @@ export default {
           });
       } else {
         api
-          .put("/api/delivery/" + this.update.id, this.delivery, {
-            headers: {
-              authorization: token,
-            },
-          })
+          .put("/api/orderWithDelivery/" + this.update.id, this.delivery)
           .then(({ status }) => {
             if (status === 200) {
               this.$emit("status", {
@@ -218,9 +228,10 @@ export default {
     this.getDeliveries();
     if (this?.update?.isUpdate) {
       this.delivery = {
-        username: this?.update?.username,
-        phone: this?.update?.phone,
-        price: this?.update?.price,
+        typeOfBreadIds: this.update?.typeOfBreadIds,
+        quantity: this.update?.quantity,
+        description: this.update?.description,
+        delivery: this.update?.delivery,
       };
       this.isUpdate = true;
     }

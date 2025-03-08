@@ -36,9 +36,10 @@
                   class="icon info setting"
                   @click="
                     openUpdateModal({
-                      username: data?.username,
-                      phone: data?.phone,
-                      price: data?.price,
+                      typeOfBreadIds: data?.typeOfBreadIds,
+                      quantity: data?.quantity,
+                      description: data?.description,
+                      delivery: data?.delivery,
                       id: data?._id,
                     })
                   "
@@ -157,16 +158,8 @@ export default {
       this.getDeliveries();
     },
     getDeliveries() {
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
-
       api
-        .get("/api/orderWithDeliveries", {
-          headers: {
-            authorization: token,
-          },
-        })
+        .get("/api/orderWithDeliveries")
         .then(({ data, status }) => {
           if (status === 200) {
             console.log(this.data);
