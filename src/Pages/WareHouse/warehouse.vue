@@ -72,7 +72,7 @@
                     <div class="cell">Narxi</div>
                     <div class="cell">Turi</div>
                     <div class="cell"></div>
-                  </div>
+                  </div>  
                 </div>
                 <div class="history-body">
                   <div

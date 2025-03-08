@@ -11,7 +11,7 @@
             <CustomSelectVue
               :options="
                 products.map((item) => {
-                  return { text: item.name, value: item._id };
+                  return { text: item.name, value: item };
                 })
               "
                 :search="true"
@@ -51,7 +51,7 @@
             </p>
           </div>
 
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label for="reason">Reason</label>
             <input
               id="reason"
@@ -63,7 +63,7 @@
             <p v-if="errors.reason" class="error-text">
               {{ errors.reason }}
             </p>
-          </div>
+          </div> -->
 
           <div class="form-group">
             <label for="price">Narxi</label>
@@ -125,7 +125,7 @@ export default {
         omborxonaProId: "",
         quantity: 0,
         description: "",
-        reason: "",
+        // reason: "",
         price: 0,
       },
       errors: {},
@@ -138,7 +138,10 @@ export default {
   },
   methods: {
     sellectDebtId(id) {
-      this.debt.omborxonaProId = id;
+      console.log(id);
+      
+      this.debt.omborxonaProId = id._id;
+      this.debt.price = id.price
       
     },
     validateField(field) {
@@ -147,9 +150,9 @@ export default {
         this.errors.omborxonaProId =
           "Rasxodni rasxod turi  bo'sh bo'lmasligi kerak";
       }
-      if (field === "reason" && !this.debt.reason.trim()) {
-        this.errors.reason = "Rasxod sababi bo'sh bo'lmasligi kerak";
-      }
+      // if (field === "reason" && !this.debt.reason.trim()) {
+      //   this.errors.reason = "Rasxod sababi bo'sh bo'lmasligi kerak";
+      // }
       if (field === "description" && !this.debt.description.trim()) {
         this.errors.description =
           "Rasxodni description bo'sh bo'lmasligi kerak";
@@ -184,7 +187,6 @@ export default {
     },
     submitForm() {
       this.validateField("description");
-      this.validateField("reason");
       this.validateField("quantity");
       this.validateField("price");
       this.validateField("omborxonaProId");
@@ -259,8 +261,8 @@ export default {
         omborxonaProId: this?.update?.omborxonaProId?._id,
         quantity: this?.update?.quantity,
         description: this?.update?.description,
-        reason: this?.update?.reason,
-        price: this?.update?.price,
+        // reason: this?.update?.reason,
+        price: this?.update?.omborxonaProId?.price,
       };
       //   console.log(this.debt);
 

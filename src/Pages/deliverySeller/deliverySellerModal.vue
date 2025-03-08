@@ -55,7 +55,7 @@
           >
             <div class="form-group">
               <label for="bread">Non turini tanlang</label>
-              <CustomSelect :options="delivery" id="bread" :selected="true" />
+              <CustomSelect :options="deliveries" id="bread" :selected="true" />
             </div>
 
             <div class="form-group">
@@ -79,7 +79,7 @@
                   type="number"
                   placeholder="Rasxod sonini kiriting"
                   v-model="data.quantity"
-                  @blur="validateArrayField('quantity', index)"
+                  @blur="validateField('quantity')"
                 />
                 <p v-if="data?.errors.quantity" class="error-text">
                   {{ data?.errors.quantity }}
@@ -137,7 +137,7 @@ export default {
         quantity: 0,
         deliveryId: "",
       },
-      typeOfBreadIds: [{ id: 0 }],
+      typeOfBreadIds: [{ id: 0, quantity: 0, breadId: "", errors: {} }],
       deliveries: [],
       errors: {},
       isUpdate: false,
