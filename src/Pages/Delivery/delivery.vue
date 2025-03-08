@@ -96,7 +96,7 @@
                   <div class="cell">{{ formatPrice(item?.price) }}</div>
                   <div class="cell">{{ item?.status }}</div>
                   <div class="cell">{{ item.type }}</div>
-                  <div class="cell">
+                  <div class="cell d-flex j-end">
                     <Icons
                       name="deleted"
                       title="o'chirish"
@@ -105,6 +105,9 @@
                     />
                   </div>
                 </div>
+                <p class="text16 d-flex j-center p-24" v-if="!data?.deliveryPayed?.length">
+                  Hozircha to'lovlar mavjud emas
+                </p>
               </div>
             </div>
           </div>

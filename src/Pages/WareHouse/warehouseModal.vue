@@ -2,12 +2,12 @@
   <div class="modal" @click.self="$emit('close')">
     <div class="modal-content relative">
       <Icons name="xIcon" class="xIcon" @click="closeModal" />
-      <h3>Omborxona yaratish</h3>
+      <h3>{{!isUpdate?"Omborxona mahsulotini yaratish":"Omborxona mahsulotini yangilash"}}</h3>
 
       <form>
         <div class="modal-form">
           <div class="form-group">
-            <label for="typeId">TypeId</label>
+            <label for="typeId">Mahsulot nomi</label>
             <!-- <CustomSelectVue
               :options="warehouseTypyIds"
               :placeholder="'Omborxona turini tanglang'"
@@ -21,7 +21,7 @@
             </p>
           </div>
           <div class="form-group">
-            <label for="price">Narxi</label>
+            <label for="price">Narxi (dona)</label>
             <input
               id="price"
               type="number"
@@ -34,7 +34,20 @@
             </p>
           </div>
           <div class="form-group">
-            <label for="quantity">Sonni</label>
+            <label for="quantity">Soni (dona/kg/metr)</label>
+            <input
+              id="quantity"
+              type="number"
+              v-model="warehouse.quantity"
+              placeholder="Omborxona sonini  kiriting"
+              @blur="validateField('quantity')"
+            />
+            <p v-if="errors.quantity" class="error-text">
+              {{ errors.quantity }}
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="quantity">Soni (dona/kg/metr)</label>
             <input
               id="quantity"
               type="number"
@@ -106,16 +119,24 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "name" && !this.warehouse.name.trim()) {
+      if (field === "name" && !this.warehouse?.name?.trim()) {
         this.errors.name = "Non turini nomi bo'sh bo'lmasligi kerak";
       }
       if (
         field === "price" &&
         (!this.warehouse.price ||
           isNaN(this.warehouse.price) ||
-          this.warehouse.price <= 0)
+          this.warehouse.price < 0)
       ) {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
+      }
+      if (
+        field === "quantity" &&
+        (!this.warehouse.quantity ||
+          isNaN(this.warehouse.quantity) ||
+          this.warehouse.quantity < 0)
+      ) {
+        this.errors.quantity = "Narx musbat son bo‘lishi kerak";
       }
     },
     submitForm() {

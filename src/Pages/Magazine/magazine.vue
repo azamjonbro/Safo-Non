@@ -63,8 +63,8 @@
                   <div class="cell">Index</div>
                   <div class="cell">Yaratilgan</div>
                   <div class="cell">Yetkazuvchi</div>
-                  <div class="cell">Summa</div>
-                  <div class="cell">Pending</div>
+                  <div class="cell">Qarzdorlik</div>
+                  <div class="cell"></div>
                 </div>
               </div>
               <div class="history-body">
@@ -86,6 +86,9 @@
                   </div>
                 </div>
               </div>
+              <p class="text16 d-flex j-center p-24" v-if="!data.history.length">
+                Hozircha qarzdorlik mavjud emas mavjud emas
+              </p>
             </div>
           </div>
         </div>

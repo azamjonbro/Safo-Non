@@ -1,9 +1,9 @@
 <template>
   <div class="page">
     <div class="d-flex a-center j-between">
-      <h3>Omborxonalar</h3>
+      <h3>Omborxona</h3>
       <button class="create-button" @click="createModalVisible = true">
-        Omborxona yaratish
+        Mahsulot yaratish
       </button>
     </div>
     <div class="scroll page-bottom p-24">

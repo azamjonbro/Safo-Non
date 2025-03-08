@@ -7,7 +7,7 @@
       <form>
         <div class="modal-form">
           <div class="form-group">
-            <label for="price">Narxi</label>
+            <label for="price">Narxi (dona)</label>
             <input
               type="number"
               id="price"
@@ -21,7 +21,7 @@
           </div>
 
           <div class="form-group">
-            <label for="quantity">Sonni</label>
+            <label for="quantity">Soni (dona/kg/metr)</label>
             <input
               type="number"
               id="quantity"

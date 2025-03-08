@@ -47,7 +47,7 @@
             </div>
 
             <div class="form-group">
-              <label for="pending">Pending</label>
+              <label for="pending">Qarzdorlik</label>
               <input
                 id="pending"
                 type="number"
@@ -60,7 +60,7 @@
               </p>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="remainprice">RemainPrice</label>
               <input
                 id="remainprice"
@@ -72,7 +72,7 @@
               <p v-if="errors.remainprice" class="error-text">
                 {{ errors.remainprice }}
               </p>
-            </div>
+            </div> -->
           </div>
         </form>
         <div class="modal-buttons d-flex j-end a-center gap24">
@@ -121,7 +121,7 @@ export default {
         phone: "",
         address: "",
         pending: 0,
-        remainprice: 0,
+        remainprice: 100,
       },
       errors: {},
 
@@ -136,10 +136,10 @@ export default {
     validateField(field) {
       this.errors[field] = "";
       if (field === "title" && !this.magazine.title.trim()) {
-        this.errors.title = "Magazine nomi bo'sh bo'lmasligi kerak";
+        this.errors.title = "Magazin nomi bo'sh bo'lmasligi kerak";
       }
       if (field === "address" && !this.magazine.address.trim()) {
-        this.errors.address = "Magazine addressi bo'sh bo'lmasligi kerak";
+        this.errors.address = "Magazin addressi bo'sh bo'lmasligi kerak";
       }
       if (field === "phone") {
         const regex = /^\+998\d{9}$/;
@@ -154,7 +154,7 @@ export default {
         field === "pending" &&
         (!this.magazine.pending ||
           isNaN(this.magazine.pending) ||
-          this.magazine.pending <= 0)
+          this.magazine.pending < 0)
       ) {
         this.errors.pending = "Narx musbat son bo‘lishi kerak";
       }

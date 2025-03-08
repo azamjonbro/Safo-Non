@@ -98,6 +98,9 @@
                       />
                     </div>
                   </div>
+                  <p class="text16 d-flex j-center p-24" v-if="!data?.history.length">
+                    Hozircha to'lovlar mavjud emas
+                  </p>
                 </div>
               </div>
             </div>
