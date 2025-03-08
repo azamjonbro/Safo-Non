@@ -58,7 +58,6 @@ export default {
       default: false,
     },
     selected: String,
-
   },
   data() {
     return {
@@ -76,13 +75,12 @@ export default {
     },
   },
   watch: {
-    async selected(newVal) {
+     selected(newVal) {
       if (newVal !== null && newVal !== undefined && !!newVal) {
-        console.log(newVal);
         this.loading = true;
-        const initialOption = await this.options.find(
-          (option) => option?.value == newVal
-        );
+        const initialOption =  this.filteredOptions.find((option) => {
+          return option?.value == newVal;
+        });
         if (initialOption) {
           this.selectedOption = initialOption;
         }
@@ -99,7 +97,7 @@ export default {
       this.selectedOption = option;
       this.isOpen = false;
       this.searchText = "";
-      this.$emit("input",option.value);
+      this.$emit("input", option.value);
     },
     closeDropdown(event) {
       const selectContainer = this.$refs.customSelect;
@@ -110,17 +108,18 @@ export default {
       }
     },
   },
-  async mounted() {
+   mounted() {
     document.addEventListener("click", this.closeDropdown);
-
     if (
       this.selected !== null &&
       this.selected !== undefined &&
       !!this.selected
     ) {
       this.loading = true;
-      const initialOption = await this.options.find(
-        (option) => option?.value == this.selected
+      const initialOption = this.filteredOptions.find(
+        (option) => {
+          return option?.value == this.selected
+        }
       );
       if (initialOption) {
         this.selectedOption = initialOption;

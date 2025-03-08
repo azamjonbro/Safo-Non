@@ -46,7 +46,11 @@
           </div>
         </form>
         <form>
-          <div class="modal-form-2" v-for="(data, index) in count" :key="index">
+          <div
+            class="modal-form-2"
+            v-for="(data, index) in count"
+            :key="index"
+          >
             <div class="form-group">
               <label for="bread">Non turini tanlang</label>
               <CustomSelectVue
@@ -89,6 +93,16 @@
               <p v-if="data?.errors.quantity" class="error-text">
                 {{ data?.errors.quantity }}
               </p>
+            </div>
+            <div class="d-flex j-end modal-form-end">
+              <button
+                class="danger-button"
+                @click="deleteRow(data?.id)"
+                v-if="count.length > 1 && data.id !== 0"
+                type="button"
+              >
+                delete
+              </button>
             </div>
           </div>
           <div class="d-flex j-end">
@@ -164,9 +178,12 @@ export default {
     };
   },
   methods: {
+    deleteRow(id) {
+      if (this.count > 1) {
+        this.count = this.count.filter((item) => item.id !== id);
+      }
+    },
     validateArrayField(field, index) {
-      console.log(this.count);
-
       this.count = this.count.map((item) => {
         if (item.id === index) {
           item.errors[field] = "";
@@ -281,7 +298,7 @@ export default {
       } else {
         try {
           console.log(this.count);
-          
+
           const response = await api.put(
             "/api/sellerBread/" + this?.update?._id,
             {
@@ -331,8 +348,6 @@ export default {
     },
   },
   mounted() {
-    this.getallTypeOfBread();
-
     if (this?.update?.isUpdate) {
       this.bread = {
         name: this?.update?.name,
@@ -341,8 +356,6 @@ export default {
       };
 
       this.count = this.update.typeOfBreadId.map((item) => {
-        console.log(item);
-        
         return {
           breadId: item.breadId._id,
           quantity: item.quantity,
@@ -353,17 +366,21 @@ export default {
 
       this.isUpdate = true;
     }
+    this.getallTypeOfBread();
   },
 };
 </script>
 
-<style>
+<style scoped>
 .modal-form-2 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+.modal-form-end {
+  grid-column: 3;
 }
 .error-text {
   color: red;
