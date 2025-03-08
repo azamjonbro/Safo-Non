@@ -71,8 +71,13 @@ export default {
           { title: "Sozlamalar", icon: "setting", page: "settings"},
         ],
         delivery: [
+          { title: "Dashboard", icon: "home", page: "homeDelivery" },
+          { title: "Magazin", icon: "product", page: "magazine" },
+          { title: "Chiqimlar", icon: "rasxod", page: "debtDelivery" },
           { title: "Omborxona", icon: "firma", page: "warehouse" },
-          { title: "Chiqimlar", icon: "rasxod", page: "debt" },
+          { title: "Tarix", icon: "history", page: "historyDelivery" },
+          { title: "Sozlamalar", icon: "setting", page: "settings"},
+
         ],
       }
     };
