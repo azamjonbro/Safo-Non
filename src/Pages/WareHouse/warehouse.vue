@@ -70,6 +70,7 @@
                     <div class="cell">Sana</div>
                     <div class="cell">Sonni</div>
                     <div class="cell">Narxi</div>
+                    <div class="cell">Turi</div>
                     <div class="cell"></div>
                   </div>
                 </div>
@@ -82,6 +83,7 @@
                     <div class="cell">{{ formatDate(item?.createdAt) }}</div>
                     <div class="cell">{{ item?.quantity }}</div>
                     <div class="cell">{{ item?.price }}</div>
+                    <div class="cell">{{ item?.type }}</div>
                     <div class="cell d-flex j-end">
                       <Icons
                         name="deleted"
