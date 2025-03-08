@@ -741,6 +741,20 @@ tbody>tr>td{
 }
 
 
+@media(max-width:1140px){
+  
+}
+
+@media(max-width:980px){
+  .cell{
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+  .gap12{
+    gap: 8px;
+  }
+}
+
 
 @media (max-width:768px){
   .login-title{
@@ -778,6 +792,20 @@ tbody>tr>td{
     width: 100%;
     border-radius: 0px;
   }
+  .cell{
+    padding: 4px 6px;
+    width: min-content;    
+    word-break: break-word;
+  }
+
+  .cell>.danger,.cell >.info{
+    display: none !important;
+  }
+  .cell:nth-child(2){
+    width: 150px;
+    word-break: break-word;
+  }
+  
 }
 
 @media (max-width:580px){
