@@ -90,6 +90,7 @@
                         title="o'chirish"
                         class="icon danger"
                         @click="openDeleteWareHouseType(item?._id)"
+                        v-if="item.type !== 'debt'"
                       />
                     </div>
                   </div>

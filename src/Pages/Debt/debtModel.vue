@@ -12,7 +12,11 @@
               <CustomSelectVue
                 @blur="validateField('omborxonaProId')"
                 @input="sellectDebtId($event)"
-                :options="debtIds"
+                :options="
+                  debtIds.map((item) => {
+                    return { text: item.name, value: item };
+                  })
+                "
                 :placeholder="'Rasxod turini  tanlang'"
                 :selected="debt.omborxonaProId"
               />
@@ -25,7 +29,33 @@
               /> -->
               <p v-if="errors.debtId" class="error-text">{{ errors.debtId }}</p>
             </div>
-
+            <div class="form-group">
+              <label for="price">Narxi</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="Rasxod narxini kiriting"
+                v-model="debt.price"
+                readonly
+                @blur="validateField('price')"
+              />
+              <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="sellerId">Seller Id</label>
+              <CustomSelectVue
+                :options="sellerIds"
+                @input="sellectSellerId($event)"
+                :placeholder="'Rasxod sellerIdni tanlang'"
+                @blur="validateField('sellerId')"
+                :selected="debt.sellerId"
+              />
+              <p v-if="errors.sellerId" class="error-text">
+                {{ errors.sellerId }}
+              </p>
+            </div>
             <div class="form-group">
               <label for="quantity">Sonni</label>
               <input
@@ -53,7 +83,7 @@
               </p>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="reason">Reason</label>
               <input
                 id="reason"
@@ -65,35 +95,7 @@
               <p v-if="errors.reason" class="error-text">
                 {{ errors.reason }}
               </p>
-            </div>
-
-            <div class="form-group">
-              <label for="sellerId">Seller Id</label>
-              <CustomSelectVue
-                :options="sellerIds"
-                @input="sellectSellerId($event)"
-                :placeholder="'Rasxod sellerIdni tanlang'"
-                @blur="validateField('sellerId')"
-                :selected="debt.sellerId"
-              />
-              <p v-if="errors.sellerId" class="error-text">
-                {{ errors.sellerId }}
-              </p>
-            </div>
-
-            <div class="form-group">
-              <label for="price">Narxi</label>
-              <input
-                id="price"
-                type="number"
-                placeholder="Rasxod narxini kiriting"
-                v-model="debt.price"
-                @blur="validateField('price')"
-              />
-              <p v-if="errors.price" class="error-text">
-                {{ errors.price }}
-              </p>
-            </div>
+            </div> -->
           </div>
         </form>
 
@@ -140,7 +142,6 @@ export default {
         omborxonaProId: "",
         quantity: 0,
         description: "",
-        reason: "",
         sellerId: "",
         price: 0,
       },
@@ -165,9 +166,7 @@ export default {
         .get("/api/typeOfWareHouses")
         .then(({ data, status }) => {
           if (status === 200) {
-            this.debtIds = data.typeOfWareHouses.map((item) => {
-              return { text: item.name, value: item._id };
-            });
+            this.debtIds = data.typeOfWareHouses;
           }
         })
         .catch((error) => {
@@ -196,7 +195,8 @@ export default {
         });
     },
     sellectDebtId(id) {
-      this.debt.omborxonaProId = id;
+      this.debt.omborxonaProId = id._id;
+      this.debt.price = id.price
     },
     sellectSellerId(id) {
       this.debt.sellerId = id;
@@ -210,9 +210,7 @@ export default {
         this.errors.omborxonaProId =
           "Rasxodni rasxod turi  bo'sh bo'lmasligi kerak";
       }
-      if (field === "reason" && !this.debt.reason.trim()) {
-        this.errors.reason = "Rasxod sababi bo'sh bo'lmasligi kerak";
-      }
+
       if (field === "description" && !this.debt.description.trim()) {
         this.errors.description =
           "Rasxodni description bo'sh bo'lmasligi kerak";
@@ -235,9 +233,7 @@ export default {
     },
     submitForm() {
       this.validateField("description");
-      this.validateField("reason");
       this.validateField("quantity");
-      this.validateField("price");
       this.validateField("omborxonaProId");
       this.validateField("sellerId");
 
@@ -319,7 +315,7 @@ export default {
         quantity: this?.update?.quantity,
         description: this?.update?.description,
         reason: this?.update?.reason,
-        price: this?.update?.price,
+        price: this?.update?.omborxonaProId?.price,
         sellerId: this?.update?.sellerId,
       };
       this.isUpdate = true;
