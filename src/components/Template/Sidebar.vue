@@ -261,56 +261,6 @@ li.active div svg path {
 
 
 
-<!-- <li
-:class="activePage === 'workers' ? 'active' : 'left-item'"
-class="d-flex"
-@click="setActive('workers')"
->
-<Icons name="workers" />
-<router-link to="/">Nonvoylar</router-link>
-</li>
-<li
-:class="activePage === 'delivery' ? 'active' : 'left-item'"
-class="d-flex"
-@click="setActive('delivery')"
->
-<Icons name="delivery" />
-<router-link to="/">Yetkazuvchilar</router-link>
-</li>
-<li
-:class="activePage === 'magazine' ? 'active' : 'left-item'"
-class="d-flex"
-@click="setActive('magazine')"
->
-<Icons name="product" />
-<router-link to="/">Do'konlar</router-link>
-</li>
-<li
-:class="activePage === 'debt' ? 'active' : 'left-item'"
-class="d-flex"
-@click="setActive('debt')"
->
-<Icons name="rasxod" />
-<router-link to="/">Chiqimlar</router-link>
-</li>
 
-<li
-:class="activePage === 'warehouse' ? 'active' : 'left-item'"
-class="d-flex gap12"
-@click="setActive('warehouse')"
->
-<Icons name="firma" />
-<router-link to="/">Omborxona</router-link>
-</li>
-<li :class="activePage === 'typeOfBread' ? `active` : `left-item`"  class="d-flex gap12" @click="setActive('typeOfBread')">
-<Icons name="bread"  />
-<router-link to="/">Non turlari</router-link>
-</li>
-<li
-:class="activePage === 'settings' ? 'active' : 'left-item'"
-class="d-flex"
-@click="setActive('settings')"
->
-<Icons name="setting" />
-<router-link to="/">Sozlamalar</router-link>
-</li> -->
+
+
