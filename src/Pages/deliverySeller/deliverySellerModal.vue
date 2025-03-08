@@ -46,17 +46,50 @@
                 {{ errors.deliveryId }}
               </p>
             </div>
+          </div>
+          <div
+            class="modal-form-2"
+            v-for="(data, index) in typeOfBreadIds"
+            :key="index"
+          >
             <div class="form-group">
-              <label for="delivery">Non turlari</label>
-              <MultiSelectVue
-                :options="deliveries"
-                id="delivery"
-                @input="selectArray($event)"
-                :activeWorker="delivery.typeOfBreadIds"
+              <label for="bread">Non turini tanlang</label>
+              <CustomSelect :options="delivery" id="bread" />
+            </div>
+
+            <div class="form-group">
+              <label for="quantity">Narxi</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="Rasxod narxi"
+                v-model="data.price"
+                readonly
               />
-              <p v-if="errors.typeOfBreadIds" class="error-text">
-                {{ errors.typeOfBreadIds }}
-              </p>
+              <!-- <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
+              </p> -->
+            </div>
+            <div style="display: flex; align-items: end" class="gap12">
+              <div class="form-group" style="width: 95%">
+                <label for="quantity">Sonni</label>
+                <input
+                  id="quantity"
+                  type="number"
+                  placeholder="Rasxod sonini kiriting"
+                  v-model="data.quantity"
+                  @blur="validateArrayField('quantity', index)"
+                />
+                <p v-if="data?.errors.quantity" class="error-text">
+                  {{ data?.errors.quantity }}
+                </p>
+              </div>
+              <Icons
+                name="deleted"
+                title="o'chirish"
+                class="icon danger"
+                @click="deleteRow(data?.id)"
+              />
             </div>
           </div>
         </form>
@@ -90,12 +123,10 @@
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
 import CustomSelect from "@/components/Template/customSelect.vue";
-import MultiSelectVue from "@/components/Template/MultiSelect.vue";
 export default {
   components: {
     Icons,
     CustomSelect,
-    MultiSelectVue,
   },
   data() {
     return {
@@ -104,8 +135,8 @@ export default {
         description: "",
         quantity: 0,
         deliveryId: "",
-        typeOfBreadIds: [],
       },
+      typeOfBreadIds: [{id:0,}],
       deliveries: [],
       errors: {},
       isUpdate: false,
@@ -117,9 +148,6 @@ export default {
     },
   },
   methods: {
-    selectDelivery(id) {
-      this.delivery.deliveryId = id;
-    },
     selectArray(arr) {
       this.delivery.typeOfBreadIds = arr;
     },
@@ -145,10 +173,6 @@ export default {
       ) {
         this.errors.quantity = "Sonni musbat son bo‘lishi kerak";
       }
-      if (field === "typeOfBreadIds" && this.delivery.typeOfBreadIds.length === 0) {
-        this.errors.typeOfBreadIds = "Non turini tanlang";
-      }
-      
     },
     submitForm() {
       this.errors = {};
@@ -227,12 +251,12 @@ export default {
   mounted() {
     this.getDeliveries();
     if (this?.update?.isUpdate) {
-      this.delivery = {
-        typeOfBreadIds: this.update?.typeOfBreadIds,
-        quantity: this.update?.quantity,
-        description: this.update?.description,
-        delivery: this.update?.delivery,
-      };
+      (this.typeOfBreadIds = this.update?.typeOfBreadIds),
+        (this.delivery = {
+          quantity: this.update?.quantity,
+          description: this.update?.description,
+          delivery: this.update?.delivery,
+        });
       this.isUpdate = true;
     }
   },

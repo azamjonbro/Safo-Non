@@ -31,7 +31,7 @@
                 <div class="cell">
                   {{ formatPrice(data.totalPrice || 0) }} sum
                 </div>
-                <div class="d-flex a-center j-end gap12">
+                <div class="cell d-flex a-center j-end gap12">
                   <Icons
                     name="create"
                     class="info icon"
