@@ -34,6 +34,7 @@
             <div class="form-group">
               <label for="sellerBreadId">Non turi</label>
               <CustomSelect
+                :search="true"
                 :options="breads"
                 @blur="validateField('sellerBreadId')"
                 @input="selectBreadId($event)"

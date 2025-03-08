@@ -26,6 +26,7 @@
                 @input="sellectPayedState($event)"
                 :options="payedStatus"
                 @blur="validateField('statusId')"
+                :search="true"
               />
               <p v-if="errors.statusId" class="error-text">
                 {{ errors.statusId }}
@@ -40,6 +41,7 @@
                 @input="sellectPayedType($event)"
                 :options="payedType"
                 @blur="validateField('typeId')"
+                :search="true"
               />
               <p v-if="errors.typeId" class="error-text">{{ errors.typeId }}</p>
             </div>

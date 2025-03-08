@@ -40,6 +40,7 @@
                 id="delivery"
                 @input="selectDelivery($event)"
                 :selected="delivery.deliveryId"
+                :search="true"
                 @blur="validateField('deliveryId')"
               />
               <p v-if="errors.deliveryId" class="error-text">
@@ -54,7 +55,7 @@
           >
             <div class="form-group">
               <label for="bread">Non turini tanlang</label>
-              <CustomSelect :options="delivery" id="bread" />
+              <CustomSelect :options="delivery" id="bread" :selected="true" />
             </div>
 
             <div class="form-group">
@@ -136,7 +137,7 @@ export default {
         quantity: 0,
         deliveryId: "",
       },
-      typeOfBreadIds: [{id:0,}],
+      typeOfBreadIds: [{ id: 0 }],
       deliveries: [],
       errors: {},
       isUpdate: false,

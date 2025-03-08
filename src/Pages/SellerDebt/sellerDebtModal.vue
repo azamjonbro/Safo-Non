@@ -14,6 +14,7 @@
                   return { text: item.name, value: item._id };
                 })
               "
+                :search="true"
               :selected="debt.omborxonaProId"
               :placeholder="'Omborxona produktini tanlang'"
               @blur="validateField('omborxonaProId')"

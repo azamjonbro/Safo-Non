@@ -12,6 +12,7 @@
               <CustomSelectVue
                 @blur="validateField('omborxonaProId')"
                 @input="sellectDebtId($event)"
+                :search="true"
                 :options="
                   debtIds.map((item) => {
                     return { text: item.name, value: item };
@@ -46,6 +47,7 @@
             <div class="form-group">
               <label for="sellerId">Seller Id</label>
               <CustomSelectVue
+                :search="true"
                 :options="sellerIds"
                 @input="sellectSellerId($event)"
                 :placeholder="'Rasxod sellerIdni tanlang'"
