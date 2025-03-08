@@ -9,12 +9,7 @@
           <div class="form-group">
             <label for="omborxonaProId">Omborxona produkti</label>
             <CustomSelectVue
-              :options="
-                products.map((item) => {
-                  return { text: item.name, value: item._id };
-                })
-              "
-              id="omborxonaProId"
+              :options="products"
               :selected="debt.omborxonaProId"
               :placeholder="'Omborxona produktini tanlang'"
               @blur="validateField('omborxonaProId')"
@@ -173,7 +168,9 @@ export default {
         .get("/api/typeOfWareHouses")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.products = data?.typeOfWareHouses;
+            this.products = data?.typeOfWareHouses.map((item) => {
+              return { text: item.name, value: item._id };
+            });
           }
         })
         .catch((error) => {
@@ -221,23 +218,21 @@ export default {
           });
       } else {
         api
-          .put(
-            "/api/debt2/" + this?.update?.id,
-            {
-              omborxonaProId: this.debt?.omborxonaProId,
-              quantity: this.debt?.quantity,
-              description: this.debt?.description,
-              reason: this.debt?.reason,
-              breadId: this.debt?.breadId,
-            },
-          )
+          .put("/api/debt2/" + this?.update?.id, {
+            omborxonaProId: this.debt?.omborxonaProId,
+            quantity: this.debt?.quantity,
+            description: this.debt?.description,
+            reason: this.debt?.reason,
+            price: this.debt?.price,
+            breadId: this.debt?.breadId,
+          })
           .then(({ status }) => {
             if (status === 200) {
               this.$emit("status", {
                 status: "success",
                 message: "Rasxod yangilandi",
               });
-              this.closeModal();
+              this.$emit('close');
               this.isSubmitting = false;
             } else {
               this.$emit("status", {
