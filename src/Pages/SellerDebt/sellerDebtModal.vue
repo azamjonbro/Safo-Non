@@ -9,7 +9,11 @@
           <div class="form-group">
             <label for="omborxonaProId">Omborxona produkti</label>
             <CustomSelectVue
-              :options="products"
+              :options="
+                products.map((item) => {
+                  return { text: item.name, value: item._id };
+                })
+              "
               :selected="debt.omborxonaProId"
               :placeholder="'Omborxona produktini tanlang'"
               @blur="validateField('omborxonaProId')"
@@ -67,6 +71,7 @@
               type="number"
               placeholder="Rasxod narxini kiriting"
               v-model="debt.price"
+              readonly
               @blur="validateField('price')"
             />
             <p v-if="errors.price" class="error-text">
@@ -133,6 +138,7 @@ export default {
   methods: {
     sellectDebtId(id) {
       this.debt.omborxonaProId = id;
+      
     },
     validateField(field) {
       this.errors[field] = "";
@@ -168,9 +174,7 @@ export default {
         .get("/api/typeOfWareHouses")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.products = data?.typeOfWareHouses.map((item) => {
-              return { text: item.name, value: item._id };
-            });
+            this.products = data?.typeOfWareHouses;
           }
         })
         .catch((error) => {
@@ -232,7 +236,7 @@ export default {
                 status: "success",
                 message: "Rasxod yangilandi",
               });
-              this.$emit('close');
+              this.$emit("close");
               this.isSubmitting = false;
             } else {
               this.$emit("status", {
