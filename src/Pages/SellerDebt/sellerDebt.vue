@@ -15,7 +15,6 @@
             <div class="cell">Sonni</div>
             <div class="cell">Narxi</div>
             <div class="cell">Tasnifi</div>
-            <div class="cell">Sababi</div>
             <div class="cell">date</div>
             <div class="cell"></div>
           </div>
@@ -25,9 +24,8 @@
             <div class="cell">{{ index + 1 }}</div>
             <div class="cell">{{ data.omborxonaProId?.name }}</div>
             <div class="cell">{{ data.quantity }}</div>
-            <div class="cell">{{ formatPrice(data.price) }}</div>
+            <div class="cell">{{ formatPrice(data.omborxonaProId.price) }}</div>
             <div class="cell">{{ data.description }}</div>
-            <div class="cell">{{ data.reason }}</div>
             <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
             <div class="cell d-flex j-end gap12">
               <Icons
