@@ -5,6 +5,27 @@
     </div>
     <div class="page-bottom scroll">
       <div class="infobox d-flex wrap">
+        <div class="card" @click="openModal = true">
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Chiqimlar</h3>
+            <b>{{ formatPrice(statics?.debt?.totalPrice || 0) }}</b>
+          </span>
+        </div>
+        <div class="card" @click="openModal = true">
+          <Icons :name="'wallet'" />
+          <span class="info-item">
+            <h3>Pending</h3>
+            <b>{{ formatPrice(statics?.pending?.totalPrice || 0) }}</b>
+          </span>
+        </div>
+        <div class="card" @click="openModal = true">
+          <Icons :name="'allIncr'" />
+          <span class="info-item">
+            <h3>Prixod</h3>
+            <b>{{ formatPrice(statics?.prixod?.totalPrice || 0) }}</b>
+          </span>
+        </div>
         <div
           class="card"
           v-for="(data, index) in manager"
@@ -35,26 +56,27 @@ export default {
   data() {
     return {
       openModal: false,
+      statics: {},
       manager: [
-        {
-          iconname: "allIncr",
-          title: "Umumiy kirim",
-          key: "alldebt",
-          price: 0,
-        },
-        {
-          iconname: "dayIncr",
-          title: "Kunlik kirim",
-          key: "allincr",
-          price: 0,
-        },
-        { iconname: "wallet", title: "Hamyon", price: 200000 },
-        { iconname: "allIncr", title: "Umumiy chiqim", price: 500000 },
-        { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
-        { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
-        { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
-        { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
-        { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+        // {
+        //   iconname: "allIncr",
+        //   title: "Umumiy kirim",
+        //   key: "alldebt",
+        //   price: 0,
+        // },
+        // {
+        //   iconname: "dayIncr",
+        //   title: "Kunlik kirim",
+        //   key: "allincr",
+        //   price: 0,
+        // },
+        // { iconname: "wallet", title: "Hamyon", price: 200000 },
+        // { iconname: "allIncr", title: "Umumiy chiqim", price: 500000 },
+        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
+        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
       ],
     };
   },
@@ -65,7 +87,7 @@ export default {
     closeModal() {
       this.openModal = false;
     },
-    async gretAllStatistics() {
+    gretAllStatistics() {
       const user = JSON.parse(localStorage.getItem("user"));
       const hashtoken = user?.accessToken;
 
@@ -73,8 +95,18 @@ export default {
         Api.get("/api/statics")
           .then((response) => {
             console.log(response.data);
-            let statics = response.data.statics
-            console.log(statics);
+            this.statics = response.data.statics;
+            this.manager = [
+              ...response.data.managerStatics.debt.history.map((item) => {
+                return { ...item, iconname: "dayIncr" };
+              }),
+              ...response.data.managerStatics.prixod.history.map((item) => {
+                return { ...item, iconname: "allIncr" };
+              }),
+              ...response.data.managerStatics.pending.history.map((item) => {
+                return { ...item, iconname: "allIncr" };
+              }),
+            ];
           })
           .catch((error) => {
             console.error("Error fetching statistics:", error);
