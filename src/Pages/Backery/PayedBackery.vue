@@ -121,36 +121,6 @@ export default {
     closeModal() {
       this.$emit("close");
     },
-    // getPayedStates() {
-    //   api
-    //     .get("/api/payedStatuses")
-    //     .then(({ status, data }) => {
-    //       if (status === 200) {
-    //         this.payedStatus = data?.payedStatus.map((item) => {
-    //           return { text: item.status, value: item._id };
-    //         });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // },
-    // getPayedType() {
-    //   api
-    //     .get("/api/typeOfPayeds")
-    //     .then(({ status, data }) => {
-    //       if (status === 200) {
-    //         console.log(this.payedType);
-
-    //         this.payedType = data?.typeOfPayeds.map((item) => {
-    //           return { text: item.type, value: item._id };
-    //         });
-    //       }
-    //     })
-    //     .catch((error) => {
-    //       console.error(error);
-    //     });
-    // },
     sellectPayedState(id) {
       this.bakcery.status = id;
     },

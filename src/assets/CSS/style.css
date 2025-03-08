@@ -101,7 +101,6 @@ li {
   list-style: none;
 }
 
-/* width */
 .relative{
   position: relative;
 }
@@ -321,7 +320,6 @@ li {
   background-color: #888;
 }
 
-/* login style */
 .login {
   width: 100%;
   height: 100%;
@@ -493,7 +491,6 @@ table {
   width: 100%;
   max-height: 100%;
   border-collapse: collapse;
-  /* table-layout: ; */
 }
 
 th,
