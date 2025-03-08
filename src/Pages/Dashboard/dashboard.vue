@@ -54,7 +54,6 @@ export default {
     async gretAllStatistics() {
       const user = JSON.parse(localStorage.getItem('user'));
       const hashtoken = user?.accessToken;
-      console.log(hashtoken);
       
       if (hashtoken) {
         Api.get('/api/statics')

@@ -122,7 +122,7 @@ export default {
     },
     getSellerNon() {
       api
-        .get("/api/sellerBreads")
+        .get( "/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
             this.sellerBreads = data?.sellerBreads;

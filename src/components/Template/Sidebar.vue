@@ -69,7 +69,6 @@ export default {
           { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" },
           { title: "Do'kon", icon: "firma", page: "sellerShop" },
           { title: "Sozlamalar", icon: "setting", page: "settings"},
-
         ],
         delivery: [
           { title: "Omborxona", icon: "firma", page: "warehouse" },
