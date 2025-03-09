@@ -82,7 +82,6 @@ export default {
       if (hashtoken) {
         Api.get("/api/statics")
           .then((response) => {
-            console.log(response.data);
             this.statics = response.data.statics;
             this.manager = [
               ...response.data.managerStatics.debt?.history.map((item) => {

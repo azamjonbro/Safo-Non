@@ -77,7 +77,6 @@ export default {
   watch: {
     async selected(newVal) {
       if (newVal !== null && newVal !== undefined && !!newVal) {
-        console.log(newVal);
         this.loading = true;
         const initialOption = await this.options.find(
           (option) => option?.value == newVal

@@ -275,8 +275,6 @@ export default {
         })
         .then(({ data, status }) => {
           if (status === 200) {
-            console.log(this.data);
-
             this.allDelivery = data?.deliveries;
           }
         })

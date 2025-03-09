@@ -174,7 +174,6 @@ export default {
       this.validateField("pending");
       this.validateField("remainprice");
       for (const error in this.errors) {
-        console.log(this.errors[error]);
         if (this.errors[error] !== "") {
           return;
         }

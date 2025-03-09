@@ -201,8 +201,6 @@ export default {
       this.deleteWareHouseTypeVisible = true;
     },
     closeDeleteWareHouseType(emit) {
-      console.log(emit);
-
       if (emit) {
         this.deleteWareHouseType(this.selectedItem);
       }

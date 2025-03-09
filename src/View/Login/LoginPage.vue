@@ -82,7 +82,6 @@ methods: {
         username: this.login,
         password: this.password
       });
-      console.log(response,'red');
       
       if (response.status === 200) {
         this.toastOptions = {

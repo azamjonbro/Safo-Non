@@ -138,8 +138,6 @@ export default {
   },
   methods: {
     sellectDebtId(id) {
-      console.log(id);
-      
       this.debt.omborxonaProId = id._id;
       this.debt.price = id.price
       
@@ -264,8 +262,6 @@ export default {
         // reason: this?.update?.reason,
         price: this?.update?.omborxonaProId?.price,
       };
-      //   console.log(this.debt);
-
       this.isUpdate = true;
     }
   },

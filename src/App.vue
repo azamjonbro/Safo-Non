@@ -15,7 +15,6 @@ export default {
   methods: {
     handlePageShow(event) {
       if (event.persisted) {
-        console.log("Sahifa bfcache dan yuklandi!");
         window.location.reload();
       }
     }

@@ -80,7 +80,6 @@ export default {
       this.validateField("password1");
       this.validateField("password2");
       for (const error in this.errors) {
-        console.log(this.errors[error]);
         if (this.errors[error] !== "") {
           return;
         }
@@ -116,7 +115,6 @@ export default {
             }
           })
           .catch((error) => {
-            console.log(error);
             this.toastOptions = {
               open: true,
               text: "Xatolik yuz berdi" || error.message,

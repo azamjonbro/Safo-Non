@@ -197,8 +197,6 @@ export default {
         .get("/api/typeOfBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            console.log(data.typeOfBreads);
-
             this.typeOfBreads = data?.typeOfBreads.map((item) => {
               return { text: item.title, value: item };
             });

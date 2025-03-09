@@ -162,8 +162,6 @@ export default {
         .get("/api/orderWithDeliveries")
         .then(({ data, status }) => {
           if (status === 200) {
-            console.log(this.data);
-
             this.allDelivery = data?.orderWithDeliveries;
           }
         })

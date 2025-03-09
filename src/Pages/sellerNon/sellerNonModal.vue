@@ -257,8 +257,6 @@ export default {
       this.isSubmitting = true;
       if (!this.isUpdate) {
         try {
-          console.log(this.count);
-
           const response = await api.post("/api/sellerBread", {
             ...this.bread,
             typeOfBreadId: this.count.map((item) => {
@@ -292,8 +290,6 @@ export default {
         }
       } else {
         try {
-          console.log(this.count);
-
           const response = await api.put(
             "/api/sellerBread/" + this?.update?._id,
             {
