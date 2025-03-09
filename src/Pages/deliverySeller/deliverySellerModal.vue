@@ -302,6 +302,7 @@ export default {
             }
           })
           .catch((error) => {
+            this.isSubmitting = false
             console.error(error);
           });
       } else {
