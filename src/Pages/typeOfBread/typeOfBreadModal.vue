@@ -37,7 +37,7 @@
               <input
                 id="price"
                 type="number"
-                v-model="typeOfBread.price"
+                v-model="typeOfBread.price2"
                 placeholder="Non turini narxini kiriting"
                 @blur="validateField('price')"
               />
@@ -50,7 +50,7 @@
               <input
                 id="price"
                 type="number"
-                v-model="typeOfBread.price"
+                v-model="typeOfBread.price3"
                 placeholder="Non turini narxini kiriting"
                 @blur="validateField('price')"
               />
@@ -98,6 +98,8 @@ export default {
       typeOfBread: {
         title: "",
         price: 0,
+        price2: 0,
+        price3: 0,
       },
       errors: {},
       isUpdate: false,
@@ -125,6 +127,24 @@ export default {
       ) {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }
+
+       if (
+        field === "price2" &&
+        (!this.typeOfBread.price2 ||
+          isNaN(this.typeOfBread.price2) ||
+          this.typeOfBread.price2 <= 0)
+      ) {
+        this.errors.price2 = "Narx musbat son bo‘lishi kerak";
+      }
+
+       if (
+        field === "price3" &&
+        (!this.typeOfBread.price3 ||
+          isNaN(this.typeOfBread.price3) ||
+          this.typeOfBread.price3 <= 0)
+      ) {
+        this.errors.price3 = "Narx musbat son bo‘lishi kerak";
+      }
     },
     async submitForm() {
       this.errors = {};
@@ -137,20 +157,10 @@ export default {
         }
       }
       this.isSubmitting = true;
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
+   
       if (!this.isUpdate) {
         try {
-          await api.post(
-            "/api/typeOfBread",
-            { title: this.typeOfBread.title, price: this.typeOfBread.price },
-            {
-              headers: {
-                authorization: token,
-              },
-            }
-          );
+          await api.post("/api/typeOfBread", this.typeOfBread);
           this.$emit("status", {
             status: "success",
             message: "Non turi yaratildi",
@@ -171,11 +181,6 @@ export default {
           await api.put(
             "/api/typeOfBread/" + this.update.id,
             this.typeOfBread,
-            {
-              headers: {
-                authorization: token,
-              },
-            }
           );
           this.$emit("status", {
             status: "success",
@@ -185,7 +190,7 @@ export default {
           this.isSubmitting = false;
         } catch (error) {
           console.error("Xatolik yuz berdi:", error);
-           this.$emit("status", {
+          this.$emit("status", {
             status: "error",
             message: "Non turi yangilanishida hatolik yuz berdi",
           });
