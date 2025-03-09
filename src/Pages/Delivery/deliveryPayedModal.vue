@@ -156,6 +156,7 @@ export default {
           }
         })
         .catch((error) => {
+            this.isSubmitting = false
           console.error(error);
           this.$emit("status", {
             status: "error",

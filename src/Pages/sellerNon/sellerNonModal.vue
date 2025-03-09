@@ -43,6 +43,20 @@
                 {{ errors.quantity }}
               </p>
             </div>
+
+            <div class="form-group">
+              <label for="qopQuantity">Qop Soni (Dona)</label>
+              <input
+                id="qopQuantity"
+                type="number"
+                placeholder="Qop sonini kiriting"
+                v-model="bread.qopQuantity"
+                @blur="validateField('qopQuantity')"
+              />
+              <p v-if="errors.qopQuantity" class="error-text">
+                {{ errors.qopQuantity }}
+              </p>
+            </div>
           </div>
         </form>
         <form class="scroll" style="height: 50%">
@@ -164,7 +178,8 @@ export default {
       bread: {
         name: "",
         ovenId: "",
-        quantity: "",
+        quantity: 0,
+        qopQuantity: 0,
       },
       errors: {},
       isUpdate: false,
@@ -243,6 +258,16 @@ export default {
       ) {
         this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
       }
+
+      if (
+        field === "qopQuantity" &&
+        (!this.bread.qopQuantity ||
+          isNaN(this.bread.qopQuantity) ||
+          this.bread.qopQuantity <= 0)
+      ) {
+        this.errors.qopQuantity = "Soni (Dona) musbat son bo‘lishi kerak";
+      }
+      // qopQuantity
     },
     async submitForm() {
       this.errors = {};
