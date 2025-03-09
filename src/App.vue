@@ -25,6 +25,7 @@ export default {
       this.$router.push('/login')
     }else{
       this.$router.push('/')
+      // manager seller lar uchun ozini Dashboard qismiga o'tishi kerak bolgan function yozish kerak
     }
   }
 };
