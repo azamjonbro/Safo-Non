@@ -20,29 +20,70 @@
           </div>
         </div>
         <div class="table-body">
-          <div class="row" v-for="(data, index) in sellerBreads" :key="index">
-            <div class="cell">{{ index + 1 }}</div>
-            <div class="cell">{{ formatPrice(data?.price) }}</div>
-            <div class="cell">{{ data?.name }}</div>
-            <div class="cell">{{ data?.ovenId }}</div>
-            <div class="cell">{{ data?.quantity }}</div>
-            <div class="cell">{{ formatDate(new Date(data?.createdAt)) }}</div>
-            <div class="cell d-flex a-center j-end gap12">
-              <Icons
-                name="setting"
-                title="sozlama"
-                class="icon info setting"
-                @click="
-                  (updateModalVisible = true),
-                    (update = { ...data, isUpdate: true })
-                "
-              />
-              <Icons
-                name="deleted"
-                title="o'chirish"
-                class="icon danger"
-                @click="(selectedItem = data?._id), (deleteModalVisible = true)"
-              />
+          <div v-for="(data, index) in sellerBreads" :key="index">
+            <div class="row-items">
+              <div class="top">
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">{{ formatPrice(data?.price) }}</div>
+                <div class="cell">{{ data?.name }}</div>
+                <div class="cell">{{ data?.ovenId }}</div>
+                <div class="cell">{{ data?.quantity }}</div>
+                <div class="cell">
+                  {{ formatDate(new Date(data?.createdAt)) }}
+                </div>
+                <div class="cell d-flex a-center j-end gap12">
+                  <Icons
+                    name="setting"
+                    title="sozlama"
+                    class="icon info setting"
+                    @click="
+                      (updateModalVisible = true),
+                        (update = { ...data, isUpdate: true })
+                    "
+                  />
+                  <Icons
+                    name="deleted"
+                    title="o'chirish"
+                    class="icon danger"
+                    @click="
+                      (selectedItem = data?._id), (deleteModalVisible = true)
+                    "
+                  />
+
+                  <Icons
+                    name="bottomArrow"
+                    class="icon"
+                    :class="{ rotated: expanedId === data._id }"
+                    @click="toggleHistory(data?._id)"
+                  />
+                </div>
+              </div>
+              <div v-if="expanedId === data?._id" class="history">
+                <div class="history-header">
+                  <div class="row-top">
+                    <div class="cell">№</div>
+                    <div class="cell">Sana</div>
+                    <div class="cell">Nomi</div>
+                    <div class="cell">Narxi</div>
+                    <div class="cell">Sonni</div>
+                  </div>
+                  <div class="history-body">
+                    <div
+                      class="row"
+                      v-for="(item, index) in data?.typeOfBreadId"
+                      :key="index"
+                    >
+                      <div class="cell">{{ index + 1 }}</div>
+                      <div class="cell">
+                        {{ formatDate(new Date(item?.breadId?.createdAt)) }}
+                      </div>
+                      <div class="cell">{{ item?.breadId?.title }}</div>
+                      <div class="cell">{{ item?.breadId?.price }}</div>
+                      <div class="cell">{{ item?.quantity }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -91,9 +132,17 @@ export default {
       createModalVisible: false,
       updateModalVisible: false,
       update: {},
+      expanedId: "",
     };
   },
   methods: {
+    toggleHistory(id) {
+      if (this.expanedId === id) {
+        this.expanedId = null;
+        return;
+      }
+      this.expanedId = id;
+    },
     async handleStatus(data) {
       this.toastOptions = {
         open: true,
@@ -122,7 +171,7 @@ export default {
     },
     getSellerNon() {
       api
-        .get( "/api/sellerBreads")
+        .get("/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
             this.sellerBreads = data?.sellerBreads;
