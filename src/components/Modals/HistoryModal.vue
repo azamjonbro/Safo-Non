@@ -16,7 +16,7 @@
 <script>
 export default {
   props:{
-    histor:{
+    history:{
       type:Array,
       default:[]
     }
@@ -40,7 +40,8 @@ export default {
     },
   },
   mounted(){
-
+    console.log(this.history);
+    
   }
 };
 </script>

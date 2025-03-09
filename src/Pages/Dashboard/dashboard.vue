@@ -40,7 +40,7 @@
         </div>
       </div>
     </div>
-    <HistoryModal v-if="openModal" @close="closeModal" />
+    <HistoryModal v-if="openModal" :history="historyItem" @close="closeModal" />
   </div>
 </template>
 
