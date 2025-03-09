@@ -63,11 +63,11 @@ export default {
   },
   methods: {
     async openModalPage(history) {
-      this.openModal = true;
       if (this.historyItem) {
         this.historyItem = null;
       }
       this.historyItem = history;
+      this.openModal = true;
     },
     formatPrice(price) {
       return new Intl.NumberFormat("ru-RU").format(price);

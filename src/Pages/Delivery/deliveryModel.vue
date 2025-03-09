@@ -13,6 +13,7 @@
                 id="username"
                 type="text"
                 placeholder="Yetkazuvchini ismini kiriting"
+                maxlength="15"
                 v-model="delivery.username"
                 @blur="validateField('username')"
               />
@@ -27,6 +28,8 @@
                 type="text"
                 placeholder="Yetkazuvchini telefon raqamini kiriting"
                 v-model="delivery.phone"
+                maxlength="13"
+                @input="applyPhoneMask"
                 @blur="validateField('phone')"
               />
               <p v-if="errors.phone" class="error-text">{{ errors.phone }}</p>
@@ -35,20 +38,23 @@
               <label for="price">Narxi</label>
               <input
                 id="price"
-                type="number"
+                type="text"
                 placeholder="Yetkazuvchini narxini kiriting"
                 v-model="delivery.price"
+                maxlength="10"
+                @input="applyPriceMask"
                 @blur="validateField('price')"
               />
               <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
             </div>
             <div class="form-group" v-if="isUpdate">
-              <label for="price">Parolli</label>
+              <label for="password">Parol</label>
               <input
                 id="password"
-                type="text"
-                placeholder="Yetkazuvchini parollini kiriting"
+                type="password"
+                placeholder="Yetkazuvchini parolini kiriting"
                 v-model="delivery.password"
+                @blur="validateField('password')"
               />
               <p v-if="errors.password" class="error-text">
                 {{ errors.password }}
@@ -82,6 +88,7 @@
     </div>
   </transition>
 </template>
+
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
@@ -96,7 +103,7 @@ export default {
       delivery: {
         username: "",
         phone: "",
-        price: 0,
+        price: "",
         password: "",
       },
       errors: {},
@@ -114,13 +121,27 @@ export default {
       this.$emit("close");
       this.isUpdate = false;
     },
+    applyPhoneMask(event) {
+      let value = event.target.value.replace(/\D/g, ""); // faqat raqamlarni qoldiramiz
+      if (value.startsWith("998")) {
+        value = "+" + value;
+      } else if (value.startsWith("9")) {
+        value = "+998" + value.substring(1);
+      } else {
+        value = "+998";
+      }
+      this.delivery.phone = value.slice(0, 13); // maksimal 13 ta belgi
+    },
+    applyPriceMask(event) {
+      this.delivery.price = event.target.value.replace(/\D/g, ""); // faqat raqamlar kiritiladi
+    },
     validateField(field) {
       this.errors[field] = "";
       if (field === "username" && !this.delivery.username.trim()) {
         this.errors.username = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
       }
-      if (field === "password" && !this.delivery.password.trim()) {
-        this.errors.password = "Foydalanuvchi parol bo'sh bo'lmasligi kerak";
+      if (this.isUpdate && field === "password" && !this.delivery.password.trim()) {
+        this.errors.password = "Parol bo'sh bo'lmasligi kerak";
       }
       if (field === "phone") {
         const regex = /^\+998\d{9}$/;
@@ -133,9 +154,7 @@ export default {
       }
       if (
         field === "price" &&
-        (!this.delivery.price ||
-          isNaN(this.delivery.price) ||
-          this.delivery.price <= 0)
+        (!this.delivery.price || isNaN(this.delivery.price) || this.delivery.price <= 0)
       ) {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }
@@ -145,85 +164,74 @@ export default {
       this.validateField("username");
       this.validateField("phone");
       this.validateField("price");
-      for (const error in this.errors) {
-        if (this.errors[error] !== "") {
-          return;
-        }
+
+      if (this.isUpdate) {
+        this.validateField("password");
       }
+
+      if (Object.keys(!this.errors).length) {
+        return;
+      }
+
       this.isSubmitting = true;
       const token = localStorage.getItem("user")
         ? JSON.parse(localStorage.getItem("user"))?.accessToken
         : "";
-      if (!this.isUpdate) {
-        api
-          .post(
-            "/api/delivery",
-            {
-              username: this.delivery.username,
-              phone: this.delivery.phone,
-              price: this.delivery.price,
-            },
-            {
-              headers: {
-                authorization: token,
-              },
-            }
-          )
-          .then(({ status }) => {
-            if (status === 201) {
-              this.$emit("status", {
-                status: "success",
-                message: "Yetkazuvchi yaratildi",
-              });
-              this.closeModal();
-              this.isSubmitting = false;
-            } else {
-              this.$emit("status", {
-                status: "error",
-                message: "Yetkazuvchi yaratilishida hatolik yuz berdi",
-              });
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      } else {
-        api
-          .put("/api/delivery/" + this.update.id, this.delivery, {
-            headers: {
-              authorization: token,
-            },
-          })
-          .then(({ status }) => {
-            if (status === 200) {
-              this.$emit("status", {
-                status: "success",
-                message: "yetkazuvchi yangilandi",
-              });
-              this.closeModal();
-              this.isSubmitting = false;
-              this.isUpdate = false;
-            } else {
-              this.$emit("status", {
-                status: "error",
-                message: "yetkazuvchi yangilanishida hatolik yuz berdi",
-              });
-            }
-          })
-          .catch((error) => {
-            this.isSubmitting = false;
-            console.error(error);
-          });
+      const requestData = {
+        username: this.delivery.username,
+        phone: this.delivery.phone,
+        price: this.delivery.price,
+      };
+
+      if (this.isUpdate) {
+        requestData.password = this.delivery.password;
       }
+
+      const request = this.isUpdate
+        ? api.put(`/api/delivery/${this.update.id}`, requestData, {
+            headers: { authorization: token },
+          })
+        : api.post("/api/delivery", requestData, {
+            headers: { authorization: token },
+          });
+
+      request
+        .then(({ status }) => {
+          if (status === 200 || status === 201) {
+            this.$emit("status", {
+              status: "success",
+              message: this.isUpdate
+                ? "Yetkazuvchi yangilandi"
+                : "Yetkazuvchi yaratildi",
+            });
+            this.closeModal();
+          } else {
+            this.$emit("status", {
+              status: "error",
+              message: this.isUpdate
+                ? "Yetkazuvchi yangilanishida xatolik yuz berdi"
+                : "Yetkazuvchi yaratilishida xatolik yuz berdi",
+            });
+          }
+        })
+        .catch(() => {
+          this.$emit("status", {
+            status: "error",
+            message: "Server xatosi, qaytadan urinib ko'ring",
+          });
+        })
+        .finally(() => {
+          this.isSubmitting = false;
+        });
     },
   },
   mounted() {
-    
     if (this?.update?.isUpdate) {
       this.delivery = {
-        username: this?.update?.username,
-        phone: this?.update?.phone,
-        price: this?.update?.price,
+        username: this.update.username,
+        phone: this.update.phone,
+        price: this.update.price,
+        password: "",
       };
       this.isUpdate = true;
     }
@@ -232,4 +240,8 @@ export default {
 </script>
 
 <style>
+.error-text {
+  color: red;
+  font-size: 12px;
+}
 </style>
