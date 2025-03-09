@@ -57,17 +57,17 @@ export default {
     return {
       openModal: false,
       statics: {},
-      historyItem:null,
+      historyItem: null,
       manager: [],
     };
   },
   methods: {
-    async openModalPage(history){
-      this.openModal=true
-      if(this.historyItem){
-        this.historyItem=null
+    async openModalPage(history) {
+      this.openModal = true;
+      if (this.historyItem) {
+        this.historyItem = null;
       }
-       this.historyItem=history
+      this.historyItem = history;
     },
     formatPrice(price) {
       return new Intl.NumberFormat("ru-RU").format(price);
@@ -85,13 +85,13 @@ export default {
             console.log(response.data);
             this.statics = response.data.statics;
             this.manager = [
-              ...response.data.managerStatics.debt.history.map((item) => {
+              ...response.data.managerStatics.debt?.history.map((item) => {
                 return { ...item, iconname: "dayIncr" };
               }),
-              ...response.data.managerStatics.prixod.history.map((item) => {
+              ...response.data.managerStatics.prixod?.history.map((item) => {
                 return { ...item, iconname: "allIncr" };
               }),
-              ...response.data.managerStatics.pending.history.map((item) => {
+              ...response.data.managerStatics.pending?.history.map((item) => {
                 return { ...item, iconname: "allIncr" };
               }),
             ];
