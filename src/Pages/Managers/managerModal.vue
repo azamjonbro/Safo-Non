@@ -7,12 +7,14 @@
         <form>
           <div class="modal-form">
             <div class="form-group">
-              <label for="username">managerni nomi</label>
+              <label for="username">Managerni nomi</label>
               <input
                 id="username"
                 type="text"
                 v-model="user.username"
                 placeholder="Foydalanuvchi nomini kiriting"
+                maxlength="20"
+                @input="sanitizeInput('username')"
                 @blur="validateField('username')"
               />
               <p v-if="errors.username" class="error-text">
@@ -26,6 +28,8 @@
                 id="password"
                 v-model="user.password"
                 placeholder="Manager parolini kiriting"
+                maxlength="30"
+                @input="sanitizeInput('password')"
                 @blur="validateField('password')"
               />
               <p v-if="errors.password" class="error-text">
@@ -87,21 +91,29 @@ export default {
     closeModal() {
       this.$emit("close");
     },
+    sanitizeInput(field) {
+      if (field === "username") {
+        this.user.username = this.user.username.replace(/[^a-zA-Z0-9]/g, "");
+      }
+      if (field === "password") {
+        this.user.password = this.user.password.replace(/[^a-zA-Z0-9@#!-_]/g, "");
+      }
+    },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "username" && !this.user.username.trim()) {
+      if (field === "username" && !this.user.username?.trim()) {
         this.errors.username = "Managerni nomi bo'sh bo'lmasligi kerak";
       }
-      if (field === "password" && !this.user.password.trim()) {
+      if (field === "password" && !this.user.password?.trim()) {
         this.errors.password = "Managerni paroli bo'sh bo'lmasligi kerak";
       }
     },
-    async submitForm() {
+    async submitForm() {   
       this.errors = {};
       this.validateField("username");
       this.validateField("password");
 
-      if (!Object.keys(this.errors).length) {
+      if (!Object.keys(this.errors)) {
         return;
       }
       this.isSubmitting = true;
@@ -109,6 +121,8 @@ export default {
       if (!this.isUpdate) {
         try {
           const response = await api.post("/api/manager", this.user);
+          console.log(response);
+          
           if (response?.status == 201) {
             this.$emit("status", {
               status: "success",
@@ -121,7 +135,6 @@ export default {
               message: "Manager qo'shishda hatolik",
             });
           }
-          this.isSubmitting = true;
         } catch (error) {
           this.$emit("status", {
             status: "error",
@@ -151,7 +164,6 @@ export default {
               message: "Manager yangilanishida hatolik",
             });
           }
-          this.isSubmitting = true;
         } catch (error) {
           this.$emit("status", {
             status: "error",

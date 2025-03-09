@@ -5,8 +5,8 @@
     @click.self="handleResponse(false)"
   >
     <div class="return-content">
-      <h2>Username:{{ username }}</h2>
-      <h2>Password:{{ password }}</h2>
+      <h2><p class="text16 gray">Username:</p>{{ username }}</h2>
+      <h2><p class="text16 gray">Password:</p>{{ password }}</h2>
       <div class="modal-buttons">
         <button @click="handleResponse()" class="btn btn-yes">Yopish</button>
       </div>
@@ -76,10 +76,14 @@ export default {
 }
 
 .return-content {
-  width: 500px;
-  height: 250px;
+  min-width: 500px;
+  padding: 24px;
+  max-width: 90vw;
+  word-break: break-all;
+  min-height: 250px;
+  height: auto;
+
   background: white;
-  padding: 20px;
   border-radius: 8px;
   text-align: center;
   display: flex;

@@ -9,10 +9,12 @@
             <div class="form-group">
               <label for="price">To`lov</label>
               <input
-                type="number"
+                type="text"
                 id="price"
                 v-model="bakcery.price"
-                placeholder="To`lov priceni tanlang"
+                placeholder="To`lov summasini kiriting"
+                maxlength="10"
+                @input="applyMask"
                 @blur="validateField('price')"
               />
               <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
@@ -21,7 +23,7 @@
             <div class="form-group">
               <label for="statusId">To`lov holati</label>
               <CustomSelectVue
-                :placeholder="'To`lov holatini kiriting'"
+                :placeholder="'To`lov holatini tanlang'"
                 id="statusId"
                 @input="sellectPayedState($event)"
                 :options="payedStatus"
@@ -70,6 +72,7 @@
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
 import CustomSelectVue from "@/components/Template/customSelect.vue";
+
 export default {
   components: {
     Icons,
@@ -82,40 +85,20 @@ export default {
     return {
       bakcery: {
         type: "",
-        price: 0,
+        price: "",
         status: "",
       },
       errors: {},
       isSubmitting: false,
 
-      payedStatus: [{ text: "Bonus", value: "Bonus" }],
-      payedType: [
-        { text: "Karta", value: "Karta" },
-        { text: "Naqd pul", value: "Naqd pul" },
-      ],
       payedStatus: [
-        {
-          text:"To'landi",
-          value:"To'landi"
-        },
-        {
-          text:"To'landi",
-          value:"To'landi"
-        },
+        { text: "To'landi", value: "To'landi" },
+        { text: "To'lanmadi", value: "To'lanmadi" }
       ],
       payedType: [
-        {
-          text:"Bonus",
-          value:"Bonus"
-        },
-        {
-          text:"Shtraf",
-          value:"Shtraf"
-        },
-        {
-          text:"Kunlik",
-          value:"Kunlik"
-        }
+        { text: "Bonus", value: "Bonus" },
+        { text: "Shtraf", value: "Shtraf" },
+        { text: "Kunlik", value: "Kunlik" }
       ],
     };
   },
@@ -129,48 +112,52 @@ export default {
     sellectPayedType(id) {
       this.bakcery.type = id;
     },
+    applyMask(event) {
+      let value = event.target?.value.replace(/\D/g, ""); 
+      this.bakcery.price = value;
+    },
     validateField(field) {
       this.errors[field] = "";
-      if (
-        field === "price" &&
-        (!this.bakcery.price || isNaN(this.bakcery.price))
-      ) {
-        this.errors.price = "Iltimos summa kiriting";
+
+      if (field === "price") {
+        if (!this.bakcery.price) {
+          this.errors.price = "Iltimos, summa kiriting";
+        } else if (!/^\d+$/.test(this.bakcery.price)) {
+          this.errors.price = "Faqat raqamlar kiritilishi mumkin";
+        }
       }
-      if (field === "type" && !this.bakcery.type.trim()) {
-        this.errors.type = "To`lov turi bo'sh bo'lmasligi kerak";
+      if (field === "typeId" && !this.bakcery.type) {
+        this.errors.typeId = "To`lov turi bo'sh bo'lmasligi kerak";
       }
-      if (field === "status" && !this.bakcery.status.trim()) {
-        this.errors.status = "To`lov holati turi bo'sh bo'lmasligi kerak";
+      if (field === "statusId" && !this.bakcery.status) {
+        this.errors.statusId = "To`lov holati bo'sh bo'lmasligi kerak";
       }
     },
-    submitForm() {
+   async submitForm() {
       this.errors = {};
       this.validateField("price");
       this.validateField("typeId");
       this.validateField("statusId");
 
-      for (const error in this.errors) {
-        if (this.errors[error] !== "") {
-          return;
-        }
+      if (Object.keys(!this.errors).length) {
+        return;
       }
 
       this.isSubmitting = true;
 
-      api
+      await api
         .post("/api/sellerPayed", this.bakcery)
         .then(({ status }) => {
           if (status === 201) {
             this.$emit("status", {
               status: "success",
-              message: "seller payed qilindi",
+              message: "To'lov muvaffaqiyatli amalga oshirildi",
             });
             this.closeModal();
           } else {
             this.$emit("status", {
               status: "error",
-              message: "seller payed qilinayotganida hatolik yuz berdi",
+              message: "To'lov amalga oshirishda xatolik yuz berdi",
             });
           }
         })
@@ -178,18 +165,23 @@ export default {
           console.error(error);
           this.$emit("status", {
             status: "error",
-            message: "seller payed qilinayotganida hatolik yuz berdi",
+            message: "Server xatosi, qaytadan urinib ko'ring",
           });
+        })
+        .finally(() => {
+          this.isSubmitting = false;
         });
     },
   },
   mounted() {
-    // this.getPayedStates();
-    // this.getPayedType();
     this.bakcery.sellerId = this?.selectedItemPayed;
   },
 };
 </script>
 
 <style>
+.error-text {
+  color: red;
+  font-size: 12px;
+}
 </style>

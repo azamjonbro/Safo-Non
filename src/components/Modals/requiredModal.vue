@@ -15,7 +15,7 @@ export default {
   props: {
     message: {
       type: String,
-      default: "Вы уверены, что хотите удалить это?",
+      default: "Rostdan ham o'chirmoqchimisiz ?",
     },
     isVisible: {
       type: Boolean,
