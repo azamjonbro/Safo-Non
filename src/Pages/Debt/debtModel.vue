@@ -198,7 +198,7 @@ export default {
     },
     sellectDebtId(id) {
       this.debt.omborxonaProId = id._id;
-      this.debt.price = id.price
+      this.debt.price = id.price;
     },
     sellectSellerId(id) {
       this.debt.sellerId = id;
@@ -272,21 +272,7 @@ export default {
           });
       } else {
         api
-          .put(
-            "/api/debt2/" + this?.update?.id,
-            {
-              title: this.debt?.title,
-              quantity: this.debt?.quantity,
-              description: this.debt?.description,
-              reason: this.debt?.reason,
-              sellerId: this.debt?.sellerId,
-            },
-            {
-              headers: {
-                authorization: token,
-              },
-            }
-          )
+          .put("/api/debt2/" + this?.update?.id, this.debt)
           .then(({ status }) => {
             if (status === 200) {
               this.$emit("status", {

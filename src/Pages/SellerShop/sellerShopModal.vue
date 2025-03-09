@@ -8,16 +8,43 @@
         <form>
           <div class="modal-form">
             <div class="form-group">
-              <label for="quantity">Sonni</label>
+              <label for="title">Nomi</label>
               <input
-                id="quantity"
-                type="number"
-                placeholder="Do`kon nonni sonni kiriting"
-                @blur="validateField('quantity')"
-                v-model="shop.quantity"
+                id="title"
+                type="text"
+                placeholder="Do`kon nomi narxini raqamini kiriting"
+                @blur="validateField('title')"
+                v-model="shop.title"
               />
-              <p v-if="errors.quantity" class="error-text">
-                {{ errors.quantity }}
+              <p v-if="errors.title" class="error-text">{{ errors.title }}</p>
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input
+                id="description"
+                type="text"
+                placeholder="Do`kon nonni description raqamini kiriting"
+                @blur="validateField('description')"
+                v-model="shop.description"
+              />
+              <p v-if="errors.description" class="error-text">
+                {{ errors.description }}
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label for="sellerBreadId">Non turi</label>
+              <CustomSelect
+                :search="true"
+                :options="breads"
+                @blur="validateField('sellerBreadId')"
+                @input="selectBreadId($event)"
+                :placeholder="'Non turini kiriting'"
+                :selected="shop.sellerBreadId"
+              />
+              <p v-if="errors.sellerBreadId" class="error-text">
+                {{ errors.sellerBreadId }}
               </p>
             </div>
             <div class="form-group">
@@ -32,17 +59,16 @@
               <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
             </div>
             <div class="form-group">
-              <label for="sellerBreadId">Non turi</label>
-              <CustomSelect
-                :search="true"
-                :options="breads"
-                @blur="validateField('sellerBreadId')"
-                @input="selectBreadId($event)"
-                :placeholder="'Non turini kiriting'"
-                :selected="shop.sellerBreadId"
+              <label for="quantity">Sonni</label>
+              <input
+                id="quantity"
+                type="number"
+                placeholder="Do`kon nonni sonni kiriting"
+                @blur="validateField('quantity')"
+                v-model="shop.quantity"
               />
-              <p v-if="errors.sellerBreadId" class="error-text">
-                {{ errors.sellerBreadId }}
+              <p v-if="errors.quantity" class="error-text">
+                {{ errors.quantity }}
               </p>
             </div>
           </div>
@@ -91,6 +117,8 @@ export default {
         price: 0,
         quantity: 0,
         sellerBreadId: "",
+        title: "",
+        description: "",
       },
       breads: [],
       errors: {},
@@ -112,6 +140,12 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
+      if (field === "title" && !this.shop.title.trim()) {
+        this.errors.title = "Magazin nopmi bo'sh bo'lmasligi kerak";
+      }
+      if (field === "description" && !this.shop.description.trim()) {
+        this.errors.description = "Magazin description bo'sh bo'lmasligi kerak";
+      }
       if (field === "sellerBreadId" && !this.shop.sellerBreadId.trim()) {
         this.errors.sellerBreadId = "Magazin noni bo'sh bo'lmasligi kerak";
       }
@@ -142,16 +176,10 @@ export default {
         }
       }
       this.isSubmitting = true;
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
+ 
       if (!this.isUpdate) {
         api
-          .post("/api/sellerMagazine", this.shop, {
-            headers: {
-              authorization: token,
-            },
-          })
+          .post("/api/sellerMagazine", this.shop)
           .then(({ status }) => {
             if (status === 201) {
               this.$emit("status", {
@@ -172,11 +200,7 @@ export default {
           });
       } else {
         api
-          .put("/api/sellerMagazine/" + this.update.id, this.shop, {
-            headers: {
-              authorization: token,
-            },
-          })
+          .put("/api/sellerMagazine/" + this.update.id, this.shop)
           .then(({ status }) => {
             if (status === 200) {
               this.$emit("status", {

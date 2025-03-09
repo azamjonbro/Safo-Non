@@ -198,7 +198,7 @@ export default {
         .then(({ status, data }) => {
           if (status === 200) {
             console.log(data.typeOfBreads);
-            
+
             this.typeOfBreads = data?.typeOfBreads.map((item) => {
               return { text: item.title, value: item };
             });
@@ -354,9 +354,17 @@ export default {
   mounted() {
     this.getMagazines();
     this.getDeliveries();
-    this.getBreads()
+    this.getBreads();
     if (this?.update?.isUpdate) {
-      (this.typeOfBreadIds = this.update?.typeOfBreadIds),
+      (this.typeOfBreadIds = this.update?.typeOfBreadIds.map((item, index) => {
+        return {
+          id: index,
+          quantity: item.quantity,
+          breadId: item.bread._id,
+          price: item.bread.price,
+          errors: {},
+        };
+      })),
         (this.delivery = {
           quantity: this.update?.quantity,
           description: this.update?.description,
