@@ -47,7 +47,24 @@
                 {{ errors.deliveryId }}
               </p>
             </div>
+
+            <div class="form-group">
+              <label for="magazines">Yetkazuvchi</label>
+              <CustomSelect
+                :options="magazines"
+                id="magazines"
+                @input="selectMagazine($event)"
+                :selected="delivery.magazineId"
+                :search="true"
+                @blur="validateField('magazineId')"
+              />
+              <p v-if="errors.magazineId" class="error-text">
+                {{ errors.magazineId }}
+              </p>
+            </div>
           </div>
+        </form>
+        <form class="scroll" style="height: 50%">
           <div
             class="modal-form-2"
             v-for="(data, index) in typeOfBreadIds"
@@ -55,7 +72,12 @@
           >
             <div class="form-group">
               <label for="bread">Non turini tanlang</label>
-              <CustomSelect :options="deliveries" id="bread" :selected="true" />
+              <CustomSelect
+                :options="typeOfBreads"
+                id="bread"
+                :selected="true"
+                @input="selectArray($event, data.id)"
+              />
             </div>
 
             <div class="form-group">
@@ -92,6 +114,23 @@
                 @click="deleteRow(data?.id)"
               />
             </div>
+          </div>
+          <div class="d-flex j-end">
+            <button
+              type="button"
+              class="create-button"
+              @click="
+                typeOfBreadIds.push({
+                  id: typeOfBreadIds.length,
+                  breadId: '',
+                  quantity: 0,
+                  price: 0,
+                  errors: {},
+                })
+              "
+            >
+              Qo`shish
+            </button>
           </div>
         </form>
 
@@ -136,9 +175,13 @@ export default {
         description: "",
         quantity: 0,
         deliveryId: "",
+        magazineId: "",
       },
       typeOfBreadIds: [{ id: 0, quantity: 0, breadId: "", errors: {} }],
       deliveries: [],
+      magazines: [],
+      breads: [],
+      typeOfBreads: [],
       errors: {},
       isUpdate: false,
     };
@@ -149,8 +192,55 @@ export default {
     },
   },
   methods: {
-    selectArray(arr) {
-      this.delivery.typeOfBreadIds = arr;
+    getBreads() {
+      api
+        .get("/api/typeOfBreads")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            console.log(data.typeOfBreads);
+            
+            this.typeOfBreads = data?.typeOfBreads.map((item) => {
+              return { text: item.title, value: item };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getMagazines() {
+      api
+        .get("/api/magazines")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.magazines = data.magazines.map((item) => {
+              return { text: item.title, value: item };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    selectMagazine(id) {
+      this.delivery.magazineId = id._id;
+    },
+    selectDelivery(id) {
+      this.delivery.deliveryId = id._id;
+    },
+    deleteRow(index) {
+      if (this.typeOfBreadIds.length > 1) {
+        this.typeOfBreadIds = this.typeOfBreadIds.filter(
+          (item) => item.id !== index
+        );
+      }
+    },
+    selectArray(value, index) {
+      this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
+        return item.id === index
+          ? { ...item, breadId: value._id, price: value.price }
+          : item;
+      });
     },
     closeModal() {
       this.$emit("close");
@@ -166,6 +256,9 @@ export default {
         this.errors.deliveryId =
           "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
       }
+      if (field === "magazineId" && !this.delivery.magazineId.trim()) {
+        this.errors.magazineId = "Foydalanuvchi do`kon bo'sh bo'lmasligi kerak";
+      }
       if (
         field === "quantity" &&
         (!this.delivery.quantity ||
@@ -180,17 +273,21 @@ export default {
       this.validateField("quantity");
       this.validateField("description");
       this.validateField("deliveryId");
-      this.validateField("typeOfBreadIds");
+      this.validateField("magazineId");
       for (const error in this.errors) {
         if (this.errors[error] !== "") {
           return;
         }
       }
       this.isSubmitting = true;
-
       if (!this.isUpdate) {
         api
-          .post("/api/orderWithDelivery", this.delivery)
+          .post("/api/orderWithDelivery", {
+            ...this.delivery,
+            typeOfBreadIds: this.typeOfBreadIds.map((item) => {
+              return { quantity: item.quantity, bread: item.breadId };
+            }),
+          })
           .then(({ status }) => {
             if (status === 201) {
               this.$emit("status", {
@@ -211,7 +308,12 @@ export default {
           });
       } else {
         api
-          .put("/api/orderWithDelivery/" + this.update.id, this.delivery)
+          .put("/api/orderWithDelivery/" + this.update.id, {
+            ...this.delivery,
+            typeOfBreadIds: this.typeOfBreadIds.map((item) => {
+              return { quantity: item.quantity, breadId: item.breadId };
+            }),
+          })
           .then(({ status }) => {
             if (status === 200) {
               this.$emit("status", {
@@ -240,7 +342,7 @@ export default {
         .then(({ status, data }) => {
           if (status === 200) {
             this.deliveries = data.deliveries.map((item) => {
-              return { text: item.username, value: item._id };
+              return { text: item.username, value: item };
             });
           }
         })
@@ -250,7 +352,9 @@ export default {
     },
   },
   mounted() {
+    this.getMagazines();
     this.getDeliveries();
+    this.getBreads()
     if (this?.update?.isUpdate) {
       (this.typeOfBreadIds = this.update?.typeOfBreadIds),
         (this.delivery = {
