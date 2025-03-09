@@ -5,25 +5,25 @@
     </div>
     <div class="page-bottom scroll">
       <div class="infobox d-flex wrap">
-        <div class="card" @click="openModal = true">
+        <div class="card" @click="openModalPage(statics?.prixod?.history)">
           <Icons :name="'dayIncr'" />
           <span class="info-item">
-            <h3>Chiqimlar</h3>
-            <b>{{ formatPrice(statics?.debt?.totalPrice || 0) }}</b>
+            <h3>Kirimlar</h3>
+            <b>{{ formatPrice(statics?.prixod?.totalPrice || 0) }}</b>
           </span>
         </div>
         <div class="card" @click="openModal = true">
           <Icons :name="'wallet'" />
           <span class="info-item">
-            <h3>Pending</h3>
-            <b>{{ formatPrice(statics?.pending?.totalPrice || 0) }}</b>
+            <h3>Chiqim</h3>
+            <b>{{ formatPrice(statics?.debt?.totalPrice || 0) }}</b>
           </span>
         </div>
         <div class="card" @click="openModal = true">
           <Icons :name="'allIncr'" />
           <span class="info-item">
-            <h3>Prixod</h3>
-            <b>{{ formatPrice(statics?.prixod?.totalPrice || 0) }}</b>
+            <h3>Kutilayotgan</h3>
+            <b>{{ formatPrice(statics?.pending?.totalPrice || 0) }}</b>
           </span>
         </div>
         <div
@@ -57,30 +57,18 @@ export default {
     return {
       openModal: false,
       statics: {},
-      manager: [
-        // {
-        //   iconname: "allIncr",
-        //   title: "Umumiy kirim",
-        //   key: "alldebt",
-        //   price: 0,
-        // },
-        // {
-        //   iconname: "dayIncr",
-        //   title: "Kunlik kirim",
-        //   key: "allincr",
-        //   price: 0,
-        // },
-        // { iconname: "wallet", title: "Hamyon", price: 200000 },
-        // { iconname: "allIncr", title: "Umumiy chiqim", price: 500000 },
-        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
-        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
-        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
-        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
-        // { iconname: "dayIncr", title: "Kunlik chiqim", price: 150000 },
-      ],
+      historyItem:null,
+      manager: [],
     };
   },
   methods: {
+    async openModalPage(history){
+      this.openModal=true
+      if(this.historyItem){
+        this.historyItem=null
+      }
+       this.historyItem=history
+    },
     formatPrice(price) {
       return new Intl.NumberFormat("ru-RU").format(price);
     },

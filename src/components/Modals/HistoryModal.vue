@@ -15,6 +15,12 @@
 
 <script>
 export default {
+  props:{
+    histor:{
+      type:Array,
+      default:[]
+    }
+  },
   data() {
     return {
       touchStartX: 0, 
@@ -33,6 +39,9 @@ export default {
       }
     },
   },
+  mounted(){
+
+  }
 };
 </script>
 
