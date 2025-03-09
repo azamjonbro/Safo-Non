@@ -12,14 +12,14 @@
             <b>{{ formatPrice(statics?.prixod?.totalPrice || 0) }}</b>
           </span>
         </div>
-        <div class="card" @click="openModal = true">
+        <div class="card" @click="openModalPage(statics?.debt?.history)">
           <Icons :name="'wallet'" />
           <span class="info-item">
             <h3>Chiqim</h3>
             <b>{{ formatPrice(statics?.debt?.totalPrice || 0) }}</b>
           </span>
         </div>
-        <div class="card" @click="openModal = true">
+        <div class="card" @click="openModalPage(statics?.pending?.history)">
           <Icons :name="'allIncr'" />
           <span class="info-item">
             <h3>Kutilayotgan</h3>
