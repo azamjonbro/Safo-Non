@@ -94,7 +94,6 @@ export default {
       },
       update: {
         isUpdate: false,
-        // isupdate uchun 
       },
     };
   },

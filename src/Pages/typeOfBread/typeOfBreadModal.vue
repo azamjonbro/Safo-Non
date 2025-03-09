@@ -20,7 +20,33 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="price">Narxi</label>
+              <label for="price">Tan narxi</label>
+              <input
+                id="price"
+                type="number"
+                v-model="typeOfBread.price"
+                placeholder="Non turini narxini kiriting"
+                @blur="validateField('price')"
+              />
+              <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="price">Narxi (do'kon uchun)</label>
+              <input
+                id="price"
+                type="number"
+                v-model="typeOfBread.price"
+                placeholder="Non turini narxini kiriting"
+                @blur="validateField('price')"
+              />
+              <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="price">to'yxona uchun</label>
               <input
                 id="price"
                 type="number"
