@@ -59,7 +59,7 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="quantity">Sonni</label>
+              <label for="quantity">Soni (Dona)</label>
               <input
                 id="quantity"
                 type="number"
@@ -90,7 +90,7 @@
               <input
                 id="reason"
                 type="text"
-                placeholder="Rasxod reasonni kiriting"
+                placeholder="Rasxod reaSoni (Dona) kiriting"
                 v-model="debt.reason"
                 @blur="validateField('reason')"
               />
@@ -224,13 +224,13 @@ export default {
           isNaN(this.debt.quantity) ||
           this.debt.quantity <= 0)
       ) {
-        this.errors.quantity = "Sonni musbat son bo‘lishi kerak";
+        this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
       }
       if (
         field === "price" &&
         (!this.debt.price || isNaN(this.debt.price) || this.debt.price <= 0)
       ) {
-        this.errors.price = "Sonni musbat son bo‘lishi kerak";
+        this.errors.price = "Soni (Dona) musbat son bo‘lishi kerak";
       }
     },
     submitForm() {
@@ -312,5 +312,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

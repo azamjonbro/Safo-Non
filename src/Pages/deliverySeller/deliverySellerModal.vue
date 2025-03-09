@@ -8,7 +8,7 @@
         <form>
           <div class="modal-form">
             <div class="form-group">
-              <label for="quantity">Sonni</label>
+              <label for="quantity">Soni (Dona)</label>
               <input
                 id="quantity"
                 type="number"
@@ -95,7 +95,7 @@
             </div>
             <div style="display: flex; align-items: end" class="gap12">
               <div class="form-group" style="width: 95%">
-                <label for="quantity">Sonni</label>
+                <label for="quantity">Soni (Dona)</label>
                 <input
                   id="quantity"
                   type="number"
@@ -263,7 +263,7 @@ export default {
           isNaN(this.delivery.quantity) ||
           this.delivery.quantity <= 0)
       ) {
-        this.errors.quantity = "Sonni musbat son bo‘lishi kerak";
+        this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
       }
     },
     submitForm() {
@@ -374,5 +374,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

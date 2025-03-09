@@ -68,11 +68,11 @@
                 <div class="history-header">
                   <div class="row-top">
                     <div class="cell">Sana</div>
-                    <div class="cell">Sonni</div>
+                    <div class="cell">Soni (Dona)</div>
                     <div class="cell">Narxi</div>
                     <div class="cell">Turi</div>
                     <div class="cell"></div>
-                  </div>  
+                  </div>
                 </div>
                 <div class="history-body">
                   <div
@@ -323,5 +323,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

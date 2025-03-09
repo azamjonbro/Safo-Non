@@ -59,11 +59,11 @@
               <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
             </div>
             <div class="form-group">
-              <label for="quantity">Sonni</label>
+              <label for="quantity">Soni (Dona)</label>
               <input
                 id="quantity"
                 type="number"
-                placeholder="Do`kon nonni sonni kiriting"
+                placeholder="Do`kon nonni Soni (Dona) kiriting"
                 @blur="validateField('quantity')"
                 v-model="shop.quantity"
               />
@@ -162,7 +162,7 @@ export default {
           isNaN(this.shop.quantity) ||
           this.shop.quantity <= 0)
       ) {
-        this.errors.quantity = "Sonni musbat son bo‘lishi kerak";
+        this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
       }
     },
     submitForm() {
@@ -176,7 +176,7 @@ export default {
         }
       }
       this.isSubmitting = true;
- 
+
       if (!this.isUpdate) {
         api
           .post("/api/sellerMagazine", this.shop)
@@ -252,5 +252,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

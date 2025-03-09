@@ -13,11 +13,11 @@
                 type="text"
                 v-model="magazine.title"
                 placeholder="Do`kon nomini kiriting"
+                @input="applyRegex('title')"
                 @blur="validateField('title')"
+                maxlength="30"
               />
-              <p v-if="errors.title" class="error-text">
-                {{ errors.title }}
-              </p>
+              <p v-if="errors.title" class="error-text">{{ errors.title }}</p>
             </div>
             <div class="form-group">
               <label for="phone">Telefon raqam</label>
@@ -25,12 +25,12 @@
                 id="phone"
                 type="text"
                 v-model="magazine.phone"
-                placeholder="Do`kon telefon raqamini kiriting"
+                placeholder="+998 XX XXX XX XX"
+                @input="applyPhoneMask"
                 @blur="validateField('phone')"
+                maxlength="17"
               />
-              <p v-if="errors.phone" class="error-text">
-                {{ errors.phone }}
-              </p>
+              <p v-if="errors.phone" class="error-text">{{ errors.phone }}</p>
             </div>
             <div class="form-group">
               <label for="address">Address</label>
@@ -39,13 +39,12 @@
                 type="text"
                 v-model="magazine.address"
                 placeholder="Do`kon addressini kiriting"
+                @input="applyRegex('address')"
                 @blur="validateField('address')"
+                maxlength="30"
               />
-              <p v-if="errors.address" class="error-text">
-                {{ errors.address }}
-              </p>
+              <p v-if="errors.address" class="error-text">{{ errors.address }}</p>
             </div>
-
             <div class="form-group">
               <label for="pending">Qarzdorlik</label>
               <input
@@ -54,25 +53,10 @@
                 v-model="magazine.pending"
                 placeholder="Do`kon pendingini kiriting"
                 @blur="validateField('pending')"
+                maxlength="15"
               />
-              <p v-if="errors.pending" class="error-text">
-                {{ errors.pending }}
-              </p>
+              <p v-if="errors.pending" class="error-text">{{ errors.pending }}</p>
             </div>
-
-            <!-- <div class="form-group">
-              <label for="remainprice">RemainPrice</label>
-              <input
-                id="remainprice"
-                type="number"
-                v-model="magazine.remainprice"
-                placeholder="Do`kon remainpriceini kiriting"
-                @blur="validateField('remainprice')"
-              />
-              <p v-if="errors.remainprice" class="error-text">
-                {{ errors.remainprice }}
-              </p>
-            </div> -->
           </div>
         </form>
         <div class="modal-buttons d-flex j-end a-center gap24">
@@ -91,7 +75,7 @@
                   ? "Yaratilmoqda..."
                   : "Yaratish"
                 : isSubmitting
-                ? "Yangilanyapti"
+                ? "Yangilanyapti..."
                 : "Yangilamoq"
             }}
           </button>
@@ -104,6 +88,7 @@
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
+
 export default {
   components: {
     Icons,
@@ -121,10 +106,8 @@ export default {
         phone: "",
         address: "",
         pending: 0,
-        remainprice: 100,
       },
       errors: {},
-
       isUpdate: false,
     };
   },
@@ -135,6 +118,7 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
+
       if (field === "title" && !this.magazine.title.trim()) {
         this.errors.title = "Magazin nomi bo'sh bo'lmasligi kerak";
       }
@@ -142,107 +126,91 @@ export default {
         this.errors.address = "Magazin addressi bo'sh bo'lmasligi kerak";
       }
       if (field === "phone") {
-        const regex = /^\+998\d{9}$/;
+        const regex = /^\+998 \d{2} \d{3} \d{2} \d{2}$/;
         if (!this.magazine.phone.trim()) {
           this.errors.phone = "Telefon raqamini kiriting";
         } else if (!regex.test(this.magazine.phone)) {
-          this.errors.phone =
-            "Telefon raqami noto‘g‘ri formatda (+998XXXXXXXXX)";
+          this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998 XX XXX XX XX)";
         }
       }
-      if (
-        field === "pending" &&
-        (!this.magazine.pending ||
-          isNaN(this.magazine.pending) ||
-          this.magazine.pending < 0)
-      ) {
-        this.errors.pending = "Narx musbat son bo‘lishi kerak";
+      if (field === "pending") {
+        if (!this.magazine.pending || isNaN(this.magazine.pending) || this.magazine.pending < 0) {
+          this.errors.pending = "Narx musbat son bo‘lishi kerak";
+        }
       }
-      if (
-        field === "remainprice" &&
-        (!this.magazine.remainprice ||
-          isNaN(this.magazine.remainprice) ||
-          this.magazine.remainprice <= 0)
-      ) {
-        this.errors.remainprice = "Narx musbat son bo‘lishi kerak";
+    },
+    applyRegex(field) {
+      if (field === "title") {
+        this.magazine.title = this.magazine.title.replace(/[^a-zA-Z0-9 ]/g, "");
       }
+      if (field === "address") {
+        this.magazine.address = this.magazine.address.replace(/[^a-zA-Z0-9, ]/g, "");
+      }
+    },
+    applyPhoneMask() {
+      let val = this.magazine.phone.replace(/\D/g, ""); 
+      if (val.length > 9) val = val.slice(0, 9); 
+
+      let formatted = "+998 ";
+      if (val.length > 2) {
+        formatted += val.slice(0, 2) + " ";
+        if (val.length > 5) {
+          formatted += val.slice(2, 5) + " ";
+          if (val.length > 7) {
+            formatted += val.slice(5, 7) + " " + val.slice(7);
+          } else {
+            formatted += val.slice(5);
+          }
+        } else {
+          formatted += val.slice(2);
+        }
+      } else {
+        formatted += val;
+      }
+
+      this.magazine.phone = formatted;
     },
     submitForm() {
       this.validateField("title");
       this.validateField("address");
       this.validateField("phone");
       this.validateField("pending");
-      this.validateField("remainprice");
-      for (const error in this.errors) {
-        if (this.errors[error] !== "") {
-          return;
-        }
+
+      if (Object.keys(!this.errors).length) {
+        return;
       }
+
       this.isSubmitting = true;
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))
-        : "";
-      if (!this.isUpdate) {
-        api
-          .post("/api/magazine/", this.magazine, {
-            headers: {
-              authorization: token,
-            },
-          })
-          .then(({ status }) => {
-            if (status === 201) {
-              this.$emit("status", {
-                status: "success",
-                message: "Do`kon yaratildi",
-              });
-              this.closeModal();
-              this.isSubmitting = false;
-            } else {
-              this.$emit("status", {
-                status: "error",
-                message: "Do`kon yaratilishida hatolik yuz berdi",
-              });
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            this.toastOptions = {
-              open: true,
-              type: "error",
-              text: "Xatolik yuzberdi",
-            };
-          });
-      } else {
-        api
-          .put("/api/magazine/" + this.update.id, this.magazine, {
-            headers: {
-              authorization: token,
-            },
-          })
-          .then(({ status }) => {
-            if (status === 200) {
-              this.$emit("status", {
-                status: "success",
-                message: "Do`kon yangilandi",
-              });
-              this.closeModal();
-              this.isSubmitting = false;
-              this.isUpdate = false;
-            } else {
-              this.$emit("status", {
-                status: "error",
-                message: "Do`kon yangilanishida hatolik yuz berdi",
-              });
-            }
-          })
-          .catch((error) => {
-            console.error(error);
+      const token = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "";
+
+      const request = this.isUpdate
+        ? api.put("/api/magazine/" + this.update.id, this.magazine, { headers: { authorization: token } })
+        : api.post("/api/magazine/", this.magazine, { headers: { authorization: token } });
+
+      request
+        .then(({ status }) => {
+          if (status === 201 || status === 200) {
+            this.$emit("status", {
+              status: "success",
+              message: this.isUpdate ? "Do`kon yangilandi" : "Do`kon yaratildi",
+            });
+            this.closeModal();
+          } else {
             this.$emit("status", {
               status: "error",
-              message: "Xatolik yuzberdi",
+              message: this.isUpdate ? "Do`kon yangilanishida hatolik" : "Do`kon yaratilishida hatolik",
             });
+          }
+        })
+        .catch(() => {
+          this.$emit("status", {
+            status: "error",
+            message: "Xatolik yuzberdi",
           });
-      }
+        })
+        .finally(() => {
+          this.isSubmitting = false;
+        });
     },
   },
   mounted() {
@@ -252,13 +220,9 @@ export default {
         phone: this?.update?.phone,
         address: this?.update?.address,
         pending: this?.update?.pending,
-        remainprice: this?.update?.remainprice,
       };
       this.isUpdate = true;
     }
   },
 };
 </script>
-
-<style>
-</style>

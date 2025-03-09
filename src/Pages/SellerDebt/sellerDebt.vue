@@ -12,7 +12,7 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Nomi</div>
-            <div class="cell">Sonni</div>
+            <div class="cell">Soni (Dona)</div>
             <div class="cell">Narxi</div>
             <div class="cell">Tasnifi</div>
             <div class="cell">date</div>
@@ -180,5 +180,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

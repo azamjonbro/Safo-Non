@@ -11,7 +11,7 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
-            <div class="cell">Sonni</div>
+            <div class="cell">Soni (Dona)</div>
             <div class="cell">Description</div>
             <div class="cell">Yetkazuvchi</div>
             <div class="cell">Umumiy hisob</div>
@@ -216,5 +216,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

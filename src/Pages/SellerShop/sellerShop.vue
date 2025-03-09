@@ -13,7 +13,7 @@
             <div class="cell">№</div>
             <div class="cell">Nomi</div>
             <div class="cell">Description</div>
-            <div class="cell">Sonni</div>
+            <div class="cell">Soni (Dona)</div>
             <div class="cell">Narxi</div>
             <div class="cell">Umumiy summa</div>
             <div class="cell"></div>
@@ -28,7 +28,7 @@
             <div class="top">
               <div class="cell">{{ index + 1 }}</div>
               <div class="cell">{{ data?.title || "" }}</div>
-              <div class="cell">{{ data?.description || '' }}</div>
+              <div class="cell">{{ data?.description || "" }}</div>
               <div class="cell">{{ data?.quantity || 0 }}</div>
               <div class="cell">{{ formatPrice(data?.price || 0) }} sum</div>
               <div class="cell">
@@ -187,5 +187,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
