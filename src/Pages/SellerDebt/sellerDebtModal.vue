@@ -1,270 +1,202 @@
 <template>
-  <div class="modal" @click.self="$emit('close')">
-    <div class="modal-content relative">
-      <Icons name="xIcon" class="xIcon" @click="$emit('close')" />
-      <h3>Chiqimlar yaratish</h3>
-
-      <form>
-        <div class="modal-form">
-          <div class="form-group">
-            <label for="omborxonaProId">Omborxona produkti</label>
-            <CustomSelectVue
-              :options="
-                products.map((item) => {
-                  return { text: item.name, value: item };
-                })
-              "
-              :search="true"
-              :selected="debt.omborxonaProId"
-              :placeholder="'Omborxona produktini tanlang'"
-              @blur="validateField('omborxonaProId')"
-              @input="sellectDebtId($event)"
-            />
-            <p v-if="errors.omborxonaProId" class="error-text">
-              {{ errors.omborxonaProId }}
-            </p>
+  <transition name="slide-modal">
+    <div class="modal" @click.self="$emit('close')">
+      <div class="modal-content relative">
+        <Icons name="xIcon" class="xIcon" @click="closeModal" />
+        <h2>Dokon yaratish</h2>
+        <form>
+          <div class="modal-form">
+            <div class="form-group">
+              <label for="title">Nomi</label>
+              <input
+                id="title"
+                type="text"
+                v-model="magazine.title"
+                placeholder="Do`kon nomini kiriting"
+                maxlength="50"
+                @input="sanitizeInput('title')"
+                @blur="validateField('title')"
+              />
+              <p v-if="errors.title" class="error-text">
+                {{ errors.title }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="phone">Telefon raqam</label>
+              <input
+                id="phone"
+                type="text"
+                v-model="magazine.phone"
+                placeholder="+998XXXXXXXXX"
+                maxlength="13"
+                @input="sanitizePhone()"
+                @blur="validateField('phone')"
+              />
+              <p v-if="errors.phone" class="error-text">
+                {{ errors.phone }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input
+                id="address"
+                type="text"
+                v-model="magazine.address"
+                placeholder="Do`kon addressini kiriting"
+                maxlength="100"
+                @input="sanitizeInput('address')"
+                @blur="validateField('address')"
+              />
+              <p v-if="errors.address" class="error-text">
+                {{ errors.address }}
+              </p>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="quantity">Soni (Dona)</label>
-            <input
-              id="quantity"
-              type="number"
-              placeholder="Rasxod sonini kiriting"
-              v-model="debt.quantity"
-              @blur="validateField('quantity')"
-            />
-            <p v-if="errors.quantity" class="error-text">
-              {{ errors.quantity }}
-            </p>
-          </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <input
-              id="description"
-              type="text"
-              placeholder="Rasxod descriptionni kiriting"
-              v-model="debt.description"
-              @blur="validateField('description')"
-            />
-            <p v-if="errors.description" class="error-text">
-              {{ errors.description }}
-            </p>
-          </div>
-
-          <!-- <div class="form-group">
-            <label for="reason">Reason</label>
-            <input
-              id="reason"
-              type="text"
-              placeholder="Rasxod reaSoni (Dona) kiriting"
-              v-model="debt.reason"
-              @blur="validateField('reason')"
-            />
-            <p v-if="errors.reason" class="error-text">
-              {{ errors.reason }}
-            </p>
-          </div> -->
-
-          <div class="form-group">
-            <label for="price">Narxi</label>
-            <input
-              id="price"
-              type="number"
-              placeholder="Rasxod narxini kiriting"
-              v-model="debt.price"
-              readonly
-              @blur="validateField('price')"
-            />
-            <p v-if="errors.price" class="error-text">
-              {{ errors.price }}
-            </p>
-          </div>
+        </form>
+        <div class="modal-buttons d-flex j-end a-center gap24">
+          <button type="button" class="action-button" @click="closeModal">
+            Chiqish
+          </button>
+          <button
+            type="submit"
+            @click="submitForm"
+            class="action-button"
+            :disabled="isSubmitting"
+          >
+            {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
+          </button>
         </div>
-      </form>
-
-      <div class="modal-buttons d-flex j-end a-center gap24">
-        <button type="button" class="action-button" @click="$emit('close')">
-          Chiqish
-        </button>
-        <button
-          type="submit"
-          @click="submitForm"
-          class="action-button"
-          :disabled="isSubmitting"
-        >
-          {{
-            !isUpdate
-              ? isSubmitting
-                ? "Yaratilmoqda..."
-                : "Yaratish"
-              : isSubmitting
-              ? "Yangilanmoqda..."
-              : "Yangilash"
-          }}
-        </button>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
-import Icons from "@/components/Template/Icons.vue";
-import CustomSelectVue from "@/components/Template/customSelect.vue";
-import api from "@/Utils/axios";
 export default {
-  components: {
-    Icons,
-    CustomSelectVue,
-  },
   data() {
     return {
       isSubmitting: false,
-      isUpdate: false,
-      products: [],
-      debt: {
-        omborxonaProId: "",
-        quantity: 0,
-        description: "",
-        // reason: "",
-        price: 0,
+      magazine: {
+        title: "",
+        phone: "",
+        address: "",
       },
       errors: {},
     };
   },
-  props: {
-    update: {
-      type: Object,
-    },
-  },
   methods: {
-    sellectDebtId(id) {
-      this.debt.omborxonaProId = id._id;
-      this.debt.price = id.price;
+    closeModal() {
+      this.$emit("close");
+    },
+    sanitizeInput(field) {
+      this.magazine[field] = this.magazine[field].replace(/[^a-zA-Z0-9'`\s]/g, "");
+    },
+    sanitizePhone() {
+      this.magazine.phone = this.magazine.phone.replace(/[^0-9+]/g, "");
+      if (!this.magazine.phone.startsWith("+998")) {
+        this.magazine.phone = "+998";
+      }
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "omborxonaProId" && !this.debt.omborxonaProId.trim()) {
-        this.errors.omborxonaProId =
-          "Rasxodni rasxod turi  bo'sh bo'lmasligi kerak";
+      if (field === "title" && !this.magazine.title.trim()) {
+        this.errors.title = "Magazin nomi bo'sh bo'lmasligi kerak";
       }
-      // if (field === "reason" && !this.debt.reason.trim()) {
-      //   this.errors.reason = "Rasxod sababi bo'sh bo'lmasligi kerak";
-      // }
-      if (field === "description" && !this.debt.description.trim()) {
-        this.errors.description =
-          "Rasxodni description bo'sh bo'lmasligi kerak";
+      if (field === "address" && !this.magazine.address.trim()) {
+        this.errors.address = "Magazin addressi bo'sh bo'lmasligi kerak";
       }
-
-      if (
-        field === "quantity" &&
-        (!this.debt.quantity ||
-          isNaN(this.debt.quantity) ||
-          this.debt.quantity <= 0)
-      ) {
-        this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
+      if (field === "phone") {
+        const regex = /^\+998\d{9}$/;
+        if (!this.magazine.phone.trim()) {
+          this.errors.phone = "Telefon raqamini kiriting";
+        } else if (!regex.test(this.magazine.phone)) {
+          this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998XXXXXXXXX)";
+        }
       }
-      if (
-        field === "price" &&
-        (!this.debt.price || isNaN(this.debt.price) || this.debt.price <= 0)
-      ) {
-        this.errors.price = "Soni (Dona) musbat son bo‘lishi kerak";
-      }
-    },
-    getWarehouseProducts() {
-      api
-        .get("/api/typeOfWareHouses")
-        .then(({ status, data }) => {
-          if (status === 200) {
-            this.products = data?.typeOfWareHouses;
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     },
     submitForm() {
-      this.validateField("description");
-      this.validateField("quantity");
+      this.errors = {};
+      this.validateField("username");
+      this.validateField("phone");
       this.validateField("price");
-      this.validateField("omborxonaProId");
-
       for (const error in this.errors) {
-        if (this.errors[error] !== "") {
+        if (this.errors[error]) {
           return;
         }
       }
-
       this.isSubmitting = true;
+      const token = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))?.accessToken
+        : "";
       if (!this.isUpdate) {
         api
-          .post("/api/debt2", this.debt)
+          .post(
+            "/api/delivery",
+            {
+              username: this.delivery.username,
+              phone: this.delivery.phone,
+              price: this.delivery.price,
+            },
+            {
+              headers: {
+                authorization: token,
+              },
+            }
+          )
           .then(({ status }) => {
             if (status === 201) {
               this.$emit("status", {
                 status: "success",
-                message: "Rasxod yaratildi",
+                message: "Yetkazuvchi yaratildi",
               });
-              this.$emit("close");
+              this.closeModal();
               this.isSubmitting = false;
             } else {
-              this.$emit("error", {
+              this.$emit("status", {
                 status: "error",
-                message: "Rasxod qo`shishda hatolik",
+                message: "Yetkazuvchi yaratilishida hatolik yuz berdi",
               });
             }
           })
           .catch((error) => {
             console.error(error);
-            this.$emit("status", {
-              status: "error",
-              message: "Xatolik yuz berdi" || error.message,
-            });
           });
       } else {
         api
-          .put("/api/debt2/" + this?.update?.id, {
-            omborxonaProId: this.debt?.omborxonaProId,
-            quantity: this.debt?.quantity,
-            description: this.debt?.description,
-            reason: this.debt?.reason,
-            price: this.debt?.price,
-            breadId: this.debt?.breadId,
+          .put("/api/delivery/" + this.update.id, this.delivery, {
+            headers: {
+              authorization: token,
+            },
           })
           .then(({ status }) => {
             if (status === 200) {
               this.$emit("status", {
                 status: "success",
-                message: "Rasxod yangilandi",
+                message: "yetkazuvchi yangilandi",
               });
-              this.$emit("close");
+              this.closeModal();
               this.isSubmitting = false;
+              this.isUpdate = false;
             } else {
               this.$emit("status", {
                 status: "error",
-                message: "Rasxod yangilanishida",
+                message: "yetkazuvchi yangilanishida hatolik yuz berdi",
               });
             }
           })
           .catch((error) => {
+            this.isSubmitting = false;
             console.error(error);
           });
       }
     },
   },
-  mounted() {
-    this.getWarehouseProducts();
-    if (this?.update?.isUpdate) {
-      this.debt = {
-        omborxonaProId: this?.update?.omborxonaProId?._id,
-        quantity: this?.update?.quantity,
-        description: this?.update?.description,
-        // reason: this?.update?.reason,
-        price: this?.update?.omborxonaProId?.price,
-      };
-      this.isUpdate = true;
-    }
-  },
 };
 </script>
 
-<style></style>
+<style>
+.error-text {
+  color: red;
+  font-size: 14px;
+}
+</style>
