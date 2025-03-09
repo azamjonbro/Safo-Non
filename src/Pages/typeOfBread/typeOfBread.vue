@@ -12,7 +12,9 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Nomi</div>
-            <div class="cell">Narxi</div>
+            <div class="cell">Tan narxi</div>
+            <div class="cell">Narxi (do'kon uchun)</div>
+            <div class="cell">to'yxona uchun</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -21,6 +23,8 @@
             <div class="cell">{{ index + 1 }}</div>
             <div class="cell">{{ data?.title ? data?.title : "" }}</div>
             <div class="cell">{{ data?.price ? data?.price : 0 }}</div>
+            <div class="cell">{{ data?.price2 ? data?.price3 : 0 }}</div>
+            <div class="cell">{{ data?.price3 ? data?.price2 : 0 }}</div>
             <div class="cell d-flex a-center j-end gap12">
               <Icons
                 name="setting"
@@ -129,7 +133,7 @@ export default {
       this.getallTypeOfBread();
     },
     getallTypeOfBread() {
-      const token = localStorage.getItem("user")
+      const token = localStorage.getItem("user");
 
       api
         .get("/api/typeOfBreads")
