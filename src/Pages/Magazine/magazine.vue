@@ -15,6 +15,7 @@
             <div class="cell">Raqami</div>
             <div class="cell">Manzil</div>
             <div class="cell">Qarzdorlik</div>
+            <div class="cell"></div>
           </div>
         </div>
         <div class="table-body">

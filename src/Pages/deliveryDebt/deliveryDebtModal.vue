@@ -8,20 +8,19 @@
         <form>
           <div class="modal-form">
             <div class="form-group">
-              <label for="description">Description</label>
+              <label for="title">Nomi</label>
               <input
-                id="description"
+                id="title"
                 type="text"
-                placeholder="Chqim description kiriting"
+                placeholder="Chqim nomini kiriting"
                 maxlength="15"
-                v-model="deliveryDebt.description"
-                @blur="validateField('description')"
+                v-model="deliveryDebt.title"
+                @blur="validateField('title')"
               />
-              <p v-if="errors.description" class="error-text">
-                {{ errors.description }}
+              <p v-if="errors.title" class="error-text">
+                {{ errors.title }}
               </p>
             </div>
-
             <div class="form-group">
               <label for="price">Narxi</label>
               <input
@@ -33,6 +32,20 @@
               />
               <p v-if="errors.price" class="error-text">
                 {{ errors.price }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="description">Description</label>
+              <input
+                id="description"
+                type="text"
+                placeholder="Chqim description kiriting"
+                maxlength="15"
+                v-model="deliveryDebt.description"
+                @blur="validateField('description')"
+              />
+              <p v-if="errors.description" class="error-text">
+                {{ errors.description }}
               </p>
             </div>
           </div>
@@ -79,6 +92,7 @@ export default {
       isSubmitting: false,
       errors: {},
       deliveryDebt: {
+        title: "",
         description: "",
         price: 0,
       },
@@ -97,6 +111,10 @@ export default {
         this.errors.description = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
       }
 
+      if (field === "title" && !this.deliveryDebt.title.trim()) {
+        this.errors.title = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
+      }
+
       if (
         field === "price" &&
         (!this.deliveryDebt.price ||
@@ -111,6 +129,7 @@ export default {
       this.isUpdate = false;
     },
     submitForm() {
+      this.validateField("title");
       this.validateField("description");
       this.validateField("price");
 
