@@ -13,8 +13,8 @@
             <div class="cell">№</div>
             <div class="cell">Nomi</div>
             <div class="cell">Tan narxi</div>
-            <div class="cell">Narxi (do'kon uchun)</div>
-            <div class="cell">to'yxona uchun</div>
+            <div class="cell">Narxi (do'kon)</div>
+            <div class="cell">To'yxona</div>
             <div class="cell">Qop narxi</div>
             <div class="cell"></div>
           </div>

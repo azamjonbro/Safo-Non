@@ -12,7 +12,7 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Ismi</div>
-            <div class="cell">Date</div>
+            <div class="cell">Sana</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -55,6 +55,9 @@
               />
             </div>
           </div>
+          <p class="text16 d-flex j-center p-24" v-if="!managers.length">
+            Hozircha boshqaruvchilar mavjud emas
+          </p>
         </div>
       </div>
     </div>

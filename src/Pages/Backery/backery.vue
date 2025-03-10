@@ -13,8 +13,8 @@
             <div class="cell">№</div>
             <div class="cell">Ismi</div>
             <div class="cell">Raqami</div>
+            <div class="cell">Summa(qop)</div>
             <div class="cell">Maoshi</div>
-            <div class="cell">Summa</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -72,7 +72,7 @@
                   <div class="row-top">
                     <div class="cell">Sana</div>
                     <div class="cell">Summa</div>
-                    <div class="cell">Status</div>
+                    <div class="cell">Holat</div>
                     <div class="cell">Turi</div>
                     <div class="cell"></div>
                   </div>
