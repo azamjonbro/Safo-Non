@@ -25,7 +25,7 @@
               <div class="cell">{{ data?.title ? data?.title : "" }}</div>
               <div class="cell">{{ data?.phone ? data?.phone : "" }}</div>
               <div class="cell">{{ data?.address ? data?.address : "" }}</div>
-              <div class="cell">{{ data?.pending ? data?.pending : "" }}</div>
+              <div class="cell">{{ data?.pending ? data?.pending : 0 }}</div>
               <div class="cell d-flex  j-end gap12">
                 <Icons
                   name="setting"
@@ -37,7 +37,6 @@
                       phone: data?.phone,
                       address: data?.address,
                       pending: data?.pending,
-                      remainprice: data?.remainprice,
                       id: data?._id,
                     })
                   "
@@ -211,19 +210,15 @@ export default {
       this.updateVisible = true;
     },
     getMagazine() {
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
+
 
       api
-        .get("/api/magazines", {
-          headers: {
-            authorization: token,
-          },
-        })
+        .get("/api/magazines")
         .then(({ data, status }) => {
           if (status === 200) {
             this.allMagazine = data?.magazines;
+            console.log(data?.magazines);
+            
           }
         })
         .catch((error) => {
@@ -231,15 +226,8 @@ export default {
         });
     },
     deleteMagzine(id) {
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
       api
-        .delete("/api/magazine/" + id, {
-          headers: {
-            authorization: token,
-          },
-        })
+        .delete("/api/magazine/" + id)
         .then(({ status }) => {
           if (status === 200) {
             this.getMagazine();
