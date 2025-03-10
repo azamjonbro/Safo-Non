@@ -133,7 +133,7 @@ export default {
       this.validateField("type");
       this.validateField("status");
 
-      if (Object.keys(this.errors).length) {
+      if (Object.keys(!this.errors).length) {
         return;
       }
 
