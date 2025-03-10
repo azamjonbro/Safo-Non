@@ -39,7 +39,6 @@
                 type="text"
                 v-model="magazine.address"
                 placeholder="Do`kon addressini kiriting"
-                @input="applyRegex('address')"
                 @blur="validateField('address')"
                 maxlength="30"
               />
@@ -125,18 +124,18 @@ export default {
       if (field === "address" && !this.magazine.address.trim()) {
         this.errors.address = "Magazin addressi bo'sh bo'lmasligi kerak";
       }
-      if (field === "phone") {
-        const regex = /^\+998 \d{2} \d{3} \d{2} \d{2}$/;
-        if (!this.magazine.phone.trim()) {
-          this.errors.phone = "Telefon raqamini kiriting";
-        } else if (!regex.test(this.magazine.phone)) {
-          this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998 XX XXX XX XX)";
-        }
-      }
+      // if (field === "phone") {
+      //   const regex = /^\+998 \d{2} \d{3} \d{2} \d{2}$/;
+      //   if (!this.magazine.phone.trim()) {
+      //     this.errors.phone = "Telefon raqamini kiriting";
+      //   } else if (!regex.test(this.magazine.phone)) {
+      //     this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998 XX XXX XX XX)";
+      //   }
+      // }
       if (field === "pending") {
-        if (!this.magazine.pending || isNaN(this.magazine.pending) || this.magazine.pending < 0) {
-          this.errors.pending = "Narx musbat son bo‘lishi kerak";
-        }
+        // if (!this.magazine.pending || isNaN(this.magazine.pending) || this.magazine.pending < 0) {
+        //   this.errors.pending = "Narx musbat son bo‘lishi kerak";
+        // }
       }
     },
     applyRegex(field) {
@@ -146,29 +145,6 @@ export default {
       if (field === "address") {
         this.magazine.address = this.magazine.address.replace(/[^a-zA-Z0-9, ]/g, "");
       }
-    },
-    applyPhoneMask() {
-      let val = this.magazine.phone.replace(/\D/g, ""); 
-      if (val.length > 9) val = val.slice(0, 9); 
-
-      let formatted = "+998 ";
-      if (val.length > 2) {
-        formatted += val.slice(0, 2) + " ";
-        if (val.length > 5) {
-          formatted += val.slice(2, 5) + " ";
-          if (val.length > 7) {
-            formatted += val.slice(5, 7) + " " + val.slice(7);
-          } else {
-            formatted += val.slice(5);
-          }
-        } else {
-          formatted += val.slice(2);
-        }
-      } else {
-        formatted += val;
-      }
-
-      this.magazine.phone = formatted;
     },
     submitForm() {
       this.validateField("title");
