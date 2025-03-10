@@ -45,7 +45,7 @@
           >
             <Icons :name="'dayIncr'" />
             <span class="info-item">
-              <h3>{{ data.username }}</h3>
+              <h3>{{ data?.username }}</h3>
               <b>{{ formatPrice(data.prixod.totalPrice || 0) }}</b>
             </span>
           </div>
@@ -62,7 +62,7 @@
           >
             <Icons :name="'wallet'" />
             <span class="info-item">
-              <h3>{{ data.username }}</h3>
+              <h3>{{ data?.username }}</h3>
               <b>{{ formatPrice(data.debt.totalPrice || 0) }}</b>
             </span>
           </div>
@@ -79,7 +79,7 @@
           >
             <Icons :name="'allIncr'" />
             <span class="info-item">
-              <h3>{{ data.username }}</h3>
+              <h3>{{ data?.username }}</h3>
               <b>{{ formatPrice(data.pending.totalPrice || 0) }}</b>
             </span>
           </div>
