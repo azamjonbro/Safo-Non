@@ -17,8 +17,10 @@
       <DeliverySellerVue v-if="activePage == 'deliverySeller'" />'
       <DeliveryDebtVue v-if="activePage === 'deliveryDebt'" />
       <DeliveryHistoryVue v-if="activePage === 'deliveryHistory'" />
+      <SellerDashVue v-if="activePage === 'sellerDash'" />
+      <HomeDeliveryVue v-if="activePage === 'homeDelivery'" />
+      <ManagerdashboardVue v-if="activePage === 'Managerdashboard'" />
       <!-- <ErrorPage v-else/> -->
-      <!--  -->
     </main>
   </div>
 </template>
@@ -41,6 +43,9 @@ import SellerDebtVue from '@/Pages/SellerDebt/sellerDebt.vue';
 import DeliverySellerVue from '@/Pages/deliverySeller/deliverySeller.vue';
 import DeliveryDebtVue from '@/Pages/deliveryDebt/deliveryDebt.vue';
 import DeliveryHistoryVue from '@/Pages/deliveryHistory/deliveryHistory.vue';
+import SellerDashVue from '@/Pages/sellerDash/sellerDash.vue';
+import HomeDeliveryVue from '@/Pages/homeDelivery/homeDelivery.vue';
+import ManagerdashboardVue from '@/Pages/Managerdashboard/managerdashboard.vue';
 export default {
   name: "HomePage",
   components: {
@@ -60,7 +65,10 @@ export default {
     SellerDebtVue,
     DeliverySellerVue,
     DeliveryDebtVue,
-    DeliveryHistoryVue
+    DeliveryHistoryVue,
+    SellerDashVue,
+    HomeDeliveryVue,
+    ManagerdashboardVue
   },
   data() {
     return {

@@ -17,16 +17,15 @@ export default {
       if (event.persisted) {
         window.location.reload();
       }
+    },
+  },
+  mounted() {
+    const token = JSON.parse(localStorage.getItem("user")) || "";
+    if (!token) {
+      this.$router.push("/login");
+    } else {
+      this.$router.push("/");
     }
   },
-  mounted(){
-    const token= localStorage.getItem('user')
-    if(!token){
-      this.$router.push('/login')
-    }else{
-      this.$router.push('/')
-      // manager seller lar uchun ozini Dashboard qismiga o'tishi kerak bolgan function yozish kerak
-    }
-  }
 };
 </script>

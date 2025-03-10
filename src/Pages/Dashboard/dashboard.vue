@@ -26,17 +26,63 @@
             <b>{{ formatPrice(statics?.pending?.totalPrice || 0) }}</b>
           </span>
         </div>
-        <div
-          class="card"
-          v-for="(data, index) in manager"
-          :key="index"
-          @click="openModal = true"
-        >
-          <Icons :name="data?.iconname" />
-          <span class="info-item">
-            <h3>{{ data.title }}</h3>
-            <b>{{ formatPrice(data.price || 0) }}</b>
-          </span>
+      </div>
+      <div
+        v-for="(data, index) in manager"
+        :key="index"
+        style="margin-top: 15px"
+      >
+        <div class="infobox d-flex wrap">
+          <div
+            class="card"
+            @click="
+              openModalPage({
+                history: data?.prixod?.history,
+                type: 'prixod',
+                manager: data,
+              })
+            "
+          >
+            <Icons :name="'dayIncr'" />
+            <span class="info-item">
+              <h3>{{ data.username }}</h3>
+              <b>{{ formatPrice(data.prixod.totalPrice || 0) }}</b>
+            </span>
+          </div>
+
+          <div
+            class="card"
+            @click="
+              openModalPage({
+                history: data?.debt?.history,
+                type: 'debt',
+                manager: data,
+              })
+            "
+          >
+            <Icons :name="'wallet'" />
+            <span class="info-item">
+              <h3>{{ data.username }}</h3>
+              <b>{{ formatPrice(data.debt.totalPrice || 0) }}</b>
+            </span>
+          </div>
+
+          <div
+            class="card"
+            @click="
+              openModalPage({
+                history: data?.pending?.history,
+                type: 'pending',
+                manager: data,
+              })
+            "
+          >
+            <Icons :name="'allIncr'" />
+            <span class="info-item">
+              <h3>{{ data.username }}</h3>
+              <b>{{ formatPrice(data.pending.totalPrice || 0) }}</b>
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -62,7 +108,7 @@ export default {
     };
   },
   methods: {
-    async openModalPage(history) {
+    openModalPage(history) {
       if (this.historyItem) {
         this.historyItem = null;
       }
@@ -83,17 +129,8 @@ export default {
         Api.get("/api/statics")
           .then((response) => {
             this.statics = response.data.statics;
-            this.manager = [
-              ...response.data.managerStatics.debt?.history.map((item) => {
-                return { ...item, iconname: "dayIncr" };
-              }),
-              ...response.data.managerStatics.prixod?.history.map((item) => {
-                return { ...item, iconname: "allIncr" };
-              }),
-              ...response.data.managerStatics.pending?.history.map((item) => {
-                return { ...item, iconname: "allIncr" };
-              }),
-            ];
+
+            this.manager = response.data.managerStatics;
           })
           .catch((error) => {
             console.error("Error fetching statistics:", error);
