@@ -87,7 +87,7 @@ export default {
         ],
         delivery: [
           { title: "Dashboard", icon: "home", page: "homeDelivery" },
-          { title: "Magazin", icon: "product", page: "magazine" },
+          { title: "Do'konlar", icon: "product", page: "magazine" },
           { title: "Chiqimlar", icon: "rasxod", page: "deliveryDebt" },
           { title: "Tarix", icon: "history", page: "deliveryHistory" },
           { title: "Sozlamalar", icon: "setting", page: "settings" },

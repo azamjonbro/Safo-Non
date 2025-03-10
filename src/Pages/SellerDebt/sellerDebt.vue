@@ -11,22 +11,22 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
+            <div class="cell">Sana</div>
             <div class="cell">Nomi</div>
             <div class="cell">Soni (Dona)</div>
             <div class="cell">Narxi</div>
             <div class="cell">Tasnifi</div>
-            <div class="cell">date</div>
             <div class="cell"></div>
           </div>
         </div>
         <div class="table-body">
           <div class="row" v-for="(data, index) in sellerDebts" :key="index">
             <div class="cell">{{ index + 1 }}</div>
+            <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
             <div class="cell">{{ data.omborxonaProId?.name }}</div>
             <div class="cell">{{ data.quantity }}</div>
             <div class="cell">{{ formatPrice(data.omborxonaProId.price) }}</div>
             <div class="cell">{{ data.description }}</div>
-            <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
             <div class="cell d-flex j-end gap12">
               <Icons
                 name="setting"

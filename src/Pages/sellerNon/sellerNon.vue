@@ -12,8 +12,8 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Narxi</div>
-            <div class="cell">quantity</div>
-            <div class="cell">time</div>
+            <div class="cell">Soni</div>
+            <div class="cell">Vaqt</div>
             <div class="cell"></div>
           </div>
         </div>

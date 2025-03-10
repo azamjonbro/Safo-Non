@@ -11,10 +11,10 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
-            <div class="cell">Soni (Dona)</div>
-            <div class="cell">Description</div>
             <div class="cell">Yetkazuvchi</div>
+            <div class="cell">Soni (Dona)</div>
             <div class="cell">Umumiy hisob</div>
+            <div class="cell">Tasnifi</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -23,12 +23,12 @@
             <!-- Asosiy qator -->
             <div class="row">
               <div class="cell">{{ index + 1 }}</div>
-              <div class="cell">{{ data?.quantity || "" }}</div>
-              <div class="cell">{{ data?.description || "" }}</div>
               <div class="cell">{{ data?.deliveryId?.username || "" }}</div>
+              <div class="cell">{{ data?.quantity || "" }}</div>
               <div class="cell">
                 {{ formatPrice(data?.totalPrice) || 0 }} so`m
               </div>
+              <div class="cell">{{ data?.description || "" }}</div>
               <div class="cell d-flex a-center j-end gap12">
                 <Icons
                   name="setting"
@@ -57,7 +57,7 @@
           </div>
         </div>
         <p class="text16 d-flex j-center p-24" v-if="!allDelivery.length">
-          Hozircha Yetkazuvchilar mavjud emas
+          Yetkazuvchiga berilgan nonlar hozir mavjud emas
         </p>
       </div>
     </div>
