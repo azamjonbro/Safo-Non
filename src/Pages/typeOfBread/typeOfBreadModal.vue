@@ -39,10 +39,10 @@
                 type="number"
                 v-model="typeOfBread.price2"
                 placeholder="Non turini narxini kiriting"
-                @blur="validateField('price')"
+                @blur="validateField('price2')"
               />
-              <p v-if="errors.price" class="error-text">
-                {{ errors.price }}
+              <p v-if="errors.price2" class="error-text">
+                {{ errors.price2 }}
               </p>
             </div>
             <div class="form-group">
@@ -52,10 +52,24 @@
                 type="number"
                 v-model="typeOfBread.price3"
                 placeholder="Non turini narxini kiriting"
-                @blur="validateField('price')"
+                @blur="validateField('price3')"
               />
-              <p v-if="errors.price" class="error-text">
-                {{ errors.price }}
+              <p v-if="errors.price3" class="error-text">
+                {{ errors.price3 }}
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label for="price">Qop narxi uchun</label>
+              <input
+                id="price"
+                type="number"
+                v-model="typeOfBread.price4"
+                placeholder="Non turini qop narxini kiriting"
+                @blur="validateField('price4')"
+              />
+              <p v-if="errors.price4" class="error-text">
+                {{ errors.price4 }}
               </p>
             </div>
           </div>
@@ -100,6 +114,7 @@ export default {
         price: 0,
         price2: 0,
         price3: 0,
+        price4: 0,
       },
       errors: {},
       isUpdate: false,
@@ -128,7 +143,7 @@ export default {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }
 
-       if (
+      if (
         field === "price2" &&
         (!this.typeOfBread.price2 ||
           isNaN(this.typeOfBread.price2) ||
@@ -137,7 +152,7 @@ export default {
         this.errors.price2 = "Narx musbat son bo‘lishi kerak";
       }
 
-       if (
+      if (
         field === "price3" &&
         (!this.typeOfBread.price3 ||
           isNaN(this.typeOfBread.price3) ||
@@ -145,11 +160,23 @@ export default {
       ) {
         this.errors.price3 = "Narx musbat son bo‘lishi kerak";
       }
+
+      if (
+        field === "price4" &&
+        (!this.typeOfBread.price4 ||
+          isNaN(this.typeOfBread.price4) ||
+          this.typeOfBread.price4 <= 0)
+      ) {
+        this.errors.price4 = "Narx musbat son bo‘lishi kerak";
+      }
     },
     async submitForm() {
       this.errors = {};
       this.validateField("title");
       this.validateField("price");
+      this.validateField("price2");
+      this.validateField("price3");
+      this.validateField("price4");
 
       for (const error in this.errors) {
         if (this.errors[error] !== "") {
@@ -157,7 +184,7 @@ export default {
         }
       }
       this.isSubmitting = true;
-   
+
       if (!this.isUpdate) {
         try {
           await api.post("/api/typeOfBread", this.typeOfBread);
@@ -178,10 +205,7 @@ export default {
         }
       } else {
         try {
-          await api.put(
-            "/api/typeOfBread/" + this.update.id,
-            this.typeOfBread,
-          );
+          await api.put("/api/typeOfBread/" + this.update.id, this.typeOfBread);
           this.$emit("status", {
             status: "success",
             message: "Non turi yangilandi",

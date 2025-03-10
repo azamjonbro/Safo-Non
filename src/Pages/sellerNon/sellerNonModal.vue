@@ -6,7 +6,7 @@
         <h2>Nonvoy yaratish</h2>
         <form>
           <div class="modal-form">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="name">Foydalanuvchi nomi</label>
               <input
                 id="name"
@@ -29,7 +29,7 @@
                 @blur="validateField('ovenId')"
               />
               <p v-if="errors.ovenId" class="error-text">{{ errors.ovenId }}</p>
-            </div>
+            </div> -->
             <div class="form-group">
               <label for="quantity">Soni (Dona)</label>
               <input
@@ -80,7 +80,7 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="quantity">Narxi</label>
+              <label for="quantity">Qop Narxi</label>
               <input
                 id="price"
                 type="number"
@@ -91,6 +91,19 @@
               <!-- <p v-if="errors.price" class="error-text">
                 {{ errors.price }}
               </p> -->
+            </div>
+            <div class="form-group">
+              <label for="quantity">Qop Sonni</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="Rasxod narxi"
+                v-model="data.qopQuantity"
+                @blur="validateArrayField('qopQuantity', index)"
+              />
+              <p v-if="data.errors.qopQuantity" class="error-text">
+                {{ data.errors.qopQuantity }}
+              </p>
             </div>
             <div style="display: flex; align-items: end" class="gap12">
               <div class="form-group" style="width: 95%">
@@ -176,15 +189,22 @@ export default {
     return {
       isSubmitting: false,
       bread: {
-        name: "",
-        ovenId: "",
         quantity: 0,
         qopQuantity: 0,
       },
       errors: {},
       isUpdate: false,
       allTypeOfBread: [],
-      count: [{ id: 0, breadId: "", quantity: 0, price: 0, errors: {} }],
+      count: [
+        {
+          id: 0,
+          breadId: "",
+          quantity: 0,
+          qopQuantity: 0,
+          price: 0,
+          errors: {},
+        },
+      ],
     };
   },
   methods: {
@@ -205,6 +225,14 @@ export default {
             (isNaN(item.quantity) || item.quantity <= 0)
           ) {
             item.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
+          }
+          if (
+            field === "qopQuantity" &&
+            (!item.qopQuantity ||
+              isNaN(item.qopQuantity) ||
+              item.qopQuantity <= 0)
+          ) {
+            this.errors.qopQuantity = "Soni (Dona) musbat son bo‘lishi kerak";
           }
           return { ...item };
         } else {
@@ -271,9 +299,8 @@ export default {
     },
     async submitForm() {
       this.errors = {};
-      this.validateField("name");
-      this.validateField("ovenId");
       this.validateField("quantity");
+      this.validateField("qopQuantity");
 
       if (!Object.keys(this.errors).length) {
         return;
@@ -285,7 +312,11 @@ export default {
           const response = await api.post("/api/sellerBread", {
             ...this.bread,
             typeOfBreadId: this.count.map((item) => {
-              return { breadId: item.breadId, quantity: item.quantity };
+              return {
+                breadId: item.breadId,
+                quantity: item.quantity,
+                qopQuantity: item.qopQuantity,
+              };
             }),
           });
 
@@ -320,7 +351,11 @@ export default {
             {
               ...this.bread,
               typeOfBreadId: this.count.map((item) => {
-                return { breadId: item.breadId, quantity: item.quantity };
+                return {
+                  breadId: item.breadId,
+                  quantity: item.quantity,
+                  qopQuantity: item.qopQuantity,
+                };
               }),
             }
           );
@@ -390,7 +425,7 @@ export default {
 <style>
 .modal-form-2 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   margin-bottom: 10px;
 }

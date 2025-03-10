@@ -12,8 +12,6 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Narxi</div>
-            <div class="cell">Nomi</div>
-            <div class="cell">TandirId</div>
             <div class="cell">quantity</div>
             <div class="cell">time</div>
             <div class="cell"></div>
@@ -25,8 +23,6 @@
               <div class="top">
                 <div class="cell">{{ index + 1 }}</div>
                 <div class="cell">{{ formatPrice(data?.price) }}</div>
-                <div class="cell">{{ data?.name }}</div>
-                <div class="cell">{{ data?.ovenId }}</div>
                 <div class="cell">{{ data?.quantity }}</div>
                 <div class="cell">
                   {{ formatDate(new Date(data?.createdAt)) }}
@@ -66,6 +62,7 @@
                     <div class="cell">Nomi</div>
                     <div class="cell">Narxi</div>
                     <div class="cell">Sonni</div>
+                    <div class="cell">Qop Sonni</div>
                   </div>
                   <div class="history-body">
                     <div
@@ -80,6 +77,7 @@
                       <div class="cell">{{ item?.breadId?.title }}</div>
                       <div class="cell">{{ item?.breadId?.price }}</div>
                       <div class="cell">{{ item?.quantity }}</div>
+                      <div class="cell">{{ item?.qopQuantity }}</div>
                     </div>
                   </div>
                 </div>

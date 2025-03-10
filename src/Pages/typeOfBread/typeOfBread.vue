@@ -15,6 +15,7 @@
             <div class="cell">Tan narxi</div>
             <div class="cell">Narxi (do'kon uchun)</div>
             <div class="cell">to'yxona uchun</div>
+            <div class="cell">Qop narxi</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -22,9 +23,18 @@
           <div v-for="(data, index) in allTypeOfBread" :key="index" class="row">
             <div class="cell">{{ index + 1 }}</div>
             <div class="cell">{{ data?.title ? data?.title : "" }}</div>
-            <div class="cell">{{ data?.price ? data?.price : 0 }}</div>
-            <div class="cell">{{ data?.price2 ? data?.price3 : 0 }}</div>
-            <div class="cell">{{ data?.price3 ? data?.price2 : 0 }}</div>
+            <div class="cell">
+              {{ formatPrice(data?.price ? data?.price : 0) }}
+            </div>
+            <div class="cell">
+              {{ formatPrice(data?.price2 ? data?.price2 : 0) }}
+            </div>
+            <div class="cell">
+              {{ formatPrice(data?.price3 ? data?.price3 : 0) }}
+            </div>
+            <div class="cell">
+              {{ formatPrice(data?.price4 ? data?.price4 : 0) }}
+            </div>
             <div class="cell d-flex a-center j-end gap12">
               <Icons
                 name="setting"
@@ -102,6 +112,16 @@ export default {
     };
   },
   methods: {
+    formatDate(date) {
+      const day = String(date.getDate()).padStart(2, "0");
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const year = date.getFullYear();
+
+      return `${day}.${month}.${year}`;
+    },
+    formatPrice(price) {
+      return new Intl.NumberFormat("ru-RU").format(price);
+    },
     handleStatus(data) {
       this.toastOptions = {
         open: true,
