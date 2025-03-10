@@ -7,7 +7,7 @@
         @touchstart="handleTouchStart"
         @touchmove="handleTouchMove"
       >
-        <h1>{{ history?.manager.username }}</h1>
+        <h1>{{ history?.manager?.username }}</h1>
 
         <div class="table" v-if="history?.type == 'debt'">
           <div class="table-header">
