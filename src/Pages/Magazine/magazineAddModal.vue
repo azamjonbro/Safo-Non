@@ -6,7 +6,7 @@
         <h2>Non sotish</h2>
 
         <form>
-          <div class="scroll" style="height: 90%">
+          <div class="scroll" style="height: 100%">
             <div
               class="modal-form-2"
               v-for="(data, index) in typeOfBreadIds"
@@ -105,7 +105,7 @@
             <div class="form-group" v-if="isHideDeliveries">
               <label for="delivery">Yetkazuvchi</label>
               <CustomSelect
-                :options="deliveries"
+                :options="allDelivery"
                 id="delivery"
                 @input="selectDelivery($event)"
                 :selected="magazine?.deliveryId"
@@ -162,6 +162,7 @@ export default {
         { text: "Naxt", value: "Naxt" },
         { text: "Karta", value: "Karta" },
       ],
+      allDelivery: [],
     };
   },
   props: {
@@ -182,6 +183,9 @@ export default {
     },
     selectPayedMethod(value) {
       this.magazine.paymentMethod = value;
+    },
+    selectDelivery(value) {
+      this.magazine.deliveryId = value._id;
     },
     selectArray(value, index) {
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
@@ -206,7 +210,6 @@ export default {
     },
     closeModal() {
       this.$emit("close");
-      this.isUpdate = false;
     },
     validateField(field) {
       this.errors[field] = "";
@@ -262,8 +265,8 @@ export default {
         .then(({ status, data }) => {
           if (status === 201) {
             this.$emit("status", {
-              text: "Sotildi",
-              type: "success",
+              message: "Sotildi",
+              status: "success",
             });
             this.closeModal();
           }
@@ -278,6 +281,20 @@ export default {
         })
         .finally(() => {
           this.isSubmitting = false;
+        });
+    },
+    getDeliveries() {
+      api
+        .get("/api/deliveries")
+        .then(({ data, status }) => {
+          if (status === 200) {
+            this.allDelivery = data?.deliveries.map((item) => {
+              return { text: item.username, value: item };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
         });
     },
   },
