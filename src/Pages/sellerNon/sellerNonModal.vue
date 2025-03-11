@@ -422,7 +422,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .modal-form-2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

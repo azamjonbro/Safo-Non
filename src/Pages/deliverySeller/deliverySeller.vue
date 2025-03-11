@@ -30,6 +30,7 @@
               </div>
               <div class="cell">{{ data?.description || "" }}</div>
               <div class="cell d-flex a-center j-end gap12">
+                <Icons />
                 <Icons
                   name="setting"
                   title="sozlama"
