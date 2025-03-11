@@ -63,37 +63,38 @@
             <div v-if="expandedUserId === data._id" class="history">
               <div class="history-header">
                 <div class="row">
-                  <div class="cell">Sana</div>
-                  <div class="cell">Summa</div>
-                  <div class="cell">Holat</div>
-                  <div class="cell">Turi</div>
-                  <div class="cell"></div>
+                  <div class="cell">№</div>
+                  <div class="cell">Nomi</div>
+                  <div class="cell">Tan narxi</div>
+                  <div class="cell">Narxi (do'kon)</div>
+                  <div class="cell">To'yxona</div>
+                  <div class="cell">Qop narxi</div>
                 </div>
               </div>
               <div class="history-body">
                 <div
-                  v-for="(item, i) in data?.deliveryPayed"
+                  v-for="(item, i) in data?.typeOfBreadIds"
                   :key="i"
                   class="row"
                 >
+                  <div class="cell">{{ index + 1 }}</div>
+                  <div class="cell">{{ item.bread?.title ? item.bread?.title: "" }}</div>
                   <div class="cell">
-                    {{ formatDate(new Date(item?.createdAt)) }}
+                    {{ formatPrice(item.bread?.price ? item.bread?.price : 0) }}
                   </div>
-                  <div class="cell">{{ formatPrice(item?.price) }}</div>
-                  <div class="cell">{{ item?.status }}</div>
-                  <div class="cell">{{ item.type }}</div>
-                  <div class="cell d-flex j-end">
-                    <Icons
-                      name="deleted"
-                      title="o'chirish"
-                      class="icon danger"
-                      @click="openDeliveryPayedModal(item?._id)"
-                    />
+                  <div class="cell">
+                    {{ formatPrice(item.bread?.price2 ? item.bread?.price2 : 0) }}
+                  </div>
+                  <div class="cell">
+                    {{ formatPrice(item.bread?.price3 ? item.bread?.price : 0) }}
+                  </div>
+                  <div class="cell">
+                    {{ formatPrice(item.bread?.price4 ? item.bread?.price4 : 0) }}
                   </div>
                 </div>
                 <p
                   class="text16 d-flex j-center p-24"
-                  v-if="!data?.deliveryPayed?.length"
+                  v-if="!data?.typeOfBreadIds?.length"
                 >
                   Hozircha to'lovlar mavjud emas
                 </p>
