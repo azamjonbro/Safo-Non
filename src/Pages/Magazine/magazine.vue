@@ -128,6 +128,7 @@
     v-if="openAddModalVisible"
     @close="(openAddModalVisible = false), getMagazine()"
     :Delivery="Delivery"
+    @status="handleStatus($event)"
   />
 </template>
 
