@@ -78,7 +78,7 @@ export default {
      selected(newVal) {
       if (newVal !== null && newVal !== undefined && !!newVal) {
         this.loading = true;
-        const initialOption =  this.filteredOptions.find((option) => {
+        const initialOption =  this.filteredOptions?.find((option) => {
           return option?.value == newVal;
         });
         if (initialOption) {
@@ -116,7 +116,7 @@ export default {
       !!this.selected
     ) {
       this.loading = true;
-      const initialOption = this.filteredOptions.find(
+      const initialOption = this.filteredOptions?.find(
         (option) => {
           return option?.value == this.selected
         }
