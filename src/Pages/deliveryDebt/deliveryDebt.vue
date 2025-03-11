@@ -2,6 +2,7 @@
   <div class="page">
     <div class="page-top d-flex a-center j-between">
       <h3>Chiqimlar</h3>
+      
       <button class="create-button" @click="createModalVisible = true">
         Chiqimlar yaratish
       </button>
