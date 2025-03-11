@@ -14,7 +14,7 @@
       <SellerShopVue v-if="activePage == 'sellerShop'" />
       <SellerNonVue v-if="activePage == 'sellerNon'" />
       <SellerDebtVue v-if="activePage == 'sellerDebt'" />
-      <DeliverySellerVue v-if="activePage == 'deliverySeller'" />'
+      <DeliverySellerVue v-if="activePage == 'deliverySeller'" />
       <DeliveryDebtVue v-if="activePage === 'deliveryDebt'" />
       <DeliveryHistoryVue v-if="activePage === 'deliveryHistory'" />
       <SellerDashVue v-if="activePage === 'sellerDash'" />

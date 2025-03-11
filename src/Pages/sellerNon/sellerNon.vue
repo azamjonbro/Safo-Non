@@ -11,8 +11,7 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
-            <div class="cell">Narxi</div>
-            <div class="cell">Soni</div>
+            <div class="cell">Description</div>
             <div class="cell">Vaqt</div>
             <div class="cell"></div>
           </div>
@@ -22,8 +21,7 @@
             <div class="row-items">
               <div class="top">
                 <div class="cell">{{ index + 1 }}</div>
-                <div class="cell">{{ formatPrice(data?.price) }}</div>
-                <div class="cell">{{ data?.quantity }}</div>
+                <div class="cell">{{ data?.description }}</div>
                 <div class="cell">
                   {{ formatDate(new Date(data?.createdAt)) }}
                 </div>

@@ -203,7 +203,7 @@ export default {
                 return item.typeOfBreadId.map((i) => {
                   return {
                     text: i.breadId.title,
-                    value: { bread: i.breadId, price: item.price },
+                    value: item,
                   };
                 });
               })
@@ -244,7 +244,7 @@ export default {
     selectArray(value, index) {
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
         return item.id === index
-          ? { ...item, breadId: value.bread?._id, price: value.price }
+          ? { ...item, breadId: value?._id, price: value.price }
           : item;
       });
       console.log(this.typeOfBreadIds, value);

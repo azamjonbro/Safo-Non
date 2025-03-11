@@ -4,145 +4,126 @@
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Nonvoy yaratish</h2>
+
         <form>
-          <div class="modal-form">
-            <!-- <div class="form-group">
-              <label for="name">Foydalanuvchi nomi</label>
-              <input
-                id="name"
-                type="text"
-                v-model="bread.name"
-                placeholder="Foydalanuvchi nomini kiriting"
-                @blur="validateField('name')"
-              />
-              <p v-if="errors.name" class="error-text">
-                {{ errors.name }}
-              </p>
+          <div class="scroll" style="height: 80%">
+            <div
+              class="modal-form-2"
+              v-for="(data, index) in count"
+              :key="index"
+            >
+              <div class="form-group">
+                <label for="bread">Non turini tanlang</label>
+                <CustomSelectVue
+                  :search="true"
+                  :options="
+                    allTypeOfBread.map((item) => {
+                      return { text: item.title, value: item._id };
+                    })
+                  "
+                  id="bread"
+                  :selected="data?.breadId"
+                  @input="selectBread($event, index)"
+                  @blur="validateArrayField('breadId', index)"
+                />
+                <p v-if="data?.errors.breadId" class="error-text">
+                  {{ data?.errors.breadId }}
+                </p>
+              </div>
+              <div class="form-group">
+                <label for="quantity">Qop Narxi</label>
+                <input
+                  id="price"
+                  type="number"
+                  placeholder="Rasxod narxi"
+                  v-model="data.price"
+                  readonly
+                />
+                <!-- <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
+              </p> -->
+              </div>
+              <div class="form-group">
+                <label for="quantity">Qop Sonni</label>
+                <input
+                  id="price"
+                  type="number"
+                  placeholder="Rasxod narxi"
+                  v-model="data.qopQuantity"
+                  @blur="validateArrayField('qopQuantity', index)"
+                />
+                <p v-if="data.errors.qopQuantity" class="error-text">
+                  {{ data.errors.qopQuantity }}
+                </p>
+              </div>
+              <div style="display: flex; align-items: end" class="gap12">
+                <div class="form-group" style="width: 95%">
+                  <label for="quantity">Soni (Dona)</label>
+                  <input
+                    id="quantity"
+                    type="number"
+                    placeholder="Rasxod sonini kiriting"
+                    v-model="data.quantity"
+                    @blur="validateArrayField('quantity', index)"
+                  />
+                  <p v-if="data?.errors.quantity" class="error-text">
+                    {{ data?.errors.quantity }}
+                  </p>
+                </div>
+                <Icons
+                  name="deleted"
+                  title="o'chirish"
+                  class="icon danger"
+                  @click="deleteRow(data?.id)"
+                />
+              </div>
             </div>
+            <div class="d-flex j-end">
+              <button
+                type="button"
+                class="create-button"
+                @click="
+                  count.push({
+                    id: count.length,
+                    breadId: '',
+                    quantity: 0,
+                    price: 0,
+                    errors: {},
+                  })
+                "
+              >
+                Qo`shish
+              </button>
+            </div>
+          </div>
+          <div class="modal-form">
             <div class="form-group">
-              <label for="ovenId">Nonxonaga tegishli tandir raqami</label>
+              <label for="description">Description</label>
               <input
-                id="ovenId"
+                id="description"
                 type="text"
-                v-model="bread.ovenId"
-                placeholder="Foydalanuvchi tandir raqamini kiriting"
-                @blur="validateField('ovenId')"
+                v-model="bread.description"
+                placeholder="Foydalanuvchi nomini kiriting"
+                @blur="validateField('description')"
               />
-              <p v-if="errors.ovenId" class="error-text">{{ errors.ovenId }}</p>
-            </div> -->
-            <div class="form-group">
-              <label for="quantity">Soni (Dona)</label>
-              <input
-                id="quantity"
-                type="number"
-                placeholder="Rasxod sonini kiriting"
-                v-model="bread.quantity"
-                @blur="validateField('quantity')"
-              />
-              <p v-if="errors.quantity" class="error-text">
-                {{ errors.quantity }}
+              <p v-if="errors.description" class="error-text">
+                {{ errors.description }}
               </p>
             </div>
 
             <div class="form-group">
-              <label for="qopQuantity">Qop Soni (Dona)</label>
+              <label for="qopQuantity">totalPrice</label>
               <input
                 id="qopQuantity"
                 type="number"
                 placeholder="Qop sonini kiriting"
-                v-model="bread.qopQuantity"
-                @blur="validateField('qopQuantity')"
-              />
-              <p v-if="errors.qopQuantity" class="error-text">
-                {{ errors.qopQuantity }}
-              </p>
-            </div>
-          </div>
-        </form>
-        <form class="scroll" style="height: 50%">
-          <div class="modal-form-2" v-for="(data, index) in count" :key="index">
-            <div class="form-group">
-              <label for="bread">Non turini tanlang</label>
-              <CustomSelectVue
-                :search="true"
-                :options="
-                  allTypeOfBread.map((item) => {
-                    return { text: item.title, value: item._id };
-                  })
-                "
-                id="bread"
-                :selected="data?.breadId"
-                @input="selectBread($event, index)"
-                @blur="validateArrayField('breadId', index)"
-              />
-              <p v-if="data?.errors.breadId" class="error-text">
-                {{ data?.errors.breadId }}
-              </p>
-            </div>
-            <div class="form-group">
-              <label for="quantity">Qop Narxi</label>
-              <input
-                id="price"
-                type="number"
-                placeholder="Rasxod narxi"
-                v-model="data.price"
+                v-model="totalPrice"
                 readonly
               />
-              <!-- <p v-if="errors.price" class="error-text">
-                {{ errors.price }}
+              <!-- <p v-if="errors.qopQuantity" class="error-text">
+                {{ errors.qopQuantity }}
               </p> -->
             </div>
-            <div class="form-group">
-              <label for="quantity">Qop Sonni</label>
-              <input
-                id="price"
-                type="number"
-                placeholder="Rasxod narxi"
-                v-model="data.qopQuantity"
-                @blur="validateArrayField('qopQuantity', index)"
-              />
-              <p v-if="data.errors.qopQuantity" class="error-text">
-                {{ data.errors.qopQuantity }}
-              </p>
-            </div>
-            <div style="display: flex; align-items: end" class="gap12">
-              <div class="form-group" style="width: 95%">
-                <label for="quantity">Soni (Dona)</label>
-                <input
-                  id="quantity"
-                  type="number"
-                  placeholder="Rasxod sonini kiriting"
-                  v-model="data.quantity"
-                  @blur="validateArrayField('quantity', index)"
-                />
-                <p v-if="data?.errors.quantity" class="error-text">
-                  {{ data?.errors.quantity }}
-                </p>
-              </div>
-              <Icons
-                name="deleted"
-                title="o'chirish"
-                class="icon danger"
-                @click="deleteRow(data?.id)"
-              />
-            </div>
-          </div>
-          <div class="d-flex j-end">
-            <button
-              type="button"
-              class="create-button"
-              @click="
-                count.push({
-                  id: count.length,
-                  breadId: '',
-                  quantity: 0,
-                  price: 0,
-                  errors: {},
-                })
-              "
-            >
-              Qo`shish
-            </button>
           </div>
         </form>
         <div class="modal-buttons d-flex j-end a-center gap24">
@@ -189,8 +170,7 @@ export default {
     return {
       isSubmitting: false,
       bread: {
-        quantity: 0,
-        qopQuantity: 0,
+        description: "",
       },
       errors: {},
       isUpdate: false,
@@ -206,6 +186,11 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    totalPrice() {
+      return this.count.reduce((sum, item) => sum + item.qopQuantity, 0);
+    },
   },
   methods: {
     deleteRow(id) {
@@ -256,8 +241,9 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "name" && !this.bread.name.trim()) {
-        this.errors.name = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
+      if (field === "description" && !this.bread.description.trim()) {
+        this.errors.description =
+          "Foydalanuvchi description bo'sh bo'lmasligi kerak";
       }
       if (
         field === "ovenId" &&
@@ -400,17 +386,17 @@ export default {
   },
   mounted() {
     if (this?.update?.isUpdate) {
+      console.log(this.update)
       this.bread = {
         name: this?.update?.name,
-        ovenId: this?.update?.ovenId,
-        quantity: this?.update?.quantity,
+        description: this?.update?.description,
       };
 
       this.count = this.update.typeOfBreadId.map((item) => {
         return {
           breadId: item.breadId._id,
           quantity: item.quantity,
-          price: item.breadId.price,
+          qopQuantity: item.qopQuantity,
           errors: {},
         };
       });
