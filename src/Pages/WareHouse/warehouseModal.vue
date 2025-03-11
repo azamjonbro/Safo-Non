@@ -2,23 +2,14 @@
   <div class="modal" @click.self="$emit('close')">
     <div class="modal-content relative">
       <Icons name="xIcon" class="xIcon" @click="closeModal" />
-      <h3>{{!isUpdate?"Omborxona mahsulotini yaratish":"Omborxona mahsulotini yangilash"}}</h3>
+      <h3>{{ !isUpdate ? "Omborxona mahsulotini yaratish" : "Omborxona mahsulotini yangilash" }}</h3>
 
       <form>
         <div class="modal-form">
           <div class="form-group">
             <label for="typeId">Mahsulot nomi</label>
-            <!-- <CustomSelectVue
-              :options="warehouseTypyIds"
-              :placeholder="'Omborxona turini tanglang'"
-              @input="selectWarehouseId($event)"
-              @blur="validateField('typeId')"
-              :selected="warehouse.typeId"
-            /> -->
             <input id="typeId" type="text" placeholder="Omborxona turini tanglang" @blur="validateField('name')" v-model="warehouse.name" />
-            <p v-if="errors.typeId" class="error-text">
-              {{ errors.typeId }}
-            </p>
+            <p v-if="errors.name" class="error-text">{{ errors.name }}</p>
           </div>
           <div class="form-group">
             <label for="price">Narxi (dona)</label>
@@ -26,12 +17,10 @@
               id="price"
               type="number"
               v-model="warehouse.price"
-              placeholder="Omborxona narxi  kiriting"
+              placeholder="Omborxona narxi kiriting"
               @blur="validateField('price')"
             />
-            <p v-if="errors.price" class="error-text">
-              {{ errors.price }}
-            </p>
+            <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
           </div>
           <div class="form-group">
             <label for="quantity">Soni (dona/kg/metr)</label>
@@ -39,25 +28,19 @@
               id="quantity"
               type="number"
               v-model="warehouse.quantity"
-              placeholder="Omborxona sonini  kiriting"
+              placeholder="Omborxona sonini kiriting"
               @blur="validateField('quantity')"
             />
-            <p v-if="errors.quantity" class="error-text">
-              {{ errors.quantity }}
-            </p>
+            <p v-if="errors.quantity" class="error-text">{{ errors.quantity }}</p>
           </div>
           <div class="form-group">
-            <label for="quantity">Soni (dona/kg/metr)</label>
+            <label for="totalPrice">Umumiy narx</label>
             <input
-              id="quantity"
+              id="totalPrice"
               type="number"
-              v-model="warehouse.quantity"
-              placeholder="Omborxona sonini  kiriting"
-              @blur="validateField('quantity')"
+              :value="totalPrice"
+              readonly
             />
-            <p v-if="errors.quantity" class="error-text">
-              {{ errors.quantity }}
-            </p>
           </div>
         </div>
       </form>
@@ -91,6 +74,7 @@
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
 import CustomSelectVue from "@/components/Template/customSelect.vue";
+
 export default {
   components: {
     Icons,
@@ -113,6 +97,11 @@ export default {
       isUpdate: false,
     };
   },
+  computed: {
+    totalPrice() {
+      return this.warehouse.price * this.warehouse.quantity;
+    },
+  },
   methods: {
     closeModal() {
       this.$emit("close");
@@ -120,7 +109,7 @@ export default {
     validateField(field) {
       this.errors[field] = "";
       if (field === "name" && !this.warehouse?.name?.trim()) {
-        this.errors.name = "Non turini nomi bo'sh bo'lmasligi kerak";
+        this.errors.name = "Mahsulot nomi bo'sh bo'lmasligi kerak";
       }
       if (
         field === "price" &&
@@ -136,7 +125,7 @@ export default {
           isNaN(this.warehouse.quantity) ||
           this.warehouse.quantity < 0)
       ) {
-        this.errors.quantity = "Narx musbat son bo‘lishi kerak";
+        this.errors.quantity = "Soni musbat son bo‘lishi kerak";
       }
     },
     submitForm() {
@@ -199,7 +188,7 @@ export default {
             console.error(error);
             this.$emit("status", {
               status: "error",
-              message: "Omborxona yanglilanishida hatolik yuz berdi",
+              message: "Omborxona yangilanishida hatolik yuz berdi",
             });
           });
       }
@@ -217,6 +206,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

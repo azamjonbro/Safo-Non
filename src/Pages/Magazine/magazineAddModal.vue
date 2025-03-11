@@ -6,7 +6,7 @@
         <h2>Non sotish</h2>
 
         <form>
-          <div class="scroll" style="height: 100%">
+          <div class="scroll" style="height: 90%">
             <div
               class="modal-form-2"
               v-for="(data, index) in typeOfBreadIds"
@@ -183,9 +183,10 @@ export default {
     },
     selectPayedMethod(value) {
       this.magazine.paymentMethod = value;
-    },
+
     selectDelivery(value) {
       this.magazine.deliveryId = value._id;
+
     },
     selectArray(value, index) {
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
@@ -267,6 +268,7 @@ export default {
             this.$emit("status", {
               message: "Sotildi",
               status: "success",
+
             });
             this.closeModal();
           }
@@ -281,20 +283,6 @@ export default {
         })
         .finally(() => {
           this.isSubmitting = false;
-        });
-    },
-    getDeliveries() {
-      api
-        .get("/api/deliveries")
-        .then(({ data, status }) => {
-          if (status === 200) {
-            this.allDelivery = data?.deliveries.map((item) => {
-              return { text: item.username, value: item };
-            });
-          }
-        })
-        .catch((error) => {
-          console.error(error);
         });
     },
   },
