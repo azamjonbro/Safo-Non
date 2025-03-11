@@ -73,7 +73,7 @@ export default {
         style: {
           ...style,
           borderRadius:"10px",
-          background: bgColors[type] || style.background,
+          background: bgColors[type] || style?.background,
         },
       }).showToast();
     },

@@ -126,7 +126,7 @@
   />
   <MagazineAddModalVue
     v-if="openAddModalVisible"
-    @close="(openAddModalVisible = false), getMagazine()"
+    @close="closeAddModal"
     :Delivery="Delivery"
     @status="handleStatus($event)"
   />
@@ -171,6 +171,10 @@ export default {
     };
   },
   methods: {
+    closeAddModal(){
+      this.openAddModalVisible = false
+      this.getMagazine()
+    },
     openAddModal(id) {
       this.Delivery = {
         id,
@@ -280,7 +284,7 @@ export default {
     },
     deleteHistoryModalAxios(id) {
       api
-        .delete("/api/sellingBreadToMagazine/" + id)
+        .delete("/api/sellingBread/" + id)
         .then(({ status }) => {
           if (status === 200) {
             this.getMagazine();

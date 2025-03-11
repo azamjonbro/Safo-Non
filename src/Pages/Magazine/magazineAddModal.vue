@@ -105,7 +105,7 @@
             <div class="form-group" v-if="isHideDeliveries">
               <label for="delivery">Yetkazuvchi</label>
               <CustomSelect
-                :options="deliveries"
+                :options="allDelivery"
                 id="delivery"
                 @input="selectDelivery($event)"
                 :selected="magazine?.deliveryId"
@@ -162,6 +162,7 @@ export default {
         { text: "Naxt", value: "Naxt" },
         { text: "Karta", value: "Karta" },
       ],
+      allDelivery: [],
     };
   },
   props: {
@@ -182,6 +183,10 @@ export default {
     },
     selectPayedMethod(value) {
       this.magazine.paymentMethod = value;
+
+    selectDelivery(value) {
+      this.magazine.deliveryId = value._id;
+
     },
     selectArray(value, index) {
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
@@ -206,7 +211,6 @@ export default {
     },
     closeModal() {
       this.$emit("close");
-      this.isUpdate = false;
     },
     validateField(field) {
       this.errors[field] = "";
@@ -262,8 +266,9 @@ export default {
         .then(({ status, data }) => {
           if (status === 201) {
             this.$emit("status", {
-              text: "Sotildi",
-              type: "success",
+              message: "Sotildi",
+              status: "success",
+
             });
             this.closeModal();
           }
