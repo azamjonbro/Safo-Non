@@ -195,12 +195,19 @@ export default {
   methods: {
     getBreads() {
       api
-        .get("/api/typeOfBreads")
+        .get("/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.typeOfBreads = data?.typeOfBreads.map((item) => {
-              return { text: item.title, value: item };
-            });
+            this.typeOfBreads = data?.sellerBreads
+              .map((item) => {
+                return item.typeOfBreadId.map((i) => {
+                  return {
+                    text: i.breadId.title,
+                    value: { bread: i.breadId, price: item.price },
+                  };
+                });
+              })
+              .flat(Infinity);
           }
         })
         .catch((error) => {
@@ -237,9 +244,10 @@ export default {
     selectArray(value, index) {
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
         return item.id === index
-          ? { ...item, breadId: value._id, price: value.price }
+          ? { ...item, breadId: value.bread?._id, price: value.price }
           : item;
       });
+      console.log(this.typeOfBreadIds, value);
     },
     closeModal() {
       this.$emit("close");
@@ -303,7 +311,7 @@ export default {
             }
           })
           .catch((error) => {
-            this.isSubmitting = false
+            this.isSubmitting = false;
             console.error(error);
           });
       } else {
