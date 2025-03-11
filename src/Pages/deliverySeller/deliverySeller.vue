@@ -12,9 +12,10 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Yetkazuvchi</div>
-            <div class="cell">Soni (Dona)</div>
+            <!-- <div class="cell">Soni (Dona)</div> -->
             <div class="cell">Umumiy hisob</div>
             <div class="cell">Tasnifi</div>
+            <div class="cell">Sana</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -24,11 +25,12 @@
             <div class="row">
               <div class="cell">{{ index + 1 }}</div>
               <div class="cell">{{ data?.deliveryId?.username || "" }}</div>
-              <div class="cell">{{ data?.quantity || "" }}</div>
+              <!-- <div class="cell">{{ data?.quantity || "" }}</div> -->
               <div class="cell">
                 {{ formatPrice(data?.totalPrice) || 0 }} so`m
               </div>
               <div class="cell">{{ data?.description || "" }}</div>
+              <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
               <div class="cell d-flex a-center j-end gap12">
                 <Icons />
                 <Icons
@@ -51,9 +53,52 @@
                   class="icon danger"
                   @click="openDeleteModal(data?._id)"
                 />
+                <Icons
+                  name="bottomArrow"
+                  :class="{ rotated: expandedUserId === data._id }"
+                  @click="toggleHistory(data?._id)"
+                />
               </div>
             </div>
-
+            <div v-if="expandedUserId === data._id" class="history">
+              <div class="history-header">
+                <div class="row">
+                  <div class="cell">Sana</div>
+                  <div class="cell">Summa</div>
+                  <div class="cell">Holat</div>
+                  <div class="cell">Turi</div>
+                  <div class="cell"></div>
+                </div>
+              </div>
+              <div class="history-body">
+                <div
+                  v-for="(item, i) in data?.deliveryPayed"
+                  :key="i"
+                  class="row"
+                >
+                  <div class="cell">
+                    {{ formatDate(new Date(item?.createdAt)) }}
+                  </div>
+                  <div class="cell">{{ formatPrice(item?.price) }}</div>
+                  <div class="cell">{{ item?.status }}</div>
+                  <div class="cell">{{ item.type }}</div>
+                  <div class="cell d-flex j-end">
+                    <Icons
+                      name="deleted"
+                      title="o'chirish"
+                      class="icon danger"
+                      @click="openDeliveryPayedModal(item?._id)"
+                    />
+                  </div>
+                </div>
+                <p
+                  class="text16 d-flex j-center p-24"
+                  v-if="!data?.deliveryPayed?.length"
+                >
+                  Hozircha to'lovlar mavjud emas
+                </p>
+              </div>
+            </div>
             <!-- History qismi -->
           </div>
         </div>
@@ -127,6 +172,13 @@ export default {
     };
   },
   methods: {
+    toggleHistory(id) {
+      if (this.expandedUserId === id) {
+        this.expandedUserId = null;
+        return;
+      }
+      this.expandedUserId = id;
+    },
     handleStatus(data) {
       this.toastOptions = {
         open: true,

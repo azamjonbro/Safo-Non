@@ -7,7 +7,7 @@
 
         <form>
           <div class="modal-form">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="quantity">Soni (Dona)</label>
               <input
                 id="quantity"
@@ -19,7 +19,7 @@
               <p v-if="errors.quantity" class="error-text">
                 {{ errors.quantity }}
               </p>
-            </div>
+            </div> -->
             <div class="form-group">
               <label for="description">Description</label>
               <input
@@ -174,7 +174,7 @@ export default {
       isSubmitting: false,
       delivery: {
         description: "",
-        quantity: 0,
+        // quantity: 0,
         deliveryId: "",
         magazineId: "",
       },
@@ -266,18 +266,18 @@ export default {
       if (field === "magazineId" && !this.delivery.magazineId.trim()) {
         this.errors.magazineId = "Foydalanuvchi do`kon bo'sh bo'lmasligi kerak";
       }
-      if (
-        field === "quantity" &&
-        (!this.delivery.quantity ||
-          isNaN(this.delivery.quantity) ||
-          this.delivery.quantity <= 0)
-      ) {
-        this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
-      }
+      // if (
+      //   field === "quantity" &&
+      //   (!this.delivery.quantity ||
+      //     isNaN(this.delivery.quantity) ||
+      //     this.delivery.quantity <= 0)
+      // ) {
+      //   this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
+      // }
     },
     submitForm() {
       this.errors = {};
-      this.validateField("quantity");
+      // this.validateField("quantity");
       this.validateField("description");
       this.validateField("deliveryId");
       this.validateField("magazineId");
