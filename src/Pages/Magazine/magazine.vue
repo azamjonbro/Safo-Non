@@ -26,7 +26,13 @@
               <div class="cell">{{ data?.phone ? data?.phone : "" }}</div>
               <div class="cell">{{ data?.address ? data?.address : "" }}</div>
               <div class="cell">{{ data?.pending ? data?.pending : 0 }}</div>
-              <div class="cell d-flex  j-end gap12">
+              <div class="cell d-flex j-end gap12">
+                <Icons
+                  name="payed"
+                  title="To'lov"
+                  class="icon info setting"
+                  @click="openAddModal(data?._id)"
+                />
                 <Icons
                   name="setting"
                   title="sozlama"
@@ -83,7 +89,10 @@
                   </div>
                 </div>
               </div>
-              <p class="text16 d-flex j-center p-24" v-if="!data.history.length">
+              <p
+                class="text16 d-flex j-center p-24"
+                v-if="!data.history.length"
+              >
                 Hozircha qarzdorlik mavjud emas mavjud emas
               </p>
             </div>
@@ -115,6 +124,11 @@
     :isVisible="deleteHistoryModal"
     @response="closeHistoryModal($event)"
   />
+  <MagazineAddModalVue
+    v-if="openAddModalVisible"
+    @close="(openAddModalVisible = false), getMagazine()"
+    :Delivery="Delivery"
+  />
 </template>
 
 <script>
@@ -123,12 +137,14 @@ import api from "@/Utils/axios";
 import MagazineModalVue from "./magazineModal.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
 import ToastiffVue from "@/Utils/Toastiff.vue";
+import MagazineAddModalVue from "./magazineAddModal.vue";
 export default {
   components: {
     Icons,
     MagazineModalVue,
     RequiredModalVue,
     ToastiffVue,
+    MagazineAddModalVue,
   },
   data() {
     return {
@@ -147,9 +163,20 @@ export default {
       },
       expandedUserId: "",
       deleteHistoryModal: false,
+      openAddModalVisible: false,
+      Delivery: {
+        isActive: false,
+      },
     };
   },
   methods: {
+    openAddModal(id) {
+      this.Delivery = {
+        id,
+        isActive: true,
+      };
+      this.openAddModalVisible = true;
+    },
     closeHistoryModal(emit) {
       if (emit) {
         this.deleteHistoryModalAxios(this.selectedItem);
@@ -210,15 +237,12 @@ export default {
       this.updateVisible = true;
     },
     getMagazine() {
-
-
       api
         .get("/api/magazines")
         .then(({ data, status }) => {
           if (status === 200) {
             this.allMagazine = data?.magazines;
             console.log(data?.magazines);
-            
           }
         })
         .catch((error) => {

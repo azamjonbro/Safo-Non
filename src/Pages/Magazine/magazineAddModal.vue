@@ -3,63 +3,49 @@
     <div class="modal" @click.self="$emit('close')">
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
-        <h2>Yetkazuvchi yaratish</h2>
-
+        <h2>Non sotish</h2>
         <form>
           <div class="modal-form">
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="quantity">Soni (Dona)</label>
               <input
                 id="quantity"
                 type="number"
                 placeholder="Yetkazuvchini ismini kiriting"
-                v-model="delivery.quantity"
+                v-model="magazine.quantity"
                 @blur="validateField('quantity')"
               />
               <p v-if="errors.quantity" class="error-text">
                 {{ errors.quantity }}
               </p>
             </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <input
-                id="description"
-                type="text"
-                placeholder="Yetkazuvchini telefon raqamini kiriting"
-                v-model="delivery.description"
-                @blur="validateField('description')"
-              />
-              <p v-if="errors.description" class="error-text">
-                {{ errors.description }}
-              </p>
-            </div>
-            <div class="form-group">
-              <label for="delivery">Yetkazuvchi</label>
+      -->
+            <div class="form-group" v-if="isHideDeliveries">
+              <label for="delivery">To`lov turi</label>
               <CustomSelect
-                :options="deliveries"
+                :options="payedMethods"
                 id="delivery"
-                @input="selectDelivery($event)"
-                :selected="delivery.deliveryId"
+                @input="selectPayedMethod($event)"
+                :selected="magazine.payedMethod"
                 :search="true"
-                @blur="validateField('deliveryId')"
+                @blur="validateField('payedMethods')"
               />
               <p v-if="errors.deliveryId" class="error-text">
                 {{ errors.deliveryId }}
               </p>
             </div>
-
-            <div class="form-group">
-              <label for="magazines">Yetkazuvchi</label>
+            <div class="form-group" v-if="isHideDeliveries">
+              <label for="delivery">Yetkazuvchi</label>
               <CustomSelect
-                :options="magazines"
-                id="magazines"
-                @input="selectMagazine($event)"
-                :selected="delivery.magazineId"
+                :options="deliveries"
+                id="delivery"
+                @input="selectDelivery($event)"
+                :selected="magazine.deliveryId"
                 :search="true"
-                @blur="validateField('magazineId')"
+                @blur="validateField('deliveryId')"
               />
-              <p v-if="errors.magazineId" class="error-text">
-                {{ errors.magazineId }}
+              <p v-if="errors.deliveryId" class="error-text">
+                {{ errors.deliveryId }}
               </p>
             </div>
           </div>
@@ -133,7 +119,6 @@
             </button>
           </div>
         </form>
-
         <div class="modal-buttons d-flex j-end a-center gap24">
           <button type="button" class="action-button" @click="closeModal">
             Chiqish
@@ -172,27 +157,40 @@ export default {
   data() {
     return {
       isSubmitting: false,
-      delivery: {
-        description: "",
-        quantity: 0,
+      magazine: {
         deliveryId: "",
-        magazineId: "",
+        payedMethod: "",
       },
-      typeOfBreadIds: [{ id: 0, quantity: 0, breadId: "", errors: {} }],
-      deliveries: [],
-      magazines: [],
-      breads: [],
-      typeOfBreads: [],
       errors: {},
       isUpdate: false,
+      isHideDeliveries: false,
+      typeOfBreads: [],
+      typeOfBreadIds: [{ id: 0, quantity: 0, breadId: "", errors: {} }],
+      payedMethods: [
+        { text: "Naxt", value: "Naxt" },
+        { text: "Karta", value: "Karta" },
+      ],
     };
   },
   props: {
     update: {
       type: Object,
     },
+    Delivery: {
+      type: Object,
+    },
   },
   methods: {
+    selectPayedMethod(value) {
+      this.magazine.payedMethod = value;
+    },
+    selectArray(value, index) {
+      this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
+        return item.id === index
+          ? { ...item, breadId: value._id, price: value.price }
+          : item;
+      });
+    },
     getBreads() {
       api
         .get("/api/typeOfBreads")
@@ -207,62 +205,28 @@ export default {
           console.error(error);
         });
     },
-    getMagazines() {
-      api
-        .get("/api/magazines")
-        .then(({ status, data }) => {
-          if (status === 200) {
-            this.magazines = data.magazines.map((item) => {
-              return { text: item.title, value: item };
-            });
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    selectMagazine(id) {
-      this.delivery.magazineId = id._id;
-    },
-    selectDelivery(id) {
-      this.delivery.deliveryId = id._id;
-    },
-    deleteRow(index) {
-      if (this.typeOfBreadIds.length > 1) {
-        this.typeOfBreadIds = this.typeOfBreadIds.filter(
-          (item) => item.id !== index
-        );
-      }
-    },
-    selectArray(value, index) {
-      this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
-        return item.id === index
-          ? { ...item, breadId: value._id, price: value.price }
-          : item;
-      });
-    },
     closeModal() {
       this.$emit("close");
       this.isUpdate = false;
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "description" && !this.delivery.description.trim()) {
+      if (field === "description" && !this.magazine.description.trim()) {
         this.errors.description =
           "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
       }
-      if (field === "deliveryId" && !this.delivery.deliveryId.trim()) {
+      if (field === "deliveryId" && !this.magazine.deliveryId.trim()) {
         this.errors.deliveryId =
           "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
       }
-      if (field === "magazineId" && !this.delivery.magazineId.trim()) {
+      if (field === "magazineId" && !this.magazine.magazineId.trim()) {
         this.errors.magazineId = "Foydalanuvchi do`kon bo'sh bo'lmasligi kerak";
       }
       if (
         field === "quantity" &&
-        (!this.delivery.quantity ||
-          isNaN(this.delivery.quantity) ||
-          this.delivery.quantity <= 0)
+        (!this.magazine.quantity ||
+          isNaN(this.magazine.quantity) ||
+          this.magazine.quantity <= 0)
       ) {
         this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
       }
@@ -279,104 +243,25 @@ export default {
         }
       }
       this.isSubmitting = true;
-      if (!this.isUpdate) {
-        api
-          .post("/api/orderWithDelivery", {
-            ...this.delivery,
-            typeOfBreadIds: this.typeOfBreadIds.map((item) => {
-              return { quantity: item.quantity, bread: item.breadId };
-            }),
-          })
-          .then(({ status }) => {
-            if (status === 201) {
-              this.$emit("status", {
-                status: "success",
-                message: "Yetkazuvchi yaratildi",
-              });
-              this.closeModal();
-              this.isSubmitting = false;
-            } else {
-              this.$emit("status", {
-                status: "error",
-                message: "Yetkazuvchi yaratilishida hatolik yuz berdi",
-              });
-            }
-          })
-          .catch((error) => {
-            this.isSubmitting = false
-            console.error(error);
-          });
-      } else {
-        api
-          .put("/api/orderWithDelivery/" + this.update.id, {
-            ...this.delivery,
-            typeOfBreadIds: this.typeOfBreadIds.map((item) => {
-              return { quantity: item.quantity, breadId: item.breadId };
-            }),
-          })
-          .then(({ status }) => {
-            if (status === 200) {
-              this.$emit("status", {
-                status: "success",
-                message: "yetkazuvchi yangilandi",
-              });
-              this.closeModal();
-              this.isSubmitting = false;
-              this.isUpdate = false;
-            } else {
-              this.$emit("status", {
-                status: "error",
-                message: "yetkazuvchi yangilanishida hatolik yuz berdi",
-              });
-            }
-          })
-          .catch((error) => {
-            this.isSubmitting = false;
-            console.error(error);
-          });
-      }
-    },
-    getDeliveries() {
-      api
-        .get("/api/deliveries")
-        .then(({ status, data }) => {
-          if (status === 200) {
-            this.deliveries = data.deliveries.map((item) => {
-              return { text: item.username, value: item };
-            });
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
     },
   },
   mounted() {
-    this.getMagazines();
-    this.getDeliveries();
     this.getBreads();
-    if (this?.update?.isUpdate) {
-      (this.typeOfBreadIds = this.update?.typeOfBreadIds.map((item, index) => {
-        return {
-          id: index,
-          quantity: item.quantity,
-          breadId: item.bread._id,
-          price: item.bread.price,
-          errors: {},
-        };
-      })),
-        (this.delivery = {
-          quantity: this.update?.quantity,
-          description: this.update?.description,
-          delivery: this.update?.delivery,
-        });
-      this.isUpdate = true;
+    const role = JSON.parse(localStorage.getItem("user"))?.role;
+    if (role !== "delivery") {
+      this.getDeliveries();
+      this.isHideDeliveries = false;
+    } else {
+      this.isHideDeliveries = true;
+    }
+    if (this.Delivery?.isActive) {
+      this.magazine.deliveryId = this.Delivery?.id;
     }
   },
 };
 </script>
 
-<style>
+<style scoped>
 .modal-form-2 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
