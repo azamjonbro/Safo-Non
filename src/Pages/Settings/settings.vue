@@ -23,7 +23,7 @@
           <label for="password2">Parolni Qayta kirting</label>
           <input
             type="text"
-            placeholder="Password2"
+            placeholder="Password"
             id="password2"
             v-model="passwords.password2"
             @blur="validateField('password2')"
