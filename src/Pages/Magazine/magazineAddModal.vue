@@ -75,7 +75,7 @@
               </button>
             </div>
           </div>
-          <div class="modal-form">
+          <div class="modal-form-2">
             <div class="form-group">
               <label for="paymentMethod">To`lov turi</label>
               <CustomSelect
@@ -187,7 +187,6 @@ export default {
 },
     selectDelivery(value){
       this.magazine.deliveryId = value._id;
-
     },
     selectArray(value, index) {
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
@@ -269,7 +268,6 @@ export default {
             this.$emit("status", {
               message: "Sotildi",
               status: "success",
-
             });
             this.closeModal();
           }
@@ -284,6 +282,20 @@ export default {
         })
         .finally(() => {
           this.isSubmitting = false;
+        });
+    },
+    getDeliveries() {
+      api
+        .get("/api/deliveries")
+        .then(({ data, status }) => {
+          if (status === 200) {
+            this.allDelivery = data?.deliveries.map((item) => {
+              return { text: item.username, value: item };
+            });
+          }
+        })
+        .catch((error) => {
+          console.error(error);
         });
     },
   },

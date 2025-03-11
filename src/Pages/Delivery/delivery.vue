@@ -3,7 +3,7 @@
     <div class="page-top d-flex a-center j-between">
       <h3>Yetkazuvchilar</h3>
       <button class="create-button" @click="openModal = true">
-        Yetkazuvchi 
+        Yetkazuvchi
       </button>
     </div>
     <div class="scroll page-bottom p-24">
@@ -105,7 +105,10 @@
                     />
                   </div>
                 </div>
-                <p class="text16 d-flex j-center p-24" v-if="!data?.deliveryPayed?.length">
+                <p
+                  class="text16 d-flex j-center p-24"
+                  v-if="!data?.deliveryPayed?.length"
+                >
                   Hozircha to'lovlar mavjud emas
                 </p>
               </div>
@@ -263,7 +266,6 @@ export default {
       this.getDeliveries();
     },
     getDeliveries() {
- 
       api
         .get("/api/deliveries")
         .then(({ data, status }) => {
