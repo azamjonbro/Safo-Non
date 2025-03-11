@@ -25,7 +25,7 @@
             <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
             <div class="cell">{{ data.omborxonaProId?.name }}</div>
             <div class="cell">{{ data.quantity }}</div>
-            <div class="cell">{{ formatPrice(data.omborxonaProId.price) }}</div>
+            <div class="cell">{{ formatPrice(data.omborxonaProId?.price) }}</div>
             <div class="cell">{{ data.description }}</div>
             <div class="cell d-flex j-end gap12">
               <Icons

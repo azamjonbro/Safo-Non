@@ -3,7 +3,7 @@
     <div class="modal" @click.self="$emit('close')">
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
-        <h2>Dokon yaratish</h2>
+        <h2>Chiqim yaratish</h2>
         <form>
           <div class="modal-form">
             <div class="form-group">
@@ -131,7 +131,7 @@ export default {
       if (!this.isUpdate) {
         api
           .post(
-            "/api/delivery",
+            "/api/",
             {
               username: this.delivery.username,
               phone: this.delivery.phone,
