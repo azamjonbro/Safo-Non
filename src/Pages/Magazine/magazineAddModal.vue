@@ -183,8 +183,8 @@ export default {
     },
     selectPayedMethod(value) {
       this.magazine.paymentMethod = value;
-
-    selectDelivery(value) {
+},
+    selectDelivery(value){
       this.magazine.deliveryId = value._id;
 
     },
