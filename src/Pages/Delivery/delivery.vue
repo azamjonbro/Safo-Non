@@ -263,16 +263,9 @@ export default {
       this.getDeliveries();
     },
     getDeliveries() {
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
-
+ 
       api
-        .get("/api/deliveries", {
-          headers: {
-            authorization: token,
-          },
-        })
+        .get("/api/deliveries")
         .then(({ data, status }) => {
           if (status === 200) {
             this.allDelivery = data?.deliveries;
