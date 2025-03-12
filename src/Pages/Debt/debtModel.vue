@@ -21,13 +21,6 @@
                 :placeholder="'Rasxod turini  tanlang'"
                 :selected="debt.omborxonaProId"
               />
-              <!-- <input
-                type="text"
-                id="debtId"
-                placeholder="Rasxod nomini kiriting"
-                v-model="debt.title"
-                @blur="validateField('debtId')"
-              /> -->
               <p v-if="errors.debtId" class="error-text">{{ errors.debtId }}</p>
             </div>
             <div class="form-group">

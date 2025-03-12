@@ -45,90 +45,88 @@
               </div>
               <div class="cell">
                 {{ data?.sellerId?.username || "id" }}
-
-              </div>
-            </div>
-
-            <div class="table" v-if="history?.type == 'prixod'">
-              <div class="table-header">
-                <div class="row">
-                  <div class="cell">№</div>
-                  <div class="cell">Sana</div>
-                  <div class="cell">Soni</div>
-                  <div class="cell">Narxi</div>
-                  <div class="cell">Money</div>
-                  <div class="cell">Do`kon nomi</div>
-                </div>
-              </div>
-              <div class="table-body">
-                <div
-                  v-for="(data, index) in history?.history"
-                  :key="index"
-                  class="row"
-                >
-                  <div class="cell">{{ index + 1 }}</div>
-                  <div class="cell">
-                    {{ formatDate(new Date(data.createdAt)) }}
-                  </div>
-                  <div class="cell">
-                    {{ data?.quantity || 0 }}
-                  </div>
-                  <div class="cell">
-                    {{ data?.price || 0 }}
-                  </div>
-                  <div class="cell">
-                    {{ data?.money || "" }}
-                  </div>
-                  <div class="cell">
-                    {{ data?.magazineId?.title || "id" }}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="table" v-if="history?.type == 'pending'">
-              <div class="table-header">
-                <div class="row">
-                  <div class="cell">№</div>
-                  <div class="cell">Sana</div>
-                  <div class="cell">Soni</div>
-                  <div class="cell">Narxi</div>
-                  <div class="cell">Money</div>
-                  <div class="cell">Do`kon nomi</div>
-                </div>
-              </div>
-              <div class="table-body">
-                <div
-                  v-for="(data, index) in history?.history"
-                  :key="index"
-                  class="row"
-                >
-                  <div class="cell">{{ index + 1 }}</div>
-                  <div class="cell">
-                    {{ formatDate(new Date(data.createdAt)) }}
-                  </div>
-                  <div class="cell">
-                    {{ data?.quantity || 0 }}
-                  </div>
-                  <div class="cell">
-                    {{ data?.price || 0 }}
-                  </div>
-                  <div class="cell">
-                    {{ data?.money || "" }}
-                  </div>
-                  <div class="cell">
-                    {{ data?.magazineId?.title || "id" }}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <div class="modal-buttons d-flex j-end a-center gap24">
-            <button type="button" class="action-button" @click="$emit('close')">
-              Chiqish
-            </button>
+        <div class="table" v-if="history?.type == 'prixod'">
+          <div class="table-header">
+            <div class="row">
+              <div class="cell">№</div>
+              <div class="cell">Sana</div>
+              <div class="cell">Soni</div>
+              <div class="cell">Narxi</div>
+              <div class="cell">Money</div>
+              <div class="cell">Do`kon nomi</div>
+            </div>
           </div>
+          <div class="table-body">
+            <div
+              v-for="(data, index) in history?.history"
+              :key="index"
+              class="row"
+            >
+              <div class="cell">{{ index + 1 }}</div>
+              <div class="cell">
+                {{ formatDate(new Date(data.createdAt)) }}
+              </div>
+              <div class="cell">
+                {{ data?.quantity || 0 }}
+              </div>
+              <div class="cell">
+                {{ data?.price || 0 }}
+              </div>
+              <div class="cell">
+                {{ data?.money || "" }}
+              </div>
+              <div class="cell">
+                {{ data?.magazineId?.title || "id" }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table" v-if="history?.type == 'pending'">
+          <div class="table-header">
+            <div class="row">
+              <div class="cell">№</div>
+              <div class="cell">Sana</div>
+              <div class="cell">Soni</div>
+              <div class="cell">Narxi</div>
+              <div class="cell">Money</div>
+              <div class="cell">Do`kon nomi</div>
+            </div>
+          </div>
+          <div class="table-body">
+            <div
+              v-for="(data, index) in history?.history"
+              :key="index"
+              class="row"
+            >
+              <div class="cell">{{ index + 1 }}</div>
+              <div class="cell">
+                {{ formatDate(new Date(data.createdAt)) }}
+              </div>
+              <div class="cell">
+                {{ data?.quantity || 0 }}
+              </div>
+              <div class="cell">
+                {{ data?.price || 0 }}
+              </div>
+              <div class="cell">
+                {{ data?.money || "" }}
+              </div>
+              <div class="cell">
+                {{ data?.magazineId?.title || "id" }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-buttons d-flex j-end a-center gap24">
+          <button type="button" class="action-button" @click="$emit('close')">
+            Chiqish
+          </button>
         </div>
       </div>
     </div>

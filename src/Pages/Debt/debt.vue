@@ -34,7 +34,7 @@
               {{ data?.omborxonaProId ? data?.omborxonaProId.price : 0 }}
             </div>
             <div class="cell">
-              {{ data?.description ? data?.description.slice(0, 40) : "" }}
+              {{ data?.description?.slice(0, 40) || data?.reason || "" }}
             </div>
             <div class="cell">
               {{ data?.sellerId?.username || data?.deliveryId?.username || "" }}

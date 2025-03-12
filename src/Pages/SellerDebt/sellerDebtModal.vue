@@ -11,7 +11,7 @@
               <input
                 id="title"
                 type="text"
-                v-model="magazine.title"
+                v-model="debt.title"
                 placeholder="Do`kon nomini kiriting"
                 maxlength="50"
                 @input="sanitizeInput('title')"
@@ -22,33 +22,45 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="phone">Telefon raqam</label>
+              <label for="reason">reason</label>
               <input
-                id="phone"
+                id="reason"
                 type="text"
-                v-model="magazine.phone"
-                placeholder="+998XXXXXXXXX"
-                maxlength="13"
-                @input="sanitizePhone()"
-                @blur="validateField('phone')"
+                v-model="debt.reason"
+                placeholder="Do`kon addressini kiriting"
+                maxlength="100"
+                @blur="validateField('reason')"
               />
-              <p v-if="errors.phone" class="error-text">
-                {{ errors.phone }}
+              <p v-if="errors.reason" class="error-text">
+                {{ errors.reason }}
               </p>
             </div>
             <div class="form-group">
-              <label for="address">Address</label>
+              <label for="quantity">Sonni</label>
               <input
-                id="address"
-                type="text"
-                v-model="magazine.address"
-                placeholder="Do`kon addressini kiriting"
-                maxlength="100"
-                @input="sanitizeInput('address')"
-                @blur="validateField('address')"
+                id="quantity"
+                type="number"
+                v-model="debt.quantity"
+                placeholder="Sonni"
+                maxlength="13"
+                @blur="validateField('quantity')"
               />
-              <p v-if="errors.address" class="error-text">
-                {{ errors.address }}
+              <p v-if="errors.quantity" class="error-text">
+                {{ errors.quantity }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="price">Sonni</label>
+              <input
+                id="price"
+                type="number"
+                v-model="debt.price"
+                placeholder="Sonni"
+                maxlength="13"
+                @blur="validateField('price')"
+              />
+              <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
               </p>
             </div>
           </div>
@@ -63,7 +75,15 @@
             class="action-button"
             :disabled="isSubmitting"
           >
-            {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
+            {{
+              !isUpdate
+                ? isSubmitting
+                  ? "Yaratilmoqda..."
+                  : "Yaratish"
+                : isSubmitting
+                ? "Yangilanyapti..."
+                : "Yangilash"
+            }}
           </button>
         </div>
       </div>
@@ -72,52 +92,80 @@
 </template>
 
 <script>
+import api from "@/Utils/axios";
+import CustomSelectVue from "@/components/Template/customSelect.vue";
+import Icons from "@/components/Template/Icons.vue";
 export default {
+  components: {
+    CustomSelectVue,
+    Icons,
+  },
   data() {
     return {
       isSubmitting: false,
-      magazine: {
+      debt: {
         title: "",
-        phone: "",
-        address: "",
+        quantity: 0,
+        price: 0,
+        reason: "",
       },
       errors: {},
+      isUpdate: false,
     };
   },
+  props: {
+    update: {
+      type: Object,
+    },
+  },
   methods: {
+    // getDebtIds() {
+    //   api
+    //     .get("/api/typeOfWareHouses")
+    //     .then(({ data, status }) => {
+    //       if (status === 200) {
+    //         this.debtIds = data.typeOfWareHouses;
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
     closeModal() {
       this.$emit("close");
     },
     sanitizeInput(field) {
-      this.magazine[field] = this.magazine[field].replace(/[^a-zA-Z0-9'`\s]/g, "");
-    },
-    sanitizePhone() {
-      this.magazine.phone = this.magazine.phone.replace(/[^0-9+]/g, "");
-      if (!this.magazine.phone.startsWith("+998")) {
-        this.magazine.phone = "+998";
-      }
+      this.debt[field] = this.debt[field].replace(/[^a-zA-Z0-9'`\s]/g, "");
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "title" && !this.magazine.title.trim()) {
+      if (field === "title" && !this.debt.title.trim()) {
         this.errors.title = "Magazin nomi bo'sh bo'lmasligi kerak";
       }
-      if (field === "address" && !this.magazine.address.trim()) {
-        this.errors.address = "Magazin addressi bo'sh bo'lmasligi kerak";
+      if (field === "reason" && !this.debt.reason.trim()) {
+        this.errors.reason = "Magazin addressi bo'sh bo'lmasligi kerak";
       }
-      if (field === "phone") {
-        const regex = /^\+998\d{9}$/;
-        if (!this.magazine.phone.trim()) {
-          this.errors.phone = "Telefon raqamini kiriting";
-        } else if (!regex.test(this.magazine.phone)) {
-          this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998XXXXXXXXX)";
-        }
+
+      if (
+        field === "price" &&
+        (!this.debt.price || isNaN(this.debt.price) || this.debt.price < 0)
+      ) {
+        this.errors.price = "Narx musbat son bo‘lishi kerak";
+      }
+      if (
+        field === "quantity" &&
+        (!this.debt.quantity ||
+          isNaN(this.debt.quantity) ||
+          this.debt.quantity < 0)
+      ) {
+        this.errors.quantity = "Sonni musbat son bo‘lishi kerak";
       }
     },
     submitForm() {
       this.errors = {};
-      this.validateField("username");
-      this.validateField("phone");
+      this.validateField("title");
+      this.validateField("quantity");
+      this.validateField("reason");
       this.validateField("price");
       for (const error in this.errors) {
         if (this.errors[error]) {
@@ -125,29 +173,15 @@ export default {
         }
       }
       this.isSubmitting = true;
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))?.accessToken
-        : "";
+
       if (!this.isUpdate) {
         api
-          .post(
-            "/api/",
-            {
-              username: this.delivery.username,
-              phone: this.delivery.phone,
-              price: this.delivery.price,
-            },
-            {
-              headers: {
-                authorization: token,
-              },
-            }
-          )
+          .post("/api/debt1", this.debt)
           .then(({ status }) => {
             if (status === 201) {
               this.$emit("status", {
                 status: "success",
-                message: "Yetkazuvchi yaratildi",
+                message: "Chiqim yaratildi",
               });
               this.closeModal();
               this.isSubmitting = false;
@@ -160,14 +194,13 @@ export default {
           })
           .catch((error) => {
             console.error(error);
+          })
+          .finally(() => {
+            this.isSubmitting = false;
           });
       } else {
         api
-          .put("/api/delivery/" + this.update.id, this.delivery, {
-            headers: {
-              authorization: token,
-            },
-          })
+          .put("/api/debt1/" + this.update.id, this.debt)
           .then(({ status }) => {
             if (status === 200) {
               this.$emit("status", {
@@ -187,9 +220,23 @@ export default {
           .catch((error) => {
             this.isSubmitting = false;
             console.error(error);
+          })
+          .finally(() => {
+            this.isSubmitting = false;
           });
       }
     },
+  },
+  mounted() {
+    if (this.update.isUpdate) {
+      this.debt = {
+        title: this.update.title,
+        quantity: this.update.quantity,
+        price: this.update.price,
+        reason: this.update.reason,
+      };
+      this.isUpdate = true;
+    }
   },
 };
 </script>
@@ -200,3 +247,4 @@ export default {
   font-size: 14px;
 }
 </style>
+
