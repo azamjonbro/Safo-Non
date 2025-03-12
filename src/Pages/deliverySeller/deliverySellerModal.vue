@@ -203,7 +203,7 @@ export default {
                 return item.typeOfBreadId.map((i) => {
                   return {
                     text: i.breadId.title,
-                    value: item,
+                    value: { bread: i, id: item._id },
                   };
                 });
               })
@@ -244,7 +244,7 @@ export default {
     selectArray(value, index) {
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
         return item.id === index
-          ? { ...item, breadId: value?._id, price: value.price }
+          ? { ...item, breadId: value?.id, price: value?.bread?.breadId?.price }
           : item;
       });
       console.log(this.typeOfBreadIds, value);
@@ -255,15 +255,15 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "description" && !this.delivery.description.trim()) {
+      if (field === "description" && !this.delivery.description?.trim()) {
         this.errors.description =
           "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
       }
-      if (field === "deliveryId" && !this.delivery.deliveryId.trim()) {
+      if (field === "deliveryId" && !this.delivery.deliveryId?.trim()) {
         this.errors.deliveryId =
           "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
       }
-      if (field === "magazineId" && !this.delivery.magazineId.trim()) {
+      if (field === "magazineId" && !this.delivery.magazineId?.trim()) {
         this.errors.magazineId = "Foydalanuvchi do`kon bo'sh bo'lmasligi kerak";
       }
       // if (
@@ -319,7 +319,7 @@ export default {
           .put("/api/orderWithDelivery/" + this.update.id, {
             ...this.delivery,
             typeOfBreadIds: this.typeOfBreadIds.map((item) => {
-              return { quantity: item.quantity, breadId: item.breadId };
+              return { quantity: item.quantity, bread: item.breadId };
             }),
           })
           .then(({ status }) => {

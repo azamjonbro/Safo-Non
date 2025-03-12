@@ -73,23 +73,23 @@
               </div>
               <div class="history-body">
                 <div
-                  v-for="(item, i) in data?.typeOfBreadIds"
+                  v-for="(item, i) in data?.typeOfBreadIdss"
                   :key="i"
                   class="row"
                 >
                   <div class="cell">{{ index + 1 }}</div>
-                  <div class="cell">{{ item.bread?.title ? item.bread?.title: "" }}</div>
+                  <div class="cell">{{ item.breadId?.title ? item.breadId?.title: "" }}</div>
                   <div class="cell">
-                    {{ formatPrice(item.bread?.price ? item.bread?.price : 0) }}
+                    {{ formatPrice(item.breadId?.price ? item.breadId?.price : 0) }}
                   </div>
                   <div class="cell">
-                    {{ formatPrice(item.bread?.price2 ? item.bread?.price2 : 0) }}
+                    {{ formatPrice(item.breadId?.price2 ? item.breadId?.price2 : 0) }}
                   </div>
                   <div class="cell">
-                    {{ formatPrice(item.bread?.price3 ? item.bread?.price : 0) }}
+                    {{ formatPrice(item.breadId?.price3 ? item.breadId?.price : 0) }}
                   </div>
                   <div class="cell">
-                    {{ formatPrice(item.bread?.price4 ? item.bread?.price4 : 0) }}
+                    {{ formatPrice(item.breadId?.price4 ? item.breadId?.price4 : 0) }}
                   </div>
                 </div>
                 <p
