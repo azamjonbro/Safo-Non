@@ -41,16 +41,16 @@
                 }}
               </div>
               <div class="cell">
-                {{
-                  data?.quantity
-                    ? data.quantity
-                    : data?.omborxonaProId?.price
-                    ? data?.omborxonaProId?.price
-                    : 0
-                }}
+                {{ data?.quantity }}
               </div>
               <div class="cell">
-                {{ data?.price || 0 }}
+                {{
+                  data?.price
+                    ? data?.price
+                    : data?.omborxonaProId.price
+                    ? data?.omborxonaProId.price
+                    : 0
+                }}
               </div>
               <div class="cell">
                 {{ data?.reason || data.description || "" }}

@@ -24,7 +24,9 @@
               <div class="top">
                 <div class="cell">{{ index + 1 }}</div>
                 <div class="cell">{{ data?.name ? data?.name : "id" }}</div>
-                <div class="cell">{{ data?.price ? data?.price : 0 }}</div>
+                <div class="cell">
+                  {{ data.price || 0 }}
+                </div>
                 <div class="cell">
                   {{ data?.quantity ? data?.quantity : 0 }}
                 </div>
@@ -82,7 +84,9 @@
                   >
                     <div class="cell">{{ formatDate(item?.createdAt) }}</div>
                     <div class="cell">{{ item?.quantity }}</div>
-                    <div class="cell">{{ item?.price }}</div>
+                    <div class="cell">
+                      {{ item?.price || item.omborxonaProId.price }}
+                    </div>
                     <div class="cell">{{ item?.type }}</div>
                     <div class="cell d-flex j-end">
                       <Icons
