@@ -156,12 +156,12 @@
   <ToastiffVue :toastOptions="toastOptions" />
   <SellerDebt2ModalVue
     v-if="createModal2Visible"
-    @close="(createModal2Visible = false), getSellerDebts2()"
+    @close="(createModal2Visible = false), getSellerDebts()"
     @status="handleStatus($event)"
   />
   <SellerDebt2ModalVue
     v-if="updateModal2Visible"
-    @close="(updateModal2Visible = false), getSellerDebts2()"
+    @close="(updateModal2Visible = false), getSellerDebts()"
     :update="update"
     @status="handleStatus($event)"
   />
@@ -221,6 +221,7 @@ export default {
       }
       this.delete2ModalVisible = false;
       this.selectedItem = null;
+      this.getSellerDebts2()
     },
     changeTab(tab) {
       this.activePage = tab;
@@ -241,10 +242,10 @@ export default {
       };
     },
     closeCreateModal() {
-      (this.createModalVisible = false), this.getSellerDebts();
+      (this.createModalVisible = false), this.getSellerDebts2();
     },
     closeUpdateModal() {
-      (this.updateModalVisible = false), this.getSellerDebts();
+      (this.updateModalVisible = false), this.getSellerDebts2();
     },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
