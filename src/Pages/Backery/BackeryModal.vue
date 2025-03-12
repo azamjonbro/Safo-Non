@@ -45,7 +45,7 @@
               />
               <p v-if="errors.phone" class="error-text">{{ errors.phone }}</p>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="price">Har bir non uchun narxi</label>
               <input
                 id="price"
@@ -57,7 +57,7 @@
                 max="999999"
               />
               <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
-            </div>
+            </div> -->
             <div class="form-group" v-if="isUpdate">
               <label for="password">Parol</label>
               <input
@@ -115,7 +115,7 @@ export default {
       user: {
         username: "",
         phone: "",
-        price: "",
+        // price: "",
         ovenId: "",
         password: "",
       },
@@ -147,9 +147,9 @@ export default {
         }
       }
 
-      if (field === "price" && (!this.user.price || isNaN(this.user.price) || this.user.price < 0)) {
-        this.errors.price = "Narx musbat son bo‘lishi kerak";
-      }
+      // if (field === "price" && (!this.user.price || isNaN(this.user.price) || this.user.price < 0)) {
+      //   this.errors.price = "Narx musbat son bo‘lishi kerak";
+      // }
     },
     applyPhoneMask() {
       this.user.phone = this.user.phone.replace(/[^0-9+]/g, ""); // Faqat raqam va "+" ni qoldiradi
@@ -164,7 +164,7 @@ export default {
       this.errors = {};
       this.validateField("username");
       this.validateField("phone");
-      this.validateField("price");
+      // this.validateField("price");
       this.validateField("ovenId");
 
       if (Object.keys(!this.errors).length) {

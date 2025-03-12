@@ -228,7 +228,7 @@ export default {
     },
   },
   mounted() {
-    if (this.update.isUpdate) {
+    if (this?.update?.isUpdate) {
       this.debt = {
         title: this.update.title,
         quantity: this.update.quantity,

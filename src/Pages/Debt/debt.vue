@@ -60,7 +60,7 @@
                 name="deleted"
                 title="o'chirish"
                 class="icon danger"
-                @click="openDeleteModal(data?._id)"
+                @click="openDeleteModal(data)"
               />
             </div>
           </div>
@@ -146,7 +146,6 @@ export default {
     },
     openDeleteModal(item) {
       this.selectedItem = item;
-
       this.deleteModalVisible = true;
     },
     openUpdateModal(item) {
@@ -176,9 +175,19 @@ export default {
           }
         });
     },
-    deleteDebt(id) {
+    deleteDebt(data) {
       api
-        .delete("/api/debt2/" + id)
+        .delete(
+          `/api/${
+            data?.role === "seller" && data?.title
+              ? "debt1"
+              : data?.role === "seller" && data?.omborxonaProId
+              ? "debt2"
+              : data?.role === "delivery" && data.description
+              ? "deliveryDebt"
+              : ""
+          }/${data._id}`
+        )
         .then(({ status }) => {
           if (status === 200) {
             this.toastOptions = {
