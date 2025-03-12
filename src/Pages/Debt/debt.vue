@@ -17,25 +17,32 @@
             <div class="cell">Soni</div>
             <div class="cell">Narxi</div>
             <div class="cell">Tavsif</div>
-            <div class="cell">Nonvoy</div>
+            <div class="cell">Kimdan</div>
+            <div class="cell">Rol</div>
             <div class="cell"></div>
           </div>
         </div>
         <div class="table-body">
           <div v-for="(data, index) in debts" :key="index" class="row">
             <div class="cell">{{ index + 1 }}</div>
-            <div class="cell">{{ data.omborxonaProId?.name }}</div>
+            <div class="cell">
+              {{ data.title || data.omborxonaProId?.name }}
+            </div>
             <!-- <div>{{ data?.reason ? data?.reason : "" }}</div> -->
             <div class="cell">{{ data?.quantity ? data?.quantity : 0 }}</div>
-            <div class="cell">{{ data?.omborxonaProId ? data?.omborxonaProId.price : 0 }}</div>
+            <div class="cell">
+              {{ data?.omborxonaProId ? data?.omborxonaProId.price : 0 }}
+            </div>
             <div class="cell">
               {{ data?.description ? data?.description.slice(0, 40) : "" }}
             </div>
             <div class="cell">
-              {{ data?.sellerId ? data?.sellerId?.username : "id" }}
+              {{ data?.sellerId?.username || data?.deliveryId?.username || "" }}
+            </div>
+            <div class="cell">
+              {{ data?.role || "" }}
             </div>
             <div class="cell d-flex a-center j-end gap12">
-
               <Icons
                 @click="
                   openUpdateModal({
@@ -100,7 +107,7 @@ export default {
     RequiredModalVue,
     ToastiffVue,
     TypeOfDebtModalVue,
-    Icons
+    Icons,
   },
   data() {
     return {
