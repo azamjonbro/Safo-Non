@@ -189,13 +189,19 @@ export default {
   justify-content: space-around;
   flex-direction: column;
   height: 100%;
+  min-height: 40vh;
 }
+
 .static-history > div {
   height: 100%;
 }
+.relative>.table{
+  height: 100vh;
+}
 .static-history .table {
-  height: 100%;
+  height: 100vh;
   margin-top: 15px;
+  background: red;
 }
 .static-history .modal-buttons {
   height: 15% !important;
