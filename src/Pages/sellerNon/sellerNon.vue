@@ -11,8 +11,8 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
-            <div class="cell">Description</div>
             <div class="cell">Vaqt</div>
+            <div class="cell">Description</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -21,10 +21,10 @@
             <div class="row-items">
               <div class="top">
                 <div class="cell">{{ index + 1 }}</div>
-                <div class="cell">{{ data?.description }}</div>
                 <div class="cell">
                   {{ formatDate(new Date(data?.createdAt)) }}
                 </div>
+                <div class="cell">{{ data?.description }}</div>
                 <div class="cell d-flex a-center j-end gap12">
                   <Icons
                     name="setting"
@@ -56,7 +56,6 @@
                 <div class="history-header">
                   <div class="row-top">
                     <div class="cell">№</div>
-                    <div class="cell">Sana</div>
                     <div class="cell">Nomi</div>
                     <div class="cell">Narxi</div>
                     <div class="cell">Sonni</div>
@@ -69,9 +68,6 @@
                       :key="index"
                     >
                       <div class="cell">{{ index + 1 }}</div>
-                      <div class="cell">
-                        {{ formatDate(new Date(item?.breadId?.createdAt)) }}
-                      </div>
                       <div class="cell">{{ item?.breadId?.title }}</div>
                       <div class="cell">{{ item?.breadId?.price }}</div>
                       <div class="cell">{{ item?.quantity }}</div>
