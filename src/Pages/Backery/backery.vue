@@ -13,7 +13,6 @@
             <div class="cell">№</div>
             <div class="cell">Ismi</div>
             <div class="cell">Raqami</div>
-            <div class="cell">Summa(qop)</div>
             <div class="cell">Maoshi</div>
             <div class="cell"></div>
           </div>
@@ -25,7 +24,6 @@
                 <div class="cell">{{ data?.ovenId || "-----------" }}</div>
                 <div class="cell">{{ data?.username }}</div>
                 <div class="cell">{{ data?.phone }}</div>
-                <div class="cell">{{ formatPrice(data?.price || 0) }} sum</div>
                 <div class="cell">
                   {{ formatPrice(data.totalPrice || 0) }} sum
                 </div>

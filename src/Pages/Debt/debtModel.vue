@@ -258,10 +258,10 @@ export default {
           })
           .catch((error) => {
             console.error(error);
-            this.isSubmitting = false
+            this.isSubmitting = false;
             this.$emit("status", {
               status: "error",
-              message: "Xatolik yuz berdi" || error.message,
+              message: error.response.data.message || "Xatolik yuz berdi",
             });
           });
       } else {
@@ -283,7 +283,7 @@ export default {
             }
           })
           .catch((error) => {
-            this.isSubmitting = false
+            this.isSubmitting = false;
             console.error(error);
             this.$emit("status", {
               status: "error",
