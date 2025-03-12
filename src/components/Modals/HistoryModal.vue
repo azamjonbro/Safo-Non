@@ -32,16 +32,28 @@
                 {{ formatDate(new Date(data.createdAt)) }}
               </div>
               <div class="cell">
-                {{ data?.title || "" }}
+                {{
+                  data?.title
+                    ? data.title
+                    : data?.omborxonaProId?.name
+                    ? data?.omborxonaProId?.name
+                    : " ----"
+                }}
               </div>
               <div class="cell">
-                {{ data?.quantity || 0 }}
+                {{
+                  data?.quantity
+                    ? data.quantity
+                    : data?.omborxonaProId?.price
+                    ? data?.omborxonaProId?.price
+                    : 0
+                }}
               </div>
               <div class="cell">
                 {{ data?.price || 0 }}
               </div>
               <div class="cell">
-                {{ data?.reason || "" }}
+                {{ data?.reason || data.description || "" }}
               </div>
               <div class="cell">
                 {{ data?.sellerId?.username || "id" }}
