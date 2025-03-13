@@ -386,17 +386,17 @@ export default {
   },
   mounted() {
     if (this?.update?.isUpdate) {
-      console.log(this.update)
+      console.log(this.update);
       this.bread = {
         name: this?.update?.name,
         description: this?.update?.description,
       };
-
       this.count = this.update.typeOfBreadId.map((item) => {
         return {
           breadId: item.breadId._id,
           quantity: item.quantity,
           qopQuantity: item.qopQuantity,
+          price: item.breadId.price,
           errors: {},
         };
       });
