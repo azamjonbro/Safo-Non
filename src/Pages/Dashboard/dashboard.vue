@@ -81,14 +81,17 @@
           <Icons :name="'dayIncr'" />
           <span class="info-item">
             <h3>Kirimlar Soni</h3>
-            <b>{{ formatPrice(statics?.prixod?.history.length || 0) }}</b>
+            <b>{{ warehouseTotal.length || 0 }}</b>
           </span>
         </div>
         <div class="card">
           <Icons :name="'wallet'" />
           <span class="info-item">
             <h3>Omborxonadagi Summasi</h3>
-            <b>{{ warehouseTotal }}</b>
+            <b>{{ formatPrice(warehouseTotal.reduce(
+              (a, b) => a + b?.price,
+              0
+            )) }}</b>
           </span>
         </div>
         <div class="card">
@@ -119,7 +122,7 @@ export default {
       statics: {},
       historyItem: null,
       manager: [],
-      warehouseTotal: 0,
+      warehouseTotal: [],
       debt2Total: 0,
     };
   },
@@ -139,10 +142,7 @@ export default {
       Api.get("/api/typeOfWareHouses")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.warehouseTotal = data?.typeOfWareHouses.reduce(
-              (a, b) => a + b?.price,
-              0
-            );
+            this.warehouseTotal = data?.typeOfWareHouses
           }
         })
         .catch((error) => {
