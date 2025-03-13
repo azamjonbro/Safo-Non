@@ -33,15 +33,44 @@
 
 <script>
 import Icons from "@/components/Template/Icons.vue";
+import api from '@/Utils/axios';
 export default {
   components: {
     Icons,
   },
+  data() {
+    return {
+      openModal: false,
+      statics: {},
+      historyItem: null,
+    };
+  },
   methods: {
+    getStatics() {
+      api.get("/api/statics")
+        .then((response) => {
+          this.statics = response.data.statics;
+
+          this.manager = response.data.managerStatics;
+        })
+        .catch((error) => {
+          console.error("Error fetching statistics:", error);
+        });
+    },
     formatPrice(price) {
       return new Intl.NumberFormat("ru-RU").format(price);
     },
+    openModalPage(history) {
+      if (this.historyItem) {
+        this.historyItem = null;
+      }
+      this.historyItem = history;
+      this.openModal = true;
+    },
   },
+  mounted(){
+    this.getStatics()
+  }
 };
 </script>
 <style>
