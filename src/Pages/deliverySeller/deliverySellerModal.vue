@@ -184,12 +184,14 @@ export default {
               .map((item) => {
                 return item.typeOfBreadId.map((i) => {
                   return {
-                    text: i.breadId.title,
+                    text: i.breadId?.title,
                     value: { bread: i, id: item._id },
                   };
                 });
               })
               .flat(Infinity);
+
+            console.log(this.typeOfBreads);
           }
         })
         .catch((error) => {
