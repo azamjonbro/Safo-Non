@@ -51,16 +51,7 @@
         style="margin-top: 15px"
       >
         <div class="infobox d-flex wrap">
-          <div
-            class="card"
-            @click="
-              openModalPage({
-                history: data?.prixod?.history,
-                type: 'prixod',
-                manager: data,
-              })
-            "
-          >
+          <div class="card">
             <Icons :name="'dayIncr'" />
             <span class="info-item">
               <h3>{{ data?.username }}</h3>
@@ -68,16 +59,7 @@
             </span>
           </div>
 
-          <div
-            class="card"
-            @click="
-              openModalPage({
-                history: data?.debt?.history,
-                type: 'debt',
-                manager: data,
-              })
-            "
-          >
+          <div class="card">
             <Icons :name="'wallet'" />
             <span class="info-item">
               <h3>{{ data?.username }}</h3>
@@ -85,22 +67,36 @@
             </span>
           </div>
 
-          <div
-            class="card"
-            @click="
-              openModalPage({
-                history: data?.pending?.history,
-                type: 'pending',
-                manager: data,
-              })
-            "
-          >
+          <div class="card">
             <Icons :name="'allIncr'" />
             <span class="info-item">
               <h3>{{ data?.username }}</h3>
               <b>{{ formatPrice(data.pending.totalPrice || 0) }}</b>
             </span>
           </div>
+        </div>
+      </div>
+      <div class="infobox d-flex wrap" style="margin-top: 15px">
+        <div class="card">
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Kirimlar Soni</h3>
+            <b>{{ formatPrice(statics?.prixod?.history.length || 0) }}</b>
+          </span>
+        </div>
+        <div class="card">
+          <Icons :name="'wallet'" />
+          <span class="info-item">
+            <h3>Omborxonadagi Summasi</h3>
+            <b>{{ warehouseTotal }}</b>
+          </span>
+        </div>
+        <div class="card">
+          <Icons :name="'allIncr'" />
+          <span class="info-item">
+            <h3>Novoy rasxodlar</h3>
+            <b>{{ formatPrice(statics?.pending?.totalPrice || 0) }}</b>
+          </span>
         </div>
       </div>
     </div>
@@ -123,9 +119,33 @@ export default {
       statics: {},
       historyItem: null,
       manager: [],
+      warehouseTotal: 0,
+      debt2Total:0,
     };
   },
   methods: {
+    getDebt2(){
+        Api.get("/api/debt2s")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.debt2Total = data?.debt2s.length;
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching statistics:", error);
+        });
+    },
+    getWarehouses() {
+      Api.get("/api/typeOfWareHouses")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.warehouseTotal = data?.typeOfWareHouses.reduce((a,b)=>a+b?.price,0);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching statistics:", error);
+        });
+    },
     openModalPage(history) {
       if (this.historyItem) {
         this.historyItem = null;
@@ -159,6 +179,8 @@ export default {
     },
   },
   mounted() {
+    this.getDebt2()
+    this.getWarehouses();
     this.gretAllStatistics();
   },
 };
