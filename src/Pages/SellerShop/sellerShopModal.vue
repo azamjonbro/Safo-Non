@@ -132,7 +132,7 @@ export default {
   },
   methods: {
     selectBreadId(id) {
-      this.shop.sellerBreadId = id;
+      this.shop.sellerBreadId = id.id;
     },
     closeModal() {
       this.$emit("close");
@@ -146,7 +146,7 @@ export default {
       if (field === "description" && !this.shop.description.trim()) {
         this.errors.description = "Magazin description bo'sh bo'lmasligi kerak";
       }
-      if (field === "sellerBreadId" && !this.shop.sellerBreadId.trim()) {
+      if (field === "sellerBreadId" && !this?.shop?.sellerBreadId?.trim()) {
         this.errors.sellerBreadId = "Magazin noni bo'sh bo'lmasligi kerak";
       }
       if (
@@ -229,8 +229,13 @@ export default {
         .then(({ status, data }) => {
           if (status === 200) {
             this.breads = data?.sellerBreads.map((item) => {
-              return { text: item.name, value: item._id };
-            });
+              return item.typeOfBreadId.map((i) => {
+                return {
+                  text: i.breadId.title,
+                  value: { bread: i, id: item._id },
+                };
+              })
+            }).flat(Infinity)
           }
         })
         .catch((error) => {

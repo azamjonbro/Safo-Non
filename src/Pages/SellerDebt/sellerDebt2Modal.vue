@@ -156,6 +156,7 @@ export default {
         .get("/api/typeOfWareHouses")
         .then(({ data, status }) => {
           if (status === 200) {
+            console.log(data)
             this.debtIds = data.typeOfWareHouses;
           }
         })

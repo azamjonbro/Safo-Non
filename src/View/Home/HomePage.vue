@@ -68,7 +68,7 @@ export default {
     DeliveryHistoryVue,
     SellerDashVue,
     HomeDeliveryVue,
-    ManagerdashboardVue
+    ManagerdashboardVue,
   },
   data() {
     return {
