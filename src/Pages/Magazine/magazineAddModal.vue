@@ -183,26 +183,33 @@ export default {
     },
     selectPayedMethod(value) {
       this.magazine.paymentMethod = value;
-
-},
-    selectDelivery(value){
+    },
+    selectDelivery(value) {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value, index) {
+      console.log(value);
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
         return item.id === index
-          ? { ...item, breadId: value._id, price: value.price }
+          ? { ...item, breadId: value.id, price: value.bread.breadId.price }
           : item;
       });
     },
     getBreads() {
       api
-        .get("/api/typeOfBreads")
+        .get("/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.typeOfBreads = data?.typeOfBreads.map((item) => {
-              return { text: item.title, value: item };
-            });
+            this.typeOfBreads = data?.sellerBreads
+              .map((item) => {
+                return item.typeOfBreadId.map((i) => {
+                  return {
+                    text: i.breadId.title,
+                    value: { bread: i, id: item._id },
+                  };
+                });
+              })
+              .flat(Infinity);
           }
         })
         .catch((error) => {

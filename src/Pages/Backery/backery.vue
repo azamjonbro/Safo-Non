@@ -2,7 +2,7 @@
   <div class="page d-flex column gap24">
     <div class="page-top d-flex a-center j-between">
       <h3>Nonvoylar</h3>
-      <button class="create-button" @click="openModal = true">
+      <button class="create-button" @click="openModal = true" v-if="isHide">
         Nonvoy yaratish
       </button>
     </div>
@@ -188,6 +188,7 @@ export default {
         username: "",
         password: "",
       },
+      isHide: true,
     };
   },
   methods: {
@@ -321,6 +322,10 @@ export default {
   },
   mounted() {
     this.getAllWorker();
+    let user = JSON.parse(localStorage.getItem("user"))?.role || "";
+    if (user === "superAdmin") {
+      this.isHide = false;
+    }
   },
 };
 </script>
