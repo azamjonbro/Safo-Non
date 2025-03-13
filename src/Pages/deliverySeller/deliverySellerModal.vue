@@ -47,21 +47,6 @@
                 {{ errors.deliveryId }}
               </p>
             </div>
-
-            <div class="form-group">
-              <label for="magazines">Yetkazuvchi</label>
-              <CustomSelect
-                :options="magazines"
-                id="magazines"
-                @input="selectMagazine($event)"
-                :selected="delivery.magazineId"
-                :search="true"
-                @blur="validateField('magazineId')"
-              />
-              <p v-if="errors.magazineId" class="error-text">
-                {{ errors.magazineId }}
-              </p>
-            </div>
           </div>
         </form>
         <form class="scroll" style="height: 50%">
@@ -75,7 +60,7 @@
               <CustomSelect
                 :options="typeOfBreads"
                 id="bread"
-                :selected="true"
+                :selected="data.breadId"
                 @input="selectArray($event, data.id)"
               />
             </div>
@@ -174,13 +159,10 @@ export default {
       isSubmitting: false,
       delivery: {
         description: "",
-        // quantity: 0,
         deliveryId: "",
-        magazineId: "",
       },
       typeOfBreadIds: [{ id: 0, quantity: 0, breadId: "", errors: {} }],
       deliveries: [],
-      magazines: [],
       breads: [],
       typeOfBreads: [],
       errors: {},
@@ -214,23 +196,7 @@ export default {
           console.error(error);
         });
     },
-    getMagazines() {
-      api
-        .get("/api/magazines")
-        .then(({ status, data }) => {
-          if (status === 200) {
-            this.magazines = data.magazines.map((item) => {
-              return { text: item.title, value: item };
-            });
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    selectMagazine(id) {
-      this.delivery.magazineId = id._id;
-    },
+
     selectDelivery(id) {
       this.delivery.deliveryId = id._id;
     },
@@ -247,7 +213,7 @@ export default {
           ? { ...item, breadId: value?.id, price: value?.bread?.breadId?.price }
           : item;
       });
-      console.log(this.typeOfBreadIds, value);
+      console.log(this.typeOfBreadIds);
     },
     closeModal() {
       this.$emit("close");
@@ -263,9 +229,9 @@ export default {
         this.errors.deliveryId =
           "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
       }
-      if (field === "magazineId" && !this.delivery.magazineId?.trim()) {
-        this.errors.magazineId = "Foydalanuvchi do`kon bo'sh bo'lmasligi kerak";
-      }
+      // if (field === "magazineId" && !this.delivery.magazineId?.trim()) {
+      //   this.errors.magazineId = "Foydalanuvchi do`kon bo'sh bo'lmasligi kerak";
+      // }
       // if (
       //   field === "quantity" &&
       //   (!this.delivery.quantity ||
@@ -280,7 +246,6 @@ export default {
       // this.validateField("quantity");
       this.validateField("description");
       this.validateField("deliveryId");
-      this.validateField("magazineId");
       for (const error in this.errors) {
         if (this.errors[error] !== "") {
           return;
@@ -360,7 +325,6 @@ export default {
     },
   },
   mounted() {
-    this.getMagazines();
     this.getDeliveries();
     this.getBreads();
     if (this?.update?.isUpdate) {
