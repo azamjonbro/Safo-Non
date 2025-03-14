@@ -18,7 +18,7 @@
                   :search="true"
                   :options="
                     allTypeOfBread.map((item) => {
-                      return { text: item.title, value: item._id };
+                      return { text: item.title, value: item };
                     })
                   "
                   id="bread"
@@ -226,12 +226,13 @@ export default {
       });
     },
     selectBread(id, index) {
+      console.log(this?.allTypeOfBread[index]?.price);
       this.count = this.count.map((item) =>
         item.id === index
           ? {
               ...item,
-              breadId: id,
-              price: this.allTypeOfBread[index].price,
+              breadId: id._id,
+              price: id.price,
             }
           : item
       );
@@ -377,6 +378,7 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allTypeOfBread = data?.typeOfBreads;
+            console.log(this.allTypeOfBread);
           }
         })
         .catch((error) => {
