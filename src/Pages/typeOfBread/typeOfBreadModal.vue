@@ -58,7 +58,10 @@
                 {{ errors.price3 }}
               </p>
             </div>
-
+            <div class="form-group">
+              <label for="price">Non turini holati</label>
+              <CustomSelectVue :options="States" @input="selectState($event)" :selected="typeOfBread.typeOfBread" />
+            </div>
             <div class="form-group">
               <label for="price">Qop narxi uchun</label>
               <input
@@ -102,9 +105,11 @@
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
+import CustomSelectVue from '@/components/Template/customSelect.vue';
 export default {
   components: {
     Icons,
+    CustomSelectVue
   },
   data() {
     return {
@@ -115,7 +120,12 @@ export default {
         price2: 0,
         price3: 0,
         price4: 0,
+        status: true,
       },
+      States: [
+        { text: "Bor", value: true },
+        { text: "Yoq", value: false },
+      ],
       errors: {},
       isUpdate: false,
     };
@@ -126,6 +136,9 @@ export default {
     },
   },
   methods: {
+    selectState(status) {
+      this.typeOfBread.status = status;
+    },
     closeModal() {
       this.$emit("close");
     },
@@ -229,6 +242,10 @@ export default {
       this.typeOfBread = {
         title: this?.update?.title,
         price: this?.update?.price,
+        price2: this?.update?.price2,
+        price3: this?.update?.price3,
+        price4: this?.update?.price4,
+        status: this?.update?.status,
       };
       this.isUpdate = true;
     }

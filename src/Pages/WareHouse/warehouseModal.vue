@@ -2,13 +2,25 @@
   <div class="modal" @click.self="$emit('close')">
     <div class="modal-content relative">
       <Icons name="xIcon" class="xIcon" @click="closeModal" />
-      <h3>{{ !isUpdate ? "Omborxona mahsulotini yaratish" : "Omborxona mahsulotini yangilash" }}</h3>
+      <h3>
+        {{
+          !isUpdate
+            ? "Omborxona mahsulotini yaratish"
+            : "Omborxona mahsulotini yangilash"
+        }}
+      </h3>
 
       <form>
         <div class="modal-form">
           <div class="form-group">
             <label for="typeId">Mahsulot nomi</label>
-            <input id="typeId" type="text" placeholder="Omborxona turini tanglang" @blur="validateField('name')" v-model="warehouse.name" />
+            <input
+              id="typeId"
+              type="text"
+              placeholder="Omborxona turini tanglang"
+              @blur="validateField('name')"
+              v-model="warehouse.name"
+            />
             <p v-if="errors.name" class="error-text">{{ errors.name }}</p>
           </div>
           <div class="form-group">
@@ -23,6 +35,10 @@
             <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
           </div>
           <div class="form-group">
+            <label for="state">Mahsulot holati</label>
+            <CustomSelectVue :options="States" @input="selectState($event)" id="state" />
+          </div>
+          <div class="form-group">
             <label for="quantity">Soni (dona/kg/metr)</label>
             <input
               id="quantity"
@@ -31,16 +47,13 @@
               placeholder="Omborxona sonini kiriting"
               @blur="validateField('quantity')"
             />
-            <p v-if="errors.quantity" class="error-text">{{ errors.quantity }}</p>
+            <p v-if="errors.quantity" class="error-text">
+              {{ errors.quantity }}
+            </p>
           </div>
           <div class="form-group">
             <label for="totalPrice">Umumiy narx</label>
-            <input
-              id="totalPrice"
-              type="number"
-              :value="totalPrice"
-              readonly
-            />
+            <input id="totalPrice" type="number" :value="totalPrice" readonly />
           </div>
         </div>
       </form>
@@ -92,9 +105,14 @@ export default {
         name: "",
         price: 0,
         quantity: 0,
+        status: true,
       },
       errors: {},
       isUpdate: false,
+      States: [
+        { text: "Bor", value: true },
+        { text: "Yoq", value: false },
+      ],
     };
   },
   computed: {
@@ -103,6 +121,9 @@ export default {
     },
   },
   methods: {
+    selectState(status) {
+      this.warehouse.status = status;
+    },
     closeModal() {
       this.$emit("close");
     },
