@@ -16,6 +16,7 @@
             <div class="cell">Narxi (do'kon)</div>
             <div class="cell">To'yxona</div>
             <div class="cell">Qop narxi</div>
+            <div class="cell">Holati</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -35,6 +36,9 @@
             <div class="cell">
               {{ formatPrice(data?.price4 ? data?.price4 : 0) }}
             </div>
+            <div class="cell">
+              {{ data?.status ? "Bor" : "Yoq" }}
+            </div>
             <div class="cell d-flex a-center j-end gap12">
               <Icons
                 name="setting"
@@ -44,6 +48,10 @@
                   openUpdateModal({
                     title: data?.title,
                     price: data?.price,
+                    price2: data?.price2,
+                    price3: data?.price3,
+                    price4: data?.price4,
+                    status: data?.status,
                     id: data?._id,
                   })
                 "

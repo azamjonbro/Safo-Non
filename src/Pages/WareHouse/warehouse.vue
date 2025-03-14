@@ -15,6 +15,7 @@
             <div class="cell">Narxi</div>
             <div class="cell">Soni</div>
             <div class="cell">Umumiy summa</div>
+            <div class="cell">Holati</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -32,6 +33,9 @@
                 </div>
                 <div class="cell">
                   {{ formatPrice(data.totalPrice || 0) }} sum
+                </div>
+                <div class="cell">
+                  {{ data?.status ? "Bor" : "yoq  " }}
                 </div>
                 <div class="cell d-flex a-center j-end gap12">
                   <Icons

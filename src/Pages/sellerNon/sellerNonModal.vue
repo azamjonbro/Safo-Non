@@ -120,9 +120,25 @@
                 v-model="totalPrice"
                 readonly
               />
-              <!-- <p v-if="errors.qopQuantity" class="error-text">
-                {{ errors.qopQuantity }}
-              </p> -->
+            </div>
+
+              <div class="form-group">
+              <label for="qopQuantity">totalPrice</label>
+              <input
+                id="qopQuantity"
+                type="number"
+                v-model="totalPrice2"
+                readonly
+              />
+            </div>
+              <div class="form-group">
+              <label for="qopQuantity">totalPrice</label>
+              <input
+                id="qopQuantity"
+                type="number"
+                v-model="totalQuantity"
+                readonly
+              />
             </div>
           </div>
         </form>
@@ -191,6 +207,12 @@ export default {
     totalPrice() {
       return this.count.reduce((sum, item) => sum + item.qopQuantity, 0);
     },
+    totalQuantity(){
+      return this.count.reduce((a,b)=>a + b.quantity,0)
+    },
+    totalPrice2(){
+      return this.count.reduce((a,b)=>a + b.price,0)
+    }
   },
   methods: {
     deleteRow(id) {
