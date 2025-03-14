@@ -39,7 +39,7 @@
               <input
                 id="price"
                 type="text"
-                placeholder="Yetkazuvchini narxini kiriting"
+                placeholder="Yetkazish narxini kiriting (dona)"
                 v-model="delivery.price"
                 maxlength="10"
                 @input="applyPriceMask"

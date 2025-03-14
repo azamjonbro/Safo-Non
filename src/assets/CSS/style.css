@@ -805,6 +805,9 @@ tbody>tr>td{
     width: 150px;
     word-break: break-word;
   }
+  .text16{
+    font-size: 10px;
+  }
   
 }
 

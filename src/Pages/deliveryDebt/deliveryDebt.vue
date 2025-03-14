@@ -12,10 +12,10 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
-            <div class="cell">Nomi</div>
-            <div class="cell">Description</div>
-            <div class="cell">Narxi</div>
             <div class="cell">Sana</div>
+            <div class="cell">Nomi</div>
+            <div class="cell">Narxi</div>
+            <div class="cell">Tavsif</div>
             <div class="cell"></div>.
           </div>
         </div>

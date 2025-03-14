@@ -7,7 +7,7 @@
       {{ selectedOption ? selectedOption.text : placeholder }}
       <Icons :name="isOpen ? 'topArrow' : 'bottomArrow'" />
     </div>
-    <div v-if="isOpen" class="select-items scroll">
+    <div v-if="isOpen" class="select-items" :class="[{ long_option: options.length > 4 }]">
       <input
         v-if="search"
         type="text"
@@ -163,10 +163,12 @@ export default {
   flex-direction: column;
   gap: 2px;
   box-shadow: 1px 0px 14px lightgray;
-  max-height: 300px;
-  min-height: 200px;
 }
 
+.long_option {
+  max-height: 200px ;
+  overflow-y: scroll; 
+}
 .search-input {
   width: 100%;
   padding: 8px;

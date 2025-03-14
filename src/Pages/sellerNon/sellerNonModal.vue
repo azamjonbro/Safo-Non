@@ -1,12 +1,12 @@
 <template>
   <transition name="slide-modal">
     <div class="modal" @click.self="$emit('close')">
-      <div class="modal-content relative">
+      <div class="modal-content scroll relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Nonvoy yaratish</h2>
 
         <form>
-          <div class="scroll" style="height: 80%">
+          <div class=" d-flex column gap12 scroll" style="height: 80%">
             <div
               class="modal-form-2"
               v-for="(data, index) in count"
@@ -75,6 +75,7 @@
                   title="o'chirish"
                   class="icon danger"
                   @click="deleteRow(data?.id)"
+                  v-if="count.length>1"
                 />
               </div>
             </div>

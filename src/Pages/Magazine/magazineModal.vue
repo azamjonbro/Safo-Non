@@ -3,11 +3,11 @@
     <div class="modal" @click.self="$emit('close')">
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
-        <h2>Dokon yaratish</h2>
+        <h2>Do'kon yaratish</h2>
         <form>
           <div class="modal-form">
             <div class="form-group">
-              <label for="title">Nomi</label>
+              <label for="title">Do'kon nomi</label>
               <input
                 id="title"
                 type="text"
@@ -33,7 +33,7 @@
               <p v-if="errors.phone" class="error-text">{{ errors.phone }}</p>
             </div>
             <div class="form-group">
-              <label for="address">Address</label>
+              <label for="address">Manzil</label>
               <input
                 id="address"
                 type="text"
@@ -45,7 +45,7 @@
               <p v-if="errors.address" class="error-text">{{ errors.address }}</p>
             </div>
             <div class="form-group">
-              <label for="pending">Qarzdorlik</label>
+              <label for="pending">Qarzdorlik (boshlang'ich)</label>
               <input
                 id="pending"
                 type="number"
@@ -119,10 +119,10 @@ export default {
       this.errors[field] = "";
 
       if (field === "title" && !this.magazine.title.trim()) {
-        this.errors.title = "Magazin nomi bo'sh bo'lmasligi kerak";
+        this.errors.title = "Do'kon nomi bo'sh bo'lmasligi kerak";
       }
       if (field === "address" && !this.magazine.address.trim()) {
-        this.errors.address = "Magazin addressi bo'sh bo'lmasligi kerak";
+        this.errors.address = "Do'kon manzili bo'sh bo'lmasligi kerak";
       }
       // if (field === "phone") {
       //   const regex = /^\+998 \d{2} \d{3} \d{2} \d{2}$/;
