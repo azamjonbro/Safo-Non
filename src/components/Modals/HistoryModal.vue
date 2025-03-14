@@ -41,7 +41,7 @@
                 }}
               </div>
               <div class="cell">
-                {{ data?.quantity }}
+                {{ data?.quantity || "----" }}
               </div>
               <div class="cell">
                 {{
@@ -135,6 +135,55 @@
             </div>
           </div>
         </div>
+
+        <div class="table" v-if="history?.type == 'soldBread'">
+          <div class="table-header">
+            <div class="row">
+              <div class="cell">№</div>
+              <div class="cell">Sana</div>
+              <div class="cell">Jami Soni</div>
+              <div class="cell">Jami Narxi</div>
+              <div class="cell">Olgan puli</div>
+              <div class="cell">Do`kon nomi</div>
+            </div>
+          </div>
+          <div class="table-body">
+            <div
+              v-for="(data, index) in history?.history"
+              :key="index"
+              class="row"
+            >
+              <div class="cell">{{ index + 1 }}</div>
+              <div class="cell">
+                {{ formatDate(new Date(data.createdAt)) }}
+              </div>
+              <div class="cell">
+                {{
+                  data?.typeOfBreadIds?.reduce(
+                    (a, b) =>
+                      a +
+                      b?.bread?.typeOfBreadId?.reduce(
+                        (a, b) => a + b?.breadId?.price,
+                        0
+                      ),
+                    0
+                  ) || 0
+                }}
+              </div>
+              <div class="cell">
+                {{
+                  data?.typeOfBreadIds?.reduce((a, b) => a + b.quantity, 0) || 0
+                }}
+              </div>
+              <div class="cell">
+                {{ data?.money || "" }}
+              </div>
+              <div class="cell">
+                {{ data?.magazineId?.title || "id" }}
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="modal-buttons d-flex j-end a-center gap24">
           <button type="button" class="action-button" @click="$emit('close')">
             Chiqish
@@ -207,7 +256,7 @@ export default {
 .static-history > div {
   height: 100%;
 }
-.relative>.table{
+.relative > .table {
   height: 100vh;
 }
 .static-history .table {
