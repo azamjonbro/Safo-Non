@@ -17,13 +17,13 @@
           :class="{ active: activePage === 'debt2' }"
           @click="changeTab('debt2')"
         >
-          Chiqimlar 1
+          Mahsulot
         </button>
         <button
           :class="{ active: activePage === 'debt1' }"
           @click="changeTab('debt1')"
         >
-          Chiqimlar 1
+          Ish
         </button>
       </div>
     </div>
@@ -36,7 +36,7 @@
             <div class="cell">Nomi</div>
             <div class="cell">Soni (Dona)</div>
             <div class="cell">Narxi</div>
-            <div class="cell">Tasnifi Yoki sababi</div>
+            <div class="cell">Tavsifi</div>
             <div class="cell"></div>
           </div>
         </div>

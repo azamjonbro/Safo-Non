@@ -65,11 +65,11 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="description">Description</label>
+              <label for="description">Tavsif</label>
               <input
                 id="description"
                 type="text"
-                placeholder="Rasxod descriptionni kiriting"
+                placeholder="Chiqim uchun tavsif kiriting"
                 v-model="debt.description"
                 @blur="validateField('description')"
               />

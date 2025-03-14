@@ -14,7 +14,7 @@
             <div class="cell">Yetkazuvchi</div>
             <!-- <div class="cell">Soni (Dona)</div> -->
             <div class="cell">Umumiy hisob</div>
-            <div class="cell">Tasnifi</div>
+            <div class="cell">Tavsifi</div>
             <div class="cell">Sana</div>
             <div class="cell"></div>
           </div>
