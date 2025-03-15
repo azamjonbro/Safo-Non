@@ -394,4 +394,22 @@ export default {
   transform: rotate(180deg);
   transition: transform 0.3s ease;
 }
+@media (max-width: 768px) {
+  .table {
+    min-width: calc(150px + 100%);
+  }
+}
+@media (max-width: 580px) {
+  .table {
+    min-width: calc(300px + 100%);
+  }
+}
+@media (max-width: 380px) {
+  .table {
+    min-width: calc(550px + 100%);
+  }
+  .table .cell {
+    width: 100%;
+  }
+}
 </style>

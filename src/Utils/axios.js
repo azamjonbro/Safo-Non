@@ -3,6 +3,7 @@ import axios from 'axios';
 const api = axios.create({
   baseURL: 'https://api.alphae.uz',
   // baseURL:"http://192.168.1.5:3500",
+  // baseURL: "http://localhost:3500",
   // baseURL:"http://localhost:3500",
   withCredentials: true,
   timeout: 40000,
@@ -14,10 +15,10 @@ const api = axios.create({
 
 
 api.interceptors.request.use(
-  (config, response) => {
+  (config) => {
     const userData = localStorage.getItem('user');
     const token = userData ? JSON.parse(userData).accessToken : null;
-
+    console.log(token)
     if (token) {
       config.headers.authorization = `${token}`;
     }
@@ -29,23 +30,17 @@ api.interceptors.request.use(
   }
 )
 
-api.interceptors.response.use(
-  (response) => {
+// api.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     if (error.response && error.response.status === 403) {
+//       localStorage.removeItem("user"); 
+//       window.location.href = "/login";
+//     }
 
-    if (response.status === 403) {
-      localStorage.removeItem("user");
-    }
-
-    return response
-  },
-  (error) => {
-    if (error.status === 403) {
-      localStorage.removeItem("user");
-    }
-    return Promise.reject(error.status);
-  }
-);
-
+//     return Promise.reject(error);
+//   }
+// );
 
 
 export default api;

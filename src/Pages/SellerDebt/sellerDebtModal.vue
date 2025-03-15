@@ -50,7 +50,7 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="price">Sonni</label>
+              <label for="price">Narxi</label>
               <input
                 id="price"
                 type="number"

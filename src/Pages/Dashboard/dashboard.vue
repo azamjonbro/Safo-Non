@@ -77,6 +77,7 @@
         </div>
       </div>
 
+
       <h2 style="margin-top: 150px">Omborxona hisobot</h2>
       <div class="infobox d-flex wrap" >
         <div class="card">
@@ -90,10 +91,10 @@
           <Icons :name="'wallet'" />
           <span class="info-item">
             <h3>Omborxonadagi Summasi</h3>
-            <b>{{ formatPrice(warehouseTotal.reduce(
-              (a, b) => a + b?.totalPrice,
-              0
-            )) }}</b>
+            <b>{{
+              formatPrice(warehouseTotal.reduce((a, b) => a + b?.totalPrice, 0))
+            }}</b>
+
           </span>
         </div>
         <div class="card">
@@ -144,7 +145,8 @@ export default {
       Api.get("/api/typeOfWareHouses")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.warehouseTotal = data?.typeOfWareHouses
+            this.warehouseTotal = data?.typeOfWareHouses;
+            console.log(this.warehouseTotal);
           }
         })
         .catch((error) => {
@@ -197,6 +199,8 @@ export default {
   gap: 24px;
 }
 
+
+
 .card {
   background: #6a8ffd;
   width: 32%;
@@ -224,11 +228,19 @@ export default {
 .card > span > b {
   font-size: 24px;
 }
-
+@media (max-width:1570px) {
+  .infobox {
+    gap: 5px;
+  }
+  .infobox > .card {
+    min-width: 32%;
+  }
+}
 @media (max-width: 1140px) {
   .infobox {
     display: flex;
     justify-content: center;
+    gap: 24px;
   }
 
   .infobox > .card {
