@@ -13,6 +13,8 @@
             <div class="cell">№</div>
             <div class="cell">Vaqt</div>
             <div class="cell">Tavsif</div>
+            <div class="cell">Sonni</div>
+            <div class="cell">Qop sonni</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -25,6 +27,8 @@
                   {{ formatDate(new Date(data?.createdAt)) }}
                 </div>
                 <div class="cell">{{ data?.description }}</div>
+                <div class="cell">{{ data?.totalQuantity }}</div>
+                <div class="cell">{{ data?.totalQopQuantity }}</div>
                 <div class="cell d-flex a-center j-end gap12">
                   <Icons
                     name="setting"
