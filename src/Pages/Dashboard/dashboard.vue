@@ -77,7 +77,7 @@
         </div>
       </div>
 
-      <h2>Omborxona otchot</h2>
+      <h2>Omborxona hisobot</h2>
       <div class="infobox d-flex wrap" style="margin-top: 150px">
         <div class="card">
           <Icons :name="'dayIncr'" />
