@@ -7,7 +7,7 @@
       </button>
     </div>
     <div class="scroll page-bottom p-24">
-      <div>
+      <div class="table">
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
