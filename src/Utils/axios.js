@@ -14,10 +14,10 @@ const api = axios.create({
 
 
 api.interceptors.request.use(
-  (config, response) => {
+  (config) => {
     const userData = localStorage.getItem('user');
     const token = userData ? JSON.parse(userData).accessToken : null;
-
+    console.log(token)
     if (token) {
       config.headers.authorization = `${token}`;
     }
@@ -29,22 +29,6 @@ api.interceptors.request.use(
   }
 )
 
-api.interceptors.response.use(
-  (response) => {
-
-    if (response.status === 403) {
-      localStorage.removeItem("user");
-    }
-
-    return response
-  },
-  (error) => {
-    if (error.status === 403) {
-      localStorage.removeItem("user");
-    }
-    return Promise.reject(error.status);
-  }
-);
 
 
 
