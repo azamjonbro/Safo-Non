@@ -76,7 +76,9 @@
           </div>
         </div>
       </div>
-      <div class="infobox d-flex wrap" style="margin-top: 15px">
+
+      <h2>Omborxona otchot</h2>
+      <div class="infobox d-flex wrap" style="margin-top: 150px">
         <div class="card">
           <Icons :name="'dayIncr'" />
           <span class="info-item">
