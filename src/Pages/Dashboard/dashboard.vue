@@ -89,7 +89,7 @@
           <span class="info-item">
             <h3>Omborxonadagi Summasi</h3>
             <b>{{ formatPrice(warehouseTotal.reduce(
-              (a, b) => a + b?.price,
+              (a, b) => a + b?.totalPrice,
               0
             )) }}</b>
           </span>
