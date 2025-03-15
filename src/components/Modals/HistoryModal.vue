@@ -18,7 +18,7 @@
               <div class="cell">Soni</div>
               <div class="cell">Narxi</div>
               <div class="cell">Sababi</div>
-              <div class="cell">Nonvoy</div>
+              <div class="cell" v-if="history?.role !== 'seller'">Nonvoy</div>
             </div>
           </div>
           <div class="table-body">
@@ -47,16 +47,18 @@
                 {{
                   data?.price
                     ? data?.price
-                    : data?.omborxonaProId.price
-                    ? data?.omborxonaProId.price
+                    : data?.omborxonaProId?.price
+                    ? data?.omborxonaProId?.price
                     : 0
                 }}
               </div>
               <div class="cell">
                 {{ data?.reason || data.description || "" }}
               </div>
-              <div class="cell">
-                {{ data?.sellerId?.username || "id" }}
+              <div class="cell" v-if="history?.role !== 'seller'">
+                {{
+                  data?.sellerId?.username || data?.delivertId?.username || "id"
+                }}
               </div>
             </div>
           </div>
@@ -69,8 +71,8 @@
               <div class="cell">Sana</div>
               <div class="cell">Soni</div>
               <div class="cell">Narxi</div>
-              <div class="cell">Money</div>
-              <div class="cell">Do`kon nomi</div>
+              <div class="cell" v-if="history?.role !== 'seller'">Money</div>
+              <div class="cell" v-if="history?.role !== 'seller'">Do`kon nomi</div>
             </div>
           </div>
           <div class="table-body">
@@ -84,15 +86,27 @@
                 {{ formatDate(new Date(data.createdAt)) }}
               </div>
               <div class="cell">
-                {{ data?.quantity || 0 }}
+                {{
+                  data?.quantity
+                    ? data?.quantity
+                    : data?.typeOfBreadId
+                    ? data?.typeOfBreadId.reduce((a, b) => a + b.quantity, 0)
+                    : 0
+                }}
               </div>
               <div class="cell">
-                {{ data?.price || 0 }}
+                {{
+                  data?.price
+                    ? data?.price
+                    : data?.typeOfBreadId
+                    ? data?.typeOfBreadId.reduce((a, b) => a + b?.breadId?.price, 0)
+                    : 0
+                }}
               </div>
-              <div class="cell">
+              <div class="cell" v-if="history?.role !== 'seller'">
                 {{ data?.money || "" }}
               </div>
-              <div class="cell">
+              <div class="cell" v-if="history?.role !== 'seller'">
                 {{ data?.magazineId?.title || "id" }}
               </div>
             </div>

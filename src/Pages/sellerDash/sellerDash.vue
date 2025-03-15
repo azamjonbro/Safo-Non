@@ -8,7 +8,11 @@
         <div
           class="card"
           @click="
-            openModalPage({ history: statics?.prixod?.history, type: 'prixod' })
+            openModalPage({
+              history: statics?.prixod?.history,
+              type: 'prixod',
+              role: 'seller',
+            })
           "
         >
           <Icons :name="'dayIncr'" />
@@ -20,7 +24,11 @@
         <div
           class="card"
           @click="
-            openModalPage({ history: statics?.debt?.history, type: 'debt' })
+            openModalPage({
+              history: statics?.debt?.history,
+              type: 'debt',
+              role: 'seller',
+            })
           "
         >
           <Icons :name="'wallet'" />
@@ -29,10 +37,7 @@
             <b>{{ formatPrice(statics?.debt?.totalPrice || 0) }}</b>
           </span>
         </div>
-        <div
-          class="card"
-        
-        >
+        <div class="card">
           <Icons :name="'allIncr'" />
           <span class="info-item">
             <h3>Foyda</h3>
@@ -78,7 +83,7 @@ export default {
         .get("/api/statics")
         .then(({ status, data }) => {
           if (status === 200) {
-            console.log(data)
+            console.log(data);
             this.statics = data;
           }
         })
