@@ -95,7 +95,7 @@
           <Icons :name="'allIncr'" />
           <span class="info-item">
             <h3>Novoy rasxodlar</h3>
-            <b>{{ formatPrice(statics?.pending?.totalPrice || 0) }}</b>
+            <b>{{ debt2Total }}</b>
           </span>
         </div>
       </div>
@@ -120,12 +120,12 @@ export default {
       historyItem: null,
       manager: [],
       warehouseTotal: 0,
-      debt2Total:0,
+      debt2Total: 0,
     };
   },
   methods: {
-    getDebt2(){
-        Api.get("/api/debt2s")
+    getDebt2() {
+      Api.get("/api/debt2s")
         .then(({ status, data }) => {
           if (status === 200) {
             this.debt2Total = data?.debt2s.length;
@@ -139,7 +139,10 @@ export default {
       Api.get("/api/typeOfWareHouses")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.warehouseTotal = data?.typeOfWareHouses.reduce((a,b)=>a+b?.price,0);
+            this.warehouseTotal = data?.typeOfWareHouses.reduce(
+              (a, b) => a + b?.price,
+              0
+            );
           }
         })
         .catch((error) => {
@@ -179,7 +182,7 @@ export default {
     },
   },
   mounted() {
-    this.getDebt2()
+    this.getDebt2();
     this.getWarehouses();
     this.gretAllStatistics();
   },
