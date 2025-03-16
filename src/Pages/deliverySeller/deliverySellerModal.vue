@@ -278,7 +278,7 @@ export default {
                 status: "success",
                 message: "Yetkazuvchi yaratildi",
               });
-              // this.closeModal();
+              this.closeModal();
               this.isSubmitting = false;
             } else {
               this.$emit("status", {

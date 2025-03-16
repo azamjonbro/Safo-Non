@@ -15,13 +15,34 @@
           </div>
         </div>
         <div class="table-body">
-            <div class="row" v-for="(data,index) in deliveryHistory" :key="index">
-                <div class="cell">{{index + 1}}</div>
-                <div class="cell">{{formatDate(new Date(data.createdAt))}}</div>
-                <div class="cell">{{data.type}}</div>
-                <div class="cell">{{formatPrice(data.price)}}</div>
-                <div class="cell">{{data.description || "-----"}}</div>
+          <div
+            class="row"
+            v-for="(data, index) in deliveryHistory"
+            :key="index"
+          >
+            <div class="cell">{{ index + 1 }}</div>
+            <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
+            <div class="cell">{{ data.type }}</div>
+            <div class="cell">
+              {{
+                formatPrice(
+                  data.price
+                    ? data.price
+                    : data.typeOfBreadIds
+                    ? data.typeOfBreadIds.reduce(
+                        (a, b) =>
+                          a +
+                          b.breadId.typeOfBreadId.reduce(
+                            (c, d) => c + d.bread.price,
+                            0
+                          ),0
+                      )
+                    : 0
+                )
+              }}
             </div>
+            <div class="cell">{{ data.description || "-----" }}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -37,7 +58,7 @@ export default {
     };
   },
   methods: {
-        formatDate(date) {
+    formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0");
       const year = date.getFullYear();
