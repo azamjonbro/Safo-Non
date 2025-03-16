@@ -6,7 +6,7 @@
         <h2>Nonvoy yaratish</h2>
 
         <form>
-          <div class=" d-flex column gap12 scroll" style="height: 80%">
+          <div class="d-flex column gap12 scroll" style="height: 80%">
             <div
               class="modal-form-2"
               v-for="(data, index) in count"
@@ -39,6 +39,7 @@
                   v-model="data.price"
                   readonly
                 />
+                {{ console.log(data) }}
                 <!-- <p v-if="errors.price" class="error-text">
                 {{ errors.price }}
               </p> -->
@@ -75,7 +76,7 @@
                   title="o'chirish"
                   class="icon danger"
                   @click="deleteRow(data?.id)"
-                  v-if="count.length>1"
+                  v-if="count.length > 1"
                 />
               </div>
             </div>
@@ -123,7 +124,7 @@
               />
             </div>
 
-              <div class="form-group">
+            <div class="form-group">
               <label for="qopQuantity">totalPrice</label>
               <input
                 id="qopQuantity"
@@ -132,7 +133,7 @@
                 readonly
               />
             </div>
-              <div class="form-group">
+            <div class="form-group">
               <label for="qopQuantity">totalPrice</label>
               <input
                 id="qopQuantity"
@@ -208,12 +209,12 @@ export default {
     totalPrice() {
       return this.count.reduce((sum, item) => sum + item.qopQuantity, 0);
     },
-    totalQuantity(){
-      return this.count.reduce((a,b)=>a + b.quantity,0)
+    totalQuantity() {
+      return this.count.reduce((a, b) => a + b.quantity, 0);
     },
-    totalPrice2(){
-      return this.count.reduce((a,b)=>a + b.price,0)
-    }
+    totalPrice2() {
+      return this.count.reduce((a, b) => a + b.price, 0);
+    },
   },
   methods: {
     deleteRow(id) {
@@ -255,7 +256,7 @@ export default {
           ? {
               ...item,
               breadId: id._id,
-              price: id.price,
+              price: id.price4,
             }
           : item
       );

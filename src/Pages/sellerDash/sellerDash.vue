@@ -45,6 +45,35 @@
           </span>
         </div>
       </div>
+
+      <h2 style="margin-top: 150px">Novoy hisobot</h2>
+      <div class="infobox d-flex wrap">
+        <div class="card">
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Nonlar soni</h3>
+            <b>{{ sellerBreads.length }}</b>
+          </span>
+        </div>
+        <div class="card">
+          <Icons :name="'wallet'" />
+          <span class="info-item">
+            <h3>Sotilgan nonlar soni</h3>
+            <b>{{ orderWithDelivery.length }}</b>
+          </span>
+        </div>
+        <div class="card">
+          <Icons :name="'allIncr'" />
+          <span class="info-item">
+            <h3>Qoldiq nonlar soni</h3>
+            <b>{{
+              orderWithDelivery.length > sellerBreads.length
+                ? orderWithDelivery.length - sellerBreads.length
+                : sellerBreads.length - orderWithDelivery.length
+            }}</b>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
   <HistoryModalVue
@@ -68,6 +97,8 @@ export default {
       openModal: false,
       statics: {},
       historyItem: null,
+      sellerBreads: [],
+      orderWithDelivery: [],
     };
   },
   methods: {
@@ -94,9 +125,36 @@ export default {
     formatPrice(price) {
       return new Intl.NumberFormat("ru-RU").format(price);
     },
+    getSellerBreads() {
+      api
+        .get("/api/sellerBreads")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.sellerBreads = data?.sellerBreads;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getOrderWithDelivery() {
+      api
+        .get("/api/orderWithDeliveries")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            console.log(data);
+            this.orderWithDelivery = data?.orderWithDeliveries;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
   mounted() {
     this.getStatics();
+    this.getSellerBreads();
+    this.getOrderWithDelivery();
   },
 };
 </script>
