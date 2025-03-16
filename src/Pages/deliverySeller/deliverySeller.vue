@@ -15,6 +15,7 @@
             <!-- <div class="cell">Soni (Dona)</div> -->
             <div class="cell">Umumiy hisob</div>
             <div class="cell">Tavsifi</div>
+            <div class="cell">Soni</div>
             <div class="cell">Sana</div>
             <div class="cell"></div>
           </div>
@@ -30,6 +31,12 @@
                 {{ formatPrice(data?.totalPrice) || 0 }} so`m
               </div>
               <div class="cell">{{ data?.description || "" }}</div>
+              <div class="cell">
+                {{
+                  data?.typeOfBreadIds?.reduce((a, b) => a + b.quantity, 0) ||
+                  ""
+                }}
+              </div>
               <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
               <div class="cell d-flex a-center j-end gap12">
                 <Icons />
@@ -78,18 +85,34 @@
                   class="row"
                 >
                   <div class="cell">{{ index + 1 }}</div>
-                  <div class="cell">{{ item.breadId?.title ? item.breadId?.title: "" }}</div>
                   <div class="cell">
-                    {{ formatPrice(item.breadId?.price ? item.breadId?.price : 0) }}
+                    {{ item.breadId?.title ? item.breadId?.title : "" }}
                   </div>
                   <div class="cell">
-                    {{ formatPrice(item.breadId?.price2 ? item.breadId?.price2 : 0) }}
+                    {{
+                      formatPrice(item.breadId?.price ? item.breadId?.price : 0)
+                    }}
                   </div>
                   <div class="cell">
-                    {{ formatPrice(item.breadId?.price3 ? item.breadId?.price : 0) }}
+                    {{
+                      formatPrice(
+                        item.breadId?.price2 ? item.breadId?.price2 : 0
+                      )
+                    }}
                   </div>
                   <div class="cell">
-                    {{ formatPrice(item.breadId?.price4 ? item.breadId?.price4 : 0) }}
+                    {{
+                      formatPrice(
+                        item.breadId?.price3 ? item.breadId?.price : 0
+                      )
+                    }}
+                  </div>
+                  <div class="cell">
+                    {{
+                      formatPrice(
+                        item.breadId?.price4 ? item.breadId?.price4 : 0
+                      )
+                    }}
                   </div>
                 </div>
                 <p

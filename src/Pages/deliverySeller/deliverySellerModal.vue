@@ -161,7 +161,9 @@ export default {
         description: "",
         deliveryId: "",
       },
-      typeOfBreadIds: [{ id: 0, quantity: 0, breadId: "", errors: {} }],
+      typeOfBreadIds: [
+        { id: 0, quantity: 0, bread: "", typeOfBread: "", errors: {} },
+      ],
       deliveries: [],
       breads: [],
       typeOfBreads: [],
@@ -212,10 +214,14 @@ export default {
     selectArray(value, index) {
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
         return item.id === index
-          ? { ...item, breadId: value?.id, price: value?.bread?.breadId?.price }
+          ? {
+              ...item,
+              bread: value?.id,
+              price: value?.bread?.breadId?.price,
+              typeOfBread: value?.bread?.breadId?._id,
+            }
           : item;
       });
-      console.log(this.typeOfBreadIds);
     },
     closeModal() {
       this.$emit("close");
@@ -259,7 +265,11 @@ export default {
           .post("/api/orderWithDelivery", {
             ...this.delivery,
             typeOfBreadIds: this.typeOfBreadIds.map((item) => {
-              return { quantity: item.quantity, bread: item.breadId };
+              return {
+                quantity: item.quantity,
+                bread: item.bread,
+                typeOfBread: item.typeOfBread,
+              };
             }),
           })
           .then(({ status }) => {
@@ -280,13 +290,21 @@ export default {
           .catch((error) => {
             this.isSubmitting = false;
             console.error(error);
+            this.$emit("status", {
+              status: "error",
+              message: error.message || error.data.message || "Xatolik yuz berdi",
+            });
           });
       } else {
         api
           .put("/api/orderWithDelivery/" + this.update.id, {
             ...this.delivery,
             typeOfBreadIds: this.typeOfBreadIds.map((item) => {
-              return { quantity: item.quantity, bread: item.breadId };
+              return {
+                quantity: item.quantity,
+                bread: item.bread,
+                typeOfBread: item.typeOfBread,
+              };
             }),
           })
           .then(({ status }) => {
