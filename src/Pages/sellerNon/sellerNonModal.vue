@@ -39,7 +39,6 @@
                   v-model="data.price"
                   readonly
                 />
-                {{ console.log(data) }}
                 <!-- <p v-if="errors.price" class="error-text">
                 {{ errors.price }}
               </p> -->
@@ -51,7 +50,7 @@
                   type="number"
                   placeholder="Rasxod narxi"
                   v-model="data.qopQuantity"
-                  @blur="validateArrayField('qopQuantity', index)"
+                  @blur="validateArrayField('qopQuantity', data.id)"
                 />
                 <p v-if="data.errors.qopQuantity" class="error-text">
                   {{ data.errors.qopQuantity }}
@@ -229,6 +228,7 @@ export default {
           if (field === "breadId" && !item.breadId.trim()) {
             item.errors.breadId = "Noni turini tanlang";
           }
+
           if (
             field === "quantity" &&
             (isNaN(item.quantity) || item.quantity <= 0)
@@ -250,16 +250,16 @@ export default {
       });
     },
     selectBread(id, index) {
-      console.log(this?.allTypeOfBread[index]?.price);
-      this.count = this.count.map((item) =>
-        item.id === index
-          ? {
-              ...item,
-              breadId: id._id,
-              price: id.price4,
-            }
-          : item
-      );
+      if (!id || !id._id || !id.price4) return;
+
+      this.count = this.count.map((item) => {
+        console.log(id);
+        console.log(index);
+        console.log(item.id == index ? "yedi" : "yemadi");
+        return item.id == index
+          ? { ...item, breadId: id._id, price: id.price4 }
+          : item;
+      });
     },
     closeModal() {
       this.$emit("close");
@@ -267,8 +267,7 @@ export default {
     validateField(field) {
       this.errors[field] = "";
       if (field === "description" && !this.bread.description.trim()) {
-        this.errors.description =
-          "Foydalanuvchi description bo'sh bo'lmasligi kerak";
+        this.errors.description = "Tasnif bo'sh bo'lmasligi kerak";
       }
       if (
         field === "ovenId" &&
@@ -402,7 +401,6 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allTypeOfBread = data?.typeOfBreads;
-            console.log(this.allTypeOfBread);
           }
         })
         .catch((error) => {
@@ -412,13 +410,13 @@ export default {
   },
   mounted() {
     if (this?.update?.isUpdate) {
-      console.log(this.update);
       this.bread = {
         name: this?.update?.name,
         description: this?.update?.description,
       };
-      this.count = this.update.typeOfBreadId.map((item) => {
+      this.count = this.update.typeOfBreadId.map((item, index) => {
         return {
+          id: index,
           breadId: item.breadId._id,
           quantity: item.quantity,
           qopQuantity: item.qopQuantity,

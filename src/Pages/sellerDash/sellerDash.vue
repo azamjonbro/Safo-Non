@@ -8,7 +8,11 @@
         <div
           class="card"
           @click="
-            openModalPage({ history: statics?.prixod?.history, type: 'prixod' })
+            openModalPage({
+              history: statics?.prixod?.history,
+              type: 'prixod',
+              role: 'seller',
+            })
           "
         >
           <Icons :name="'dayIncr'" />
@@ -20,7 +24,11 @@
         <div
           class="card"
           @click="
-            openModalPage({ history: statics?.debt?.history, type: 'debt' })
+            openModalPage({
+              history: statics?.debt?.history,
+              type: 'debt',
+              role: 'seller',
+            })
           "
         >
           <Icons :name="'wallet'" />
@@ -29,14 +37,40 @@
             <b>{{ formatPrice(statics?.debt?.totalPrice || 0) }}</b>
           </span>
         </div>
-        <div
-          class="card"
-        
-        >
+        <div class="card">
           <Icons :name="'allIncr'" />
           <span class="info-item">
             <h3>Foyda</h3>
             <b>{{ formatPrice(statics?.benefit || 0) }}</b>
+          </span>
+        </div>
+      </div>
+
+      <h2 style="margin-top: 150px">Novoy hisobot</h2>
+      <div class="infobox d-flex wrap">
+        <div class="card">
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Nonlar soni</h3>
+            <b>{{ sellerBreads.length }}</b>
+          </span>
+        </div>
+        <div class="card">
+          <Icons :name="'wallet'" />
+          <span class="info-item">
+            <h3>Sotilgan nonlar soni</h3>
+            <b>{{ orderWithDelivery.length }}</b>
+          </span>
+        </div>
+        <div class="card">
+          <Icons :name="'allIncr'" />
+          <span class="info-item">
+            <h3>Qoldiq nonlar soni</h3>
+            <b>{{
+              orderWithDelivery.length > sellerBreads.length
+                ? orderWithDelivery.length - sellerBreads.length
+                : sellerBreads.length - orderWithDelivery.length
+            }}</b>
           </span>
         </div>
       </div>
@@ -63,6 +97,8 @@ export default {
       openModal: false,
       statics: {},
       historyItem: null,
+      sellerBreads: [],
+      orderWithDelivery: [],
     };
   },
   methods: {
@@ -78,7 +114,7 @@ export default {
         .get("/api/statics")
         .then(({ status, data }) => {
           if (status === 200) {
-            console.log(data)
+            console.log(data);
             this.statics = data;
           }
         })
@@ -89,9 +125,36 @@ export default {
     formatPrice(price) {
       return new Intl.NumberFormat("ru-RU").format(price);
     },
+    getSellerBreads() {
+      api
+        .get("/api/sellerBreads")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.sellerBreads = data?.sellerBreads;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    getOrderWithDelivery() {
+      api
+        .get("/api/orderWithDeliveries")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            console.log(data);
+            this.orderWithDelivery = data?.orderWithDeliveries;
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
   mounted() {
     this.getStatics();
+    this.getSellerBreads();
+    this.getOrderWithDelivery();
   },
 };
 </script>

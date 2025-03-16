@@ -305,22 +305,46 @@ export default {
           console.error(error);
         });
     },
+    getDeliveryBreads() {
+      api
+        .get("/api/orderWithDeliveries")
+        .then(({ data, status }) => {
+          if (status === 200) {
+            this.typeOfBreads = data?.orderWithDeliveries
+              .map((item) => {
+                return item.typeOfBreadIdss.map((i) => {
+                  console.log(i)
+                  console.log(item)
+                  return {
+                    text: i.breadId.title,
+                    value: { bread: i, id: item._id },
+                  };
+                });
+              })
+              .flat(Infinity);
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
   mounted() {
-    this.getBreads();
     const user = localStorage.getItem("user");
     const role = user ? JSON.parse(user).role : null;
-    console.log(role === "delivery");
     switch (role) {
       case "delivery":
+        this.getDeliveryBreads();
         this.isHideDeliveries = false;
         break;
       case "superAdmin":
         this.getDeliveries();
+        this.getBreads();
         this.isHideDeliveries = true;
         break;
       case "manager":
         this.getDeliveries();
+        this.getBreads();
         this.isHideDeliveries = true;
         break;
       default:
