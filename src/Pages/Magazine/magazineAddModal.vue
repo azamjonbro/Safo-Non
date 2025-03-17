@@ -6,9 +6,9 @@
         <h2>Non sotish</h2>
 
         <form>
-          <div class="scroll" style="height: 90%">
+          <div class="scroll yemagan" style="height: 90%">
             <div
-              class="modal-form-2"
+              class="contentbox d-flex gap12 w-100 j-between"
               v-for="(data, index) in typeOfBreadIds"
               :key="index"
             >
@@ -35,20 +35,25 @@
                 {{ errors.price }}
               </p> -->
               </div>
+              <div class="form-group">
+                <label for="quantity">Soni (Dona)</label>
+                <input
+                  id="quantity"
+                  type="number"
+                  placeholder="Rasxod sonini kiriting"
+                  v-model="data.quantity"
+                  @blur="validateField('quantity')"
+                  @input="calculateTotal"
+                />
+                <p v-if="data?.errors.quantity" class="error-text">
+                  {{ data?.errors.quantity }}
+                </p>
+              </div>
+              <div class="form-group">
+                <label for="totalPrice">Jami narx</label>
+                <input id="totalPrice" type="number" v-model="data.totalPrice" readonly placeholder="0" />
+              </div>
               <div style="display: flex; align-items: end" class="gap12">
-                <div class="form-group" style="width: 95%">
-                  <label for="quantity">Soni (Dona)</label>
-                  <input
-                    id="quantity"
-                    type="number"
-                    placeholder="Rasxod sonini kiriting"
-                    v-model="data.quantity"
-                    @blur="validateField('quantity')"
-                  />
-                  <p v-if="data?.errors.quantity" class="error-text">
-                    {{ data?.errors.quantity }}
-                  </p>
-                </div>
                 <Icons
                   name="deleted"
                   title="o'chirish"
@@ -75,7 +80,21 @@
               </button>
             </div>
           </div>
-          <div class="modal-form-2">
+          <div class="contentbox">
+            <div class="form-group">
+              <label for="totalAmount">Jami narx</label>
+              <input id="totalAmount" type="number" v-model="totalAmount" readonly placeholder="0" />
+            </div>
+            <div class="form-group">
+              <label for="receivedAmount">Qabul qilingan summa</label>
+              <input id="receivedAmount" type="number" v-model="magazine.money" @input="calculateRemaining" placeholder="Olingan summani kiriting" />
+            </div>
+            <div class="form-group">
+              <label for="remainingAmount">Qoldiq</label>
+              <input id="remainingAmount" type="number" v-model="remainingAmount" readonly placeholder="0" />
+            </div>
+          </div>
+          <div class="modal-form" >
             <div class="form-group">
               <label for="paymentMethod">To`lov turi</label>
               <CustomSelect
@@ -89,19 +108,7 @@
                 {{ errors.paymentMethod }}
               </p>
             </div>
-            <div class="form-group">
-              <label for="money">Olingan</label>
-              <input
-                id="money"
-                type="number"
-                placeholder="Olingan kuni kiriting"
-                v-model="magazine.money"
-                @blur="validateField('money')"
-              />
-              <p v-if="errors.money" class="error-text">
-                {{ errors.money }}
-              </p>
-            </div>
+            
             <div class="form-group" v-if="isHideDeliveries">
               <label for="delivery">Yetkazuvchi</label>
               <CustomSelect
@@ -180,6 +187,16 @@ export default {
           (item) => item.id !== index
         );
       }
+    },
+    calculateTotal() {
+      this.totalAmount = this.typeOfBreadIds.reduce((sum, item) => {
+        item.totalPrice = item.quantity * item.price;
+        return sum + item.totalPrice;
+      }, 0);
+      this.calculateRemaining();
+    },
+    calculateRemaining() {
+      this.remainingAmount = this.totalAmount - (this.magazine.money || 0);
     },
     selectPayedMethod(value) {
       this.magazine.paymentMethod = value;
@@ -313,8 +330,8 @@ export default {
             this.typeOfBreads = data?.orderWithDeliveries
               .map((item) => {
                 return item.typeOfBreadIdss.map((i) => {
-                  console.log(i)
-                  console.log(item)
+                  console.log(i);
+                  console.log(item);
                   return {
                     text: i.breadId.title,
                     value: { bread: i, id: item._id },
@@ -358,6 +375,26 @@ export default {
 </script>
 
 <style scoped>
+.contentbox{
+  display: flex;
+  gap: 10px;
+}
+.contentbox>.form-group{
+  width: 33%;
+}
+.scroll{
+  max-height: 400px;
+}
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.yemagan{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 .modal-form-2 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
