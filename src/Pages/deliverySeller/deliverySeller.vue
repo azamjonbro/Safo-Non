@@ -80,7 +80,7 @@
               </div>
               <div class="history-body">
                 <div
-                  v-for="(item, i) in data?.typeOfBreadIdss"
+                  v-for="(item, i) in data?.typeOfBreadIds"
                   :key="i"
                   class="row"
                 >

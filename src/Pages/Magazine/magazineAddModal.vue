@@ -330,8 +330,6 @@ export default {
             this.typeOfBreads = data?.orderWithDeliveries
               .map((item) => {
                 return item.typeOfBreadIdss.map((i) => {
-                  console.log(i);
-                  console.log(item);
                   return {
                     text: i.breadId.title,
                     value: { bread: i, id: item._id },

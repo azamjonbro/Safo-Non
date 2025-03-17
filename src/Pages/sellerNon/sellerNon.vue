@@ -68,12 +68,13 @@
                   <div class="history-body">
                     <div
                       class="row"
-                      v-for="(item, index) in data?.typeOfBreadId"
+                      v-for="(item, index) in data?.history"
                       :key="index"
                     >
+                    {{console.log(item)}}
                       <div class="cell">{{ index + 1 }}</div>
-                      <div class="cell">{{ item?.breadId?.title }}</div>
-                      <div class="cell">{{ item?.breadId?.price }}</div>
+                      <div class="cell">{{ item?.bread?.title }}</div>
+                      <div class="cell">{{ item?.bread?.price }}</div>
                       <div class="cell">{{ item?.quantity }}</div>
                       <div class="cell">{{ item?.qopQuantity }}</div>
                     </div>
