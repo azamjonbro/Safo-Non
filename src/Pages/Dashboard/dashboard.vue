@@ -100,7 +100,7 @@
         <div class="card">
           <Icons :name="'allIncr'" />
           <span class="info-item">
-            <h3>Novoy rasxodlar</h3>
+            <h3>Nonvoy rasxodlar</h3>
             <b>{{ debt2Total }}</b>
           </span>
         </div>

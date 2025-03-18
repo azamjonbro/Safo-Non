@@ -816,6 +816,9 @@ tbody>tr>td {
   .gap12 {
     gap: 8px;
   }
+  .modal-form-2{
+    grid-template-columns: repeat(2,1fr);
+  }
 }
 
 
@@ -898,12 +901,22 @@ tbody>tr>td {
   .page-bottom {
     overflow-x: auto;
   }
+  .table{
+    overflow-x: auto !important;
+  }
+  .modal-form-2{
+    grid-template-columns: (2/1fr);
+  }
 }
 
 @media (max-width:580px) {
   .login-title {
     font-size: 36px;
     font-weight: 400;
+  }
+  .xIcon{
+    top: 30px !important;
+    right: 40px !important;
   }
 
   .login-container-form {
@@ -933,6 +946,29 @@ tbody>tr>td {
   }
   .modal-buttons .action-button {
     padding: 12px calc(100% - 85%);
+  }
+}
+@media (max-width:480px){
+  form>.modal-form{
+    grid-template-columns: repeat(1,1fr);
+  }
+  form{
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .modal-content>h3{
+    font-size: 14px;
+  }
+  .xIcon>svg{
+     width: 36px;
+     height: 36px; 
+  }
+  .navbar-menu{
+    height: 60;
+  }
+  .page{
+    padding:0px 24px ;
+    height: 99%;
   }
 }
 

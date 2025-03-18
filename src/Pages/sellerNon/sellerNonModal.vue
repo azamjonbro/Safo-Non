@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-modal">
     <div class="modal" @click.self="$emit('close')">
-      <div class="modal-content scroll relative">
+      <div class="modal-content scroll relative d-flex column gap12">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Nonvoy yaratish</h2>
 
@@ -44,7 +44,7 @@
               </p> -->
               </div>
               <div class="form-group">
-                <label for="quantity">Qop Sonni</label>
+                <label for="quantity">Qop Soni</label>
                 <input
                   id="price"
                   type="number"
@@ -56,7 +56,7 @@
                   {{ data.errors.qopQuantity }}
                 </p>
               </div>
-              <div style="display: flex; align-items: end" class="gap12">
+              <div style="display: flex; align-items: end" class="gap12 yonbosh">
                 <div class="form-group" style="width: 95%">
                   <label for="quantity">Soni (Dona)</label>
                   <input
@@ -433,6 +433,32 @@ export default {
 </script>
 
 <style scoped>
+
+@media (max-width:980px){
+  .modal-form-2{
+    grid-template-columns: repeat(2,1fr) !important;
+  }
+  form{
+    max-height: 600px;
+  }
+  
+}
+@media (max-width:480px){
+  .modal-form-2{
+    grid-template-columns: repeat(1,1fr) !important;
+  }
+  form{
+    max-height: 500px;
+  }
+  .yonbosh{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .yonbosh>.icon{
+    width: 100%;
+  }
+  
+}
 .modal-form-2 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

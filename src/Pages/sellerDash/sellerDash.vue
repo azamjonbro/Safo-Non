@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <h2 style="margin-top: 150px">Novoy hisobot</h2>
+      <h2 style="margin-top: 150px">Nonvoy hisobot</h2>
       <div class="infobox d-flex wrap">
         <div class="card">
           <Icons :name="'dayIncr'" />

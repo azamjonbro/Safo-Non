@@ -117,7 +117,7 @@ export default {
     },
     handleTouchMove(event) {
       this.touchEndX = event.touches[0].clientX;
-      if (this.touchEndX - this.touchStartX >= 100) {
+      if (this.touchEndX - this.touchStartX >= 250) {
         this.isOpen = true;
       }
     },
