@@ -816,6 +816,9 @@ tbody>tr>td {
   .gap12 {
     gap: 8px;
   }
+  .modal-form-2{
+    grid-template-columns: repeat(2,1fr);
+  }
 }
 
 
@@ -898,12 +901,22 @@ tbody>tr>td {
   .page-bottom {
     overflow-x: auto;
   }
+  .table{
+    overflow-x: auto;
+  }
+  .modal-form-2{
+    grid-template-columns: (2/1fr);
+  }
 }
 
 @media (max-width:580px) {
   .login-title {
     font-size: 36px;
     font-weight: 400;
+  }
+  .xIcon{
+    top: 30px !important;
+    right: 40px !important;
   }
 
   .login-container-form {

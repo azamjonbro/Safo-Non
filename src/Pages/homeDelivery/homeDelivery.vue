@@ -16,7 +16,7 @@
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
-            <h3>Sotgan nonlar sonni</h3>
+            <h3>Sotgan nonlar soni</h3>
             <b>{{ formatPrice(statics?.soldBread?.totalPrice || 0) }}</b>
           </span>
         </div>

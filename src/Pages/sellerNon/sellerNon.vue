@@ -13,8 +13,8 @@
             <div class="cell">№</div>
             <div class="cell">Vaqt</div>
             <div class="cell">Tavsif</div>
-            <div class="cell">Sonni</div>
-            <div class="cell">Qop sonni</div>
+            <div class="cell">Soni</div>
+            <div class="cell">Qop soni</div>
             <div class="cell"></div>
           </div>
         </div>
@@ -62,8 +62,8 @@
                     <div class="cell">№</div>
                     <div class="cell">Nomi</div>
                     <div class="cell">Narxi</div>
-                    <div class="cell">Sonni</div>
-                    <div class="cell">Qop Sonni</div>
+                    <div class="cell">Soni</div>
+                    <div class="cell">Qop Soni</div>
                   </div>
                   <div class="history-body">
                     <div

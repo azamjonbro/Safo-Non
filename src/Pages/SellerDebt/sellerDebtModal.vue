@@ -36,12 +36,12 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="quantity">Sonni</label>
+              <label for="quantity">Soni</label>
               <input
                 id="quantity"
                 type="number"
                 v-model="debt.quantity"
-                placeholder="Sonni"
+                placeholder="Soni"
                 maxlength="13"
                 @blur="validateField('quantity')"
               />
@@ -55,7 +55,7 @@
                 id="price"
                 type="number"
                 v-model="debt.price"
-                placeholder="Sonni"
+                placeholder="Soni"
                 maxlength="13"
                 @blur="validateField('price')"
               />
@@ -158,7 +158,7 @@ export default {
           isNaN(this.debt.quantity) ||
           this.debt.quantity < 0)
       ) {
-        this.errors.quantity = "Sonni musbat son bo‘lishi kerak";
+        this.errors.quantity = "Soni musbat son bo‘lishi kerak";
       }
     },
     submitForm() {
