@@ -1,7 +1,7 @@
 <template>
   <transition name="slide-modal">
     <div class="modal" @click.self="$emit('close')">
-      <div class="modal-content scroll relative">
+      <div class="modal-content scroll relative d-flex column gap12">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Nonvoy yaratish</h2>
 

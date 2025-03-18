@@ -902,7 +902,7 @@ tbody>tr>td {
     overflow-x: auto;
   }
   .table{
-    overflow-x: auto;
+    overflow-x: auto !important;
   }
   .modal-form-2{
     grid-template-columns: (2/1fr);
@@ -946,6 +946,25 @@ tbody>tr>td {
   }
   .modal-buttons .action-button {
     padding: 12px calc(100% - 85%);
+  }
+}
+@media (max-width:480px){
+  form>.modal-form{
+    grid-template-columns: repeat(1,1fr);
+  }
+  form{
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .modal-content>h3{
+    font-size: 14px;
+  }
+  .xIcon>svg{
+     width: 36px;
+     height: 36px; 
+  }
+  .navbar-menu{
+    height: 60;
   }
 }
 
