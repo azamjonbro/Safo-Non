@@ -329,7 +329,7 @@ export default {
           if (status === 200) {
             this.typeOfBreads = data?.orderWithDeliveries
               .map((item) => {
-                return item.typeOfBreadIdss.map((i) => {
+                return item.typeOfBreadIds.map((i) => {
                   return {
                     text: i.breadId.title,
                     value: { bread: i, id: item._id },
