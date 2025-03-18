@@ -180,6 +180,9 @@ export default {
       type: Object,
     },
   },
+  computed: {
+    
+  },
   methods: {
     deleteRow(index) {
       if (this.typeOfBreadIds.length > 1) {
@@ -205,7 +208,6 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value, index) {
-      console.log(value);
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
         return item.id === index
           ? { ...item, breadId: value.id, price: value.bread.breadId.price }
@@ -298,11 +300,10 @@ export default {
         })
         .catch((error) => {
           console.error(error);
-          this.toastOptions = {
-            open: true,
-            type: "error",
-            text: "Xatolik yuzberdi",
-          };
+           this.$emit("status", {
+              message: error.response?.data?.message || error?.message || "Xatolik yuz berdi",
+              status: "error",
+            });
         })
         .finally(() => {
           this.isSubmitting = false;
@@ -332,7 +333,7 @@ export default {
                 return item.typeOfBreadIds.map((i) => {
                   return {
                     text: i.breadId.title,
-                    value: { bread: i, id: item._id },
+                    value: { bread: i, id: i._id },
                   };
                 });
               })

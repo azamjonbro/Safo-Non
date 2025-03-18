@@ -29,9 +29,11 @@
               <div class="cell d-flex j-end gap12">
                 <Icons
                   name="payed"
-                  title="To'lov"
+                  title="Qarzni to`lash"
                   class="icon info setting"
-                  @click="openPendingModal(data?._id)"
+                  @click="
+                    openPendingModal({ id: data?._id, pending: data.pending })
+                  "
                 />
                 <Icons
                   name="payed"
@@ -137,7 +139,12 @@
     :Delivery="Delivery"
     @status="handleStatus($event)"
   />
-  <MagazinePendingModalVue v-if="pendingModalVisible" @close="pendingModalVisible = false,getMagazine()"  />
+  <MagazinePendingModalVue
+    v-if="pendingModalVisible"
+    @close="(pendingModalVisible = false), getMagazine()"
+    :pending="pending"
+    @status="handleStatus($event)"
+  />
 </template>
 
 <script>
@@ -147,7 +154,7 @@ import MagazineModalVue from "./magazineModal.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
 import ToastiffVue from "@/Utils/Toastiff.vue";
 import MagazineAddModalVue from "./magazineAddModal.vue";
-import MagazinePendingModalVue from './magazinePendingModal.vue';
+import MagazinePendingModalVue from "./magazinePendingModal.vue";
 export default {
   components: {
     Icons,
@@ -155,7 +162,7 @@ export default {
     RequiredModalVue,
     ToastiffVue,
     MagazineAddModalVue,
-    MagazinePendingModalVue
+    MagazinePendingModalVue,
   },
   data() {
     return {
@@ -178,12 +185,14 @@ export default {
       Delivery: {
         isActive: false,
       },
-      pendingModalVisible:false
+      pendingModalVisible: false,
+      pending: {},
     };
   },
   methods: {
-    openPendingModal(id){
-         this.pendingModalVisible = true
+    openPendingModal(item) {
+      this.pendingModalVisible = true;
+      this.pending = item;
     },
     closeAddModal() {
       this.openAddModalVisible = false;
