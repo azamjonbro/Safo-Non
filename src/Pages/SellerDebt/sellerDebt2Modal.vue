@@ -231,7 +231,7 @@ export default {
             this.$emit("status", {
               status: "error",
               message:
-                error.message || error.data.message || "Xatolik yuz berdi",
+                error.response.data.message || error.data.message || "Xatolik yuz berdi",
             });
           })
           .finally(() => {
@@ -249,7 +249,6 @@ export default {
         description: this?.update?.description,
         price: this?.update?.price,
       };
-      console.log(this.debt)
       this.isUpdate = true;
     }
   },

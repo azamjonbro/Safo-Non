@@ -140,7 +140,11 @@ export default {
       if (field === "username" && !this.delivery.username.trim()) {
         this.errors.username = "Foydalanuvchi nomi bo'sh bo'lmasligi kerak";
       }
-      if (this.isUpdate && field === "password" && !this.delivery.password.trim()) {
+      if (
+        this.isUpdate &&
+        field === "password" &&
+        !this.delivery.password.trim()
+      ) {
         this.errors.password = "Parol bo'sh bo'lmasligi kerak";
       }
       if (field === "phone") {
@@ -154,7 +158,9 @@ export default {
       }
       if (
         field === "price" &&
-        (!this.delivery.price || isNaN(this.delivery.price) || this.delivery.price <= 0)
+        (!this.delivery.price ||
+          isNaN(this.delivery.price) ||
+          this.delivery.price <= 0)
       ) {
         this.errors.price = "Narx musbat son bo‘lishi kerak";
       }
@@ -188,7 +194,6 @@ export default {
       }
 
       console.log(requestData);
-      
 
       const request = this.isUpdate
         ? api.put(`/api/delivery/${this.update.id}`, requestData, {
@@ -217,10 +222,13 @@ export default {
             });
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.$emit("status", {
             status: "error",
-            message: "Server xatosi, qaytadan urinib ko'ring",
+            message:
+              error.response.data.message ||
+              error.message ||
+              "Server xatosi, qaytadan urinib ko'ring",
           });
         })
         .finally(() => {

@@ -33,7 +33,7 @@
               <div class="cell">{{ data?.description || "" }}</div>
               <div class="cell">
                 {{
-                  data?.typeOfBreadIds?.reduce((a, b) => a + b.quantity, 0) ||
+                  data?.totalQuantity ||
                   ""
                 }}
               </div>

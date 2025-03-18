@@ -176,6 +176,7 @@ export default {
         });
     },
     deleteDebt(data) {
+      console.log(data)
       api
         .delete(
           `/api/${
@@ -185,7 +186,7 @@ export default {
               ? "debt2"
               : data?.role === "delivery" && data.description
               ? "deliveryDebt"
-              : ""
+              : "debt2"
           }/${data._id}`
         )
         .then(({ status }) => {
