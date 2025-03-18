@@ -966,6 +966,10 @@ tbody>tr>td {
   .navbar-menu{
     height: 60;
   }
+  .page{
+    padding:0px 24px ;
+    height: 99%;
+  }
 }
 
 
