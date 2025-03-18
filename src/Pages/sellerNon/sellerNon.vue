@@ -73,10 +73,10 @@
                     >
                     {{console.log(item)}}
                       <div class="cell">{{ index + 1 }}</div>
-                      <div class="cell">{{ item?.bread?.title }}</div>
-                      <div class="cell">{{ item?.bread?.price }}</div>
+                      <div class="cell">{{ item?.bread?.title || item?.breadId?.title  }}</div>
+                      <div class="cell">{{ item?.bread?.price || item?.breadId?.price }}</div>
                       <div class="cell">{{ item?.quantity }}</div>
-                      <div class="cell">{{ item?.qopQuantity }}</div>
+                      <div class="cell">{{ item?.qopQuantity || item?.breadId?.price4 }}</div>
                     </div>
                   </div>
                 </div>
