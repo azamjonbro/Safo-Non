@@ -31,6 +31,12 @@
                   name="payed"
                   title="To'lov"
                   class="icon info setting"
+                  @click="openPendingModal(data?._id)"
+                />
+                <Icons
+                  name="payed"
+                  title="To'lov"
+                  class="icon info setting"
                   @click="openAddModal(data?._id)"
                 />
                 <Icons
@@ -66,6 +72,7 @@
                   <div class="cell">Index</div>
                   <div class="cell">Yaratilgan</div>
                   <div class="cell">Yetkazuvchi</div>
+                  <div class="cell">Umumiy pul</div>
                   <div class="cell">Qarzdorlik</div>
                   <div class="cell"></div>
                 </div>
@@ -77,8 +84,8 @@
                     {{ formatDate(new Date(item?.createdAt)) }}
                   </div>
                   <div class="cell">{{ item.deliveryId?.username }}</div>
-                  <div class="cell">{{ item.totalPrice }}</div>
-                  <div class="cell">{{ item.pending }}</div>
+                  <div class="cell">{{ formatPrice(item.totalPrice) }}</div>
+                  <div class="cell">{{ formatPrice(item.pending) }}</div>
                   <div class="cell d-flex j-end">
                     <Icons
                       name="deleted"
@@ -130,6 +137,7 @@
     :Delivery="Delivery"
     @status="handleStatus($event)"
   />
+  <MagazinePendingModalVue v-if="pendingModalVisible" @close="pendingModalVisible = false,getMagazine()"  />
 </template>
 
 <script>
@@ -139,6 +147,7 @@ import MagazineModalVue from "./magazineModal.vue";
 import RequiredModalVue from "@/components/Modals/requiredModal.vue";
 import ToastiffVue from "@/Utils/Toastiff.vue";
 import MagazineAddModalVue from "./magazineAddModal.vue";
+import MagazinePendingModalVue from './magazinePendingModal.vue';
 export default {
   components: {
     Icons,
@@ -146,6 +155,7 @@ export default {
     RequiredModalVue,
     ToastiffVue,
     MagazineAddModalVue,
+    MagazinePendingModalVue
   },
   data() {
     return {
@@ -168,12 +178,16 @@ export default {
       Delivery: {
         isActive: false,
       },
+      pendingModalVisible:false
     };
   },
   methods: {
-    closeAddModal(){
-      this.openAddModalVisible = false
-      this.getMagazine()
+    openPendingModal(id){
+         this.pendingModalVisible = true
+    },
+    closeAddModal() {
+      this.openAddModalVisible = false;
+      this.getMagazine();
     },
     openAddModal(id) {
       this.Delivery = {
