@@ -61,6 +61,7 @@ export default {
           { title: "Nonvoylar", icon: "workers", page: "workers" },
           { title: "Do'konlar", icon: "product", page: "magazine" },
           { title: "Sozlamalar", icon: "setting", page: "settings" },
+          { title: "Do'kon", icon: "firma", page: "sellerShop" },
           // { title: "Yetkazuvchilar", icon: "delivery", page: "delivery" },
           // { title: "Chiqimlar", icon: "rasxod", page: "debt" },
           // { title: "Omborxona", icon: "firma", page: "warehouse" },
@@ -82,7 +83,6 @@ export default {
           { title: "Nonxona", icon: "bread", page: "sellerNon" },
           { title: "Yetkazuvchi", icon: "delivery", page: "deliverySeller" },
           { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" },
-          { title: "Do'kon", icon: "firma", page: "sellerShop" },
           { title: "Sozlamalar", icon: "setting", page: "settings" },
         ],
         delivery: [

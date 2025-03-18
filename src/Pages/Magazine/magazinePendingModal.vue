@@ -5,7 +5,23 @@
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Pending</h2>
 
-        <form></form>
+        <form>
+          <div class="contentbox">
+            <div class="form-group">
+              <label for="receivedAmount">Qabul qilingan summa</label>
+              <input
+                id="receivedAmount"
+                type="number"
+                v-model="magazine.pending"
+                placeholder="0"
+                @blur="validateField('pending')"
+              />
+              <p v-if="errors.pending" class="error-text">
+                {{ errors.pending }}
+              </p>
+            </div>
+          </div>
+        </form>
         <div class="modal-buttons d-flex j-end a-center gap24">
           <button type="button" class="action-button" @click="closeModal">
             Chiqish
@@ -16,7 +32,7 @@
             class="action-button"
             :disabled="isSubmitting"
           >
-            {{ isSubmitting ? "Yaratilmoqda..." : "Yaratish" }}
+            {{ isSubmitting ? "Yangilanyapti..." : "Yangilash" }}
           </button>
         </div>
       </div>
@@ -37,13 +53,13 @@ export default {
     return {
       isSubmitting: false,
       errors: {},
+      magazine: {
+        pending: 0,
+      },
     };
   },
   props: {
-    update: {
-      type: Object,
-    },
-    Delivery: {
+    pending: {
       type: Object,
     },
   },
@@ -53,40 +69,56 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "paymentMethod" && !this.magazine.paymentMethod.trim()) {
-        this.errors.paymentMethod = "To`lov turini tanlang";
-      }
-      if (field === "description" && !this.magazine.description.trim()) {
-        this.errors.description =
-          "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
-      }
-      if (field === "deliveryId" && !this.magazine.deliveryId.trim()) {
-        this.errors.deliveryId =
-          "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
-      }
-      if (field === "magazineId" && !this.magazine.magazineId.trim()) {
-        this.errors.magazineId = "Foydalanuvchi do`kon bo'sh bo'lmasligi kerak";
-      }
       if (
-        field === "quantity" &&
-        (!this.magazine.quantity ||
-          isNaN(this.magazine.quantity) ||
-          this.magazine.quantity <= 0)
+        field === "pending" &&
+        (!this.magazine.pending ||
+          isNaN(this.magazine.pending) ||
+          this.magazine.pending <= 0)
       ) {
-        this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
-      }
-      if (
-        field === "money" &&
-        (!this.magazine.money ||
-          isNaN(this.magazine.money) ||
-          this.magazine.money <= 0)
-      ) {
-        this.errors.money = "Olingan pul son bo‘lishi kerak";
+        this.errors.pending = "Olingan pul son bo‘lishi kerak";
       }
     },
-    submitForm() {},
+    submitForm() {
+      this.errors = {};
+      this.validateField("magazineId");
+      this.validateField("money");
+      for (const error in this.errors) {
+        if (this.errors[error] !== "") {
+          return;
+        }
+      }
+      this.isSubmitting = true;
+      api
+        .put("/api/magazinePending/" + this.pending.id, {
+          pending: this.magazine.pending,
+        })
+        .then(({ status }) => {
+          if (status === 200) {
+            this.$emit("status", {
+              status: "success",
+              message: "Qarz dorlik yangilandi",
+            });
+            this.closeModal();
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.$emit("status", {
+            message:
+              error.response?.data?.message ||
+              error?.message ||
+              "Xatolik yuz berdi",
+            status: "error",
+          });
+        })
+        .finally(() => {
+          this.isSubmitting = false;
+        });
+    },
   },
-  mounted() {},
+  mounted() {
+    this.magazine.id = this?.pending?.id;
+  },
 };
 </script>
 
