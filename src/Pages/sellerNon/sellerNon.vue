@@ -172,27 +172,13 @@ export default {
         .then(({ status, data }) => {
           if (status === 200) {
             this.sellerBreads = data?.sellerBreads;
-            // this.toastOptions = {
-            //   open: true,
-            //   type: "success",
-            //   text: "Nonvoy nonlari keldi",
-            // };
+       
           }
-          // else {
-          //   this.toastOptions = {
-          //     open: true,
-          //     type: "error",
-          //     text: "Nonvoy nonlari kelayotganda xatolik yuz berdi",
-          //   };
-          // }
+         
         })
         .catch((error) => {
           console.error(error);
-          // this.toastOptions = {
-          //   open: true,
-          //   type: "error",
-          //   text: "Xatolik yuzberdi",
-          // };
+          
         });
     },
     deleteSellerNon(id) {

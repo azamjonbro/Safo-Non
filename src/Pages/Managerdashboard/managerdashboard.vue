@@ -7,9 +7,7 @@
       <div class="infobox d-flex wrap">
         <div
           class="card"
-          @click="
-            openModalPage({ history: sellerbreads, type: 'prixod' })
-          "
+          @click="openModalPage({ history: sellerbreads, type: 'prixod' })"
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
@@ -45,17 +43,39 @@
           </span>
         </div>
       </div>
-      <div class="infobox d-flex wrap" style="margin-top:15px;">
+      <div class="infobox d-flex wrap" style="margin-top: 15px">
         <div
           class="card"
           @click="
-            openModalPage({ history: sellerbreads, type: 'soldBread' })
+            openModalPage({ history: sellerbreads, type: 'sellerbreads' })
           "
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
             <h3>Nonlar sonni</h3>
             <b>{{ formatPrice(sellerbreads.length || 0) }}</b>
+          </span>
+        </div>
+
+        <div
+          class="card"
+          @click="
+            openModalPage({ history: sellingBreads, type: 'sellerbreads' })
+          "
+        >
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Sotilgan nonlar</h3>
+            <b>{{ formatPrice(sellingBreads.length || 0) }}</b>
+          </span>
+        </div>
+        <div class="card">
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Qoldiq nonlar</h3>
+            <b>{{
+              formatPrice(Math.abs(sellerbreads.length - sellingBreads.length) || 0)
+            }}</b>
           </span>
         </div>
       </div>
@@ -83,6 +103,7 @@ export default {
       statics: {},
       historyItem: null,
       sellerbreads: [],
+      sellingBreads: [],
     };
   },
   methods: {
@@ -110,10 +131,22 @@ export default {
     },
     getSellerBread() {
       api
+        .get("/api/sellerBreads")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.sellerbreads = data?.sellerBreads;
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching statistics:", error);
+        });
+    },
+    getSellingBread() {
+      api
         .get("/api/sellingBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.sellerbreads = data?.sellingBreads;
+            this.sellingBreads = data?.sellingBreads;
           }
         })
         .catch((error) => {
@@ -124,6 +157,7 @@ export default {
   mounted() {
     this.getStatics();
     this.getSellerBread();
+    this.getSellingBread();
   },
 };
 </script>
