@@ -2,9 +2,9 @@
   <div class="page">
     <div class="d-flex a-center j-between">
       <h3>Do`konlar</h3>
-      <button class="create-button" @click="createModalVisible = true">
+      <!-- <button class="create-button" @click="createModalVisible = true">
         Do`kon yaratish
-      </button>
+      </button> -->
     </div>
     <div class="scroll pt-24 page-bottom">
       <div class="table">
