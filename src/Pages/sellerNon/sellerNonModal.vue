@@ -3,7 +3,7 @@
     <div class="modal" @click.self="$emit('close')">
       <div class="modal-content scroll relative d-flex column gap12">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
-        <h2>Nonvoy yaratish</h2>
+        <h2>Non yaratish</h2>
 
         <form>
           <div class="d-flex column gap12 scroll" style="height: 80%">
@@ -99,12 +99,12 @@
           </div>
           <div class="modal-form">
             <div class="form-group">
-              <label for="description">Description</label>
+              <label for="description">Tavsif</label>
               <input
                 id="description"
                 type="text"
                 v-model="bread.description"
-                placeholder="Foydalanuvchi nomini kiriting"
+                placeholder="Tavsif kiriting"
                 @blur="validateField('description')"
               />
               <p v-if="errors.description" class="error-text">
@@ -113,7 +113,7 @@
             </div>
 
             <div class="form-group">
-              <label for="qopQuantity">totalPrice</label>
+              <label for="qopQuantity">Qop soni</label>
               <input
                 id="qopQuantity"
                 type="number"
@@ -124,7 +124,7 @@
             </div>
 
             <div class="form-group">
-              <label for="qopQuantity">totalPrice</label>
+              <label for="qopQuantity">Ish xaqi</label>
               <input
                 id="qopQuantity"
                 type="number"
@@ -133,7 +133,7 @@
               />
             </div>
             <div class="form-group">
-              <label for="qopQuantity">totalPrice</label>
+              <label for="qopQuantity">Umumiy soni</label>
               <input
                 id="qopQuantity"
                 type="number"
