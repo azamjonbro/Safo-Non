@@ -72,7 +72,9 @@
               <div class="cell">Soni</div>
               <div class="cell">Narxi</div>
               <div class="cell" v-if="history?.role !== 'seller'">Money</div>
-              <div class="cell" v-if="history?.role !== 'seller'">Do`kon nomi</div>
+              <div class="cell" v-if="history?.role !== 'seller'">
+                Do`kon nomi
+              </div>
             </div>
           </div>
           <div class="table-body">
@@ -99,7 +101,10 @@
                   data?.price
                     ? data?.price
                     : data?.typeOfBreadId
-                    ? data?.typeOfBreadId.reduce((a, b) => a + b?.breadId?.price, 0)
+                    ? data?.typeOfBreadId.reduce(
+                        (a, b) => a + b?.breadId?.price,
+                        0
+                      )
                     : 0
                 }}
               </div>
@@ -194,6 +199,44 @@
               </div>
               <div class="cell">
                 {{ data?.magazineId?.title || "id" }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table" v-if="history?.type == 'sellerbreads'">
+          <div class="table-header">
+            <div class="row">
+              <div class="cell">№</div>
+              <div class="cell">Nomi</div>
+              <div class="cell">Narxi (do'kon)</div>
+              <div class="cell">Soni</div>
+              <div class="cell">Qop soni</div>
+              <div class="cell">Puli</div>
+              <div class="cell">Umumiy narxi</div>
+            </div>
+          </div>
+          <div class="table-body">
+            <div
+              v-for="(data, index) in history?.history"
+              :key="index"
+              class="row"
+            >
+              <div class="cell">{{ index + 1 }}</div>
+              <div class="cell">{{ data.breaId?.title ? data.breaId?.title : "" }}</div>
+              <div class="cell">
+                {{ formatPrice(data.data?.price ? data.data?.price : 0) }}
+              </div>
+              <div class="cell">
+                {{ formatPrice(data?.price2 ? data?.price2 : 0) }}
+              </div>
+              <div class="cell">
+                {{ formatPrice(data?.price3 ? data?.price3 : 0) }}
+              </div>
+              <div class="cell">
+                {{ formatPrice(data?.price4 ? data?.price4 : 0) }}
+              </div>
+              <div class="cell">
+                {{ data?.status ? "Bor" : "Yoq" }}
               </div>
             </div>
           </div>

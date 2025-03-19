@@ -8,7 +8,7 @@
         <div
           class="card"
           @click="
-            openModalPage({ history: statics?.prixod?.history, type: 'prixod' })
+            openModalPage({ history: sellerbreads, type: 'prixod' })
           "
         >
           <Icons :name="'dayIncr'" />
@@ -45,6 +45,20 @@
           </span>
         </div>
       </div>
+      <div class="infobox d-flex wrap" style="margin-top:15px;">
+        <div
+          class="card"
+          @click="
+            openModalPage({ history: sellerbreads, type: 'soldBread' })
+          "
+        >
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Nonlar sonni</h3>
+            <b>{{ formatPrice(sellerbreads.length || 0) }}</b>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
   <HistoryModalVue
@@ -68,6 +82,7 @@ export default {
       openModal: false,
       statics: {},
       historyItem: null,
+      sellerbreads: [],
     };
   },
   methods: {
@@ -93,9 +108,22 @@ export default {
       this.historyItem = history;
       this.openModal = true;
     },
+    getSellerBread() {
+      api
+        .get("/api/sellingBreads")
+        .then(({ status, data }) => {
+          if (status === 200) {
+            this.sellerbreads = data?.sellingBreads;
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching statistics:", error);
+        });
+    },
   },
   mounted() {
     this.getStatics();
+    this.getSellerBread();
   },
 };
 </script>
