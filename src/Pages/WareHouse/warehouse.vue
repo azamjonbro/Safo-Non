@@ -29,7 +29,7 @@
                   {{ data.price || 0 }}
                 </div>
                 <div class="cell">
-                  {{ data?.quantity ? data?.quantity : 0 }}
+                  {{ data?.totalQuantity ? data?.totalQuantity : 0 }}
                 </div>
                 <div class="cell">
                   {{ formatPrice(data.totalPrice || 0) }} sum
@@ -98,7 +98,7 @@
                         title="o'chirish"
                         class="icon danger"
                         @click="openDeleteWareHouseType(item?._id)"
-                        v-if="item.type !== 'debt'"
+                        v-if="item.type !== 'Qarz'"
                       />
                     </div>
                   </div>

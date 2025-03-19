@@ -68,7 +68,7 @@
                   <div class="history-body">
                     <div
                       class="row"
-                      v-for="(item, index) in data?.history"
+                      v-for="(item, index) in data?.typeOfBreadId"
                       :key="index"
                     >
                     {{console.log(item)}}

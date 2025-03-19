@@ -132,7 +132,7 @@
             </div>
           </div>
         </div>
-        <p class="text16 d-flex j-center p-24" v-if="!sellerDebts.length">
+        <p class="text16 d-flex j-center p-24" v-if="!sellerDebts2.length">
           Hozircha chiqimlar mavjud emas
         </p>
       </div>
