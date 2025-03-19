@@ -1,106 +1,98 @@
 <template>
   <transition name="slide-modal">
-    <div class="modal" @click.self="$emit('close')">
+    <div class="modal" @click.self="closeModal">
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Non sotish</h2>
 
-        <form>
-          <div class="scroll yemagan" style="height: 90%">
-            <div
-              class="contentbox d-flex gap12 w-100 j-between"
-              v-for="(data, index) in typeOfBreadIds"
-              :key="index"
-            >
+        <form @submit.prevent="submitForm">
+          <!-- Bread Type and Quantity Section -->
+          <div class="yemagan">
+            <div class="contentbox d-flex gap12 w-100 j-between">
               <div class="form-group">
                 <label for="bread">Non turini tanlang</label>
                 <CustomSelect
-                  :options="typeOfBreads"
+                  :options="
+                    typeOfBreads.map((i) => ({ text: i?.title, value: i }))
+                  "
                   id="bread"
                   :selected="true"
-                  @input="selectArray($event, data.id)"
+                  @input="selectArray"
                 />
               </div>
 
               <div class="form-group">
-                <label for="quantity">Narxi</label>
+                <label for="price">Narxi</label>
                 <input
                   id="price"
                   type="number"
                   placeholder="Rasxod narxi"
-                  v-model="data.price"
+                  v-model="typeOfBread.price"
                   readonly
                 />
-                <!-- <p v-if="errors.price" class="error-text">
-                {{ errors.price }}
-              </p> -->
               </div>
+
               <div class="form-group">
                 <label for="quantity">Soni (Dona)</label>
                 <input
                   id="quantity"
                   type="number"
                   placeholder="Rasxod sonini kiriting"
-                  v-model="data.quantity"
+                  v-model="magazine.quantity"
                   @blur="validateField('quantity')"
                   @input="calculateTotal"
                 />
-                <p v-if="data?.errors.quantity" class="error-text">
-                  {{ data?.errors.quantity }}
+                <p v-if="errors.quantity" class="error-text">
+                  {{ errors.quantity }}
                 </p>
               </div>
-              <div class="form-group">
-                <label for="totalPrice">Jami narx</label>
-                <input id="totalPrice" type="number" v-model="data.totalPrice" readonly placeholder="0" />
-              </div>
-              <div style="display: flex; align-items: end" class="gap12">
-                <Icons
-                  name="deleted"
-                  title="o'chirish"
-                  class="icon danger"
-                  @click="deleteRow(data?.id)"
-                />
-              </div>
-            </div>
-            <div class="d-flex j-end">
-              <button
-                type="button"
-                class="create-button"
-                @click="
-                  typeOfBreadIds.push({
-                    id: typeOfBreadIds.length,
-                    breadId: '',
-                    quantity: 0,
-                    price: 0,
-                    errors: {},
-                  })
-                "
-              >
-                Qo`shish
-              </button>
             </div>
           </div>
+
+          <!-- Total Amount and Received Amount Section -->
           <div class="contentbox">
             <div class="form-group">
               <label for="totalAmount">Jami narx</label>
-              <input id="totalAmount" type="number" v-model="totalAmount" readonly placeholder="0" />
+              <input
+                id="totalAmount"
+                type="number"
+                v-model="totalAmount"
+                readonly
+                placeholder="0"
+              />
             </div>
+
             <div class="form-group">
               <label for="receivedAmount">Qabul qilingan summa</label>
-              <input id="receivedAmount" type="number" v-model="magazine.money" @input="calculateRemaining" placeholder="Olingan summani kiriting" />
+              <input
+                id="receivedAmount"
+                type="number"
+                v-model="magazine.money"
+                @input="calculateRemaining"
+                placeholder="Olingan summani kiriting"
+              />
             </div>
+
             <div class="form-group">
               <label for="remainingAmount">Qoldiq</label>
-              <input id="remainingAmount" type="number" v-model="remainingAmount" readonly placeholder="0" />
+              <input
+                id="remainingAmount"
+                type="number"
+                v-model="remainingAmount"
+                readonly
+                placeholder="0"
+              />
             </div>
           </div>
-          <div class="modal-form" >
+
+          <!-- Payment Method Section -->
+          <div class="modal-form">
             <div class="form-group">
               <label for="paymentMethod">To`lov turi</label>
               <CustomSelect
                 :options="payedMethods"
                 id="paymentMethod"
-                @input="selectPayedMethod($event)"
+                @input="selectPayedMethod"
                 :search="true"
                 @blur="validateField('paymentMethod')"
               />
@@ -108,13 +100,13 @@
                 {{ errors.paymentMethod }}
               </p>
             </div>
-            
+
             <div class="form-group" v-if="isHideDeliveries">
               <label for="delivery">Yetkazuvchi</label>
               <CustomSelect
                 :options="allDelivery"
                 id="delivery"
-                @input="selectDelivery($event)"
+                @input="selectDelivery"
                 :selected="magazine?.deliveryId"
                 :search="true"
                 @blur="validateField('deliveryId')"
@@ -124,20 +116,21 @@
               </p>
             </div>
           </div>
+
+          <!-- Buttons Section -->
+          <div class="modal-buttons d-flex j-end a-center gap24">
+            <button type="button" class="action-button" @click="closeModal">
+              Chiqish
+            </button>
+            <button
+              type="submit"
+              class="action-button"
+              :disabled="isSubmitting"
+            >
+              {{ isSubmitting ? "Sotilyapti..." : "Sotish" }}
+            </button>
+          </div>
         </form>
-        <div class="modal-buttons d-flex j-end a-center gap24">
-          <button type="button" class="action-button" @click="closeModal">
-            Chiqish
-          </button>
-          <button
-            type="submit"
-            @click="submitForm"
-            class="action-button"
-            :disabled="isSubmitting"
-          >
-            {{ isSubmitting ? "Sotilyapti..." : "Sotish" }}
-          </button>
-        </div>
       </div>
     </div>
   </transition>
@@ -147,6 +140,7 @@
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
 import CustomSelect from "@/components/Template/customSelect.vue";
+
 export default {
   components: {
     Icons,
@@ -158,30 +152,30 @@ export default {
       magazine: {
         deliveryId: "",
         paymentMethod: "",
-        money: "",
+        money: 0,
         magazineId: "",
+        breadId: "",
+        quantity: 0,
       },
       errors: {},
       isHideDeliveries: false,
       typeOfBreads: [],
-      typeOfBreadIds: [{ id: 0, quantity: 0, breadId: "", errors: {} }],
       payedMethods: [
         { text: "Naxt", value: "Naxt" },
         { text: "Karta", value: "Karta" },
       ],
       allDelivery: [],
+      typeOfBread: {
+        price: 0,
+        price1: 0,
+      },
+      totalAmount: 0,
+      remainingAmount: 0,
     };
   },
   props: {
-    update: {
-      type: Object,
-    },
-    Delivery: {
-      type: Object,
-    },
-  },
-  computed: {
-    
+    update: Object,
+    Delivery: Object,
   },
   methods: {
     deleteRow(index) {
@@ -192,10 +186,7 @@ export default {
       }
     },
     calculateTotal() {
-      this.totalAmount = this.typeOfBreadIds.reduce((sum, item) => {
-        item.totalPrice = item.quantity * item.price;
-        return sum + item.totalPrice;
-      }, 0);
+      this.totalAmount = this.typeOfBread.price;
       this.calculateRemaining();
     },
     calculateRemaining() {
@@ -207,33 +198,19 @@ export default {
     selectDelivery(value) {
       this.magazine.deliveryId = value._id;
     },
-    selectArray(value, index) {
-      this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
-        return item.id === index
-          ? { ...item, breadId: value.id, price: value.bread.breadId.price }
-          : item;
-      });
+    selectArray(value) {
+      this.magazine.breadId = value._id;
+      this.typeOfBread.price = value.totalPrice;
     },
     getBreads() {
       api
         .get("/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.typeOfBreads = data?.sellerBreads
-              .map((item) => {
-                return item.typeOfBreadId.map((i) => {
-                  return {
-                    text: i.breadId.title,
-                    value: { bread: i, id: item._id },
-                  };
-                });
-              })
-              .flat(Infinity);
+            this.typeOfBreads = data?.sellerBreads;
           }
         })
-        .catch((error) => {
-          console.error(error);
-        });
+        .catch(console.error);
     },
     closeModal() {
       this.$emit("close");
@@ -242,17 +219,6 @@ export default {
       this.errors[field] = "";
       if (field === "paymentMethod" && !this.magazine.paymentMethod.trim()) {
         this.errors.paymentMethod = "To`lov turini tanlang";
-      }
-      if (field === "description" && !this.magazine.description.trim()) {
-        this.errors.description =
-          "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
-      }
-      if (field === "deliveryId" && !this.magazine.deliveryId.trim()) {
-        this.errors.deliveryId =
-          "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
-      }
-      if (field === "magazineId" && !this.magazine.magazineId.trim()) {
-        this.errors.magazineId = "Foydalanuvchi do`kon bo'sh bo'lmasligi kerak";
       }
       if (
         field === "quantity" &&
@@ -275,35 +241,32 @@ export default {
       this.errors = {};
       this.validateField("magazineId");
       this.validateField("money");
-      for (const error in this.errors) {
-        if (this.errors[error] !== "") {
-          return;
-        }
+
+      if (Object.values(this.errors).some((error) => error !== "")) {
+        return;
       }
+
       this.isSubmitting = true;
       api
         .post("/api/sellingBread", {
           ...this.magazine,
-          typeOfBreadIds: this.typeOfBreadIds,
-          deliveryId: this.magazine.deliveryId
-            ? this.magazine.deliveryId
-            : "delivery",
+          deliveryId: this.magazine.deliveryId || "delivery",
         })
-        .then(({ status, data }) => {
+        .then(({ status }) => {
           if (status === 201) {
-            this.$emit("status", {
-              message: "Sotildi",
-              status: "success",
-            });
+            this.$emit("status", { message: "Sotildi", status: "success" });
             this.closeModal();
           }
         })
         .catch((error) => {
           console.error(error);
-           this.$emit("status", {
-              message: error.response?.data?.message || error?.message || "Xatolik yuz berdi",
-              status: "error",
-            });
+          this.$emit("status", {
+            message:
+              error.response?.data?.message ||
+              error?.message ||
+              "Xatolik yuz berdi",
+            status: "error",
+          });
         })
         .finally(() => {
           this.isSubmitting = false;
@@ -314,14 +277,13 @@ export default {
         .get("/api/deliveries")
         .then(({ data, status }) => {
           if (status === 200) {
-            this.allDelivery = data?.deliveries.map((item) => {
-              return { text: item.username, value: item };
-            });
+            this.allDelivery = data?.deliveries.map((item) => ({
+              text: item.username,
+              value: item,
+            }));
           }
         })
-        .catch((error) => {
-          console.error(error);
-        });
+        .catch(console.error);
     },
     getDeliveryBreads() {
       api
@@ -330,34 +292,27 @@ export default {
           if (status === 200) {
             this.typeOfBreads = data?.orderWithDeliveries
               .map((item) => {
-                return item.typeOfBreadIds.map((i) => {
-                  return {
-                    text: i.breadId.title,
-                    value: { bread: i, id: i._id },
-                  };
-                });
+                return item.typeOfBreadIds.map((i) => ({
+                  text: i.breadId.title,
+                  value: { bread: i, id: i._id },
+                }));
               })
-              .flat(Infinity);
+              .flat();
           }
         })
-        .catch((error) => {
-          console.error(error);
-        });
+        .catch(console.error);
     },
   },
   mounted() {
     const user = localStorage.getItem("user");
     const role = user ? JSON.parse(user).role : null;
+
     switch (role) {
       case "delivery":
         this.getDeliveryBreads();
         this.isHideDeliveries = false;
         break;
       case "superAdmin":
-        this.getDeliveries();
-        this.getBreads();
-        this.isHideDeliveries = true;
-        break;
       case "manager":
         this.getDeliveries();
         this.getBreads();
@@ -366,6 +321,7 @@ export default {
       default:
         break;
     }
+
     if (this.Delivery?.isActive) {
       this.magazine.magazineId = this.Delivery?.id;
     }
@@ -374,22 +330,22 @@ export default {
 </script>
 
 <style scoped>
-.contentbox{
+.contentbox {
   display: flex;
   gap: 10px;
 }
-.contentbox>.form-group{
+.contentbox > .form-group {
   width: 33%;
 }
-.scroll{
+.scroll {
   max-height: 400px;
 }
-form{
+form {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
-.yemagan{
+.yemagan {
   display: flex;
   flex-direction: column;
   gap: 24px;

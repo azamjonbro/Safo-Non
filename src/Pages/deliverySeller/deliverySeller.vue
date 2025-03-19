@@ -3,7 +3,7 @@
     <div class="page-top d-flex a-center j-between">
       <h3>Yetkazuvchilar</h3>
       <button class="create-button" @click="openModal = true">
-        Yetkazuvchi yaratish
+        Yetkazuvchiga non berish
       </button>
     </div>
     <div class="scroll page-bottom p-24">
