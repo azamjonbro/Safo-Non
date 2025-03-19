@@ -52,17 +52,13 @@
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
-            <h3>Nonlar narxi</h3>
+            <h3>Nonlar sonni</h3>
 
             <b>{{
               formatPrice(
                 sellerbreads.reduce(
                   (a, i) =>
-                    a +
-                    i.typeOfBreadId.reduce(
-                      (a, b) => a + b.breadId.price * b.quantity,
-                      0
-                    ),
+                    a + i.typeOfBreadId.reduce((a, b) => a + b.quantity, 0),
                   0
                 ) || 0
               )

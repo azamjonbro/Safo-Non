@@ -18,7 +18,7 @@
               <div class="cell">Soni</div>
               <div class="cell">Narxi</div>
               <div class="cell">Sababi</div>
-              <div class="cell" v-if="history?.role !== 'seller'">Nonvoy</div>
+              <div class="cell" v-if="isHideSeller">Nonvoy</div>
             </div>
           </div>
           <div class="table-body">
@@ -262,6 +262,7 @@ export default {
     return {
       touchStartX: 0,
       touchEndX: 0,
+      isHideSeller: false,
     };
   },
   methods: {
@@ -289,9 +290,14 @@ export default {
       }
     },
   },
-  // mounted() {
-  //   console.log(this.history);
-  // },
+  mounted() {
+    console.log(this.history.role)
+    if (this.history.role == "seller") {
+      this.isHideSeller = false;
+    } else if (this.history.role == "delivery") {
+      this.isHideSeller = true;
+    }
+  },
 };
 </script>
 

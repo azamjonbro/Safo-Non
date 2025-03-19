@@ -28,7 +28,7 @@
               <div class="cell">{{ data?.pending ? data?.pending : 0 }}</div>
               <div class="cell d-flex j-end gap12">
                 <Icons
-                  name="payed"
+                  name="debt"
                   title="Qarzni to`lash"
                   class="icon info setting"
                   @click="
