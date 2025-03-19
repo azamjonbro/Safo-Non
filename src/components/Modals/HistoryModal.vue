@@ -207,7 +207,7 @@
           <div class="table-header">
             <div class="row">
               <div class="cell">№</div>
-              <div class="cell">Narxi (do'kon)</div>
+              <div class="cell">Narxi</div>
               <div class="cell">Soni</div>
               <div class="cell">Qop soni</div>
               <div class="cell">Umumiy narxi</div>
@@ -235,11 +235,9 @@
                 }}
               </div>
               <div class="cell">
-                {{
-                  data.typeOfBreadId.reduce((a, b) => a + b.breadId.price, 0)
-                }}
+                {{ formatPrice(data?.totalPrice ? data?.totalPrice : 0) }}
               </div>
-              <div class="cell">{{data.sellerId.username}}</div>
+              <div class="cell">{{ data.sellerId.username }}</div>
             </div>
           </div>
         </div>

@@ -52,8 +52,21 @@
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
-            <h3>Nonlar sonni</h3>
-            <b>{{ formatPrice(sellerbreads.length || 0) }}</b>
+            <h3>Nonlar narxi</h3>
+
+            <b>{{
+              formatPrice(
+                sellerbreads.reduce(
+                  (a, i) =>
+                    a +
+                    i.typeOfBreadId.reduce(
+                      (a, b) => a + b.breadId.price * b.quantity,
+                      0
+                    ),
+                  0
+                ) || 0
+              )
+            }}</b>
           </span>
         </div>
 
@@ -66,7 +79,15 @@
           <Icons :name="'dayIncr'" />
           <span class="info-item">
             <h3>Sotilgan nonlar</h3>
-            <b>{{ formatPrice(sellingBreads.length || 0) }}</b>
+            <b>{{
+              formatPrice(
+                sellingBreads.reduce(
+                  (a, i) =>
+                    a + i.typeOfBreadId.reduce((a, b) => a + b.quantity, 0),
+                  0
+                ) || 0
+              )
+            }}</b>
           </span>
         </div>
         <div class="card">
@@ -74,7 +95,20 @@
           <span class="info-item">
             <h3>Qoldiq nonlar</h3>
             <b>{{
-              formatPrice(Math.abs(sellerbreads.length - sellingBreads.length) || 0)
+              formatPrice(
+                Math.abs(
+                  sellerbreads.reduce(
+                    (a, i) =>
+                      a + i.typeOfBreadId.reduce((a, b) => a + b.quantity, 0),
+                    0
+                  ) -
+                    sellingBreads.reduce(
+                      (a, i) =>
+                        a + i.typeOfBreadId.reduce((a, b) => a + b.quantity, 0),
+                      0
+                    )
+                ) || 0
+              )
             }}</b>
           </span>
         </div>
