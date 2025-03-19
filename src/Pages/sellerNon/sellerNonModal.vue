@@ -102,7 +102,6 @@
           </div>
           <div class="modal-form">
             <div class="form-group">
-<<<<<<< HEAD
               <label for="title">Nomi</label>
               <input
                 id="title"
@@ -116,10 +115,7 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="description">Description</label>
-=======
               <label for="description">Tavsif</label>
->>>>>>> f5a3b0160c0e47a5e45ab318784dd6df92ad8f92
               <input
                 id="description"
                 type="text"
