@@ -104,7 +104,7 @@
                 id="description"
                 type="text"
                 v-model="bread.description"
-                placeholder="Foydalanuvchi nomini kiriting"
+                placeholder="Tavsif kiriting"
                 @blur="validateField('description')"
               />
               <p v-if="errors.description" class="error-text">
