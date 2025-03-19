@@ -1,12 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-<<<<<<< HEAD
   baseURL: 'https://api.alphae.uz',
-=======
-  // baseURL: 'https://api.alphae.uz',
-
->>>>>>> d90601d72612dab6cad3df9853ad74ae947d53d0
   // baseURL:"http://192.168.1.5:3500",
   // baseURL: "http://localhost:3500",
   // baseURL:"http://localhost:3500",
