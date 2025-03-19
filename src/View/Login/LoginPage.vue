@@ -19,7 +19,7 @@
           <h3 class="login-title">Xush kelibsiz</h3>
           <p>Iltimos login va parolingizni kiriting</p>
         </div>
-        <form class="login-container-form">
+        <div class="login-container-form">
           <div class="form-item d-flex radius1 border1">
             <input type="text" :value="login" @input="login = $event.target.value.trim()" placeholder="Ismingizni kiriting">
             <Icons name="user" />
@@ -29,7 +29,7 @@
             <Icons name="password" @click="type = !type" />
           </div>
           <button type="button" @click="handleLogin" class="login-create">Sahifaga kirish</button>
-        </form>
+        </div>
       </div>
     </div>
     <div class="right-content">
