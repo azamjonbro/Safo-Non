@@ -36,7 +36,11 @@
           </div>
           <div class="form-group">
             <label for="state">Mahsulot holati</label>
-            <CustomSelectVue :options="States" @input="selectState($event)" id="state" />
+            <CustomSelectVue
+              :options="States"
+              @input="selectState($event)"
+              id="state"
+            />
           </div>
           <div class="form-group">
             <label for="quantity">Soni (dona/kg/metr)</label>
@@ -221,6 +225,7 @@ export default {
         name: this?.update?.name,
         price: this?.update?.price,
         quantity: this?.update?.quantity,
+        status: true,
       };
       this.isUpdate = true;
     }

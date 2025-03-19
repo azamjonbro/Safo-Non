@@ -77,9 +77,8 @@
         </div>
       </div>
 
-
       <h2 style="margin-top: 150px">Omborxona hisobot</h2>
-      <div class="infobox d-flex wrap" >
+      <div class="infobox d-flex wrap">
         <div class="card">
           <Icons :name="'dayIncr'" />
           <span class="info-item">
@@ -94,7 +93,6 @@
             <b>{{
               formatPrice(warehouseTotal.reduce((a, b) => a + b?.totalPrice, 0))
             }}</b>
-
           </span>
         </div>
         <div class="card">
@@ -114,6 +112,7 @@
 import HistoryModal from "@/components/Modals/HistoryModal.vue";
 import Icons from "@/components/Template/Icons.vue";
 import Api from "@/Utils/axios.js";
+import api from "@/Utils/axios.js";
 export default {
   components: {
     Icons,
@@ -184,6 +183,7 @@ export default {
         console.error("Access token not found");
       }
     },
+ 
   },
   mounted() {
     this.getDebt2();
@@ -198,8 +198,6 @@ export default {
   justify-content: space-between;
   gap: 24px;
 }
-
-
 
 .card {
   background: #6a8ffd;
@@ -228,7 +226,7 @@ export default {
 .card > span > b {
   font-size: 24px;
 }
-@media (max-width:1570px) {
+@media (max-width: 1570px) {
   .infobox {
     gap: 5px;
   }
