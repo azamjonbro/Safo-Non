@@ -3,7 +3,7 @@
     <div class="modal" @click.self="$emit('close')">
       <div class="modal-content scroll relative d-flex column gap12">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
-        <h2>Nonvoy yaratish</h2>
+        <h2>Non yaratish</h2>
 
         <form>
           <div class="d-flex column gap12 scroll" style="max-height: 500px">
@@ -102,6 +102,7 @@
           </div>
           <div class="modal-form">
             <div class="form-group">
+<<<<<<< HEAD
               <label for="title">Nomi</label>
               <input
                 id="title"
@@ -116,11 +117,14 @@
             </div>
             <div class="form-group">
               <label for="description">Description</label>
+=======
+              <label for="description">Tavsif</label>
+>>>>>>> f5a3b0160c0e47a5e45ab318784dd6df92ad8f92
               <input
                 id="description"
                 type="text"
                 v-model="bread.description"
-                placeholder="Foydalanuvchi nomini kiriting"
+                placeholder="Tavsif kiriting"
                 @blur="validateField('description')"
               />
               <p v-if="errors.description" class="error-text">
@@ -129,7 +133,7 @@
             </div>
 
             <div class="form-group">
-              <label for="qopQuantity">totalPrice</label>
+              <label for="qopQuantity">Qop soni</label>
               <input
                 id="qopQuantity"
                 type="number"
@@ -140,7 +144,7 @@
             </div>
 
             <div class="form-group">
-              <label for="qopQuantity">totalPrice</label>
+              <label for="qopQuantity">Ish xaqi</label>
               <input
                 id="qopQuantity"
                 type="number"
@@ -149,7 +153,7 @@
               />
             </div>
             <div class="form-group">
-              <label for="qopQuantity">totalPrice</label>
+              <label for="qopQuantity">Umumiy soni</label>
               <input
                 id="qopQuantity"
                 type="number"
