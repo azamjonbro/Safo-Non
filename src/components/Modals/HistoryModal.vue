@@ -207,12 +207,11 @@
           <div class="table-header">
             <div class="row">
               <div class="cell">№</div>
-              <div class="cell">Nomi</div>
               <div class="cell">Narxi (do'kon)</div>
               <div class="cell">Soni</div>
               <div class="cell">Qop soni</div>
-              <div class="cell">Puli</div>
               <div class="cell">Umumiy narxi</div>
+              <div class="cell">Kimdan</div>
             </div>
           </div>
           <div class="table-body">
@@ -222,22 +221,25 @@
               class="row"
             >
               <div class="cell">{{ index + 1 }}</div>
-              <div class="cell">{{ data.breaId?.title ? data.breaId?.title : "" }}</div>
               <div class="cell">
-                {{ formatPrice(data.data?.price ? data.data?.price : 0) }}
+                {{ formatPrice(data?.price ? data?.price : 0) }}
               </div>
               <div class="cell">
-                {{ formatPrice(data?.price2 ? data?.price2 : 0) }}
+                {{ formatPrice(data?.totalQuantity ? data?.totalQuantity : 0) }}
               </div>
               <div class="cell">
-                {{ formatPrice(data?.price3 ? data?.price3 : 0) }}
+                {{
+                  formatPrice(
+                    data?.totalQopQuantity ? data?.totalQopQuantity : 0
+                  )
+                }}
               </div>
               <div class="cell">
-                {{ formatPrice(data?.price4 ? data?.price4 : 0) }}
+                {{
+                  data.typeOfBreadId.reduce((a, b) => a + b.breadId.price, 0)
+                }}
               </div>
-              <div class="cell">
-                {{ data?.status ? "Bor" : "Yoq" }}
-              </div>
+              <div class="cell">{{data.sellerId.username}}</div>
             </div>
           </div>
         </div>
