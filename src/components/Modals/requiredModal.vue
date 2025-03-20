@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay" v-if="isVisible">
+  <div class="modal-overlay" v-if="isVisible" @click.self="handleResponse(false)">
     <div class="return-content">
       <h2>{{ message }}</h2>
       <div class="modal-buttons">

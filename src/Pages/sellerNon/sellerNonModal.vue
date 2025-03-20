@@ -6,7 +6,7 @@
         <h2>Non yaratish</h2>
 
         <form>
-          <div class="d-flex column gap12 scroll" style="max-height: 500px">
+          <div class="d-flex column gap12 scroll" style="height:250px">
             <div
               class="modal-form-2 "
               v-for="(data, index) in count"
@@ -17,9 +17,14 @@
                 <CustomSelectVue
                   :search="true"
                   :options="
-                    allTypeOfBread.map((item) => {
-                      return { text: item.title, value: item };
-                    })
+                    allTypeOfBread
+                      .map((item) => {
+                        return { text: item.title, value: item };
+                      })
+                      .filter(
+                        (i) =>
+                          !count.map((i) => i.breadId).includes(i.value._id)
+                      )
                   "
                   id="bread"
                   :selected="data?.breadId"
@@ -102,12 +107,14 @@
           </div>
           <div class="modal-form">
             <div class="form-group">
+              <label for="title">Kim uchun ?</label>
               <label for="title">Malumot kiriting</label>
               <input
                 id="title"
                 type="text"
                 v-model="bread.title"
-                placeholder="Malumot kiriting"
+                placeholder="Kim uchun ?"
+
                 @blur="validateField('title')"
               />
               <p v-if="errors.title" class="error-text">
@@ -117,7 +124,7 @@
             <div class="form-group">
               <label for="description">Tavsif</label>
               <input
-                id="description"
+                id="description" 
                 type="text"
                 v-model="bread.description"
                 placeholder="Tavsif kiriting"

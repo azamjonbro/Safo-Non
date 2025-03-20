@@ -48,7 +48,16 @@
 
       <h2 style="margin-top: 150px">Nonvoy hisobot</h2>
       <div class="infobox d-flex wrap">
-        <div class="card">
+        <div
+          class="card"
+          @click="
+            openModalPage({
+              history: sellerBreads,
+              type: 'bread-seller',
+              role: 'seller',
+            })
+          "
+        >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
             <h3>Nonlar soni</h3>

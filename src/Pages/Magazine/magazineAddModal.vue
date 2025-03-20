@@ -13,7 +13,7 @@
                 <label for="bread">Non turini tanlang</label>
                 <CustomSelect
                   :options="
-                    typeOfBreads.map((i) => ({ text: i?.title, value: i }))
+                    typeOfBreads
                   "
                   id="bread"
                   :selected="true"
@@ -186,11 +186,13 @@ export default {
       }
     },
     calculateTotal() {
-      this.totalAmount = this.typeOfBread.price;
+      this.totalAmount = this.typeOfBread.price * this.magazine.quantity
       this.calculateRemaining();
     },
     calculateRemaining() {
-      this.remainingAmount = this.totalAmount - (this.magazine.money || 0);
+      // this.remainingAmount = this.totalAmount - (this.magazine.money || 0);
+      // this.remainingAmount = this.totalAmount * this.magazine.quantity;
+      this.remainingAmount =  this.totalAmount - (this.magazine.money || 0)
     },
     selectPayedMethod(value) {
       this.magazine.paymentMethod = value;
@@ -199,7 +201,7 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      this.magazine.breadId = value._id;
+      this.magazine.breadId = value.id;
       this.typeOfBread.price = value.totalPrice;
     },
     getBreads() {
@@ -294,10 +296,11 @@ export default {
               .map((item) => {
                 return item.typeOfBreadIds.map((i) => ({
                   text: i.breadId.title,
-                  value: { bread: i, id: i._id },
+                  value: { bread: i, id: i._id,totalPrice:item.totalPrice },
                 }));
               })
               .flat();
+           
           }
         })
         .catch(console.error);

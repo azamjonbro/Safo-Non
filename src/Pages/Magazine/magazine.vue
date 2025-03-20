@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="d-flex a-center j-between">
-      <h3>Magazinlar</h3>
+      <h3>Do`konlar</h3>
       <button class="create-button" @click="openModal = true">
         Do`kon yaratish
       </button>
@@ -74,6 +74,7 @@
                   <div class="cell">Index</div>
                   <div class="cell">Yaratilgan</div>
                   <div class="cell">Yetkazuvchi</div>
+                  <div class="cell">Soni</div>
                   <div class="cell">Umumiy pul</div>
                   <div class="cell">Qarzdorlik</div>
                   <div class="cell"></div>
@@ -86,6 +87,7 @@
                     {{ formatDate(new Date(item?.createdAt)) }}
                   </div>
                   <div class="cell">{{ item.deliveryId?.username }}</div>
+                  <div class="cell">{{ formatPrice(item.quantity) }}</div>
                   <div class="cell">{{ formatPrice(item.totalPrice) }}</div>
                   <div class="cell">{{ formatPrice(item.pending) }}</div>
                   <div class="cell d-flex j-end">
