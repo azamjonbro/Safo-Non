@@ -71,7 +71,7 @@
               <div class="cell">Sana</div>
               <div class="cell">Soni</div>
               <div class="cell">Narxi</div>
-              <div class="cell" v-if="history?.role !== 'seller'">Money</div>
+              <div class="cell" v-if="history?.role !== 'seller'">Umumiy summa</div>
               <div class="cell" v-if="history?.role !== 'seller'">
                 Do`kon nomi
               </div>
@@ -125,7 +125,7 @@
               <div class="cell">Sana</div>
               <div class="cell">Soni</div>
               <div class="cell">Narxi</div>
-              <div class="cell">Money</div>
+              <div class="cell">Umumiy summa</div>
               <div class="cell">Do`kon nomi</div>
             </div>
           </div>

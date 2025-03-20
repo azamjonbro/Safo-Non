@@ -56,9 +56,9 @@
 
             <b>{{
               formatPrice(
-                sellerbreads.reduce(
+                sellerbreads?.reduce(
                   (a, i) =>
-                    a + i.typeOfBreadId.reduce((a, b) => a + b.quantity, 0),
+                    a + i.typeOfBreadId?.reduce((a, b) => a + b.quantity, 0),
                   0
                 ) || 0
               )
@@ -77,9 +77,9 @@
             <h3>Sotilgan nonlar</h3>
             <b>{{
               formatPrice(
-                sellingBreads.reduce(
+                sellingBreads?.reduce(
                   (a, i) =>
-                    a + i.typeOfBreadId.reduce((a, b) => a + b.quantity, 0),
+                    a + i.typeOfBreadId?.reduce((a, b) => a + b.quantity, 0),
                   0
                 ) || 0
               )
@@ -93,14 +93,14 @@
             <b>{{
               formatPrice(
                 Math.abs(
-                  sellerbreads.reduce(
+                  sellerbreads?.reduce(
                     (a, i) =>
-                      a + i.typeOfBreadId.reduce((a, b) => a + b.quantity, 0),
+                      a + i.typeOfBreadId?.reduce((a, b) => a + b.quantity, 0),
                     0
                   ) -
-                    sellingBreads.reduce(
+                    sellingBreads?.reduce(
                       (a, i) =>
-                        a + i.typeOfBreadId.reduce((a, b) => a + b.quantity, 0),
+                        a + i.typeOfBreadId?.reduce((a, b) => a + b.quantity, 0),
                       0
                     )
                 ) || 0

@@ -8,7 +8,7 @@
         <form>
           <div class="d-flex column gap12 scroll" style="height:250px">
             <div
-              class="modal-form-2"
+              class="modal-form-2 "
               v-for="(data, index) in count"
               :key="index"
             >
@@ -108,11 +108,13 @@
           <div class="modal-form">
             <div class="form-group">
               <label for="title">Kim uchun ?</label>
+              <label for="title">Malumot kiriting</label>
               <input
                 id="title"
                 type="text"
                 v-model="bread.title"
                 placeholder="Kim uchun ?"
+
                 @blur="validateField('title')"
               />
               <p v-if="errors.title" class="error-text">
@@ -455,6 +457,9 @@ export default {
 </script>
 
 <style scoped>
+.modal-form-2{
+  height: 350px !important;
+}
 @media (max-width: 980px) {
   .modal-form-2 {
     grid-template-columns: repeat(2, 1fr) !important;
