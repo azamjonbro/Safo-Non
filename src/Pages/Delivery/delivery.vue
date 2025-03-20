@@ -81,6 +81,7 @@
                   <div class="cell">Summa</div>
                   <div class="cell">Holat</div>
                   <div class="cell">Turi</div>
+                  <div class="cell">Tasnif</div>
                   <div class="cell"></div>
                 </div>
               </div>
@@ -96,6 +97,7 @@
                   <div class="cell">{{ formatPrice(item?.price) }}</div>
                   <div class="cell">{{ item?.status }}</div>
                   <div class="cell">{{ item.type }}</div>
+                  <div class="cell">{{ item.comment }}</div>
                   <div class="cell d-flex j-end">
                     <Icons
                       name="deleted"

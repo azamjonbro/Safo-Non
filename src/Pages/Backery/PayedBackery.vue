@@ -47,6 +47,20 @@
               />
               <p v-if="errors.typeId" class="error-text">{{ errors.typeId }}</p>
             </div>
+            <div class="form-group">
+              <label for="comment">Tasnif</label>
+              <input
+                type="text"
+                id="comment"
+                v-model="bakcery.comment"
+                placeholder="Tasnifni kiriting"
+                maxlength="10"
+                @blur="validateField('comment')"
+              />
+              <p v-if="errors.comment" class="error-text">
+                {{ errors.comment }}
+              </p>
+            </div>
           </div>
         </form>
         <div class="modal-buttons d-flex j-end a-center gap24">
@@ -87,18 +101,20 @@ export default {
         type: "",
         price: "",
         status: "",
+        comment: "",
       },
       errors: {},
       isSubmitting: false,
 
       payedStatus: [
         { text: "To'landi", value: "To'landi" },
-        { text: "To'lanmadi", value: "To'lanmadi" }
+        { text: "To'lanmadi", value: "To'lanmadi" },
       ],
       payedType: [
         { text: "Bonus", value: "Bonus" },
         { text: "Shtraf", value: "Shtraf" },
-        { text: "Kunlik", value: "Kunlik" }
+        { text: "Kunlik", value: "Kunlik" },
+        { text: "Avans", value: "Avans" },
       ],
     };
   },
@@ -113,7 +129,7 @@ export default {
       this.bakcery.type = id;
     },
     applyMask(event) {
-      let value = event.target?.value.replace(/\D/g, ""); 
+      let value = event.target?.value.replace(/\D/g, "");
       this.bakcery.price = value;
     },
     validateField(field) {
@@ -132,8 +148,11 @@ export default {
       if (field === "statusId" && !this.bakcery.status) {
         this.errors.statusId = "To`lov holati bo'sh bo'lmasligi kerak";
       }
+      if (field === "comment" && !this.bakcery.comment) {
+        this.errors.comment = "Tasnif  bo'sh bo'lmasligi kerak";
+      }
     },
-   async submitForm() {
+    async submitForm() {
       this.errors = {};
       this.validateField("price");
       this.validateField("typeId");

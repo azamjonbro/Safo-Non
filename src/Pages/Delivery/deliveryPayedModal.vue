@@ -44,6 +44,19 @@
             />
             <p v-if="errors.type" class="error-text">{{ errors.type }}</p>
           </div>
+
+          <div class="form-group">
+            <label for="comment">Tasnif</label>
+            <input
+              type="text"
+              id="comment"
+              v-model="delivery.comment"
+              placeholder="Tasnifni kiriting"
+              maxlength="10"
+              @blur="validateField('comment')"
+            />
+            <p v-if="errors.comment" class="error-text">{{ errors.comment }}</p>
+          </div>
         </div>
       </form>
       <div class="modal-buttons d-flex j-end a-center gap24">
@@ -85,6 +98,7 @@ export default {
         price: "",
         status: "",
         deliveryId: "",
+        comment: "",
       },
       errors: {},
       payedStatus: [
@@ -95,6 +109,7 @@ export default {
         { text: "Bonus", value: "Bonus" },
         { text: "Shtraf", value: "Shtraf" },
         { text: "Kunlik", value: "Kunlik" },
+        { text: "Avans", value: "Avans" },
       ],
     };
   },
@@ -103,7 +118,9 @@ export default {
       this.$emit("close");
     },
     formatPrice() {
-      this.delivery.price = this.delivery.price.replace(/[^0-9]/g, "").slice(0, 10);
+      this.delivery.price = this.delivery.price
+        .replace(/[^0-9]/g, "")
+        .slice(0, 10);
     },
     validateField(field) {
       this.errors[field] = "";
@@ -119,6 +136,9 @@ export default {
       }
       if (field === "status" && !this.delivery.status) {
         this.errors.status = "To'lov holati tanlanishi kerak";
+      }
+      if (field === "comment" && !this.delivery.comment) {
+        this.errors.comment = "Tasnif  bo'sh bo'lmasligi kerak";
       }
     },
     selectPayedState(value) {
@@ -156,7 +176,7 @@ export default {
           }
         })
         .catch((error) => {
-            this.isSubmitting = false
+          this.isSubmitting = false;
           console.error(error);
           this.$emit("status", {
             status: "error",

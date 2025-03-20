@@ -18,7 +18,7 @@
             <div class="cell">Narxi</div>
             <div class="cell">Tavsif</div>
             <div class="cell">Kimdan</div>
-            <div class="cell">Rol</div>
+            <div class="cell">Boshqaruvchi</div>
             <div class="cell"></div>
           </div>
         </div>
