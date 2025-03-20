@@ -28,7 +28,7 @@
               <div class="cell">{{ data?.pending ? data?.pending : 0 }}</div>
               <div class="cell d-flex j-end gap12">
                 <Icons
-                  name="debt"
+                  name="payed"
                   title="Qarzni to`lash"
                   class="icon info setting"
                   @click="
@@ -36,7 +36,7 @@
                   "
                 />
                 <Icons
-                  name="payed"
+                  name="debt"
                   title="To'lov"
                   class="icon info setting"
                   @click="openAddModal(data?._id)"

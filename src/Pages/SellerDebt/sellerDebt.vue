@@ -90,7 +90,7 @@
             <div class="cell">Nomi</div>
             <div class="cell">Soni (Dona)</div>
             <div class="cell">Narxi</div>
-            <div class="cell">sababi</div>
+            <div class="cell">Tavsif</div>
             <div class="cell"></div>
           </div>
         </div>
