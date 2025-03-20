@@ -2,9 +2,9 @@
   <div class="page">
     <div class="d-flex a-center j-between">
       <h3>Do`konlar</h3>
-      <button class="create-button" @click="createModalVisible = true">
+      <!-- <button class="create-button" @click="createModalVisible = true">
         Do`kon yaratish
-      </button>
+      </button> -->
     </div>
     <div class="scroll pt-24 page-bottom">
       <div class="table">
@@ -31,24 +31,6 @@
                 <div class="cell">{{ data?.totalQopQuantity }}</div>
                 <div class="cell d-flex a-center j-end gap12">
                   <Icons
-                    name="setting"
-                    title="sozlama"
-                    class="icon info setting"
-                    @click="
-                      (updateModalVisible = true),
-                        (update = { ...data, isUpdate: true })
-                    "
-                  />
-                  <Icons
-                    name="deleted"
-                    title="o'chirish"
-                    class="icon danger"
-                    @click="
-                      (selectedItem = data?._id), (deleteModalVisible = true)
-                    "
-                  />
-
-                  <Icons
                     name="bottomArrow"
                     class="icon"
                     :class="{ rotated: expanedId === data._id }"
@@ -72,7 +54,9 @@
                       :key="index"
                     >
                       <div class="cell">{{ index + 1 }}</div>
-                      <div class="cell">{{ formatDate(new Date(item.createdAt))}}</div>
+                      <div class="cell">
+                        {{ formatDate(new Date(item.createdAt)) }}
+                      </div>
                       <div class="cell">{{ item?.totalQuantity }}</div>
                       <div class="cell">
                         {{ item?.totalqopQuantity }}
@@ -93,10 +77,10 @@
       </div>
     </div>
   </div>
-  <RequiredModalVue
+  <!-- <RequiredModalVue
     :isVisible="deleteModalVisible"
     @response="closeDeleteModal($event)"
-  />
+  /> -->
   <!-- <SellerShopModalVue
     v-if="createModalVisible"
     @close="(createModalVisible = false), getSellerShop()"
@@ -129,7 +113,6 @@ export default {
       // openModal: false,
       sellerBreads: [],
       selectedItem: null,
-      deleteModalVisible: false,
       // createModalVisible: false,
       // updateModalVisible: false,
       // update: {
@@ -144,21 +127,21 @@ export default {
     };
   },
   methods: {
-        toggleHistory(id) {
+    toggleHistory(id) {
       if (this.expanedId === id) {
         this.expanedId = null;
         return;
       }
       this.expanedId = id;
     },
-    closeDeleteModal(emit) {
-      if (emit) {
-        this.deleteSellerShop(this.selectedItem);
-      }
-      this.selectedItem = null;
-      this.deleteModalVisible = false;
-      this.getSellerShop();
-    },
+    // closeDeleteModal(emit) {
+    //   if (emit) {
+    //     this.deleteSellerShop(this.selectedItem);
+    //   }
+    //   this.selectedItem = null;
+    //   this.deleteModalVisible = false;
+    //   this.getSellerShop();
+    // },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -190,34 +173,34 @@ export default {
           console.error(error);
         });
     },
-    deleteSellerNon(id) {
-      api
-        .delete("/api/sellerBread/" + id)
-        .then(({ status }) => {
-          if (status === 200) {
-            this.toastOptions = {
-              open: true,
-              type: "success",
-              text: "Nonxona o`chirildi",
-            };
-            this.getSellerNon();
-          } else {
-            this.toastOptions = {
-              open: true,
-              type: "error",
-              text: "Nonxona o`chirilishida Xatolik yuz berdi",
-            };
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-          this.toastOptions = {
-            open: true,
-            type: "error",
-            text: error.message || "Xatolik yuzberdi",
-          };
-        });
-    },
+    // deleteSellerNon(id) {
+    //   api
+    //     .delete("/api/sellerBread/" + id)
+    //     .then(({ status }) => {
+    //       if (status === 200) {
+    //         this.toastOptions = {
+    //           open: true,
+    //           type: "success",
+    //           text: "Nonxona o`chirildi",
+    //         };
+    //         this.getSellerNon();
+    //       } else {
+    //         this.toastOptions = {
+    //           open: true,
+    //           type: "error",
+    //           text: "Nonxona o`chirilishida Xatolik yuz berdi",
+    //         };
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //       this.toastOptions = {
+    //         open: true,
+    //         type: "error",
+    //         text: error.message || "Xatolik yuzberdi",
+    //       };
+    //     });
+    // },
   },
   mounted() {
     this.getSellerNon();

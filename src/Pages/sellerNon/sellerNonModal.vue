@@ -6,7 +6,7 @@
         <h2>Non yaratish</h2>
 
         <form>
-          <div class="d-flex column gap12 scroll" style="height: 80%">
+          <div class="d-flex column gap12 scroll" style="max-height: 500px">
             <div
               class="modal-form-2"
               v-for="(data, index) in count"
@@ -56,7 +56,10 @@
                   {{ data.errors.qopQuantity }}
                 </p>
               </div>
-              <div style="display: flex; align-items: end" class="gap12 yonbosh">
+              <div
+                style="display: flex; align-items: end"
+                class="gap12 yonbosh"
+              >
                 <div class="form-group" style="width: 95%">
                   <label for="quantity">Soni (Dona)</label>
                   <input
@@ -98,6 +101,19 @@
             </div>
           </div>
           <div class="modal-form">
+            <div class="form-group">
+              <label for="title">Nomi</label>
+              <input
+                id="title"
+                type="text"
+                v-model="bread.title"
+                placeholder="Foydalanuvchi nomini kiriting"
+                @blur="validateField('title')"
+              />
+              <p v-if="errors.title" class="error-text">
+                {{ errors.title }}
+              </p>
+            </div>
             <div class="form-group">
               <label for="description">Tavsif</label>
               <input
@@ -188,6 +204,7 @@ export default {
       isSubmitting: false,
       bread: {
         description: "",
+        title: "",
       },
       errors: {},
       isUpdate: false,
@@ -253,9 +270,6 @@ export default {
       if (!id || !id._id || !id.price4) return;
 
       this.count = this.count.map((item) => {
-        console.log(id);
-        console.log(index);
-        console.log(item.id == index ? "yedi" : "yemadi");
         return item.id == index
           ? { ...item, breadId: id._id, price: id.price4 }
           : item;
@@ -266,6 +280,9 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
+      if (field === "title" && !this.bread.title?.trim()) {
+        this.errors.title = "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
+      }
       if (field === "description" && !this.bread.description.trim()) {
         this.errors.description = "Tasnif bo'sh bo'lmasligi kerak";
       }
@@ -433,31 +450,28 @@ export default {
 </script>
 
 <style scoped>
-
-@media (max-width:980px){
-  .modal-form-2{
-    grid-template-columns: repeat(2,1fr) !important;
+@media (max-width: 980px) {
+  .modal-form-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
-  form{
+  form {
     max-height: 600px;
   }
-  
 }
-@media (max-width:480px){
-  .modal-form-2{
-    grid-template-columns: repeat(1,1fr) !important;
+@media (max-width: 480px) {
+  .modal-form-2 {
+    grid-template-columns: repeat(1, 1fr) !important;
   }
-  form{
+  form {
     max-height: 500px;
   }
-  .yonbosh{
+  .yonbosh {
     display: flex;
     flex-wrap: wrap;
   }
-  .yonbosh>.icon{
+  .yonbosh > .icon {
     width: 100%;
   }
-  
 }
 .modal-form-2 {
   display: grid;

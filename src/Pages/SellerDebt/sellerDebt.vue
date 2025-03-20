@@ -3,11 +3,11 @@
     <div class="page-top d-flex a-center j-between">
       <h3>Chiqimlar</h3>
       <div class="d-flex a-center gap12">
-        <button class="create-button" @click="createModal2Visible = true">
-          Chiqimlar 2 yaratish
+        <button class="create-button" @click="createModal2Visible = true" v-if="activePage === 'debt2'">
+          Mahsulot chiqim 
         </button>
-        <button class="create-button" @click="createModalVisible = true">
-          Chiqimlar yaratish
+        <button class="create-button" @click="createModalVisible = true" v-if="activePage === 'debt1'">
+          Ishxonaga chiqim 
         </button>
       </div>
     </div>

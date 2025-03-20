@@ -18,7 +18,7 @@
               <div class="cell">Soni</div>
               <div class="cell">Narxi</div>
               <div class="cell">Sababi</div>
-              <div class="cell" v-if="history?.role !== 'seller'">Nonvoy</div>
+              <div class="cell" v-if="isHideSeller">Nonvoy</div>
             </div>
           </div>
           <div class="table-body">
@@ -207,7 +207,7 @@
           <div class="table-header">
             <div class="row">
               <div class="cell">№</div>
-              <div class="cell">Narxi (do'kon)</div>
+              <div class="cell">Narxi</div>
               <div class="cell">Soni</div>
               <div class="cell">Qop soni</div>
               <div class="cell">Umumiy narxi</div>
@@ -235,11 +235,9 @@
                 }}
               </div>
               <div class="cell">
-                {{
-                  data.typeOfBreadId.reduce((a, b) => a + b.breadId.price, 0)
-                }}
+                {{ formatPrice(data?.totalPrice ? data?.totalPrice : 0) }}
               </div>
-              <div class="cell">{{data.sellerId.username}}</div>
+              <div class="cell">{{ data.sellerId.username }}</div>
             </div>
           </div>
         </div>
@@ -264,6 +262,7 @@ export default {
     return {
       touchStartX: 0,
       touchEndX: 0,
+      isHideSeller: false,
     };
   },
   methods: {
@@ -291,9 +290,14 @@ export default {
       }
     },
   },
-  // mounted() {
-  //   console.log(this.history);
-  // },
+  mounted() {
+    console.log(this.history.role)
+    if (this.history.role == "seller") {
+      this.isHideSeller = false;
+    } else if (this.history.role == "delivery") {
+      this.isHideSeller = true;
+    }
+  },
 };
 </script>
 

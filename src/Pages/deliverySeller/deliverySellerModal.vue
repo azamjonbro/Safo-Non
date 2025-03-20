@@ -3,23 +3,10 @@
     <div class="modal" @click.self="$emit('close')">
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
-        <h2>Yetkazuvchi yaratish</h2>
+        <h2>Yetkazuvchiga non berish</h2>
 
         <form>
           <div class="modal-form">
-            <!-- <div class="form-group">
-              <label for="quantity">Soni (Dona)</label>
-              <input
-                id="quantity"
-                type="number"
-                placeholder="Yetkazuvchini ismini kiriting"
-                v-model="delivery.quantity"
-                @blur="validateField('quantity')"
-              />
-              <p v-if="errors.quantity" class="error-text">
-                {{ errors.quantity }}
-              </p>
-            </div> -->
             <div class="form-group">
               <label for="description">Description</label>
               <input
@@ -47,9 +34,29 @@
                 {{ errors.deliveryId }}
               </p>
             </div>
+            <div class="form-group">
+              <label for="quantity">Qoldiq summa</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="0"
+                readonly
+                v-model="totalAmountPrice"
+              />
+            </div>
+            <div class="form-group">
+              <label for="quantity">Qoldiq soni</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="0"
+                readonly
+                v-model="totalAmountQuantity"
+              />
+            </div>
           </div>
         </form>
-        <form class="scroll" style="height: 50%">
+        <form class="scroll" style="height: 45%">
           <div
             class="modal-form-2"
             v-for="(data, index) in typeOfBreadIds"
@@ -58,7 +65,11 @@
             <div class="form-group">
               <label for="bread">Non turini tanlang</label>
               <CustomSelect
-                :options="typeOfBreads"
+                :options="
+                  typeOfBreads?.map((i) => {
+                    return { text: i?.title, value: { v: i, id: i._id } };
+                  })
+                "
                 id="bread"
                 :selected="data.breadId"
                 @input="selectArray($event, data.id)"
@@ -162,7 +173,14 @@ export default {
         deliveryId: "",
       },
       typeOfBreadIds: [
-        { id: 0, quantity: 0, bread: "", typeOfBread: "", errors: {} },
+        {
+          id: 0,
+          quantity: 0,
+          bread: "",
+          typeOfBread: "",
+          errors: {},
+          price: 0,
+        },
       ],
       deliveries: [],
       breads: [],
@@ -176,24 +194,27 @@ export default {
       type: Object,
     },
   },
+  computed: {
+    totalAmountPrice() {
+      return (
+        this.typeOfBreads.reduce((a, b) => a + b.totalPrice, 0) -
+        this.typeOfBreadIds.reduce((a, b) => a + b.price, 0)
+      );
+    },
+    totalAmountQuantity() {
+      return (
+        this.typeOfBreads.reduce((a, b) => a + b.totalQuantity, 0) -
+        this.typeOfBreadIds.reduce((a, b) => a + b.quantity, 0)
+      );
+    },
+  },
   methods: {
     getBreads() {
       api
         .get("/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.typeOfBreads = data?.sellerBreads
-              .map((item) => {
-                return item.typeOfBreadId.map((i) => {
-                  return {
-                    text: i.breadId?.title,
-                    value: { bread: i, id: item._id },
-                  };
-                });
-              })
-              .flat(Infinity);
-
-            console.log(this.typeOfBreads);
+            this.typeOfBreads = data?.sellerBreads;
           }
         })
         .catch((error) => {
@@ -217,7 +238,10 @@ export default {
           ? {
               ...item,
               bread: value?.id,
-              price: value?.bread?.breadId?.price,
+              price: value?.v?.typeOfBreadId.reduce(
+                (a, b) => a + b.breadId.price,
+                0
+              ),
               typeOfBread: value?.bread?.breadId?._id,
             }
           : item;
@@ -237,21 +261,9 @@ export default {
         this.errors.deliveryId =
           "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
       }
-      // if (field === "magazineId" && !this.delivery.magazineId?.trim()) {
-      //   this.errors.magazineId = "Foydalanuvchi do`kon bo'sh bo'lmasligi kerak";
-      // }
-      // if (
-      //   field === "quantity" &&
-      //   (!this.delivery.quantity ||
-      //     isNaN(this.delivery.quantity) ||
-      //     this.delivery.quantity <= 0)
-      // ) {
-      //   this.errors.quantity = "Soni (Dona) musbat son bo‘lishi kerak";
-      // }
     },
     submitForm() {
       this.errors = {};
-      // this.validateField("quantity");
       this.validateField("description");
       this.validateField("deliveryId");
       for (const error in this.errors) {
@@ -292,7 +304,8 @@ export default {
             console.error(error);
             this.$emit("status", {
               status: "error",
-              message: error.message || error.data.message || "Xatolik yuz berdi",
+              message:
+                error.message || error.data.message || "Xatolik yuz berdi",
             });
           });
       } else {
