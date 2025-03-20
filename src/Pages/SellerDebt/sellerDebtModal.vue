@@ -12,7 +12,7 @@
                 id="title"
                 type="text"
                 v-model="debt.title"
-                placeholder="Do`kon nomini kiriting"
+                placeholder="Rasxod nomini kiriting"
                 maxlength="50"
                 @input="sanitizeInput('title')"
                 @blur="validateField('title')"
@@ -22,12 +22,12 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="reason">reason</label>
+              <label for="reason">Sababi</label>
               <input
                 id="reason"
                 type="text"
                 v-model="debt.reason"
-                placeholder="Do`kon addressini kiriting"
+                placeholder="Sabab kiriting"
                 maxlength="100"
                 @blur="validateField('reason')"
               />
@@ -140,10 +140,10 @@ export default {
     validateField(field) {
       this.errors[field] = "";
       if (field === "title" && !this.debt.title.trim()) {
-        this.errors.title = "Magazin nomi bo'sh bo'lmasligi kerak";
+        this.errors.title = "Rasxod nomi bo'sh bo'lmasligi kerak";
       }
       if (field === "reason" && !this.debt.reason.trim()) {
-        this.errors.reason = "Magazin addressi bo'sh bo'lmasligi kerak";
+        this.errors.reason = " Rasxod sababi bo'sh bo'lmasligi kerak";
       }
 
       if (

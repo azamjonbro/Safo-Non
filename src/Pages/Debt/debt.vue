@@ -18,7 +18,7 @@
             <div class="cell">Narxi</div>
             <div class="cell">Tavsif</div>
             <div class="cell">Kimdan</div>
-            <div class="cell">Boshqaruvchi</div>
+            <!-- <div class="cell">Boshqaruvchi</div> -->
             <div class="cell"></div>
           </div>
         </div>
@@ -39,9 +39,9 @@
             <div class="cell">
               {{ data?.sellerId?.username || data?.deliveryId?.username || "" }}
             </div>
-            <div class="cell">
+            <!-- <div class="cell">
               {{ data?.role || "" }}
-            </div>
+            </div> -->
             <div class="cell d-flex a-center j-end gap12">
               <Icons
                 @click="
