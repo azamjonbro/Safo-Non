@@ -4,7 +4,7 @@
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
         <h2>Yetkazuvchiga non berish</h2>
-
+        <!-- <form class="scroll" ></form> -->
         <form>
           <div class="modal-form">
             <div class="form-group">
@@ -55,78 +55,78 @@
               />
             </div>
           </div>
-        </form>
-        <form class="scroll" style="height: 45%">
-          <div
-            class="modal-form-2"
-            v-for="(data, index) in typeOfBreadIds"
-            :key="index"
-          >
-            <div class="form-group">
-              <label for="bread">Non turini tanlang</label>
-              <CustomSelect
-                :options="
-                  typeOfBreads?.map((i) => {
-                    return { text: i?.title, value: { v: i, id: i._id } };
-                  })
-                "
-                id="bread"
-                :selected="data.breadId"
-                @input="selectArray($event, data.id)"
-              />
-            </div>
+          <div class="scroll" style="height: 45%">
+            <div
+              class="modal-form-2"
+              v-for="(data, index) in typeOfBreadIds"
+              :key="index"
+            >
+              <div class="form-group">
+                <label for="bread">Non turini tanlang</label>
+                <CustomSelect
+                  :options="
+                    typeOfBreads?.map((i) => {
+                      return { text: i?.title, value:i};
+                    })
+                  "
+                  id="bread"
+                  :selected="data.breadId"
+                  @input="selectArray($event, data.id)"
+                />
+              </div>
 
-            <div class="form-group">
-              <label for="quantity">Narxi</label>
-              <input
-                id="price"
-                type="number"
-                placeholder="Rasxod narxi"
-                v-model="data.price"
-                readonly
-              />
-              <!-- <p v-if="errors.price" class="error-text">
+              <div class="form-group">
+                <label for="quantity">Narxi</label>
+                <input
+                  id="price"
+                  type="number"
+                  placeholder="Rasxod narxi"
+                  v-model="data.price"
+                  readonly
+                />
+                <!-- <p v-if="errors.price" class="error-text">
                 {{ errors.price }}
               </p> -->
-            </div>
-            <div style="display: flex; align-items: end" class="gap12">
-              <div class="form-group" style="width: 95%">
-                <label for="quantity">Soni (Dona)</label>
-                <input
-                  id="quantity"
-                  type="number"
-                  placeholder="Rasxod sonini kiriting"
-                  v-model="data.quantity"
-                  @blur="validateField('quantity')"
-                />
-                <p v-if="data?.errors.quantity" class="error-text">
-                  {{ data?.errors.quantity }}
-                </p>
               </div>
-              <Icons
-                name="deleted"
-                title="o'chirish"
-                class="icon danger"
-                @click="deleteRow(data?.id)"
-              />
+              <div style="display: flex; align-items: end" class="gap12">
+                <div class="form-group" style="width: 95%">
+                  <label for="quantity">Soni (Dona)</label>
+                  <input
+                    id="quantity"
+                    type="number"
+                    placeholder="Rasxod sonini kiriting"
+                    v-model="data.quantity"
+                    @blur="validateField('quantity')"
+                  />
+                  <p v-if="data?.errors.quantity" class="error-text">
+                    {{ data?.errors.quantity }}
+                  </p>
+                </div>
+                <Icons
+                  name="deleted"
+                  title="o'chirish"
+                  class="icon danger"
+                  @click="deleteRow(data?.id)"
+                />
+              </div>
             </div>
-          </div>
-          <div class="d-flex j-end">
-            <button
-              type="button"
-              class="create-button"
-              @click="
-                typeOfBreadIds.push({
-                  id: typeOfBreadIds.length,
-                  breadId: '',
-                  quantity: 0,
-                  price: 0,
-                  errors: {},
-                })
-              "
-            >
-              Qo`shish
-            </button>
+            <div class="d-flex j-end">
+              <button
+                type="button"
+                class="create-button"
+                @click="
+                  typeOfBreadIds.push({
+                    id: typeOfBreadIds.length,
+                    breadId: '',
+                    quantity: 0,
+                    price: 0,
+                    errors: {},
+                  })
+                "
+              >
+                Qo`shish
+              </button>
+            </div>
           </div>
         </form>
 
@@ -237,12 +237,9 @@ export default {
         return item.id === index
           ? {
               ...item,
-              bread: value?.id,
-              price: value?.v?.typeOfBreadId.reduce(
-                (a, b) => a + b.breadId.price,
-                0
-              ),
-              typeOfBread: value?.bread?.breadId?._id,
+              bread: value?._id,
+              price: value?.totalPrice,
+              typeOfBread: value?.breadx?.breadId?._id,
             }
           : item;
       });

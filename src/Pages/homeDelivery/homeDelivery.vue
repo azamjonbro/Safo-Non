@@ -71,6 +71,7 @@ export default {
       openModal: false,
       statics: {},
       historyItem: null,
+      orderWithDeliveries: [],
     };
   },
   methods: {
@@ -94,9 +95,23 @@ export default {
           console.error("Error fetching statistics:", error);
         });
     },
+    getOrderWithDeliveries() {
+      api
+        .get("/api/orderWithDeliveries")
+        .then(({ data, status }) => {
+          if (status === 200) {
+            this.orderWithDeliveries = data?.orderWithDeliveries;
+            console.log("this.orderWithDeliveries",this.orderWithDeliveries)
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
   },
   mounted() {
     this.getStatics();
+    this.getOrderWithDeliveries()
   },
 };
 </script>

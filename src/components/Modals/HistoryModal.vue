@@ -241,6 +241,52 @@
             </div>
           </div>
         </div>
+
+        <div class="table" v-if="history?.type == 'bread-seller'">
+          <div class="table-header">
+            <div class="row">
+              <div class="cell">№</div>
+              <div class="cell">Sana</div>
+              <div class="cell">Nomi</div>
+              <div class="cell">Tasnif</div>
+              <div class="cell">Narxi</div>
+              <div class="cell">Soni</div>
+              <div class="cell">Qop soni</div>
+            </div>
+          </div>
+          <div class="table-body">
+            <div
+              v-for="(data, index) in history?.history"
+              :key="index"
+              class="row"
+            >
+              <div class="cell">{{ index + 1 }}</div>
+              <div class="cell">
+                {{ formatDate(new Date(data?.createdAt)) }}
+              </div>
+              <div class="cell">
+                {{ data?.title ? data?.title : "" }}
+              </div>
+              <div class="cell">
+                {{ data?.description ? data?.description : "" }}
+              </div>
+              <div class="cell">
+                {{ formatPrice(data?.price ? data?.price : 0) }}
+              </div>
+              <div class="cell">
+                {{ formatPrice(data?.totalQuantity ? data?.totalQuantity : 0) }}
+              </div>
+              <div class="cell">
+                {{
+                  formatPrice(
+                    data?.totalQopQuantity ? data?.totalQopQuantity : 0
+                  )
+                }}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="modal-buttons d-flex j-end a-center gap24">
           <button type="button" class="action-button" @click="$emit('close')">
             Chiqish
@@ -291,7 +337,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.history.role)
+    console.log(this.history.role);
     if (this.history.role == "seller") {
       this.isHideSeller = false;
     } else if (this.history.role == "delivery") {

@@ -3,7 +3,7 @@
     <div class="modal" @click.self="$emit('close')">
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
-        <h2>Pending</h2>
+        <h2>Do`kondan pul olish</h2>
 
         <form>
           <div class="contentbox">
@@ -32,7 +32,7 @@
             class="action-button"
             :disabled="isSubmitting"
           >
-            {{ isSubmitting ? "Yangilanyapti..." : "Yangilash" }}
+            {{ isSubmitting ? "Do`kodan pul olinyapti..." : "Do`kondan pul olish" }}
           </button>
         </div>
       </div>

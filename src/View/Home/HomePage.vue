@@ -3,7 +3,7 @@
     <Sidebar class="sidebar" @menu-click="changePage($event)" />
     <main class="main">
       <Dashboard v-if="activePage == 'dashboard'" />
-      <Managers v-if="activePage=='managers'"/>
+      <Managers v-if="activePage == 'managers'" />
       <Backery v-if="activePage == 'workers'" />
       <Settings v-if="activePage == 'settings'" />
       <TypeOfBreadVue v-if="activePage == 'typeOfBread'" />
@@ -20,6 +20,7 @@
       <SellerDashVue v-if="activePage === 'sellerDash'" />
       <HomeDeliveryVue v-if="activePage === 'homeDelivery'" />
       <ManagerdashboardVue v-if="activePage === 'Managerdashboard'" />
+      <SellerHistoryVue v-if="activePage === 'sellerHistory'" />
       <!-- <ErrorPage v-else/> -->
     </main>
   </div>
@@ -37,15 +38,16 @@ import MagazineVue from "@/Pages/Magazine/magazine.vue";
 import DebtVue from "@/Pages/Debt/debt.vue";
 import WarehouseVue from "@/Pages/WareHouse/warehouse.vue";
 import SellerShopVue from "@/Pages/SellerShop/sellerShop.vue";
-import SellerNonVue from '@/Pages/sellerNon/sellerNon.vue';
+import SellerNonVue from "@/Pages/sellerNon/sellerNon.vue";
 import Managers from "@/Pages/Managers/managers.vue";
-import SellerDebtVue from '@/Pages/SellerDebt/sellerDebt.vue';
-import DeliverySellerVue from '@/Pages/deliverySeller/deliverySeller.vue';
-import DeliveryDebtVue from '@/Pages/deliveryDebt/deliveryDebt.vue';
-import DeliveryHistoryVue from '@/Pages/deliveryHistory/deliveryHistory.vue';
-import SellerDashVue from '@/Pages/sellerDash/sellerDash.vue';
-import HomeDeliveryVue from '@/Pages/homeDelivery/homeDelivery.vue';
-import ManagerdashboardVue from '@/Pages/Managerdashboard/managerdashboard.vue';
+import SellerDebtVue from "@/Pages/SellerDebt/sellerDebt.vue";
+import DeliverySellerVue from "@/Pages/deliverySeller/deliverySeller.vue";
+import DeliveryDebtVue from "@/Pages/deliveryDebt/deliveryDebt.vue";
+import DeliveryHistoryVue from "@/Pages/deliveryHistory/deliveryHistory.vue";
+import SellerDashVue from "@/Pages/sellerDash/sellerDash.vue";
+import HomeDeliveryVue from "@/Pages/homeDelivery/homeDelivery.vue";
+import ManagerdashboardVue from "@/Pages/Managerdashboard/managerdashboard.vue";
+import SellerHistoryVue from "@/Pages/sellerHistory/sellerHistory.vue";
 export default {
   name: "HomePage",
   components: {
@@ -69,6 +71,7 @@ export default {
     SellerDashVue,
     HomeDeliveryVue,
     ManagerdashboardVue,
+    SellerHistoryVue,
   },
   data() {
     return {

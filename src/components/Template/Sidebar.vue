@@ -83,6 +83,7 @@ export default {
         seller: [
           { title: "Dashboard", icon: "home", page: "sellerDash" },
           { title: "Nonxona", icon: "bread", page: "sellerNon" },
+          { title: "Tarix", icon: "history", page: "sellerHistory" },
           { title: "Sozlamalar", icon: "setting", page: "settings" },
         ],
         delivery: [
