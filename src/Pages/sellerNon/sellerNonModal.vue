@@ -8,7 +8,7 @@
         <form>
           <div class="d-flex column gap12 scroll" style="height:250px">
             <div
-              class="modal-form-2 "
+              class="yemagan"
               v-for="(data, index) in count"
               :key="index"
             >
@@ -61,29 +61,27 @@
                   {{ data.errors.qopQuantity }}
                 </p>
               </div>
+              <div class="form-group" style="width: 95%">
+                <label for="quantity">Soni (Dona)</label>
+                <input
+                  id="quantity"
+                  type="number"
+                  placeholder="Rasxod sonini kiriting"
+                  v-model="data.quantity"
+                  @blur="validateArrayField('quantity', index)"
+                />
+                <p v-if="data?.errors.quantity" class="error-text">
+                  {{ data?.errors.quantity }}
+                </p>
+              </div>
               <div
-                style="display: flex; align-items: end"
+                style="display: flex;"
                 class="gap12 yonbosh"
               >
-                <div class="form-group" style="width: 95%">
-                  <label for="quantity">Soni (Dona)</label>
-                  <input
-                    id="quantity"
-                    type="number"
-                    placeholder="Rasxod sonini kiriting"
-                    v-model="data.quantity"
-                    @blur="validateArrayField('quantity', index)"
-                  />
-                  <p v-if="data?.errors.quantity" class="error-text">
-                    {{ data?.errors.quantity }}
-                  </p>
-                </div>
                 <Icons
                   name="deleted"
                   title="o'chirish"
                   class="icon danger"
-                  @click="deleteRow(data?.id)"
-                  v-if="count.length > 1"
                 />
               </div>
             </div>
@@ -457,8 +455,12 @@ export default {
 </script>
 
 <style scoped>
-.modal-form-2{
-  height: 350px !important;
+.yemagan{
+  display: flex;
+  justify-content:space-between ;
+}
+.yemagan>.form-group{
+  width: 23% !important;
 }
 @media (max-width: 980px) {
   .modal-form-2 {
