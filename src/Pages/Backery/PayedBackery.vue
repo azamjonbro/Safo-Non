@@ -48,12 +48,12 @@
               <p v-if="errors.typeId" class="error-text">{{ errors.typeId }}</p>
             </div>
             <div class="form-group">
-              <label for="comment">Tasnif</label>
+              <label for="comment">Tavsif</label>
               <input
                 type="text"
                 id="comment"
                 v-model="bakcery.comment"
-                placeholder="Tasnifni kiriting"
+                placeholder="Tavsifini kiriting"
                 maxlength="10"
                 @blur="validateField('comment')"
               />
@@ -149,7 +149,7 @@ export default {
         this.errors.statusId = "To`lov holati bo'sh bo'lmasligi kerak";
       }
       if (field === "comment" && !this.bakcery.comment) {
-        this.errors.comment = "Tasnif  bo'sh bo'lmasligi kerak";
+        this.errors.comment = "Tavsif  bo'sh bo'lmasligi kerak";
       }
     },
     async submitForm() {

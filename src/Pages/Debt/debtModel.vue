@@ -38,12 +38,12 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="sellerId">Seller Id</label>
+              <label for="sellerId">Nonvoy</label>
               <CustomSelectVue
                 :search="true"
                 :options="sellerIds"
                 @input="sellectSellerId($event)"
-                :placeholder="'Rasxod sellerIdni tanlang'"
+                :placeholder="'Nonvoyni tanlang'"
                 @blur="validateField('sellerId')"
                 :selected="debt.sellerId"
               />
