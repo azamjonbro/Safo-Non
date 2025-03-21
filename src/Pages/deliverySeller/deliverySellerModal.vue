@@ -6,56 +6,7 @@
         <h2>Yetkazuvchiga non berish</h2>
         <!-- <form class="scroll" ></form> -->
         <form>
-          <div class="modal-form">
-            <div class="form-group">
-              <label for="description">Description</label>
-              <input
-                id="description"
-                type="text"
-                placeholder="Yetkazuvchini telefon raqamini kiriting"
-                v-model="delivery.description"
-                @blur="validateField('description')"
-              />
-              <p v-if="errors.description" class="error-text">
-                {{ errors.description }}
-              </p>
-            </div>
-            <div class="form-group">
-              <label for="delivery">Yetkazuvchi</label>
-              <CustomSelect
-                :options="deliveries"
-                id="delivery"
-                @input="selectDelivery($event)"
-                :selected="delivery.deliveryId"
-                :search="true"
-                @blur="validateField('deliveryId')"
-              />
-              <p v-if="errors.deliveryId" class="error-text">
-                {{ errors.deliveryId }}
-              </p>
-            </div>
-            <div class="form-group">
-              <label for="quantity">Qoldiq summa</label>
-              <input
-                id="price"
-                type="number"
-                placeholder="0"
-                readonly
-                v-model="totalAmountPrice"
-              />
-            </div>
-            <div class="form-group">
-              <label for="quantity">Qoldiq soni</label>
-              <input
-                id="price"
-                type="number"
-                placeholder="0"
-                readonly
-                v-model="totalAmountQuantity"
-              />
-            </div>
-          </div>
-          <div class="scroll" style="height: 45%">
+          <div class="scroll" style="height: 40%">
             <div
               class="modal-form-2"
               v-for="(data, index) in typeOfBreadIds"
@@ -66,7 +17,7 @@
                 <CustomSelect
                   :options="
                     typeOfBreads?.map((i) => {
-                      return { text: i?.title, value:i};
+                      return { text: i?.title, value: i };
                     })
                   "
                   id="bread"
@@ -126,6 +77,55 @@
               >
                 Qo`shish
               </button>
+            </div>
+          </div>
+          <div class="modal-form" >
+            <div class="form-group">
+              <label for="description">Tasnif</label>
+              <input
+                id="description"
+                type="text"
+                placeholder="Yetkazuvchini telefon raqamini kiriting"
+                v-model="delivery.description"
+                @blur="validateField('description')"
+              />
+              <p v-if="errors.description" class="error-text">
+                {{ errors.description }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="delivery">Yetkazuvchi</label>
+              <CustomSelect
+                :options="deliveries"
+                id="delivery"
+                @input="selectDelivery($event)"
+                :selected="delivery.deliveryId"
+                :search="true"
+                @blur="validateField('deliveryId')"
+              />
+              <p v-if="errors.deliveryId" class="error-text">
+                {{ errors.deliveryId }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Qoldiq summa</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="0"
+                readonly
+                v-model="totalAmountPrice"
+              />
+            </div>
+            <div class="form-group">
+              <label for="quantity">Qoldiq soni</label>
+              <input
+                id="price"
+                type="number"
+                placeholder="0"
+                readonly
+                v-model="totalAmountQuantity"
+              />
             </div>
           </div>
         </form>
@@ -302,7 +302,9 @@ export default {
             this.$emit("status", {
               status: "error",
               message:
-                error.message || error.data.message || "Xatolik yuz berdi",
+                error.response.data.message ||
+                error.data.message ||
+                "Xatolik yuz berdi",
             });
           });
       } else {
