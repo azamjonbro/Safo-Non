@@ -95,6 +95,7 @@
                   name="deleted"
                   title="o'chirish"
                   class="icon danger"
+                  @click="deleteRow(data?.id)"
                 />
               </div>
             </div>
