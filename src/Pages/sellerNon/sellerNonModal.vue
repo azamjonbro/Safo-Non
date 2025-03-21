@@ -8,7 +8,7 @@
         <form>
           <div class="d-flex column gap12 scroll" style="height:250px">
             <div
-              class="yemagan"
+              class="yemagan d-flex a-center"
               v-for="(data, index) in count"
               :key="index"
             >
@@ -106,7 +106,6 @@
           <div class="modal-form">
             <div class="form-group">
               <label for="title">Kim uchun ?</label>
-              <label for="title">Malumot kiriting</label>
               <input
                 id="title"
                 type="text"
@@ -458,22 +457,24 @@ export default {
 .yemagan{
   display: flex;
   justify-content:space-between ;
+  gap: 12px;
 }
 .yemagan>.form-group{
-  width: 23% !important;
+  flex: 1;
 }
-@media (max-width: 980px) {
-  .modal-form-2 {
-    grid-template-columns: repeat(2, 1fr) !important;
+@media (max-width: 1180px) {
+  .yemagan{
+    flex-wrap: wrap !important;
+  }
+  .yemagan>.form-group{
+    
   }
   form {
     max-height: 600px;
   }
 }
 @media (max-width: 480px) {
-  .modal-form-2 {
-    grid-template-columns: repeat(1, 1fr) !important;
-  }
+ 
   form {
     max-height: 500px;
   }
