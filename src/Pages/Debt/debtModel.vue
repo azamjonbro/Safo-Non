@@ -38,17 +38,17 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="sellerId">Nonvoy</label>
+              <label for="managerId">Nonvoy</label>
               <CustomSelectVue
                 :search="true"
                 :options="sellerIds"
                 @input="sellectSellerId($event)"
                 :placeholder="'Rasxod sellerIdni tanlang'"
-                @blur="validateField('sellerId')"
-                :selected="debt.sellerId"
+                @blur="validateField('managerId')"
+                :selected="debt.managerId"
               />
-              <p v-if="errors.sellerId" class="error-text">
-                {{ errors.sellerId }}
+              <p v-if="errors.managerId" class="error-text">
+                {{ errors.managerId }}
               </p>
             </div>
             <div class="form-group">
@@ -137,7 +137,7 @@ export default {
         omborxonaProId: "",
         quantity: 0,
         description: "",
-        sellerId: "",
+        managerId: "",
         price: 0,
       },
       errors: {},
@@ -181,7 +181,7 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.sellerIds = data.sellers.map((item) => {
-              return { text: item.username, value: item._id };
+              return { text: item.username, value: item.superAdminId };
             });
           }
         })
@@ -194,12 +194,12 @@ export default {
       this.debt.price = id.price;
     },
     sellectSellerId(id) {
-      this.debt.sellerId = id;
+      this.debt.managerId = id;
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "sellerId" && !this.debt.sellerId.trim()) {
-        this.errors.sellerId = "Rasxodni rasxod turi  bo'sh bo'lmasligi kerak";
+      if (field === "managerId" && !this.debt.managerId.trim()) {
+        this.errors.managerId = "Rasxodni rasxod turi  bo'sh bo'lmasligi kerak";
       }
       if (field === "omborxonaProId" && !this.debt.omborxonaProId.trim()) {
         this.errors.omborxonaProId =
@@ -230,7 +230,7 @@ export default {
       this.validateField("description");
       this.validateField("quantity");
       this.validateField("omborxonaProId");
-      this.validateField("sellerId");
+      this.validateField("managerId");
 
       for (const error in this.errors) {
         if (this.errors[error] !== "") {
@@ -303,7 +303,7 @@ export default {
         description: this?.update?.description,
         reason: this?.update?.reason,
         price: this?.update?.omborxonaProId?.price,
-        sellerId: this?.update?.sellerId,
+        managerId: this?.update?.managerId,
       };
       this.isUpdate = true;
     }

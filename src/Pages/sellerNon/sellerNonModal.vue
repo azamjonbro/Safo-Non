@@ -6,7 +6,7 @@
         <h2>Non yaratish</h2>
 
         <form>
-          <div class="d-flex column gap12 scroll" style="height:250px">
+          <div class="d-flex column gap12 scroll">
             <div
               class="modal-form-2 "
               v-for="(data, index) in count"
@@ -65,7 +65,7 @@
                 style="display: flex; align-items: end"
                 class="gap12 yonbosh"
               >
-                <div class="form-group" style="width: 95%">
+                <div class="form-group" >
                   <label for="quantity">Soni (Dona)</label>
                   <input
                     id="quantity"
@@ -108,7 +108,7 @@
           <div class="modal-form">
             <div class="form-group">
               <label for="title">Kim uchun ?</label>
-              <label for="title">Malumot kiriting</label>
+              <!-- <label for="title">Malumot kiriting</label> -->
               <input
                 id="title"
                 type="text"
@@ -236,7 +236,7 @@ export default {
       return this.count.reduce((a, b) => a + b.quantity, 0);
     },
     totalPrice2() {
-      return this.count.reduce((a, b) => a + b.price, 0);
+      return this.count.reduce((a, b) => a + (b.price * b.qopQuantity), 0);
     },
   },
   methods: {

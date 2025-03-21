@@ -11,6 +11,8 @@
             <div class="cell">Sana</div>
             <div class="cell">Status</div>
             <div class="cell">Summa</div>
+            <div class="cell">Soni</div>
+            <div class="cell">Do`kon nomi</div>
             <div class="cell">Description</div>
           </div>
         </div>
@@ -35,12 +37,15 @@
                           b.breadId.typeOfBreadId.reduce(
                             (c, d) => c + d.bread.price,
                             0
-                          ),0
+                          ),
+                        0
                       )
                     : 0
                 )
               }}
             </div>
+            <div class="cell">{{ formatPrice(data.quantity || 0)  }}</div>
+            <div class="cell">{{ data?.magazineId?.title || "-----" }}</div>
             <div class="cell">{{ data.description || "-----" }}</div>
           </div>
         </div>
