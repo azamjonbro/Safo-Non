@@ -110,6 +110,7 @@ export default {
         { text: "Shtraf", value: "Shtraf" },
         { text: "Kunlik", value: "Kunlik" },
         { text: "Avans", value: "Avans" },
+        { text: "Oylik", value: "Oylik" },
       ],
     };
   },

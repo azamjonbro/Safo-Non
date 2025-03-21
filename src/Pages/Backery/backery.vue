@@ -66,6 +66,7 @@
                 </div>
               </div>
               <div v-if="expanedId === data?._id" class="history">
+                <button class="danger danger-btn">Clear all</button>
                 <div class="history-header">
                   <div class="row-top">
                     <div class="cell">Sana</div>
@@ -332,6 +333,9 @@ export default {
 };
 </script>
 <style>
+.danger-btn {
+  padding: 10px;
+}
 .setting > svg > path {
   stroke: #fff;
 }
