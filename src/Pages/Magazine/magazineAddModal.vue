@@ -295,7 +295,7 @@ export default {
             this.typeOfBreads = data?.orderWithDeliveries
               .map((item) => {
                 return item.typeOfBreadIds.map((i) => ({
-                  text: i.breadId.title,
+                  text: item.title,
                   value: { bread: i, id: i._id,totalPrice:item.totalPrice },
                 }));
               })

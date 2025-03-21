@@ -12,7 +12,7 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Vaqt</div>
-            <div class="cell">Soni</div>
+            <div class="cell">Nomi</div>
             <div class="cell">Tavsif</div>
             <div class="cell">Soni</div>
             <div class="cell">Qop soni</div>
