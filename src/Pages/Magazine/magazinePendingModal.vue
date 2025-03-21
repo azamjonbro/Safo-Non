@@ -20,6 +20,45 @@
                 {{ errors.pending }}
               </p>
             </div>
+            <div class="form-group">
+              <label for="comment">Tavsif</label>
+              <input
+                id="comment"
+                type="text"
+                v-model="magazine.comment"
+                placeholder="Tavsif kiriting"
+                @blur="validateField('comment')"
+              />
+              <p v-if="errors.comment" class="error-text">
+                {{ errors.comment }}
+              </p>
+            </div>
+
+            <div class="form-group">
+              <label for="receivedAmount">Pul turi</label>
+              <CustomSelect
+                :options="types"
+                @blur="validateField('type')"
+                @input="selectType($event)"
+              />
+              <p v-if="errors.type" class="error-text">
+                {{ errors.type }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="price">Qoldiq qarz</label>
+              <input
+                id="price"
+                type="number"
+                v-model="totalPrice"
+                placeholder="0"
+                @blur="validateField('price')"
+                readonly
+              />
+              <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
+              </p>
+            </div>
           </div>
         </form>
         <div class="modal-buttons d-flex j-end a-center gap24">
@@ -32,7 +71,9 @@
             class="action-button"
             :disabled="isSubmitting"
           >
-            {{ isSubmitting ? "Do`kodan pul olinyapti..." : "Do`kondan pul olish" }}
+            {{
+              isSubmitting ? "Do`kodan pul olinyapti..." : "Do`kondan pul olish"
+            }}
           </button>
         </div>
       </div>
@@ -55,8 +96,20 @@ export default {
       errors: {},
       magazine: {
         pending: 0,
+        price: 0,
+        comment: "",
+        magazineId: "",
       },
+      types: [
+        { text: "Naxt", value: "Naxt" },
+        { text: "Karta", value: "Karta" },
+      ],
     };
+  },
+  computed: {
+    totalPrice() {
+      return this.magazine.price + this.magazine.pending;
+    },
   },
   props: {
     pending: {
@@ -64,6 +117,9 @@ export default {
     },
   },
   methods: {
+    selectType(type) {
+      this.magazine.type = type;
+    },
     closeModal() {
       this.$emit("close");
     },
@@ -77,11 +133,22 @@ export default {
       ) {
         this.errors.pending = "Olingan pul son bo‘lishi kerak";
       }
+
+       if (field === "comment" && !this.magazine.comment?.trim()) {
+        this.errors.comment =
+          "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
+      }
+         if (field === "type" && !this.magazine.type?.trim()) {
+        this.errors.type =
+          "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
+      }
+      
     },
     submitForm() {
       this.errors = {};
-      this.validateField("magazineId");
-      this.validateField("money");
+      this.validateField("pending");
+      this.validateField("comment");
+      this.validateField("type");
       for (const error in this.errors) {
         if (this.errors[error] !== "") {
           return;
@@ -89,8 +156,11 @@ export default {
       }
       this.isSubmitting = true;
       api
-        .put("/api/magazinePending/" + this.pending.id, {
+        .post("/api/magazine/pending", {
           pending: this.magazine.pending,
+          comment: this.magazine.comment,
+          magazineId: this.magazine.magazineId,
+          type: this.magazine.type,
         })
         .then(({ status }) => {
           if (status === 200) {
@@ -117,19 +187,19 @@ export default {
     },
   },
   mounted() {
-    this.magazine.id = this?.pending?.id;
+    this.magazine.magazineId = this?.pending?.id;
+    this.magazine.price = this?.pending?.pending;
   },
 };
 </script>
 
 <style scoped>
 .contentbox {
-  display: flex;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
-.contentbox > .form-group {
-  width: 33%;
-}
+
 .scroll {
   max-height: 400px;
 }
