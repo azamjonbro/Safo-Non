@@ -9,6 +9,58 @@
           class="card"
           @click="
             openModalPage({
+              history: statics?.sellerBreads,
+              type: 'bread-seller',
+              role: 'seller',
+            })
+          "
+        >
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Nonlar soni</h3>
+            <b>{{
+              formatPrice(
+                statics?.sellerBreads?.reduce(
+                  (a, b) =>
+                    a + b.typeOfBreadId.reduce((c, d) => c + d.quantity, 0),
+                  0
+                ) || 0
+              )
+            }}</b>
+          </span>
+        </div>
+        <div
+          class="card"
+         
+        >
+          <Icons :name="'wallet'" />
+          <span class="info-item">
+            <h3>Qop soni</h3>
+            <b>{{
+              formatPrice(
+               statics?.sellerBreads?.reduce(
+                  (a, b) =>
+                    a + b.typeOfBreadId.reduce((c, d) => c + d.qopQuantity, 0),
+                  0
+                )|| 0
+              )
+            }}</b>
+          </span>
+        </div>
+        <div class="card">
+          <Icons :name="'allIncr'" />
+          <span class="info-item">
+            <h3>Moash</h3>
+            <b>{{ formatPrice(statics?.payeds || 0) }}</b>
+          </span>
+        </div>
+      </div>
+
+      <!-- <div class="infobox d-flex wrap">
+        <div
+          class="card"
+          @click="
+            openModalPage({
               history: statics?.prixod?.history,
               type: 'prixod',
               role: 'seller',
@@ -17,7 +69,7 @@
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
-            <h3>Kirimlar</h3>
+            <h3>Non soni</h3>
             <b>{{ formatPrice(statics?.prixod?.totalPrice || 0) }}</b>
           </span>
         </div>
@@ -44,9 +96,9 @@
             <b>{{ formatPrice(statics?.benefit || 0) }}</b>
           </span>
         </div>
-      </div>
+      </div> -->
 
-      <h2 style="margin-top: 150px">Nonvoy hisobot</h2>
+      <!-- <h2 style="margin-top: 150px">Nonvoy hisobot</h2>
       <div class="infobox d-flex wrap">
         <div
           class="card"
@@ -82,7 +134,7 @@
             }}</b>
           </span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
   <HistoryModalVue
@@ -123,7 +175,6 @@ export default {
         .get("/api/statics")
         .then(({ status, data }) => {
           if (status === 200) {
-            console.log(data);
             this.statics = data;
           }
         })
@@ -134,36 +185,34 @@ export default {
     formatPrice(price) {
       return new Intl.NumberFormat("ru-RU").format(price);
     },
-    getSellerBreads() {
-      api
-        .get("/api/sellerBreads")
-        .then(({ status, data }) => {
-          if (status === 200) {
-            this.sellerBreads = data?.sellerBreads;
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    getOrderWithDelivery() {
-      api
-        .get("/api/orderWithDeliveries")
-        .then(({ status, data }) => {
-          if (status === 200) {
-            console.log(data);
-            this.orderWithDelivery = data?.orderWithDeliveries;
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
+    // getSellerBreads() {
+    //   api
+    //     .get("/api/sellerBreads")
+    //     .then(({ status, data }) => {
+    //       if (status === 200) {
+    //         this.sellerBreads = data?.sellerBreads;
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
+    // getOrderWithDelivery() {
+    //   api
+    //     .get("/api/orderWithDeliveries")
+    //     .then(({ status, data }) => {
+    //       if (status === 200) {
+    //         console.log(data);
+    //         this.orderWithDelivery = data?.orderWithDeliveries;
+    //       }
+    //     })
+    //     .catch((error) => {
+    //       console.error(error);
+    //     });
+    // },
   },
   mounted() {
     this.getStatics();
-    this.getSellerBreads();
-    this.getOrderWithDelivery();
   },
 };
 </script>

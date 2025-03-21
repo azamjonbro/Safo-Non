@@ -6,7 +6,7 @@
         <h2>Non yaratish</h2>
 
         <form>
-          <div class="d-flex column gap12 scroll">
+          <div class="d-flex column gap12 scroll" >
             <div
               class="yemagan d-flex a-center"
               v-for="(data, index) in count"
@@ -480,9 +480,9 @@ export default {
   .yemagan{
     flex-wrap: wrap !important;
   }
-  .yemagan>.form-group{
+  /* .yemagan>.form-group{
     
-  }
+  } */
   form {
     max-height: 600px;
   }

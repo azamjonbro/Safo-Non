@@ -6,7 +6,7 @@
         <h2>Yetkazuvchiga non berish</h2>
         <!-- <form class="scroll" ></form> -->
         <form>
-          <div class="scroll" style="height: 40%">
+          <div class="scroll" style="height: 70%">
             <div
               class="modal-form-2"
               v-for="(data, index) in typeOfBreadIds"
@@ -15,11 +15,7 @@
               <div class="form-group">
                 <label for="bread">Non turini tanlang</label>
                 <CustomSelect
-                  :options="
-                    typeOfBreads?.map((i) => {
-                      return { text: i?.title, value: i };
-                    })
-                  "
+                  :options="typeOfBreads"
                   id="bread"
                   :selected="data.breadId"
                   @input="selectArray($event, data.id)"
@@ -79,7 +75,7 @@
               </button>
             </div>
           </div>
-          <div class="modal-form" >
+          <div class="modal-form">
             <div class="form-group">
               <label for="description">Tasnif</label>
               <input
@@ -185,6 +181,7 @@ export default {
       deliveries: [],
       breads: [],
       typeOfBreads: [],
+      typeOfBreads2: new Map(),
       errors: {},
       isUpdate: false,
     };
@@ -214,7 +211,27 @@ export default {
         .get("/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.typeOfBreads = data?.sellerBreads;
+            const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
+              bread.typeOfBreadId.forEach((breadDetail) => {
+                const { breadId, quantity, qopQuantity } = breadDetail;
+                if (!acc[breadId._id]) {
+                  acc[breadId._id] = {
+                    text: breadId.title,
+                    value: {
+                      quantity: 0,
+                      qopQuantity: 0,
+                      bread:breadId,
+                      id: bread._id
+                    },
+                  };
+                }
+                acc[breadId._id].value.quantity += quantity;
+                acc[breadId._id].value.qopQuantity += qopQuantity;
+              });
+              return acc;
+            }, {});
+
+            this.typeOfBreads = Object.values(groupedBreads);
           }
         })
         .catch((error) => {
@@ -237,8 +254,8 @@ export default {
         return item.id === index
           ? {
               ...item,
-              bread: value?._id,
-              price: value?.totalPrice,
+              bread: value?.id,
+              price: value?.bread?.price,
               typeOfBread: value?.breadx?.breadId?._id,
             }
           : item;
