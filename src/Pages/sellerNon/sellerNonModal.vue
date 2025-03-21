@@ -8,7 +8,7 @@
         <form>
           <div class="d-flex column gap12 scroll">
             <div
-              class="modal-form-2 "
+              class="yemagan d-flex a-center"
               v-for="(data, index) in count"
               :key="index"
             >
@@ -61,8 +61,21 @@
                   {{ data.errors.qopQuantity }}
                 </p>
               </div>
+              <div class="form-group" style="width: 95%">
+                <label for="quantity">Soni (Dona)</label>
+                <input
+                  id="quantity"
+                  type="number"
+                  placeholder="Rasxod sonini kiriting"
+                  v-model="data.quantity"
+                  @blur="validateArrayField('quantity', index)"
+                />
+                <p v-if="data?.errors.quantity" class="error-text">
+                  {{ data?.errors.quantity }}
+                </p>
+              </div>
               <div
-                style="display: flex; align-items: end"
+                style="display: flex;"
                 class="gap12 yonbosh"
               >
                 <div class="form-group" >
@@ -82,8 +95,6 @@
                   name="deleted"
                   title="o'chirish"
                   class="icon danger"
-                  @click="deleteRow(data?.id)"
-                  v-if="count.length > 1"
                 />
               </div>
             </div>
@@ -108,7 +119,6 @@
           <div class="modal-form">
             <div class="form-group">
               <label for="title">Kim uchun ?</label>
-              <!-- <label for="title">Malumot kiriting</label> -->
               <input
                 id="title"
                 type="text"
@@ -457,21 +467,27 @@ export default {
 </script>
 
 <style scoped>
-.modal-form-2{
-  height: 350px !important;
+.yemagan{
+  display: flex;
+  justify-content:space-between ;
+  gap: 12px;
 }
-@media (max-width: 980px) {
-  .modal-form-2 {
-    grid-template-columns: repeat(2, 1fr) !important;
+.yemagan>.form-group{
+  flex: 1;
+}
+@media (max-width: 1180px) {
+  .yemagan{
+    flex-wrap: wrap !important;
+  }
+  .yemagan>.form-group{
+    
   }
   form {
     max-height: 600px;
   }
 }
 @media (max-width: 480px) {
-  .modal-form-2 {
-    grid-template-columns: repeat(1, 1fr) !important;
-  }
+ 
   form {
     max-height: 500px;
   }

@@ -46,7 +46,7 @@
           </div>
 
           <div class="form-group">
-            <label for="comment">Tasnif</label>
+            <label for="comment">Tavsifini kiriting</label>
             <input
               type="text"
               id="comment"

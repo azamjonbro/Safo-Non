@@ -75,6 +75,7 @@ export default {
           { title: "Nonvoylar", icon: "workers", page: "workers" },
           { title: "Yetkazuvchilar", icon: "delivery", page: "delivery" },
           { title: "Do'konlar", icon: "product", page: "magazine" },
+          
           { title: "Chiqimlar", icon: "rasxod", page: "debt" },
           { title: "Omborxona", icon: "firma", page: "warehouse" },
           { title: "Non turlari", icon: "bread", page: "typeOfBread" },
