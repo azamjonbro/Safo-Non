@@ -61,7 +61,7 @@
                   {{ data.errors.qopQuantity }}
                 </p>
               </div>
-              <div class="form-group" style="width: 95%">
+              <!-- <div class="form-group" style="width: 95%">
                 <label for="quantity">Soni (Dona)</label>
                 <input
                   id="quantity"
@@ -73,7 +73,7 @@
                 <p v-if="data?.errors.quantity" class="error-text">
                   {{ data?.errors.quantity }}
                 </p>
-              </div>
+              </div> -->
               <div
                 style="display: flex;"
                 class="gap12 yonbosh"
