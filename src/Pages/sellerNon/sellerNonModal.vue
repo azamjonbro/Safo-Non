@@ -6,7 +6,7 @@
         <h2>Non yaratish</h2>
 
         <form>
-          <div class="d-flex column gap12 scroll" style="height:250px">
+          <div class="d-flex column gap12 scroll">
             <div
               class="yemagan d-flex a-center"
               v-for="(data, index) in count"
@@ -78,6 +78,19 @@
                 style="display: flex;"
                 class="gap12 yonbosh"
               >
+                <div class="form-group" >
+                  <label for="quantity">Soni (Dona)</label>
+                  <input
+                    id="quantity"
+                    type="number"
+                    placeholder="Rasxod sonini kiriting"
+                    v-model="data.quantity"
+                    @blur="validateArrayField('quantity', index)"
+                  />
+                  <p v-if="data?.errors.quantity" class="error-text">
+                    {{ data?.errors.quantity }}
+                  </p>
+                </div>
                 <Icons
                   name="deleted"
                   title="o'chirish"
@@ -233,7 +246,7 @@ export default {
       return this.count.reduce((a, b) => a + b.quantity, 0);
     },
     totalPrice2() {
-      return this.count.reduce((a, b) => a + b.price, 0);
+      return this.count.reduce((a, b) => a + (b.price * b.qopQuantity), 0);
     },
   },
   methods: {

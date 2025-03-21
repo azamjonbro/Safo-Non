@@ -26,7 +26,7 @@
           <div v-for="(data, index) in debts" :key="index" class="row">
             <div class="cell">{{ index + 1 }}</div>
             <div class="cell">
-              {{ data.title || data.omborxonaProId?.name }}
+              {{ data.title || data.omborxonaProId?.name || "----" }}
             </div>
             <!-- <div>{{ data?.reason ? data?.reason : "" }}</div> -->
             <div class="cell">{{ data?.quantity ? data?.quantity : 0 }}</div>
@@ -176,7 +176,7 @@ export default {
         });
     },
     deleteDebt(data) {
-      console.log(data)
+      console.log(data);
       api
         .delete(
           `/api/${

@@ -12,9 +12,7 @@
               <div class="form-group">
                 <label for="bread">Non turini tanlang</label>
                 <CustomSelect
-                  :options="
-                    typeOfBreads
-                  "
+                  :options="typeOfBreads"
                   id="bread"
                   :selected="true"
                   @input="selectArray"
@@ -186,13 +184,13 @@ export default {
       }
     },
     calculateTotal() {
-      this.totalAmount = this.typeOfBread.price * this.magazine.quantity
+      this.totalAmount = this.typeOfBread.price * this.magazine.quantity;
       this.calculateRemaining();
     },
     calculateRemaining() {
       // this.remainingAmount = this.totalAmount - (this.magazine.money || 0);
       // this.remainingAmount = this.totalAmount * this.magazine.quantity;
-      this.remainingAmount =  this.totalAmount - (this.magazine.money || 0)
+      this.remainingAmount = this.totalAmount - (this.magazine.money || 0);
     },
     selectPayedMethod(value) {
       this.magazine.paymentMethod = value;
@@ -209,7 +207,15 @@ export default {
         .get("/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.typeOfBreads = data?.sellerBreads;
+            this.typeOfBreads = data?.sellerBreads
+              .map((item) => {
+                console.log("item", item);
+                return item.typeOfBreadId.map((i) => ({
+                  text: item.title,
+                  value: { bread: i, id: i._id, totalPrice: item.totalPrice },
+                }));
+              })
+              .flat();
           }
         })
         .catch(console.error);
@@ -294,13 +300,13 @@ export default {
           if (status === 200) {
             this.typeOfBreads = data?.orderWithDeliveries
               .map((item) => {
-                return item.typeOfBreadIds.map((i) => ({
+                console.log("item", item);
+                return item.typeOfBreadId.map((i) => ({
                   text: item.title,
-                  value: { bread: i, id: i._id,totalPrice:item.totalPrice },
+                  value: { bread: i, id: i._id, totalPrice: item.totalPrice },
                 }));
               })
               .flat();
-           
           }
         })
         .catch(console.error);
