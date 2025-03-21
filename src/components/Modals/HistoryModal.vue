@@ -55,7 +55,7 @@
               <div class="cell">
                 {{ data?.reason || data.description || "" }}
               </div>
-              <div class="cell" v-if="history?.role !== 'seller'">
+              <div class="cell" v-if="isHideSeller">
                 {{
                   data?.sellerId?.username || data?.delivertId?.username || "id"
                 }}
@@ -71,7 +71,9 @@
               <div class="cell">Sana</div>
               <div class="cell">Soni</div>
               <div class="cell">Narxi</div>
-              <div class="cell" v-if="history?.role !== 'seller'">Umumiy summa</div>
+              <div class="cell" v-if="history?.role !== 'seller'">
+                Umumiy summa
+              </div>
               <div class="cell" v-if="history?.role !== 'seller'">
                 Do`kon nomi
               </div>
@@ -160,9 +162,9 @@
             <div class="row">
               <div class="cell">№</div>
               <div class="cell">Sana</div>
-              <div class="cell">Jami Soni</div>
-              <div class="cell">Jami Narxi</div>
-              <div class="cell">Olgan puli</div>
+              <div class="cell">Soni</div>
+              <div class="cell">Narxi</div>
+              <div class="cell">Olingan pul</div>
               <div class="cell">Do`kon nomi</div>
             </div>
           </div>
@@ -178,20 +180,15 @@
               </div>
               <div class="cell">
                 {{
-                  data?.typeOfBreadIds?.reduce(
-                    (a, b) =>
-                      a +
-                      b?.bread?.typeOfBreadId?.reduce(
-                        (a, b) => a + b?.breadId?.price,
-                        0
-                      ),
-                    0
-                  ) || 0
+                  data?.quantity
                 }}
               </div>
               <div class="cell">
                 {{
-                  data?.typeOfBreadIds?.reduce((a, b) => a + b.quantity, 0) || 0
+                  data?.typeOfBreadIds.reduce(
+                    (a, b) => a + b.breadId.price2 * b.quantity,
+                    0
+                  ) || 0
                 }}
               </div>
               <div class="cell">

@@ -13,10 +13,10 @@
             <div class="cell">№</div>
             <div class="cell">Vaqt</div>
             <div class="cell">Nomi</div>
-            <div class="cell">Tavsif</div>
+            <!-- <div class="cell">Tavsif</div> -->
             <div class="cell">Soni</div>
             <div class="cell">Qop soni</div>
-            <div class="cell"></div>
+            <!-- <div class="cell"></div> -->
           </div>
         </div>
         <div class="table-body">
@@ -25,20 +25,20 @@
               <div class="top">
                 <div class="cell">{{ index + 1 }}</div>
                 <div class="cell">
-                  {{ formatDate(new Date(data?.createdAt)) }}
+                  {{ formatDate(new Date(data?.bread?.createdAt)) }}
                 </div>
-                <div class="cell">{{ data?.title }}</div>
-                <div class="cell">{{ data?.description }}</div>
+                <div class="cell">{{ data?.text }}</div>
+                <!-- <div class="cell">{{ data?.bread?.description }}</div> -->
                 <div class="cell">{{ data?.totalQuantity }}</div>
                 <div class="cell">{{ data?.totalQopQuantity }}</div>
-                <div class="cell d-flex a-center j-end gap12">
+                <!-- <div class="cell d-flex a-center j-end gap12">
                   <Icons
                     name="bottomArrow"
                     class="icon"
                     :class="{ rotated: expanedId === data._id }"
                     @click="toggleHistory(data?._id)"
                   />
-                </div>
+                </div> -->
               </div>
               <div v-if="expanedId === data?._id" class="history">
                 <div class="history-header">
@@ -161,14 +161,33 @@ export default {
         type: data?.status,
       };
       this.openModal = false;
-      await this.getSellerShop();
+      await this.getBreads();
     },
-    getSellerNon() {
+    getBreads() {
       api
         .get("/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.sellerBreads = data?.sellerBreads;
+            const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
+              bread.typeOfBreadId.forEach((breadDetail) => {
+                const { breadId } = breadDetail;
+                const { totalQopQuantity, totalQuantity } = bread;
+                if (!acc[breadId._id]) {
+                  acc[breadId._id] = {
+                    text: breadId.title,
+                    totalQuantity: 0,
+                    totalQopQuantity: 0,
+                    bread: breadId,
+                  };
+                }
+                acc[breadId._id].totalQuantity += totalQuantity;
+                acc[breadId._id].totalQopQuantity += totalQopQuantity;
+              });
+              return acc;
+            }, {});
+
+            this.sellerBreads = Object.values(groupedBreads);
+            console.log(this.sellerBreads);
           }
         })
         .catch((error) => {
@@ -205,7 +224,7 @@ export default {
     // },
   },
   mounted() {
-    this.getSellerNon();
+    this.getBreads();
   },
 };
 </script>
