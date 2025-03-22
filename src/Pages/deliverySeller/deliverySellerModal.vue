@@ -21,7 +21,10 @@
                   @input="selectArray($event, data.id)"
                 />
               </div>
-
+              <div class="form-group">
+                <label for="bread">Qaysi narxda</label>
+                <CustomSelect :options="prices" @input="selectPrice($event)" />
+              </div>
               <div class="form-group">
                 <label for="quantity">Narxi</label>
                 <input
@@ -184,6 +187,12 @@ export default {
       typeOfBreads2: new Map(),
       errors: {},
       isUpdate: false,
+      prices: [
+        { text: "Tan narxi", value: "tan" },
+        { text: "To`yxona", value: "toyxona" },
+        { text: "Do`kon", value: "dokon" },
+      ],
+      priceType: "",
     };
   },
   props: {
@@ -206,6 +215,9 @@ export default {
     },
   },
   methods: {
+    selectPrice(type) {
+      this.priceType = type;
+    },
     getBreads() {
       api
         .get("/api/sellerBreads")
@@ -220,8 +232,8 @@ export default {
                     value: {
                       quantity: 0,
                       qopQuantity: 0,
-                      bread:breadId,
-                      id: bread._id
+                      bread: breadId,
+                      id: bread._id,
                     },
                   };
                 }
@@ -240,7 +252,7 @@ export default {
     },
 
     selectDelivery(id) {
-      this.delivery.deliveryId = id._id;
+      this.delivery.delivxeryId = id._id;
     },
     deleteRow(index) {
       if (this.typeOfBreadIds.length > 1) {
@@ -250,12 +262,20 @@ export default {
       }
     },
     selectArray(value, index) {
+      console.log(value);
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
         return item.id === index
           ? {
               ...item,
               bread: value?.id,
-              price: value?.bread?.price,
+              price:
+                this.priceType === ""
+                  ? value.bread.price
+                  : this.priceType === "toyxona"
+                  ? value.bread.price2
+                  : this.priceType === "dokon"
+                  ? value.bread.price4
+                  : value.bread.price,
               typeOfBread: value?.breadx?.breadId?._id,
             }
           : item;
@@ -400,7 +420,7 @@ export default {
 <style>
 .modal-form-2 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   margin-bottom: 10px;
 }
