@@ -63,7 +63,9 @@ export default {
           { title: "Sotuv", icon: "product", page: "Sotuv" },
           { title: "Omborxona", icon: "firma", page: "sellerShop" },
           { title: "Yetkazuvchi", icon: "delivery", page: "deliverySeller" },
-          { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" },
+          { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" }, 
+          { title: "Qaytarilgan", icon: "returned", page: "returned" }, 
+
           { title: "Sozlamalar", icon: "setting", page: "settings" },
           // { title: "Yetkazuvchilar", icon: "delivery", page: "delivery" },
           // { title: "Chiqimlar", icon: "rasxod", page: "debt" },
@@ -94,6 +96,8 @@ export default {
           { title: "Chiqimlar", icon: "rasxod", page: "deliveryDebt" },
           { title: "Tarix", icon: "history", page: "deliveryHistory" },
           { title: "Sozlamalar", icon: "setting", page: "settings" },
+          { title: "Qaytarish", icon: "returned", page: "returnedDelivery" }, 
+
         ],
       },
     };
