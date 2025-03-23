@@ -44,7 +44,7 @@
                 <Icons
                   class="info icon"
                   name="payed"
-                  @click="openAddDeliveryPayedModal(data?._id)"
+                  @click="openAddDeliveryPayedModal({id:data?._id,price:data.totalPrice})"
                 />
                 <Icons
                   name="setting"
@@ -78,7 +78,7 @@
               <button
                 class="danger danger-button"
                 style="margin-bottom: 15px"
-                @click="clearHistory(data._id)"
+                @click="openDeleteHistory(data._id)"
               >
                 Hammasini o`chirish
               </button>
@@ -162,6 +162,10 @@
     :loginSturckture="login"
     @response="closeLoginBackeryModal"
   />
+  <RequiredModalVue
+    :isVisible="historyModalVisible"
+    @response="closeDeleteHistory($event)"
+  />
 </template>
 
 <script>
@@ -205,10 +209,22 @@ export default {
         password: "",
         id: "",
       },
+      historyModalVisible: false,
     };
   },
   methods: {
-     clearHistory(id) {
+    closeDeleteHistory(emit) {
+      if (emit) {
+        this.clearHistory(this.selectedItem);
+      }
+      this.selectedItem = null;
+      this.historyModalVisible = false;
+    },
+    openDeleteHistory(id) {
+      this.selectedItem = id;
+      this.historyModalVisible = true;
+    },
+    clearHistory(id) {
       api
         .delete("/api/delivery/history/" + id)
         .then(({ status }) => {
@@ -218,14 +234,15 @@ export default {
               text: "Nonvoy to`lov tarixi o`chirib tashaldi",
               type: "success",
             };
-            this.getDeliveries()
+            this.getDeliveries();
           }
         })
         .catch((error) => {
           console.error(error);
           this.toastOptions = {
             open: true,
-            text: error.response.data.message || error.message || "Server xatoliki",
+            text:
+              error.response.data.message || error.message || "Server xatoliki",
             type: "success",
           };
         });

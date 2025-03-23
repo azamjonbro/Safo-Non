@@ -43,7 +43,7 @@
                     name="payed"
                     title="To'lov"
                     class="icon info setting"
-                    @click="openPayedModal(data?._id)"
+                    @click="openPayedModal({id:data?._id,price:data.totalPrice})"
                   />
                   <Icons
                     name="setting"
@@ -69,7 +69,7 @@
                 <button
                   class="danger danger-button"
                   style="margin-bottom: 15px"
-                  @click="clearHistory(data._id)"
+                  @click="openDeleteHistory(data._id)"
                 >
                   Hammasini o`chirish
                 </button>
@@ -148,6 +148,10 @@
     :isVisible="deleteBackeryPayedVisible"
     @response="closeBackeryPayedModal($event)"
   />
+  <RequiredModalVue
+    :isVisible="historyModalVisible"
+    @response="closeDeleteHistory($event)"
+  />
   <LoginModalVue
     :loginSturckture="login"
     v-if="loginBackeryModalVisible"
@@ -198,9 +202,21 @@ export default {
         password: "",
       },
       isHide: true,
+      historyModalVisible: false,
     };
   },
   methods: {
+    closeDeleteHistory(emit) {
+      if (emit) {
+        this.clearHistory(this.selectedItem);
+      }
+      this.selectedItem = null;
+      this.historyModalVisible = false;
+    },
+    openDeleteHistory(id) {
+      this.selectedItem = id;
+      this.historyModalVisible = true;
+    },
     clearHistory(id) {
       api
         .delete("/api/seller/history/" + id)
@@ -211,14 +227,15 @@ export default {
               text: "Nonvoy to`lov tarixi o`chirib tashaldi",
               type: "success",
             };
-            this.getAllWorker()
+            this.getAllWorker();
           }
         })
         .catch((error) => {
           console.error(error);
           this.toastOptions = {
             open: true,
-            text: error.response.data.message || error.message || "Server xatoliki",
+            text:
+              error.response.data.message || error.message || "Server xatoliki",
             type: "success",
           };
         });
