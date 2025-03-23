@@ -275,9 +275,9 @@ export default {
                 this.delivery.pricetype === ""
                   ? value.bread.price
                   : this.delivery.pricetype === "toyxona"
-                  ? value.bread.price2
+                  ? value.bread.price3
                   : this.delivery.pricetype === "dokon"
-                  ? value.bread.price4
+                  ? value.bread.price2
                   : value.bread.price,
               typeOfBread: value?.breadx?.breadId?._id,
             }
