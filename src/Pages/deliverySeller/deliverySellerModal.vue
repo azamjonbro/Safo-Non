@@ -6,6 +6,26 @@
         <h2>Yetkazuvchiga non berish</h2>
         <!-- <form class="scroll" ></form> -->
         <form>
+          <div class="modal-form">
+            <div class="form-group">
+              <label for="delivery">Yetkazuvchi</label>
+              <CustomSelect
+                :options="deliveries"
+                id="delivery"
+                @input="selectDelivery($event)"
+                :selected="delivery.deliveryId"
+                :search="true"
+                @blur="validateField('deliveryId')"
+              />
+              <p v-if="errors.deliveryId" class="error-text">
+                {{ errors.deliveryId }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="bread">Qaysi narxda</label>
+              <CustomSelect :options="prices" @input="selectPrice($event)" />
+            </div>
+          </div>
           <div class="scroll" style="height: 70%">
             <div
               class="modal-form-2"
@@ -20,10 +40,6 @@
                   :selected="data.breadId"
                   @input="selectArray($event, data.id)"
                 />
-              </div>
-              <div class="form-group">
-                <label for="bread">Qaysi narxda</label>
-                <CustomSelect :options="prices" @input="selectPrice($event)" />
               </div>
               <div class="form-group">
                 <label for="quantity">Narxi</label>
@@ -92,20 +108,7 @@
                 {{ errors.description }}
               </p>
             </div>
-            <div class="form-group">
-              <label for="delivery">Yetkazuvchi</label>
-              <CustomSelect
-                :options="deliveries"
-                id="delivery"
-                @input="selectDelivery($event)"
-                :selected="delivery.deliveryId"
-                :search="true"
-                @blur="validateField('deliveryId')"
-              />
-              <p v-if="errors.deliveryId" class="error-text">
-                {{ errors.deliveryId }}
-              </p>
-            </div>
+
             <div class="form-group">
               <label for="quantity">Qoldiq summa</label>
               <input
@@ -170,6 +173,7 @@ export default {
       delivery: {
         description: "",
         deliveryId: "",
+        pricetype:""
       },
       typeOfBreadIds: [
         {
@@ -192,7 +196,6 @@ export default {
         { text: "To`yxona", value: "toyxona" },
         { text: "Do`kon", value: "dokon" },
       ],
-      priceType: "",
     };
   },
   props: {
@@ -216,7 +219,7 @@ export default {
   },
   methods: {
     selectPrice(type) {
-      this.priceType = type;
+      this.delivery.pricetype = type;
     },
     getBreads() {
       api
@@ -252,7 +255,7 @@ export default {
     },
 
     selectDelivery(id) {
-      this.delivery.delivxeryId = id._id;
+      this.delivery.deliveryId = id._id;
     },
     deleteRow(index) {
       if (this.typeOfBreadIds.length > 1) {
@@ -269,11 +272,11 @@ export default {
               ...item,
               bread: value?.id,
               price:
-                this.priceType === ""
+                this.delivery.pricetype === ""
                   ? value.bread.price
-                  : this.priceType === "toyxona"
+                  : this.delivery.pricetype === "toyxona"
                   ? value.bread.price2
-                  : this.priceType === "dokon"
+                  : this.delivery.pricetype === "dokon"
                   ? value.bread.price4
                   : value.bread.price,
               typeOfBread: value?.breadx?.breadId?._id,
@@ -420,7 +423,7 @@ export default {
 <style>
 .modal-form-2 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-bottom: 10px;
 }
