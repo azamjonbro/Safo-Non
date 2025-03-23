@@ -15,6 +15,16 @@
               @input="formatPrice"
               @blur="validateField('price')"
               maxlength="10"
+              v-if="delivery.type !== 'Oylik'"
+            />
+            <input
+              type="text"
+              id="price"
+              v-model="delivery.price"
+              placeholder="To'lov miqdorini kiriting"
+              maxlength="10"
+              readonly
+              v-else
             />
             <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
           </div>
@@ -88,7 +98,7 @@ export default {
     CustomSelectVue,
   },
   props: {
-    id: String,
+    id: Object,
   },
   data() {
     return {
@@ -126,9 +136,7 @@ export default {
     validateField(field) {
       this.errors[field] = "";
       if (field === "price") {
-        if (!this.delivery.price.trim()) {
-          this.errors.price = "To'lov summasi bo'sh bo'lmasligi kerak";
-        } else if (isNaN(this.delivery.price) || this.delivery.price <= 0) {
+        if (isNaN(this.delivery.price) || this.delivery.price <= 0) {
           this.errors.price = "To'lov miqdori musbat son bo'lishi kerak";
         }
       }
@@ -147,6 +155,9 @@ export default {
     },
     selectPayedType(value) {
       this.delivery.type = value;
+      if (this.delivery.type === "Oylik") {
+        this.delivery.price = this.id.price;
+      }
     },
     submitForm() {
       this.errors = {};
@@ -187,7 +198,7 @@ export default {
     },
   },
   mounted() {
-    this.delivery.deliveryId = this.id || "";
+    this.delivery.deliveryId = this.id.id || "";
   },
 };
 </script>

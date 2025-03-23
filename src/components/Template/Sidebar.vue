@@ -60,7 +60,7 @@ export default {
           { title: "Dashboard", icon: "home", page: "Managerdashboard" },
           { title: "Nonvoylar", icon: "workers", page: "workers" },
           { title: "Do'konlar", icon: "product", page: "magazine" },
-          { title: "Sotuv", icon: "product", page: "Sotuv" },
+          { title: "Sotuv", icon: "product", page: "sale" },
           { title: "Omborxona", icon: "firma", page: "sellerShop" },
           { title: "Yetkazuvchi", icon: "delivery", page: "deliverySeller" },
           { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" }, 

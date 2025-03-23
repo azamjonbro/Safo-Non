@@ -43,7 +43,7 @@
                     name="payed"
                     title="To'lov"
                     class="icon info setting"
-                    @click="openPayedModal(data?._id)"
+                    @click="openPayedModal({id:data?._id,price:data.totalPrice})"
                   />
                   <Icons
                     name="setting"
@@ -66,7 +66,13 @@
                 </div>
               </div>
               <div v-if="expanedId === data?._id" class="history">
-                <button class="danger danger-btn">Clear all</button>
+                <button
+                  class="danger danger-button"
+                  style="margin-bottom: 15px"
+                  @click="openDeleteHistory(data._id)"
+                >
+                  Hammasini o`chirish
+                </button>
                 <div class="history-header">
                   <div class="row-top">
                     <div class="cell">Sana</div>
@@ -142,6 +148,10 @@
     :isVisible="deleteBackeryPayedVisible"
     @response="closeBackeryPayedModal($event)"
   />
+  <RequiredModalVue
+    :isVisible="historyModalVisible"
+    @response="closeDeleteHistory($event)"
+  />
   <LoginModalVue
     :loginSturckture="login"
     v-if="loginBackeryModalVisible"
@@ -192,9 +202,44 @@ export default {
         password: "",
       },
       isHide: true,
+      historyModalVisible: false,
     };
   },
   methods: {
+    closeDeleteHistory(emit) {
+      if (emit) {
+        this.clearHistory(this.selectedItem);
+      }
+      this.selectedItem = null;
+      this.historyModalVisible = false;
+    },
+    openDeleteHistory(id) {
+      this.selectedItem = id;
+      this.historyModalVisible = true;
+    },
+    clearHistory(id) {
+      api
+        .delete("/api/seller/history/" + id)
+        .then(({ status }) => {
+          if (status === 200) {
+            this.toastOptions = {
+              open: true,
+              text: "Nonvoy to`lov tarixi o`chirib tashaldi",
+              type: "success",
+            };
+            this.getAllWorker();
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            text:
+              error.response.data.message || error.message || "Server xatoliki",
+            type: "success",
+          };
+        });
+    },
     OpenLoginBackeryModal(item) {
       this.login = item;
       this.loginBackeryModalVisible = true;
@@ -333,9 +378,11 @@ export default {
 };
 </script>
 <style>
-.danger-btn {
+/* .danger-btn {
   padding: 10px;
-}
+  border-radius: 5px;
+  color: white;
+} */
 .setting > svg > path {
   stroke: #fff;
 }
