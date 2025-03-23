@@ -75,6 +75,13 @@
 
             <!-- History qismi -->
             <div v-if="expandedUserId === data._id" class="history">
+              <button
+                class="danger danger-button"
+                style="margin-bottom: 15px"
+                @click="clearHistory(data._id)"
+              >
+                Hammasini o`chirish
+              </button>
               <div class="history-header">
                 <div class="row">
                   <div class="cell">Sana</div>
@@ -201,6 +208,28 @@ export default {
     };
   },
   methods: {
+     clearHistory(id) {
+      api
+        .delete("/api/delivery/history/" + id)
+        .then(({ status }) => {
+          if (status === 200) {
+            this.toastOptions = {
+              open: true,
+              text: "Nonvoy to`lov tarixi o`chirib tashaldi",
+              type: "success",
+            };
+            this.getDeliveries()
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            text: error.response.data.message || error.message || "Server xatoliki",
+            type: "success",
+          };
+        });
+    },
     handleStatus(data) {
       this.toastOptions = {
         open: true,
