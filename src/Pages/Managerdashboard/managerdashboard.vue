@@ -7,7 +7,7 @@
       <div class="infobox d-flex wrap">
         <div
           class="card"
-          @click="openModalPage({ history: sellerbreads, type: 'prixod' })"
+          @click="openModalPage({ history: statics?.prixod, type: 'prixod' })"
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
@@ -43,6 +43,7 @@
           </span>
         </div>
       </div>
+      <h2 style="margin-top: 150px">Nonlar hisobot</h2>
       <div class="infobox d-flex wrap" style="margin-top: 15px">
         <div
           class="card"
@@ -79,7 +80,11 @@
               formatPrice(
                 sellingBreads?.reduce(
                   (a, i) =>
-                    a + i.typeOfBreadId?.reduce((a, b) => a + b.quantity, 0),
+                    a +
+                    (i?.breadId?.typeOfBreadId?.reduce(
+                      (a, b) => a + b?.quantity,
+                      0
+                    ) || 0),
                   0
                 ) || 0
               )
@@ -100,7 +105,11 @@
                   ) -
                     sellingBreads?.reduce(
                       (a, i) =>
-                        a + i.typeOfBreadId?.reduce((a, b) => a + b.quantity, 0),
+                        a +
+                        (i?.breadId?.typeOfBreadId?.reduce(
+                          (a, b) => a + b?.quantity,
+                          0
+                        ) || 0),
                       0
                     )
                 ) || 0

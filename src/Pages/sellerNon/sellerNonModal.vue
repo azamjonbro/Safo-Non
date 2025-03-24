@@ -6,7 +6,7 @@
         <h2>Non yaratish</h2>
 
         <form>
-          <div class="d-flex column gap12 scroll" >
+          <div class="d-flex column gap12 scroll" style="height:300px;">
             <div
               class="yemagan d-flex a-center"
               v-for="(data, index) in count"
@@ -285,6 +285,7 @@ export default {
       });
     },
     selectBread(id, index) {
+      console.log(id)
       if (!id || !id._id || !id.price4) return;
 
       this.count = this.count.map((item) => {

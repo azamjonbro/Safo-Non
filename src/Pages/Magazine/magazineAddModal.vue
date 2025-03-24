@@ -29,26 +29,33 @@
                   readonly
                 />
               </div>
-
               <div class="form-group">
-                <label for="quantity">Soni (Dona)</label>
-                <input
-                  id="quantity"
-                  type="number"
-                  placeholder="Rasxod sonini kiriting"
-                  v-model="magazine.quantity"
-                  @blur="validateField('quantity')"
-                  @input="calculateTotal"
+                <label for="bread">Qaysi narxda</label>
+                <CustomSelect
+                  :options="prices"
+                  :selected="magazine.pricetype"
+                  @input="selectPrice($event)"
                 />
-                <p v-if="errors.quantity" class="error-text">
-                  {{ errors.quantity }}
-                </p>
               </div>
             </div>
           </div>
 
           <!-- Total Amount and Received Amount Section -->
           <div class="contentbox">
+            <div class="form-group">
+              <label for="quantity">Soni (Dona)</label>
+              <input
+                id="quantity"
+                type="number"
+                placeholder="Rasxod sonini kiriting"
+                v-model="magazine.quantity"
+                @blur="validateField('quantity')"
+                @input="calculateTotal"
+              />
+              <p v-if="errors.quantity" class="error-text">
+                {{ errors.quantity }}
+              </p>
+            </div>
             <div class="form-group">
               <label for="totalAmount">Jami narx</label>
               <input
@@ -154,6 +161,7 @@ export default {
         magazineId: "",
         breadId: "",
         quantity: 0,
+        pricetype: "tan",
       },
       errors: {},
       isHideDeliveries: false,
@@ -169,6 +177,11 @@ export default {
       },
       totalAmount: 0,
       remainingAmount: 0,
+      prices: [
+        { text: "Tan narxi", value: "tan" },
+        { text: "To`yxona", value: "toyxona" },
+        { text: "Do`kon", value: "dokon" },
+      ],
     };
   },
   props: {
@@ -176,6 +189,9 @@ export default {
     Delivery: Object,
   },
   methods: {
+    selectPrice(type) {
+      this.magazine.pricetype = type;
+    },
     deleteRow(index) {
       if (this.typeOfBreadIds.length > 1) {
         this.typeOfBreadIds = this.typeOfBreadIds.filter(
@@ -199,26 +215,48 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      this.magazine.breadId = value.id;
-      this.typeOfBread.price = value.totalPrice;
+      this.magazine.breadId = value.bread.typeOfBreadIds[0]._id;
+      this.typeOfBread.price =
+        this.magazine.pricetype === ""
+          ? value.breadId.price
+          : this.magazine.pricetype === "toyxona"
+          ? value.breadId.price3
+          : this.magazine.pricetype === "dokon"
+          ? value.breadId.price2
+          : value.breadId.price;
     },
     getBreads() {
       api
         .get("/api/sellerBreads")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.typeOfBreads = data?.sellerBreads
-              .map((item) => {
-                console.log("item", item);
-                return item.typeOfBreadId.map((i) => ({
-                  text: item.title,
-                  value: { bread: i, id: i._id, totalPrice: item.totalPrice },
-                }));
-              })
-              .flat();
+            const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
+              bread.typeOfBreadId.forEach((breadDetail) => {
+                const { breadId, quantity, qopQuantity } = breadDetail;
+                if (!acc[breadId._id]) {
+                  acc[breadId._id] = {
+                    text: breadId.title,
+                    value: {
+                      quantity: 0,
+                      qopQuantity: 0,
+                      breadId: breadId,
+                      bread: bread,
+                      id: bread._id,
+                    },
+                  };
+                }
+                acc[breadId._id].value.quantity += quantity;
+                acc[breadId._id].value.qopQuantity += qopQuantity;
+              });
+              return acc;
+            }, {});
+
+            this.typeOfBreads = Object.values(groupedBreads);
           }
         })
-        .catch(console.error);
+        .catch((error) => {
+          console.error(error);
+        });
     },
     closeModal() {
       this.$emit("close");
@@ -298,15 +336,32 @@ export default {
         .get("/api/orderWithDeliveries")
         .then(({ data, status }) => {
           if (status === 200) {
-            this.typeOfBreads = data?.orderWithDeliveries
-              .map((item) => {
-                console.log("item", item);
-                return item.typeOfBreadIds.map((i) => ({
-                  text: item.title,
-                  value: { bread: i, id: i._id, totalPrice: item.totalPrice },
-                }));
-              })
-              .flat();
+            console.log(data);
+            const groupedBreads = data?.orderWithDeliveries.reduce(
+              (acc, bread) => {
+                bread.typeOfBreadIds.forEach((breadDetail) => {
+                  const { breadId, quantity, qopQuantity } = breadDetail;
+                  if (!acc[breadId._id]) {
+                    acc[breadId._id] = {
+                      text: breadId.title,
+                      value: {
+                        quantity: 0,
+                        qopQuantity: 0,
+                        breadId: breadId,
+                        bread: bread,
+                        id: bread._id,
+                      },
+                    };
+                  }
+                  acc[breadId._id].value.quantity += quantity;
+                  acc[breadId._id].value.qopQuantity += qopQuantity;
+                });
+                return acc;
+              },
+              {}
+            );
+
+            this.typeOfBreads = Object.values(groupedBreads);
           }
         })
         .catch(console.error);

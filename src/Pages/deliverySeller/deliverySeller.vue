@@ -32,10 +32,7 @@
               </div>
               <div class="cell">{{ data?.description || "" }}</div>
               <div class="cell">
-                {{
-                  data?.totalQuantity ||
-                  ""
-                }}
+                {{ data?.totalQuantity || 0 }}
               </div>
               <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
               <div class="cell d-flex a-center j-end gap12">

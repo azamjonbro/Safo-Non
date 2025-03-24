@@ -42,7 +42,9 @@
                 @blur="validateField('address')"
                 maxlength="30"
               />
-              <p v-if="errors.address" class="error-text">{{ errors.address }}</p>
+              <p v-if="errors.address" class="error-text">
+                {{ errors.address }}
+              </p>
             </div>
             <div class="form-group">
               <label for="pending">Qarzdorlik (boshlang'ich)</label>
@@ -54,7 +56,9 @@
                 @blur="validateField('pending')"
                 maxlength="15"
               />
-              <p v-if="errors.pending" class="error-text">{{ errors.pending }}</p>
+              <p v-if="errors.pending" class="error-text">
+                {{ errors.pending }}
+              </p>
             </div>
           </div>
         </form>
@@ -132,10 +136,12 @@ export default {
       //     this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998 XX XXX XX XX)";
       //   }
       // }
-      if (field === "pending") {
-        // if (!this.magazine.pending || isNaN(this.magazine.pending) || this.magazine.pending < 0) {
-        //   this.errors.pending = "Narx musbat son bo‘lishi kerak";
-        // }
+      if ( field === "pending" &&
+        !this.magazine.pending ||
+        isNaN(this.magazine.pending) ||
+        this.magazine.pending < 0
+      ) {
+        this.errors.pending = "Narx musbat son bo‘lishi kerak";
       }
     },
     applyRegex(field) {
@@ -143,7 +149,10 @@ export default {
         this.magazine.title = this.magazine.title.replace(/[^a-zA-Z0-9 ]/g, "");
       }
       if (field === "address") {
-        this.magazine.address = this.magazine.address.replace(/[^a-zA-Z0-9, ]/g, "");
+        this.magazine.address = this.magazine.address.replace(
+          /[^a-zA-Z0-9, ]/g,
+          ""
+        );
       }
     },
     submitForm() {
@@ -157,11 +166,17 @@ export default {
       }
 
       this.isSubmitting = true;
-      const token = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "";
+      const token = localStorage.getItem("user")
+        ? JSON.parse(localStorage.getItem("user"))
+        : "";
 
       const request = this.isUpdate
-        ? api.put("/api/magazine/" + this.update.id, this.magazine, { headers: { authorization: token } })
-        : api.post("/api/magazine/", this.magazine, { headers: { authorization: token } });
+        ? api.put("/api/magazine/" + this.update.id, this.magazine, {
+            headers: { authorization: token },
+          })
+        : api.post("/api/magazine/", this.magazine, {
+            headers: { authorization: token },
+          });
 
       request
         .then(({ status }) => {
@@ -174,7 +189,9 @@ export default {
           } else {
             this.$emit("status", {
               status: "error",
-              message: this.isUpdate ? "Do`kon yangilanishida hatolik" : "Do`kon yaratilishida hatolik",
+              message: this.isUpdate
+                ? "Do`kon yangilanishida hatolik"
+                : "Do`kon yaratilishida hatolik",
             });
           }
         })

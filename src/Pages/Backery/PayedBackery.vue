@@ -16,6 +16,16 @@
                 maxlength="10"
                 @input="applyMask"
                 @blur="validateField('price')"
+                v-if="bakcery.type !== 'Oylik'"
+              />
+               <input
+                type="text"
+                id="price"
+                v-model="bakcery.price"
+                placeholder="To`lov summasini kiriting"
+                maxlength="10"
+                readonly
+                v-else
               />
               <p v-if="errors.price" class="error-text">{{ errors.price }}</p>
             </div>
@@ -93,13 +103,13 @@ export default {
     CustomSelectVue,
   },
   props: {
-    selectedItemPayed: String,
+    selectedItemPayed: Object,
   },
   data() {
     return {
       bakcery: {
         type: "",
-        price: "",
+        price: 0,
         status: "",
         comment: "",
       },
@@ -128,6 +138,9 @@ export default {
     },
     sellectPayedType(id) {
       this.bakcery.type = id;
+      if(this.bakcery.type == "Oylik"){
+        this.bakcery.price = this.selectedItemPayed.price
+      }
     },
     applyMask(event) {
       let value = event.target?.value.replace(/\D/g, "");
@@ -194,7 +207,8 @@ export default {
     },
   },
   mounted() {
-    this.bakcery.sellerId = this?.selectedItemPayed;
+    this.bakcery.sellerId = this?.selectedItemPayed.id;
+
   },
 };
 </script>

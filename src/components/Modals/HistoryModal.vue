@@ -9,276 +9,288 @@
       >
         <h1>{{ history?.manager?.username }}</h1>
 
-        <div class="table" v-if="history?.type == 'debt'">
-          <div class="table-header">
-            <div class="row">
-              <div class="cell">№</div>
-              <div class="cell">Sana</div>
-              <div class="cell">Nomi</div>
-              <div class="cell">Soni</div>
-              <div class="cell">Narxi</div>
-              <div class="cell">Sababi</div>
-              <div class="cell" v-if="isHideSeller">Nonvoy</div>
-            </div>
-          </div>
-          <div class="table-body">
-            <div
-              v-for="(data, index) in history?.history"
-              :key="index"
-              class="row"
-            >
-              <div class="cell">{{ index + 1 }}</div>
-              <div class="cell">
-                {{ formatDate(new Date(data.createdAt)) }}
-              </div>
-              <div class="cell">
-                {{
-                  data?.title
-                    ? data.title
-                    : data?.omborxonaProId?.name
-                    ? data?.omborxonaProId?.name
-                    : " ----"
-                }}
-              </div>
-              <div class="cell">
-                {{ data?.quantity || "----" }}
-              </div>
-              <div class="cell">
-                {{
-                  data?.price
-                    ? data?.price
-                    : data?.omborxonaProId?.price
-                    ? data?.omborxonaProId?.price
-                    : 0
-                }}
-              </div>
-              <div class="cell">
-                {{ data?.reason || data.description || "" }}
-              </div>
-              <div class="cell" v-if="isHideSeller">
-                {{
-                  data?.sellerId?.username || data?.delivertId?.username || "id"
-                }}
+        <div class="scroll">
+          <div class="table" v-if="history?.type == 'debt'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <div class="cell">Sana</div>
+                <div class="cell">Nomi</div>
+                <div class="cell">Soni</div>
+                <div class="cell">Narxi</div>
+                <div class="cell">Sababi</div>
+                <div class="cell" v-if="isHideSeller">Nonvoy</div>
               </div>
             </div>
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">
+                  {{ formatDate(new Date(data.createdAt)) }}
+                </div>
+                <div class="cell">
+                  {{
+                    data?.title
+                      ? data.title
+                      : data?.omborxonaProId?.name
+                      ? data?.omborxonaProId?.name
+                      : " ----"
+                  }}
+                </div>
+                <div class="cell">
+                  {{ data?.quantity || "----" }}
+                </div>
+                <div class="cell">
+                  {{
+                    data?.price
+                      ? data?.price
+                      : data?.omborxonaProId?.price
+                      ? data?.omborxonaProId?.price
+                      : 0
+                  }}
+                </div>
+                <div class="cell">
+                  {{ data?.reason || data.description || "" }}
+                </div>
+                <div class="cell" v-if="isHideSeller">
+                  {{
+                    data?.sellerId?.username ||
+                    data?.delivertId?.username ||
+                    "id"
+                  }}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="table" v-if="history?.type == 'prixod'">
-          <div class="table-header">
-            <div class="row">
-              <div class="cell">№</div>
-              <div class="cell">Sana</div>
-              <div class="cell">Soni</div>
-              <div class="cell">Narxi</div>
-              <div class="cell" v-if="history?.role !== 'seller'">
-                Umumiy summa
+          <div class="table" v-if="history?.type == 'prixod'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <div class="cell">Sana</div>
+                <div class="cell">Soni</div>
+                <div class="cell">Narxi</div>
+                <div class="cell" v-if="history?.role !== 'seller'">
+                  Umumiy summa
+                </div>
+                <div class="cell" v-if="history?.role !== 'seller'">
+                  Do`kon nomi
+                </div>
               </div>
-              <div class="cell" v-if="history?.role !== 'seller'">
-                Do`kon nomi
+            </div>
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">
+                  {{ formatDate(new Date(data.createdAt)) }}
+                </div>
+                <div class="cell">
+                  {{
+                    data?.quantity
+                      ? data?.quantity
+                      : data?.typeOfBreadId
+                      ? data.pricetype === ""
+                        ? data.bread.price
+                        : data.pricetype === "toyxona"
+                        ? data.bread.price3
+                        : data.pricetype === "dokon"
+                        ? data.bread.price2
+                        : data.bread.price
+                      : 0
+                  }}
+                </div>
+                <div class="cell">
+                  {{
+                    data?.price
+                      ? data?.price
+                      : data?.typeOfBreadId
+                      ? data?.typeOfBreadId.reduce(
+                          (a, b) => a + b?.breadId?.price,
+                          0
+                        )
+                      : 0
+                  }}
+                </div>
+                <div class="cell" v-if="history?.role !== 'seller'">
+                  {{ data?.money || "" }}
+                </div>
+                <div class="cell" v-if="history?.role !== 'seller'">
+                  {{ data?.magazineId?.title || "id" }}
+                </div>
               </div>
             </div>
           </div>
-          <div class="table-body">
-            <div
-              v-for="(data, index) in history?.history"
-              :key="index"
-              class="row"
-            >
-              <div class="cell">{{ index + 1 }}</div>
-              <div class="cell">
-                {{ formatDate(new Date(data.createdAt)) }}
-              </div>
-              <div class="cell">
-                {{
-                  data?.quantity
-                    ? data?.quantity
-                    : data?.typeOfBreadId
-                    ? data?.typeOfBreadId.reduce((a, b) => a + b.quantity, 0)
-                    : 0
-                }}
-              </div>
-              <div class="cell">
-                {{
-                  data?.price
-                    ? data?.price
-                    : data?.typeOfBreadId
-                    ? data?.typeOfBreadId.reduce(
-                        (a, b) => a + b?.breadId?.price,
-                        0
-                      )
-                    : 0
-                }}
-              </div>
-              <div class="cell" v-if="history?.role !== 'seller'">
-                {{ data?.money || "" }}
-              </div>
-              <div class="cell" v-if="history?.role !== 'seller'">
-                {{ data?.magazineId?.title || "id" }}
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <div class="table" v-if="history?.type == 'pending'">
-          <div class="table-header">
-            <div class="row">
-              <div class="cell">№</div>
-              <div class="cell">Sana</div>
-              <div class="cell">Soni</div>
-              <div class="cell">Narxi</div>
-              <div class="cell">Umumiy summa</div>
-              <div class="cell">Do`kon nomi</div>
-            </div>
-          </div>
-          <div class="table-body">
-            <div
-              v-for="(data, index) in history?.history"
-              :key="index"
-              class="row"
-            >
-              <div class="cell">{{ index + 1 }}</div>
-              <div class="cell">
-                {{ formatDate(new Date(data.createdAt)) }}
-              </div>
-              <div class="cell">
-                {{ data?.quantity || 0 }}
-              </div>
-              <div class="cell">
-                {{ data?.price || 0 }}
-              </div>
-              <div class="cell">
-                {{ data?.money || "" }}
-              </div>
-              <div class="cell">
-                {{ data?.magazineId?.title || "id" }}
+          <div class="table" v-if="history?.type == 'pending'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <div class="cell">Sana</div>
+                <div class="cell">Soni</div>
+                <div class="cell">Narxi</div>
+                <div class="cell">Umumiy summa</div>
+                <div class="cell">Do`kon nomi</div>
               </div>
             </div>
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">
+                  {{ formatDate(new Date(data.createdAt)) }}
+                </div>
+                <div class="cell">
+                  {{ data?.quantity || 0 }}
+                </div>
+                <div class="cell">
+                  {{ data?.price || 0 }}
+                </div>
+                <div class="cell">
+                  {{ data?.money || "" }}
+                </div>
+                <div class="cell">
+                  {{ data?.magazineId?.title || "id" }}
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="table" v-if="history?.type == 'soldBread'">
-          <div class="table-header">
-            <div class="row">
-              <div class="cell">№</div>
-              <div class="cell">Sana</div>
-              <div class="cell">Soni</div>
-              <div class="cell">Narxi</div>
-              <div class="cell">Olingan pul</div>
-              <div class="cell">Do`kon nomi</div>
-            </div>
-          </div>
-          <div class="table-body">
-            <div
-              v-for="(data, index) in history?.history"
-              :key="index"
-              class="row"
-            >
-              <div class="cell">{{ index + 1 }}</div>
-              <div class="cell">
-                {{ formatDate(new Date(data.createdAt)) }}
-              </div>
-              <div class="cell">
-                {{
-                  data?.quantity
-                }}
-              </div>
-              <div class="cell">
-                {{
-                  data?.typeOfBreadIds.reduce(
-                    (a, b) => a + b.breadId.price2 * b.quantity,
-                    0
-                  ) || 0
-                }}
-              </div>
-              <div class="cell">
-                {{ data?.money || "" }}
-              </div>
-              <div class="cell">
-                {{ data?.magazineId?.title || "id" }}
+          <div class="table" v-if="history?.type == 'soldBread'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <div class="cell">Sana</div>
+                <div class="cell">Soni</div>
+                <div class="cell">Narxi</div>
+                <div class="cell">Olingan pul</div>
+                <div class="cell">Do`kon nomi</div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="table" v-if="history?.type == 'sellerbreads'">
-          <div class="table-header">
-            <div class="row">
-              <div class="cell">№</div>
-              <div class="cell">Narxi</div>
-              <div class="cell">Soni</div>
-              <div class="cell">Qop soni</div>
-              <div class="cell">Umumiy narxi</div>
-              <div class="cell">Kimdan</div>
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">
+                  {{ formatDate(new Date(data.createdAt)) }}
+                </div>
+                <div class="cell">
+                  {{ data?.quantity }}
+                </div>
+                <div class="cell">
+                  {{
+                    data?.typeOfBreadIds.reduce(
+                      (a, b) => a + b.breadId.price2 * b.quantity,
+                      0
+                    ) || 0
+                  }}
+                </div>
+                <div class="cell">
+                  {{ data?.money || "" }}
+                </div>
+                <div class="cell">
+                  {{ data?.magazineId?.title || "id" }}
+                </div>
+              </div>
             </div>
           </div>
-          <div class="table-body">
-            <div
-              v-for="(data, index) in history?.history"
-              :key="index"
-              class="row"
-            >
-              <div class="cell">{{ index + 1 }}</div>
-              <div class="cell">
-                {{ formatPrice(data?.price ? data?.price : 0) }}
+          <div class="table" v-if="history?.type == 'sellerbreads'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <div class="cell">Narxi</div>
+                <div class="cell">Soni</div>
+                <div class="cell">Qop soni</div>
+                <div class="cell">Umumiy narxi</div>
+                <div class="cell">Kimdan</div>
               </div>
-              <div class="cell">
-                {{ formatPrice(data?.totalQuantity ? data?.totalQuantity : 0) }}
+            </div>
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">
+                  {{ formatPrice(data?.price ? data?.price : 0) }}
+                </div>
+                <div class="cell">
+                  {{
+                    formatPrice(data?.totalQuantity ? data?.totalQuantity : 0)
+                  }}
+                </div>
+                <div class="cell">
+                  {{
+                    formatPrice(
+                      data?.totalQopQuantity ? data?.totalQopQuantity : 0
+                    )
+                  }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.totalPrice ? data?.totalPrice : 0) }}
+                </div>
+                <div class="cell">{{ data.sellerId.username }}</div>
               </div>
-              <div class="cell">
-                {{
-                  formatPrice(
-                    data?.totalQopQuantity ? data?.totalQopQuantity : 0
-                  )
-                }}
-              </div>
-              <div class="cell">
-                {{ formatPrice(data?.totalPrice ? data?.totalPrice : 0) }}
-              </div>
-              <div class="cell">{{ data.sellerId.username }}</div>
             </div>
           </div>
-        </div>
 
-        <div class="table" v-if="history?.type == 'bread-seller'">
-          <div class="table-header">
-            <div class="row">
-              <div class="cell">№</div>
-              <div class="cell">Sana</div>
-              <div class="cell">Nomi</div>
-              <div class="cell">Tavsif</div>
-              <div class="cell">Narxi</div>
-              <div class="cell">Soni</div>
-              <div class="cell">Qop soni</div>
+          <div class="table" v-if="history?.type == 'bread-seller'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <div class="cell">Sana</div>
+                <div class="cell">Nomi</div>
+                <div class="cell">Tavsif</div>
+                <div class="cell">Narxi</div>
+                <div class="cell">Soni</div>
+                <div class="cell">Qop soni</div>
+              </div>
             </div>
-          </div>
-          <div class="table-body">
-            <div
-              v-for="(data, index) in history?.history"
-              :key="index"
-              class="row"
-            >
-              <div class="cell">{{ index + 1 }}</div>
-              <div class="cell">
-                {{ formatDate(new Date(data?.createdAt)) }}
-              </div>
-              <div class="cell">
-                {{ data?.title ? data?.title : "" }}
-              </div>
-              <div class="cell">
-                {{ data?.description ? data?.description : "" }}
-              </div>
-              <div class="cell">
-                {{ formatPrice(data?.price ? data?.price : 0) }}
-              </div>
-              <div class="cell">
-                {{ formatPrice(data?.totalQuantity ? data?.totalQuantity : 0) }}
-              </div>
-              <div class="cell">
-                {{
-                  formatPrice(
-                    data?.totalQopQuantity ? data?.totalQopQuantity : 0
-                  )
-                }}
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">
+                  {{ formatDate(new Date(data?.createdAt)) }}
+                </div>
+                <div class="cell">
+                  {{ data?.title ? data?.title : "" }}
+                </div>
+                <div class="cell">
+                  {{ data?.description ? data?.description : "" }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.price ? data?.price : 0) }}
+                </div>
+                <div class="cell">
+                  {{
+                    formatPrice(data?.totalQuantity ? data?.totalQuantity : 0)
+                  }}
+                </div>
+                <div class="cell">
+                  {{
+                    formatPrice(
+                      data?.totalQopQuantity ? data?.totalQopQuantity : 0
+                    )
+                  }}
+                </div>
               </div>
             </div>
           </div>
@@ -334,7 +346,6 @@ export default {
     },
   },
   mounted() {
-    console.log(this.history.role);
     if (this.history.role == "seller") {
       this.isHideSeller = false;
     } else if (this.history.role == "delivery") {

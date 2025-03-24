@@ -8,7 +8,7 @@
         <form>
           <div class="modal-form">
             <div class="form-group">
-              <label for="omborxonaProId">Rasxod turi</label>
+              <label for="omborxonaProId">Omborxona mahsulotini tanlang</label>
               <CustomSelectVue
                 @blur="validateField('omborxonaProId')"
                 @input="sellectDebtId($event)"

@@ -21,6 +21,8 @@
       <HomeDeliveryVue v-if="activePage === 'homeDelivery'" />
       <ManagerdashboardVue v-if="activePage === 'Managerdashboard'" />
       <SellerHistoryVue v-if="activePage === 'sellerHistory'" />
+      <Returned  v-if="activePage === 'returned'" />
+      <Sale v-if="activePage === 'sale'" />
       <!-- <ErrorPage v-else/> -->
     </main>
   </div>
@@ -48,6 +50,8 @@ import SellerDashVue from "@/Pages/sellerDash/sellerDash.vue";
 import HomeDeliveryVue from "@/Pages/homeDelivery/homeDelivery.vue";
 import ManagerdashboardVue from "@/Pages/Managerdashboard/managerdashboard.vue";
 import SellerHistoryVue from "@/Pages/sellerHistory/sellerHistory.vue";
+import Returned from '@/Pages/ReturnedPage/returned.vue';
+import Sale from '@/Pages/Sale/sale.vue';
 export default {
   name: "HomePage",
   components: {
@@ -72,6 +76,8 @@ export default {
     HomeDeliveryVue,
     ManagerdashboardVue,
     SellerHistoryVue,
+    Returned,
+    Sale
   },
   data() {
     return {

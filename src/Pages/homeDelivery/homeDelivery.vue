@@ -16,7 +16,7 @@
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
-            <h3>Sotgan nonlar soni</h3>
+            <h3>Sotgan nonlar narxi</h3>
             <b>{{ formatPrice(statics?.soldBread?.totalPrice || 0) }}</b>
           </span>
         </div>
@@ -45,6 +45,86 @@
           <span class="info-item">
             <h3>Qoldiq</h3>
             <b>{{ formatPrice(statics?.pending?.totalPrice || 0) }}</b>
+          </span>
+        </div>
+      </div>
+      <div class="infobox d-flex wrap" style="margin-top: 15px">
+        <div
+          class="card"
+          @click="
+            openModalPage({
+              history: statics?.soldBread?.history,
+              type: 'soldBread',
+            })
+          "
+        >
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Nonlar soni</h3>
+            <b>{{
+              formatPrice(
+                orderWithDeliveries.reduce(
+                  (a, b) => a + (b.totalQuantity || 0),
+                  0
+                ) || 0
+              )
+            }}</b>
+          </span>
+        </div>
+        <div
+          class="card"
+          @click="
+            openModalPage({
+              history: statics?.soldBread?.history,
+              type: 'soldBread',
+            })
+          "
+        >
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Sotilgan Nonlar soni</h3>
+            <b>{{
+              formatPrice(
+                statics?.soldBread?.history?.reduce((a, b) => {
+                  return a + b.quantity;
+                }, 0) || 0
+              )
+            }}</b>
+          </span>
+        </div>
+
+        <div
+          class="card"
+          @click="
+            openModalPage({
+              history: statics?.soldBread?.history,
+              type: 'soldBread',
+            })
+          "
+        >
+          <Icons :name="'dayIncr'" />
+          <span class="info-item">
+            <h3>Qoldiq</h3>
+            <b>{{
+              formatPrice(
+                orderWithDeliveries.reduce(
+                  (a, b) => a + (b.totalQuantity || 0),
+                  0
+                ) -
+                  statics?.soldBread?.history?.reduce((a, b) => {
+                    return a + b.quantity;
+                  }, 0) >
+                  0
+                  ? orderWithDeliveries.reduce(
+                      (a, b) => a + (b.totalQuantity || 0),
+                      0
+                    ) -
+                      statics?.soldBread?.history?.reduce((a, b) => {
+                        return a + b.quantity;
+                      }, 0)
+                  : 0 || 0
+              )
+            }}</b>
           </span>
         </div>
       </div>
@@ -101,7 +181,6 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.orderWithDeliveries = data?.orderWithDeliveries;
-            console.log("this.orderWithDeliveries",this.orderWithDeliveries)
           }
         })
         .catch((error) => {
@@ -111,7 +190,7 @@ export default {
   },
   mounted() {
     this.getStatics();
-    this.getOrderWithDeliveries()
+    this.getOrderWithDeliveries();
   },
 };
 </script>

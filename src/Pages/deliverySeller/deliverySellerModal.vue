@@ -6,6 +6,26 @@
         <h2>Yetkazuvchiga non berish</h2>
         <!-- <form class="scroll" ></form> -->
         <form>
+          <div class="modal-form">
+            <div class="form-group">
+              <label for="delivery">Yetkazuvchi</label>
+              <CustomSelect
+                :options="deliveries"
+                id="delivery"
+                @input="selectDelivery($event)"
+                :selected="delivery.deliveryId"
+                :search="true"
+                @blur="validateField('deliveryId')"
+              />
+              <p v-if="errors.deliveryId" class="error-text">
+                {{ errors.deliveryId }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="bread">Qaysi narxda</label>
+              <CustomSelect :options="prices" @input="selectPrice($event)" />
+            </div>
+          </div>
           <div class="scroll" style="height: 70%">
             <div
               class="modal-form-2"
@@ -21,7 +41,6 @@
                   @input="selectArray($event, data.id)"
                 />
               </div>
-
               <div class="form-group">
                 <label for="quantity">Narxi</label>
                 <input
@@ -77,11 +96,11 @@
           </div>
           <div class="modal-form">
             <div class="form-group">
-              <label for="description">Tasnif</label>
+              <label for="description">Tavsif</label>
               <input
                 id="description"
                 type="text"
-                placeholder="Yetkazuvchini telefon raqamini kiriting"
+                placeholder="Yetkazuvchini Tavsifni kiriting"
                 v-model="delivery.description"
                 @blur="validateField('description')"
               />
@@ -89,38 +108,15 @@
                 {{ errors.description }}
               </p>
             </div>
+
             <div class="form-group">
-              <label for="delivery">Yetkazuvchi</label>
-              <CustomSelect
-                :options="deliveries"
-                id="delivery"
-                @input="selectDelivery($event)"
-                :selected="delivery.deliveryId"
-                :search="true"
-                @blur="validateField('deliveryId')"
-              />
-              <p v-if="errors.deliveryId" class="error-text">
-                {{ errors.deliveryId }}
-              </p>
-            </div>
-            <div class="form-group">
-              <label for="quantity">Qoldiq summa</label>
+              <label for="quantity">Umumiy summa</label>
               <input
                 id="price"
                 type="number"
                 placeholder="0"
                 readonly
                 v-model="totalAmountPrice"
-              />
-            </div>
-            <div class="form-group">
-              <label for="quantity">Qoldiq soni</label>
-              <input
-                id="price"
-                type="number"
-                placeholder="0"
-                readonly
-                v-model="totalAmountQuantity"
               />
             </div>
           </div>
@@ -167,6 +163,7 @@ export default {
       delivery: {
         description: "",
         deliveryId: "",
+        pricetype: "",
       },
       typeOfBreadIds: [
         {
@@ -184,6 +181,11 @@ export default {
       typeOfBreads2: new Map(),
       errors: {},
       isUpdate: false,
+      prices: [
+        { text: "Tan narxi", value: "tan" },
+        { text: "To`yxona", value: "toyxona" },
+        { text: "Do`kon", value: "dokon" },
+      ],
     };
   },
   props: {
@@ -193,19 +195,13 @@ export default {
   },
   computed: {
     totalAmountPrice() {
-      return (
-        this.typeOfBreads.reduce((a, b) => a + b.totalPrice, 0) -
-        this.typeOfBreadIds.reduce((a, b) => a + b.price, 0)
-      );
-    },
-    totalAmountQuantity() {
-      return (
-        this.typeOfBreads.reduce((a, b) => a + b.totalQuantity, 0) -
-        this.typeOfBreadIds.reduce((a, b) => a + b.quantity, 0)
-      );
+      return this.typeOfBreadIds.reduce((a, b) => a + b.price * b.quantity, 0);
     },
   },
   methods: {
+    selectPrice(type) {
+      this.delivery.pricetype = type;
+    },
     getBreads() {
       api
         .get("/api/sellerBreads")
@@ -220,8 +216,8 @@ export default {
                     value: {
                       quantity: 0,
                       qopQuantity: 0,
-                      bread:breadId,
-                      id: bread._id
+                      bread: breadId,
+                      id: bread._id,
                     },
                   };
                 }
@@ -255,7 +251,15 @@ export default {
           ? {
               ...item,
               bread: value?.id,
-              price: value?.bread?.price,
+
+              price:
+                this.delivery.pricetype === ""
+                  ? value.bread.price
+                  : this.delivery.pricetype === "toyxona"
+                  ? value.bread.price3
+                  : this.delivery.pricetype === "dokon"
+                  ? value.bread.price2
+                  : value.bread.price,
               typeOfBread: value?.breadx?.breadId?._id,
             }
           : item;
