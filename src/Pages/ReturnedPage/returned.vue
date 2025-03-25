@@ -30,9 +30,11 @@
             </div>
             <div class="cell">{{ data?.order.description || "" }}</div>
             <div class="cell">
-              {{ data?.totalQuantity || "" }}
+              {{ data?.order.totalQuantity || 0 }}
             </div>
-            <div class="cell">{{ formatDate(new Date(data.order.createdAt)) }}</div>
+            <div class="cell">
+              {{ formatDate(new Date(data.order.createdAt)) }}
+            </div>
             <div class="cell d-flex a-center j-end gap12"></div>
           </div>
         </div>

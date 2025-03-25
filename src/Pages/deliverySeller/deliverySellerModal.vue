@@ -96,11 +96,11 @@
           </div>
           <div class="modal-form">
             <div class="form-group">
-              <label for="description">Tasnif</label>
+              <label for="description">Tavsif</label>
               <input
                 id="description"
                 type="text"
-                placeholder="Yetkazuvchini telefon raqamini kiriting"
+                placeholder="Yetkazuvchini Tavsifni kiriting"
                 v-model="delivery.description"
                 @blur="validateField('description')"
               />
@@ -110,23 +110,13 @@
             </div>
 
             <div class="form-group">
-              <label for="quantity">Qoldiq summa</label>
+              <label for="quantity">Umumiy summa</label>
               <input
                 id="price"
                 type="number"
                 placeholder="0"
                 readonly
                 v-model="totalAmountPrice"
-              />
-            </div>
-            <div class="form-group">
-              <label for="quantity">Qoldiq soni</label>
-              <input
-                id="price"
-                type="number"
-                placeholder="0"
-                readonly
-                v-model="totalAmountQuantity"
               />
             </div>
           </div>
@@ -173,7 +163,7 @@ export default {
       delivery: {
         description: "",
         deliveryId: "",
-        pricetype:""
+        pricetype: "",
       },
       typeOfBreadIds: [
         {
@@ -205,16 +195,7 @@ export default {
   },
   computed: {
     totalAmountPrice() {
-      return (
-        this.typeOfBreads.reduce((a, b) => a + b.totalPrice, 0) -
-        this.typeOfBreadIds.reduce((a, b) => a + b.price, 0)
-      );
-    },
-    totalAmountQuantity() {
-      return (
-        this.typeOfBreads.reduce((a, b) => a + b.totalQuantity, 0) -
-        this.typeOfBreadIds.reduce((a, b) => a + b.quantity, 0)
-      );
+      return this.typeOfBreadIds.reduce((a, b) => a + b.price * b.quantity, 0);
     },
   },
   methods: {
@@ -265,12 +246,12 @@ export default {
       }
     },
     selectArray(value, index) {
-      console.log(value);
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
         return item.id === index
           ? {
               ...item,
               bread: value?.id,
+
               price:
                 this.delivery.pricetype === ""
                   ? value.bread.price

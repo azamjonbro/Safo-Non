@@ -8,7 +8,21 @@
         <div class="scroll" style="height: 100%; margin-top: 30px">
           <div
             class="modal-form-2"
-            v-for="(data, index) in typeOfBreadIds"
+            v-for="(data, index) in typeOfBreadIds.filter(
+              (i) => i.totalQuantity > 0
+            ).length === 0
+              ? [
+                  {
+                    id: 0,
+                    quantity: 0,
+                    bread: '',
+                    typeOfBread: '',
+                    errors: {},
+                    price: 0,
+                    pricetype: '',
+                  },
+                ]
+              : typeOfBreadIds.filter((i) => i.totalQuantity > 0)"
             :key="index"
           >
             <div class="form-group">
@@ -199,23 +213,9 @@ export default {
         .get("/api/orderWithDeliveries")
         .then(({ data, status }) => {
           if (status === 200) {
-            this.typeOfBreadIds =  [
-              {
-                id: 0,
-                quantity: 0,
-                bread: "",
-                typeOfBread: "",
-                errors: {},
-                price: 0,
-                pricetype: "",
-              },
-            ] ||  data?.orderWithDeliveries.map((item) => {
+            this.typeOfBreadIds = data?.orderWithDeliveries.map((item) => {
               return {
                 ...item,
-                totalQuantity: item.typeOfBreadIds.reduce(
-                  (a, b) => a + b.quantity,
-                  0
-                ),
                 pricetype: item.pricetype
                   ? item.pricetype === "tan"
                     ? "Tan narxi"
@@ -229,7 +229,7 @@ export default {
                   .map((i) => i.breadId.title)
                   .join(","),
               };
-            })
+            });
           }
         })
         .catch((error) => {

@@ -145,7 +145,6 @@ export default {
         .then(({ status, data }) => {
           if (status === 200) {
             this.warehouseTotal = data?.typeOfWareHouses;
-            console.log(this.warehouseTotal);
           }
         })
         .catch((error) => {
@@ -173,6 +172,8 @@ export default {
         Api.get("/api/statics")
           .then((response) => {
             this.statics = response.data.statics;
+
+            console.log("response.data.statics",response.data.statics)
 
             this.manager = response.data.managerStatics;
           })

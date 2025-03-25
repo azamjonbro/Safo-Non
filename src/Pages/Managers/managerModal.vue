@@ -12,7 +12,7 @@
                 id="username"
                 type="text"
                 v-model="user.username"
-                placeholder="Foydalanuvchi nomini kiriting"
+                placeholder="Managerni nomini kiriting"
                 maxlength="20"
                 @input="sanitizeInput('username')"
                 @blur="validateField('username')"
@@ -120,9 +120,7 @@ export default {
 
       if (!this.isUpdate) {
         try {
-          const response = await api.post("/api/manager", this.user);
-          console.log(response);
-          
+          const response = await api.post("/api/manager", this.user);          
           if (response?.status == 201) {
             this.$emit("status", {
               status: "success",

@@ -272,7 +272,6 @@ export default {
         .then(({ data, status }) => {
           if (status === 200) {
             this.allMagazine = data?.magazines;
-            console.log(data?.magazines);
           }
         })
         .catch((error) => {
