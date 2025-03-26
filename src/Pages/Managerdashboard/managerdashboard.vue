@@ -7,7 +7,9 @@
       <div class="infobox d-flex wrap">
         <div
           class="card"
-          @click="openModalPage({ history: statics?.prixod, type: 'prixod' })"
+          @click="
+            openModalPage({ history: statics?.prixod.history, type: 'prixod' })
+          "
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
@@ -57,11 +59,7 @@
 
             <b>{{
               formatPrice(
-                sellerbreads?.reduce(
-                  (a, i) =>
-                    a + i.typeOfBreadId?.reduce((a, b) => a + b.quantity, 0),
-                  0
-                ) || 0
+                sellerbreads?.reduce((a, i) => a + i.totalQuantity, 0) || 0
               )
             }}</b>
           </span>
@@ -79,12 +77,7 @@
             <b>{{
               formatPrice(
                 sellingBreads?.reduce(
-                  (a, i) =>
-                    a +
-                    (i?.breadId?.typeOfBreadId?.reduce(
-                      (a, b) => a + b?.quantity,
-                      0
-                    ) || 0),
+                  (a, i) => a + (i.breadId.totalQuantity || 0),
                   0
                 ) || 0
               )
@@ -98,18 +91,9 @@
             <b>{{
               formatPrice(
                 Math.abs(
-                  sellerbreads?.reduce(
-                    (a, i) =>
-                      a + i.typeOfBreadId?.reduce((a, b) => a + b.quantity, 0),
-                    0
-                  ) -
+                  sellerbreads?.reduce((a, i) => a + i.totalQuantity, 0) -
                     sellingBreads?.reduce(
-                      (a, i) =>
-                        a +
-                        (i?.breadId?.typeOfBreadId?.reduce(
-                          (a, b) => a + b?.quantity,
-                          0
-                        ) || 0),
+                      (a, i) => a + (i.totalQuantity || 0),
                       0
                     )
                 ) || 0

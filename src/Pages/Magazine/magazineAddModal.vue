@@ -173,7 +173,6 @@ export default {
       allDelivery: [],
       typeOfBread: {
         price: 0,
-        price1: 0,
       },
       totalAmount: 0,
       remainingAmount: 0,
@@ -215,7 +214,10 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      this.magazine.breadId = value.bread.typeOfBreadIds[0]._id;
+      this.magazine.breadId = !value.id
+        ? value.bread.typeOfBreadIds[0]._id
+        : value.id;
+        console.log(value)
       this.typeOfBread.price =
         this.magazine.pricetype === ""
           ? value.breadId.price
@@ -252,6 +254,7 @@ export default {
             }, {});
 
             this.typeOfBreads = Object.values(groupedBreads);
+            console.log(this.typeOfBreads);
           }
         })
         .catch((error) => {
