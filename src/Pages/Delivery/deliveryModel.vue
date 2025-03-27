@@ -171,10 +171,6 @@ export default {
       this.validateField("phone");
       this.validateField("price");
 
-      if (this.isUpdate) {
-        this.validateField("password");
-      }
-
       if (Object.keys(!this.errors).length) {
         return;
       }
