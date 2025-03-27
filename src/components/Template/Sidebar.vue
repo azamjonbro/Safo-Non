@@ -262,6 +262,10 @@ li.active div svg path {
     transition: left 0.3s ease-in-out;
     z-index: 1001;
   }
+  .navbar-menu{
+    height: 60%;
+
+  }
 
   .navbar-box.open {
     left: 0;
