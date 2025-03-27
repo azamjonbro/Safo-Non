@@ -9,7 +9,7 @@
       >
         <h1>{{ history?.manager?.username || "" }}</h1>
 
-        <div class="scroll">
+        <div class="scroll h-80">
           <div class="table" v-if="history?.type == 'debt'">
             <div class="table-header">
               <div class="row">
@@ -364,6 +364,9 @@ export default {
 </script>
 
 <style>
+.h-80{
+  height: 80vh;
+}
 .scroll-content {
   width: 100%;
   text-align: center;
