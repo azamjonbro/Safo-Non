@@ -7,7 +7,7 @@
         @touchstart="handleTouchStart"
         @touchmove="handleTouchMove"
       >
-        <h1>{{ history?.manager?.username }}</h1>
+        <h1>{{ history?.manager?.username || "" }}</h1>
 
         <div class="scroll">
           <div class="table" v-if="history?.type == 'debt'">
@@ -98,12 +98,12 @@
                       ? data?.quantity
                       : data?.typeOfBreadId
                       ? data.pricetype === ""
-                        ? data.bread.price
+                        ? data.breadId.price
                         : data.pricetype === "toyxona"
-                        ? data.bread.price3
+                        ? data.breadId.price3
                         : data.pricetype === "dokon"
-                        ? data.bread.price2
-                        : data.bread.price
+                        ? data.breadId.price2
+                        : data.breadId.price
                       : 0
                   }}
                 </div>
@@ -113,17 +113,25 @@
                       ? data?.price
                       : data?.typeOfBreadId
                       ? data?.typeOfBreadId.reduce(
-                          (a, b) => a + b?.breadId?.price,
+                          (a, b) =>
+                            a +
+                            (b.pricetype === ""
+                              ? b.breadId.price
+                              : b.pricetype === "toyxona"
+                              ? b.breadId.price3
+                              : b.pricetype === "dokon"
+                              ? b.breadId.price2
+                              : b.breadId.price),
                           0
                         )
                       : 0
                   }}
                 </div>
                 <div class="cell" v-if="history?.role !== 'seller'">
-                  {{ data?.money || "" }}
+                  {{ formatPrice(data?.money) || "" }}
                 </div>
                 <div class="cell" v-if="history?.role !== 'seller'">
-                  {{ data?.magazineId?.title || "id" }}
+                  {{ data?.magazineId?.title || "------" }}
                 </div>
               </div>
             </div>
@@ -226,7 +234,7 @@
               >
                 <div class="cell">{{ index + 1 }}</div>
                 <div class="cell">
-                  {{ formatPrice(data?.price ? data?.price : 0) }}
+                  {{ formatPrice(data?.price ? data?.price : data?.price) }}
                 </div>
                 <div class="cell">
                   {{
@@ -243,7 +251,7 @@
                 <div class="cell">
                   {{ formatPrice(data?.totalPrice ? data?.totalPrice : 0) }}
                 </div>
-                <div class="cell">{{ data.sellerId.username }}</div>
+                <div class="cell">{{ data?.sellerId?.username }}</div>
               </div>
             </div>
           </div>
