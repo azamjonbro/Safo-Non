@@ -80,7 +80,7 @@
                     <div class="cell">Holat</div>
                     <div class="cell">Turi</div>
                     <div class="cell">Tavsif</div>
-                    <div class="cell"></div>x 
+                    <div class="cell"></div>
                   </div>
                 </div>
                 <div class="history-body">

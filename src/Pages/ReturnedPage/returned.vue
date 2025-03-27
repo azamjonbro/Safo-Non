@@ -19,7 +19,7 @@
             <div class="cell">Tavsifi</div>
             <div class="cell">Soni</div>
             <div class="cell">Sana</div>
-            <div class="cell"></div>
+            <div class="cell" v-if="role == 'manager'"></div>
           </div>
         </div>
         <div class="table-body">
@@ -35,7 +35,22 @@
             <div class="cell">
               {{ formatDate(new Date(data.order.createdAt)) }}
             </div>
-            <div class="cell d-flex a-center j-end gap12"></div>
+            <div
+              class="cell d-flex a-center j-end gap12"
+              v-if="role == 'manager'"
+            >
+              <Icons
+                name="delivery"
+                class="icon info setting"
+                @click="openModal2(data)"
+              />
+
+              <Icons
+                name="invalidPro"
+                class="icon info setting"
+                @click="openModal2(data)"
+              />
+            </div>
           </div>
         </div>
         <p class="text16 d-flex j-center p-24" v-if="!returnedPro.length">
@@ -50,6 +65,12 @@
     @status="handleStatus($event)"
   />
   <ToastiffVue :toastOptions="toastOptions" />
+  <Returned2ModalVue
+    v-if="open2Modal"
+    @close="(open2Modal = false), getAllReturned()"
+    :datas="datas"
+    @status="handleStatus($event)"
+  />
 </template>
 
 
@@ -57,8 +78,10 @@
 import api from "@/Utils/axios";
 import ReturnedModalVue from "./returnedModal.vue";
 import ToastiffVue from "@/Utils/Toastiff.vue";
+import Icons from "@/components/Template/Icons.vue";
+import Returned2ModalVue from "./returnedModal2.vue";
 export default {
-  components: { ReturnedModalVue, ToastiffVue },
+  components: { ReturnedModalVue, ToastiffVue, Icons, Returned2ModalVue },
   data() {
     return {
       openModal: false,
@@ -69,9 +92,15 @@ export default {
         text: "",
         style: { background: "#4CAF50" },
       },
+      open2Modal: false,
+      datas: [],
     };
   },
   methods: {
+    openModal2(data) {
+      this.datas = data;
+      this.open2Modal = true;
+    },
     formatDate(date) {
       const day = String(date.getDate()).padStart(2, "0");
       const month = String(date.getMonth() + 1).padStart(2, "0");

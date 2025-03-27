@@ -77,7 +77,7 @@
             <b>{{
               formatPrice(
                 sellingBreads?.reduce(
-                  (a, i) => a + (i.breadId.totalQuantity || 0),
+                  (a, i) => a + (i.quantity || 0),
                   0
                 ) || 0
               )
@@ -93,7 +93,7 @@
                 Math.abs(
                   sellerbreads?.reduce((a, i) => a + i.totalQuantity, 0) -
                     sellingBreads?.reduce(
-                      (a, i) => a + (i.totalQuantity || 0),
+                      (a, i) => a + (i.quantity || 0),
                       0
                     )
                 ) || 0
