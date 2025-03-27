@@ -173,6 +173,7 @@ export default {
       allDelivery: [],
       typeOfBread: {
         price: 0,
+        breadId: {},
       },
       totalAmount: 0,
       remainingAmount: 0,
@@ -190,6 +191,14 @@ export default {
   methods: {
     selectPrice(type) {
       this.magazine.pricetype = type;
+      this.typeOfBread.price =
+        this.magazine.pricetype === ""
+          ? this.typeOfBread.breadId.price
+          : this.magazine.pricetype === "toyxona"
+          ? this.typeOfBread.breadId.price3
+          : this.magazine.pricetype === "dokon"
+          ? this.typeOfBread.breadId.price2
+          : this.typeOfBread.breadId.price;
     },
     deleteRow(index) {
       if (this.typeOfBreadIds.length > 1) {
@@ -217,7 +226,6 @@ export default {
       this.magazine.breadId = !value.id
         ? value.bread.typeOfBreadIds[0]._id
         : value.id;
-        console.log(value)
       this.typeOfBread.price =
         this.magazine.pricetype === ""
           ? value.breadId.price
@@ -226,6 +234,7 @@ export default {
           : this.magazine.pricetype === "dokon"
           ? value.breadId.price2
           : value.breadId.price;
+      this.typeOfBread.breadId = value.breadId;
     },
     getBreads() {
       api

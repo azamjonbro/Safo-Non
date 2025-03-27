@@ -63,8 +63,8 @@ export default {
           { title: "Sotuv", icon: "product", page: "sale" },
           { title: "Omborxona", icon: "firma", page: "sellerShop" },
           { title: "Yetkazuvchi", icon: "delivery", page: "deliverySeller" },
-          { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" }, 
-          { title: "Qaytarilgan", icon: "returned", page: "returned" }, 
+          { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" },
+          { title: "Qaytarilgan", icon: "returned", page: "returned" },
           { title: "Sozlamalar", icon: "setting", page: "settings" },
           // { title: "Yetkazuvchilar", icon: "delivery", page: "delivery" },
           // { title: "Chiqimlar", icon: "rasxod", page: "debt" },
@@ -95,7 +95,6 @@ export default {
           { title: "Tarix", icon: "history", page: "deliveryHistory" },
           { title: "Qaytarish", icon: "returned", page: "returned" },
           { title: "Sozlamalar", icon: "setting", page: "settings" },
-
         ],
       },
     };
@@ -126,6 +125,7 @@ export default {
         this.isOpen = true;
       }
     },
+
   },
   mounted() {
     document.addEventListener("touchstart", this.handleTouchStart);

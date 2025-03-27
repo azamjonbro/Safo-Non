@@ -190,6 +190,7 @@ export default {
     this.getDebt2();
     this.getWarehouses();
     this.gretAllStatistics();
+    console.log("ochildi bo`ta")
   },
 };
 </script>

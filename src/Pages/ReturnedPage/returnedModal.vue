@@ -54,9 +54,6 @@
                 v-model="data.totalPrice"
                 readonly
               />
-              <!-- <p v-if="errors.price" class="error-text">
-                {{ errors.price }}
-              </p> -->
             </div>
             <div class="form-group" style="width: 95%">
               <label for="quantity">Soni (Dona)</label>
