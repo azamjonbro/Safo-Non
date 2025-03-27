@@ -948,7 +948,7 @@ tbody>tr>td {
     padding: 12px calc(100% - 85%);
   }
   .navbar-menu{
-    height: 60%;
+    height: 70%;
   }
 }
 @media (max-width:480px){
@@ -967,7 +967,7 @@ tbody>tr>td {
      height: 36px; 
   }
   .navbar-menu{
-    height: 60%;
+    height: 70%;
   }
   .page{
     padding:0px 24px ;
