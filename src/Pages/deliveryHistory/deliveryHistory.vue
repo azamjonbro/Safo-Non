@@ -13,7 +13,7 @@
             <div class="cell">Summa</div>
             <div class="cell">Soni</div>
             <div class="cell">Do`kon nomi</div>
-            <div class="cell">Description</div>
+            <div class="cell">Tavsif</div>
           </div>
         </div>
         <div class="table-body">
