@@ -947,6 +947,9 @@ tbody>tr>td {
   .modal-buttons .action-button {
     padding: 12px calc(100% - 85%);
   }
+  .navbar-menu{
+    height: 60%;
+  }
 }
 @media (max-width:480px){
   form>.modal-form{
@@ -964,7 +967,7 @@ tbody>tr>td {
      height: 36px; 
   }
   .navbar-menu{
-    height: 60;
+    height: 60%;
   }
   .page{
     padding:0px 24px ;
