@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const api = axios.create({
   // baseURL: 'https://api.safonon.uz',
-  baseURL:"http://192.168.1.5:3500",
-  // baseURL:"http://localhost:3500",
+  // baseURL:"http://192.168.1.5:3500",
+  baseURL: "http://localhost:3500",
 
   withCredentials: true,
   timeout: 40000,
@@ -29,17 +29,16 @@ api.interceptors.request.use(
   }
 )
 
-// api.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error.response && error.response.status === 403) {
-//       localStorage.removeItem("user"); 
-//       window.location.href = "/login";
-//     }
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 403) {
+      localStorage.removeItem("user");
+    }
 
-//     return Promise.reject(error);
-//   }
-// );
+    return Promise.reject(error);
+  }
+);
 
 
 export default api;

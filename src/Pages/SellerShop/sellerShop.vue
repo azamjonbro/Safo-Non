@@ -13,9 +13,9 @@
             <div class="cell">№</div>
             <div class="cell">Vaqt</div>
             <div class="cell">Nomi</div>
-            <!-- <div class="cell">Tavsif</div> -->
             <div class="cell">Soni</div>
             <div class="cell">Qop soni</div>
+            <!-- <div class="cell">Umumiy sonni</div> -->
             <!-- <div class="cell"></div> -->
           </div>
         </div>
@@ -31,6 +31,7 @@
                 <!-- <div class="cell">{{ data?.bread?.description }}</div> -->
                 <div class="cell">{{ data?.totalQuantity }}</div>
                 <div class="cell">{{ data?.totalQopQuantity }}</div>
+                <!-- <div class="cell">{{ data?.totalPrice }}</div> -->
                 <!-- <div class="cell d-flex a-center j-end gap12">
                   <Icons
                     name="bottomArrow"
