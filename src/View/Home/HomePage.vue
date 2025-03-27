@@ -81,7 +81,7 @@ export default {
   },
   data() {
     return {
-      activePage: "dashboard",
+      activePage: "",
     };
   },
   methods: {

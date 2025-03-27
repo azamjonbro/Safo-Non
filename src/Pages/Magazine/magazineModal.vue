@@ -136,8 +136,8 @@ export default {
       //     this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998 XX XXX XX XX)";
       //   }
       // }
-      if ( field === "pending" &&
-        !this.magazine.pending ||
+      if (
+        (field === "pending" && !this.magazine.pending) ||
         isNaN(this.magazine.pending) ||
         this.magazine.pending < 0
       ) {
@@ -166,17 +166,10 @@ export default {
       }
 
       this.isSubmitting = true;
-      const token = localStorage.getItem("user")
-        ? JSON.parse(localStorage.getItem("user"))
-        : "";
 
       const request = this.isUpdate
-        ? api.put("/api/magazine/" + this.update.id, this.magazine, {
-            headers: { authorization: token },
-          })
-        : api.post("/api/magazine/", this.magazine, {
-            headers: { authorization: token },
-          });
+        ? api.put("/api/magazine/" + this.update.id, this.magazine)
+        : api.post("/api/magazine/", this.magazine);
 
       request
         .then(({ status }) => {
