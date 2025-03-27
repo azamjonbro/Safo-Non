@@ -369,13 +369,14 @@ export default {
   text-align: center;
 }
 .static-history {
+
   padding-left: 10%;
   padding-right: 10%;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   height: 100%;
-  min-height: 40vh;
+  min-height: 100vh;
 }
 
 .static-history > div {
