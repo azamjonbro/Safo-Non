@@ -54,13 +54,13 @@
                   }}
                 </div>
                 <div class="cell">
-                  {{ data?.reason || data.description || "" }}
+                  {{ data?.reason || data.description || "----" }}
                 </div>
                 <div class="cell" v-if="isHideSeller">
                   {{
                     data?.sellerId?.username ||
                     data?.delivertId?.username ||
-                    "id"
+                    "----"
                   }}
                 </div>
               </div>
@@ -298,6 +298,43 @@
                       data?.totalQopQuantity ? data?.totalQopQuantity : 0
                     )
                   }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table" v-if="history?.type == 'orderwithdelivery'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <div class="cell">Sana</div>
+                <div class="cell">Nomi</div>
+                <div class="cell">Tavsif</div>
+                <div class="cell">Umumiy narxi</div>
+                <div class="cell">Kimdan</div>
+              </div>
+            </div>
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">
+                  {{ formatDate(new Date(data?.createdAt)) }}
+                </div>
+                <div class="cell">
+                  {{ data?.title ? data?.title : "" }}
+                </div>
+                <div class="cell">
+                  {{ data?.description ? data?.description : "" }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.totalPrice ? data?.totalPrice : 0) }}
+                </div>
+                <div class="cell">
+                  {{ data.deliveryId.username || "---" }}
                 </div>
               </div>
             </div>

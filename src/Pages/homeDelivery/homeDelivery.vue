@@ -53,8 +53,8 @@
           class="card"
           @click="
             openModalPage({
-              history: statics?.soldBread?.history,
-              type: 'soldBread',
+              history: orderWithDeliveries,
+              type: 'orderwithdelivery',
             })
           "
         >
@@ -95,12 +95,7 @@
 
         <div
           class="card"
-          @click="
-            openModalPage({
-              history: statics?.soldBread?.history,
-              type: 'soldBread',
-            })
-          "
+        
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">

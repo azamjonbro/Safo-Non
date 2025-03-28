@@ -223,9 +223,9 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      this.magazine.breadId = !value.id
-        ? value.bread.typeOfBreadIds[0]._id
-        : value.id;
+      this.magazine.breadId = !value.bread.typeOfBreadIds[0]._id
+        ? value.id
+        : value.bread.typeOfBreadIds[0]._id;
       this.typeOfBread.price =
         this.magazine.pricetype === ""
           ? value.breadId.price

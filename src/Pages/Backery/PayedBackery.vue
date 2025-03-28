@@ -139,7 +139,7 @@ export default {
     sellectPayedType(id) {
       this.bakcery.type = id;
       if(this.bakcery.type == "Oylik"){
-        this.bakcery.price = this.selectedItemPayed.price
+        this.bakcery.price = Math.abs(this.selectedItemPayed.price)
       }
     },
     applyMask(event) {
@@ -208,7 +208,6 @@ export default {
   },
   mounted() {
     this.bakcery.sellerId = this?.selectedItemPayed.id;
-
   },
 };
 </script>
