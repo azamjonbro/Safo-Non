@@ -174,36 +174,30 @@ export default {
       console.log({
         orderWtihDelivery: this.typeOfBreadIds,
       });
-      api
-        .post("/api/returnedPro", {
-          orderWithDelivery: this.typeOfBreadIds.map((i) => i._id),
-        })
-        .then(({ status }) => {
-          if (status === 201) {
-            this.$emit("status", {
-              status: "success",
-              message: "Nonlar qaytaril",
-            });
-            this.closeModal();
+      for (const key of this.typeOfBreadIds) {
+        api
+          .post("/api/returnedPro", {
+            orderWithDelivery: key._id,
+          })
+          .then(() => {})
+          .catch((error) => {
             this.isSubmitting = false;
-          } else {
+            console.error(error);
             this.$emit("status", {
               status: "error",
-              message: "Nonlar qaytarilishida hatolik yuz berdi",
+              message:
+                error.response.data.message ||
+                error.data.message ||
+                "Xatolik yuz berdi",
             });
-          }
-        })
-        .catch((error) => {
-          this.isSubmitting = false;
-          console.error(error);
-          this.$emit("status", {
-            status: "error",
-            message:
-              error.response.data.message ||
-              error.data.message ||
-              "Xatolik yuz berdi",
           });
-        });
+      }
+      this.$emit("status", {
+        status: "success",
+        message: "Nonlar qaytaril",
+      });
+      this.closeModal();
+      this.isSubmitting = false;
     },
     getOrderWithDelivery() {
       api
