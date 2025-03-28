@@ -48,7 +48,7 @@
               <Icons
                 name="invalidPro"
                 class="icon info setting"
-                @click="openModal2(data)"
+                @click="giveInvalidPro(data)"
               />
             </div>
           </div>
@@ -128,6 +128,51 @@ export default {
         })
         .catch((error) => {
           console.error(error);
+        });
+    },
+    deleteReturned(id) {
+      api
+        .delete("/api/returnedPro/" + id)
+        .then((status) => {
+          if (status === 200) {
+            console.log(`zor`);
+          } else {
+            console.log("balki zor");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    giveInvalidPro(data) {
+      api
+        .post("/api/InvalidPro", { ReturnedModel: data._id   })
+        .then(({ status }) => {
+          if (status === 201) {
+            this.toastOptions = {
+              open: true,
+              type: "success",
+              text: "Non yarqosiz omborga tushdi",
+            };
+            this.deleteReturned(data._id);
+            this.getAllReturned();
+          } else {
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              text: "Non yarqosiz omborga tushishida Xatolik yuz berdi",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            type: "error",
+            text:
+              error.response.data.message ||
+              "Non yarqosiz omborga tushishida Xatolik yuz berdi",
+          };
         });
     },
   },

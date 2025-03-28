@@ -64,6 +64,7 @@ export default {
           { title: "Omborxona", icon: "firma", page: "sellerShop" },
           { title: "Yetkazuvchi", icon: "delivery", page: "deliverySeller" },
           { title: "Chiqimlar", icon: "rasxod", page: "sellerDebt" },
+          { title: "Yaroqsiz Nonlar", icon: "invalidPro", page: "invalidPro" },
           { title: "Qaytarilgan", icon: "returned", page: "returned" },
           { title: "Sozlamalar", icon: "setting", page: "settings" },
           // { title: "Yetkazuvchilar", icon: "delivery", page: "delivery" },
@@ -125,7 +126,6 @@ export default {
         this.isOpen = true;
       }
     },
-
   },
   mounted() {
     document.addEventListener("touchstart", this.handleTouchStart);
