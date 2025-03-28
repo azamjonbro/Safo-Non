@@ -308,6 +308,7 @@
               <div class="row">
                 <div class="cell">№</div>
                 <div class="cell">Sana</div>
+                <div class="cell">Soni</div>
                 <div class="cell">Nomi</div>
                 <div class="cell">Tavsif</div>
                 <div class="cell">Umumiy narxi</div>
@@ -323,6 +324,9 @@
                 <div class="cell">{{ index + 1 }}</div>
                 <div class="cell">
                   {{ formatDate(new Date(data?.createdAt)) }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.totalQuantity) || 0 }}
                 </div>
                 <div class="cell">
                   {{ data?.title ? data?.title : "" }}
