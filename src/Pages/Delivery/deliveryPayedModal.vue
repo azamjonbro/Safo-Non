@@ -156,7 +156,7 @@ export default {
     selectPayedType(value) {
       this.delivery.type = value;
       if (this.delivery.type === "Oylik") {
-        this.delivery.price = this.id.price;
+        this.delivery.price = Math.abs(this.id.price)
       }
     },
     submitForm() {
