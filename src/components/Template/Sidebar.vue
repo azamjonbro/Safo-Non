@@ -251,7 +251,7 @@ li.active div svg path {
   flex: 1;
 }
 
-@media screen and (max-width: 800px) {
+@media (max-width: 800px) {
   .navbar-box {
     position: fixed;
     top: 0;
