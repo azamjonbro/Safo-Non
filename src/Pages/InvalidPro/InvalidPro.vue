@@ -27,14 +27,12 @@
             </div>
             <div class="cell">
               {{ formatDate(new Date(data.order.createdAt)) }}
-            </div>   
-            <div
-              class="cell d-flex a-center j-end gap12"
-            >
+            </div>
+            <div class="cell d-flex a-center j-end gap12">
               <Icons
-                name="delivery"
-                class="icon info setting"
-                @click="openModal2(data)"
+                name="deleted"
+                class="icon danger setting"
+                @click="openDelete(data._id)"
               />
             </div>
           </div>
@@ -45,31 +43,86 @@
       </div>
     </div>
   </div>
+  <RequiredModalVue
+    :isVisible="deleteModalVisible"
+    @response="closeDeleteModal($event)"
+  />
+  <ToastiffVue :toastOptions="toastOptions" />
 </template>
 
 <script>
 import Icons from "@/components/Template/Icons.vue";
 import api from "@/Utils/axios";
+import RequiredModalVue from "@/components/Modals/requiredModal.vue";
+import ToastiffVue from "@/Utils/Toastiff.vue";
 export default {
   components: {
     Icons,
+    RequiredModalVue,
+    ToastiffVue,
   },
   data() {
     return {
       InvalidPro: [],
+      selectedItem: null,
+      deleteModalVisible: false,
+      toastOptions: {
+        open: false,
+        text: "",
+        style: { background: "#4CAF50" },
+      },
     };
   },
   methods: {
+    closeDeleteModal(emit) {
+      if (emit) {
+        this.deleteInvalidPro(this.selectedItem);
+      }
+      this.selectedItem = null;
+      this.deleteModalVisible = false;
+    },
+    openDelete(id) {
+      this.selectedItem = id;
+      this.deleteModalVisible = true;
+    },
     getInvalidPros() {
       api
         .get("/api/InvalidPros")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.InvalidPro = data?.InvalidPro
+            this.InvalidPro = data?.InvalidPro;
           }
         })
         .catch((error) => {
           console.error(error);
+        });
+    },
+    deleteInvalidPro(id) {
+      api
+        .delete("/api/InvalidPro/" + id)
+        .then(({ status }) => {
+          if (status === 200) {
+            this.toastOptions = {
+              open: true,
+              type: "success",
+              text: "Yaroqsiz non o`chirildi",
+            };
+            this.getInvalidPros()
+          } else {
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              text: "Yaroqsiz non o`chirilishida Xatolik yuz berdi",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            type: "error",
+            text: error.response.data.message || "Xatolik yuz berdi",
+          };
         });
     },
     formatDate(date) {
