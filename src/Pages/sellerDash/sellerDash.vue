@@ -21,28 +21,24 @@
             <b>{{
               formatPrice(
                 statics?.sellerBreads?.reduce(
-                  (a, b) =>
-                    a + b.typeOfBreadId.reduce((c, d) => c + d.quantity, 0),
+                  (a, b) => a + b.totalQuantity,
                   0
                 ) || 0
               )
             }}</b>
           </span>
         </div>
-        <div
-          class="card"
-         
-        >
+        <div class="card">
           <Icons :name="'wallet'" />
           <span class="info-item">
             <h3>Qop soni</h3>
             <b>{{
               formatPrice(
-               statics?.sellerBreads?.reduce(
+                statics?.sellerBreads?.reduce(
                   (a, b) =>
                     a + b.typeOfBreadId.reduce((c, d) => c + d.qopQuantity, 0),
                   0
-                )|| 0
+                ) || 0
               )
             }}</b>
           </span>
