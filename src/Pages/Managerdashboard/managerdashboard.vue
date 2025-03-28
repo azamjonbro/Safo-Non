@@ -135,8 +135,6 @@ export default {
         .get("/api/statics")
         .then((response) => {
           this.statics = response.data.statics;
-
-          this.manager = response.data.managerStatics;
         })
         .catch((error) => {
           console.error("Error fetching statistics:", error);

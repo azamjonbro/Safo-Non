@@ -37,7 +37,7 @@
               {{ data?.description?.slice(0, 40) || data?.reason || "" }}
             </div>
             <div class="cell">
-              {{ data?.sellerId?.username || data?.deliveryId?.username || "" }}
+              {{ data?.sellerId?.username || data?.deliveryId?.username || data?.role ||  "" }}
             </div>
             <!-- <div class="cell">
               {{ data?.role || "" }}
