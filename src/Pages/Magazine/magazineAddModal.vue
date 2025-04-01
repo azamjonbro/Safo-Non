@@ -25,7 +25,7 @@
                   id="price"
                   type="number"
                   placeholder="Rasxod narxi"
-                  v-model="typeOfBread.price"
+                  v-model="typeOfBread.quantity"
                   readonly
                 />
               </div>
@@ -197,6 +197,7 @@ export default {
       typeOfBread: {
         price: 0,
         breadId: {},
+        quantity: 0,
       },
       totalAmount: 0,
       remainingAmount: 0,
@@ -246,6 +247,7 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
+      this.typeOfBread.quantity = value.bread.totalQuantity
       this.magazine.breadId = !value.bread._id ? value.id : value.bread._id;
       this.typeOfBread.price =
         this.magazine.pricetype === ""
