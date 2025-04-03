@@ -7,8 +7,8 @@
 
         <form @submit.prevent="submitForm">
           <!-- Bread Type and Quantity Section -->
-          <div class="yemagan">
-            <div class="contentbox d-flex gap12 w-100 j-between">
+          <div class="scroll">
+            <div class="modal-form3">
               <div class="form-group">
                 <label for="bread">Non turini tanlang</label>
                 <CustomSelect
@@ -16,6 +16,17 @@
                   id="bread"
                   :selected="true"
                   @input="selectArray"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="price">Bor nonlar</label>
+                <input
+                  id="price"
+                  type="number"
+                  placeholder="Rasxod narxi"
+                  v-model="typeOfBread.price"
+                  readonly
                 />
               </div>
 
@@ -29,6 +40,7 @@
                   readonly
                 />
               </div>
+
               <div class="form-group">
                 <label for="bread">Qaysi narxda</label>
                 <CustomSelect
@@ -37,88 +49,99 @@
                   @input="selectPrice($event)"
                 />
               </div>
-            </div>
-          </div>
 
-          <!-- Total Amount and Received Amount Section -->
-          <div class="contentbox">
-            <div class="form-group">
-              <label for="quantity">Soni (Dona)</label>
-              <input
-                id="quantity"
-                type="number"
-                placeholder="Rasxod sonini kiriting"
-                v-model="magazine.quantity"
-                @blur="validateField('quantity')"
-                @input="calculateTotal"
-              />
-              <p v-if="errors.quantity" class="error-text">
-                {{ errors.quantity }}
-              </p>
-            </div>
-            <div class="form-group">
-              <label for="totalAmount">Jami narx</label>
-              <input
-                id="totalAmount"
-                type="number"
-                v-model="totalAmount"
-                readonly
-                placeholder="0"
-              />
-            </div>
+              <div class="form-group">
+                <label for="quantity">Soni (Dona)</label>
+                <input
+                  id="quantity"
+                  type="number"
+                  placeholder="Rasxod sonini kiriting"
+                  v-model="magazine.quantity"
+                  @blur="validateField('quantity')"
+                  @input="calculateTotal"
+                />
+                <p v-if="errors.quantity" class="error-text">
+                  {{ errors.quantity }}
+                </p>
+              </div>
 
-            <div class="form-group">
-              <label for="receivedAmount">Qabul qilingan summa</label>
-              <input
-                id="receivedAmount"
-                type="number"
-                v-model="magazine.money"
-                @input="calculateRemaining"
-                placeholder="Olingan summani kiriting"
-              />
-            </div>
+              <div class="form-group">
+                <label for="totalAmount">Jami narx</label>
+                <input
+                  id="totalAmount"
+                  type="number"
+                  v-model="totalAmount"
+                  readonly
+                  placeholder="0"
+                />
+              </div>
 
-            <div class="form-group">
-              <label for="remainingAmount">Qoldiq</label>
-              <input
-                id="remainingAmount"
-                type="number"
-                v-model="remainingAmount"
-                readonly
-                placeholder="0"
-              />
-            </div>
-          </div>
+              <div class="form-group">
+                <label for="receivedAmount">Qabul qilingan summa</label>
+                <input
+                  id="receivedAmount"
+                  type="number"
+                  v-model="magazine.money"
+                  @input="calculateRemaining"
+                  placeholder="Olingan summani kiriting"
+                />
+              </div>
 
-          <!-- Payment Method Section -->
-          <div class="modal-form">
-            <div class="form-group">
-              <label for="paymentMethod">To`lov turi</label>
-              <CustomSelect
-                :options="payedMethods"
-                id="paymentMethod"
-                @input="selectPayedMethod"
-                :search="true"
-                @blur="validateField('paymentMethod')"
-              />
-              <p v-if="errors.paymentMethod" class="error-text">
-                {{ errors.paymentMethod }}
-              </p>
+              <div class="form-group">
+                <label for="remainingAmount">Qoldiq</label>
+                <input
+                  id="remainingAmount"
+                  type="number"
+                  v-model="remainingAmount"
+                  readonly
+                  placeholder="0"
+                />
+              </div>
             </div>
+            <div>
+              <div class="form-group" v-if="!isHideDeliveries">
+                <label for="paymentMethod">To`lov turi</label>
+                <CustomSelect
+                  :options="payedMethods"
+                  id="paymentMethod"
+                  @input="selectPayedMethod"
+                  :search="true"
+                  @blur="validateField('paymentMethod')"
+                />
+                <p v-if="errors.paymentMethod" class="error-text">
+                  {{ errors.paymentMethod }}
+                </p>
+              </div>
+            </div>
+            <div class="modal-form" v-if="isHideDeliveries">
+              <div class="form-group">
+                <label for="paymentMethod">To`lov turi</label>
+                <CustomSelect
+                  :options="payedMethods"
+                  id="paymentMethod"
+                  @input="selectPayedMethod"
+                  :search="true"
+                  @blur="validateField('paymentMethod')"
+                />
+                <p v-if="errors.paymentMethod" class="error-text">
+                  {{ errors.paymentMethod }}
+                </p>
+              </div>
 
-            <div class="form-group" v-if="isHideDeliveries">
-              <label for="delivery">Yetkazuvchi</label>
-              <CustomSelect
-                :options="allDelivery"
-                id="delivery"
-                @input="selectDelivery"
-                :selected="magazine?.deliveryId"
-                :search="true"
-                @blur="validateField('deliveryId')"
-              />
-              <p v-if="errors.deliveryId" class="error-text">
-                {{ errors.deliveryId }}
-              </p>
+              <div class="form-group">
+                <label for="delivery">Yetkazuvchi</label>
+                <CustomSelect
+                  :options="allDelivery"
+                  id="delivery"
+                  @input="selectDelivery"
+                  :selected="magazine?.deliveryId"
+                  :search="true"
+                  @blur="validateField('deliveryId')"
+                />
+                <p v-if="errors.deliveryId" class="error-text">
+                  {{ errors.deliveryId }}
+                </p>
+              </div>
             </div>
           </div>
 
@@ -223,9 +246,7 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      this.magazine.breadId = !value.bread.typeOfBreadIds[0]._id
-        ? value.id
-        : value.bread.typeOfBreadIds[0]._id;
+      this.magazine.breadId = !value.bread._id ? value.id : value.bread._id;
       this.typeOfBread.price =
         this.magazine.pricetype === ""
           ? value.breadId.price
@@ -406,30 +427,30 @@ export default {
 </script>
 
 <style scoped>
-.contentbox {
-  display: flex;
-  gap: 10px;
-}
-.contentbox > .form-group {
-  width: 33%;
-}
-.scroll {
-  max-height: 400px;
-}
 form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  justify-content: space-between;
 }
-.yemagan {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-.modal-form-2 {
+.modal-form3 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  margin-bottom: 10px;
+}
+@media screen and (max-width: 600px) {
+  .modal-form3,
+  .modal-form {
+    grid-template-columns: 1fr;
+  }
+
+  .scroll {
+    max-height: 60% !important;
+    margin-top: 20px;
+  }
+  form {
+    min-height: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
 }
 </style>
