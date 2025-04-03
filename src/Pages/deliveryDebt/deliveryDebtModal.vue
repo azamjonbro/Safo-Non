@@ -39,7 +39,7 @@
               <input
                 id="description"
                 type="text"
-                placeholder="Chqim description kiriting"
+                placeholder="Chiqim description kiriting"
                 maxlength="15"
                 v-model="deliveryDebt.description"
                 @blur="validateField('description')"

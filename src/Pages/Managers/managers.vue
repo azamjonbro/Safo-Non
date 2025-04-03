@@ -65,15 +65,18 @@
   <ManagerModalVue
     v-if="managerModalVisible"
     @close="(managerModalVisible = false), getMenegars()"
+    @status="handleStatus($event)"
   />
   <ManagerModalVue
     v-if="updateModalVisible"
     :update="update"
     @close="(updateModalVisible = false), getMenegars()"
+    @status="handleStatus($event)"
   />
   <RequiredModalVue
     :isVisible="deleteVisible"
     @response="closeDeleteModal($event)"
+    @status="handleStatus($event)"
   />
   <ToastiffVue :toastOptions="toastOptions" />
   <LoginModalVue
@@ -81,6 +84,7 @@
     :isVisible="loginModalVisible"
     :loginSturckture="login"
     @response="(loginModalVisible = false), getMenegars()"
+    @status="handleStatus($event)"
   />
 </template>
 <script>
@@ -120,6 +124,13 @@ export default {
     };
   },
   methods: {
+    handleStatus(data) {
+      this.toastOptions = {
+        open: true,
+        type: data?.status,
+        text: data?.message,
+      };
+    },
     openDeleteModal(id) {
       this.deleteVisible = true;
       this.selectedItem = id;
@@ -145,7 +156,7 @@ export default {
       api
         .get("/api/managers")
         .then(({ data, status }) => {
-          if (status === 200) {            
+          if (status === 200) {
             this.managers = data?.managers;
           }
         })
