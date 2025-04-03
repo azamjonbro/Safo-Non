@@ -216,7 +216,7 @@ export default {
     selectPrice(type) {
       this.magazine.pricetype = type;
       this.typeOfBread.price =
-        this.magazine.pricetype === ""
+        this.magazine.pricetype === "tan"
           ? this.typeOfBread.breadId.price
           : this.magazine.pricetype === "toyxona"
           ? this.typeOfBread.breadId.price3
@@ -247,8 +247,9 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      this.typeOfBread.quantity = value.bread.totalQuantity
-      this.magazine.breadId = !value.bread._id ? value.id : value.bread._id;
+      console.log(value)
+      this.typeOfBread.quantity = value.totalQuantity
+      this.magazine.breadId = value.breadIds;
       this.typeOfBread.price =
         this.magazine.pricetype === ""
           ? value.breadId.price
@@ -276,17 +277,22 @@ export default {
                       breadId: breadId,
                       bread: bread,
                       id: bread._id,
+                      totalQuantity:0,
+                      breadIds: []
                     },
                   };
                 }
+                // console.log("bread",bread.totalQuantity)
                 acc[breadId._id].value.quantity += quantity;
                 acc[breadId._id].value.qopQuantity += qopQuantity;
+                acc[breadId._id].value.totalQuantity += (bread.totalQuantity || 0);
+                acc[breadId._id].value.breadIds.push(bread._id)
               });
               return acc;
             }, {});
 
             this.typeOfBreads = Object.values(groupedBreads);
-            console.log(this.typeOfBreads);
+            console.log("this.typeOfBreads=>",this.typeOfBreads);
           }
         })
         .catch((error) => {
