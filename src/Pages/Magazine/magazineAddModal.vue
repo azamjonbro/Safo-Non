@@ -249,7 +249,7 @@ export default {
     selectArray(value) {
       console.log(value)
       this.typeOfBread.quantity = value.totalQuantity
-      this.magazine.breadId = value.breadIds;
+      this.magazine.breadId = value.nb;
       this.typeOfBread.price =
         this.magazine.pricetype === ""
           ? value.breadId.price
