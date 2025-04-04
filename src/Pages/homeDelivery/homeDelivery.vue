@@ -105,7 +105,13 @@
                 ) -
                   statics?.soldBread?.history?.reduce((a, b) => {
                     return a + b.quantity;
-                  }, 0) || 0
+                  }, 0) > 0 ? orderWithDeliveries.reduce(
+                  (a, b) => a + (b.totalQuantity || 0),
+                  0
+                ) -
+                  statics?.soldBread?.history?.reduce((a, b) => {
+                    return a + b.quantity;
+                  }, 0) : 0|| 0
               )
             }}</b>
           </span>
