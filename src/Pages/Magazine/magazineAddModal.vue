@@ -247,9 +247,8 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      console.log(value)
       this.typeOfBread.quantity = value.totalQuantity
-      this.magazine.breadId = value.nb;
+      this.magazine.breadId = value.id ;
       this.typeOfBread.price =
         this.magazine.pricetype === ""
           ? value.breadId.price
@@ -278,15 +277,12 @@ export default {
                       bread: bread,
                       id: bread._id,
                       totalQuantity:0,
-                      breadIds: []
                     },
                   };
                 }
-                // console.log("bread",bread.totalQuantity)
                 acc[breadId._id].value.quantity += quantity;
                 acc[breadId._id].value.qopQuantity += qopQuantity;
                 acc[breadId._id].value.totalQuantity += (bread.totalQuantity || 0);
-                acc[breadId._id].value.breadIds.push(bread._id)
               });
               return acc;
             }, {});
@@ -391,11 +387,13 @@ export default {
                         breadId: breadId,
                         bread: bread,
                         id: bread._id,
+                        totalQuantity: 0
                       },
                     };
                   }
                   acc[breadId._id].value.quantity += quantity;
                   acc[breadId._id].value.qopQuantity += qopQuantity;
+                  acc[breadId._id].value.totalQuantity += (bread.totalQuantity || 0);
                 });
                 return acc;
               },
