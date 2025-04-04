@@ -61,19 +61,7 @@
                   {{ data.errors.qopQuantity }}
                 </p>
               </div>
-              <!-- <div class="form-group" style="width: 95%">
-                <label for="quantity">Soni (Dona)</label>
-                <input
-                  id="quantity"
-                  type="number"
-                  placeholder="Rasxod sonini kiriting"
-                  v-model="data.quantity"
-                  @blur="validateArrayField('quantity', index)"
-                />
-                <p v-if="data?.errors.quantity" class="error-text">
-                  {{ data?.errors.quantity }}
-                </p>
-              </div> -->
+            
               <div
                 style="display: flex;"
                 class="gap12 yonbosh"
@@ -118,34 +106,7 @@
             </div>
           </div>
           <div class="modal-form">
-            <div class="form-group">
-              <label for="title">Kim uchun ?</label>
-              <input
-                id="title"
-                type="text"
-                v-model="bread.title"
-                placeholder="Kim uchun ?"
-
-                @blur="validateField('title')"
-              />
-              <p v-if="errors.title" class="error-text">
-                {{ errors.title }}
-              </p>
-            </div>
-            <div class="form-group">
-              <label for="description">Tavsif</label>
-              <input
-                id="description" 
-                type="text"
-                v-model="bread.description"
-                placeholder="Tavsif kiriting"
-                @blur="validateField('description')"
-              />
-              <p v-if="errors.description" class="error-text">
-                {{ errors.description }}
-              </p>
-            </div>
-
+      
             <div class="form-group">
               <label for="qopQuantity">Qop soni</label>
               <input
@@ -220,10 +181,7 @@ export default {
   data() {
     return {
       isSubmitting: false,
-      bread: {
-        description: "",
-        title: "",
-      },
+      bread: {},
       errors: {},
       isUpdate: false,
       allTypeOfBread: [],
@@ -299,12 +257,7 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
-      if (field === "title" && !this.bread.title?.trim()) {
-        this.errors.title = "Foydalanuvchi descripyion bo'sh bo'lmasligi kerak";
-      }
-      if (field === "description" && !this.bread.description.trim()) {
-        this.errors.description = "Tasnif bo'sh bo'lmasligi kerak";
-      }
+ 
       if (
         field === "ovenId" &&
         (!this.bread.ovenId || isNaN(this.bread.ovenId))
@@ -356,7 +309,6 @@ export default {
       if (!this.isUpdate) {
         try {
           const response = await api.post("/api/sellerBread", {
-            ...this.bread,
             typeOfBreadId: this.count.map((item) => {
               return {
                 breadId: item.breadId,
@@ -395,7 +347,6 @@ export default {
           const response = await api.put(
             "/api/sellerBread/" + this?.update?._id,
             {
-              ...this.bread,
               typeOfBreadId: this.count.map((item) => {
                 return {
                   breadId: item.breadId,
@@ -446,10 +397,6 @@ export default {
   },
   mounted() {
     if (this?.update?.isUpdate) {
-      this.bread = {
-        name: this?.update?.name,
-        description: this?.update?.description,
-      };
       this.count = this.update.typeOfBreadId.map((item, index) => {
         return {
           id: index,

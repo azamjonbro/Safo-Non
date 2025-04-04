@@ -11,9 +11,8 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
+            <div class="cell">Turi</div>
             <div class="cell">Vaqt</div>
-            <div class="cell">Nomi</div>
-            <div class="cell">Tavsif</div>
             <div class="cell">Soni</div>
             <div class="cell">Qop soni</div>
             <div class="cell"></div>
@@ -27,8 +26,9 @@
                 <div class="cell">
                   {{ formatDate(new Date(data?.createdAt)) }}
                 </div>
-                <div class="cell">{{ data?.title }}</div>
-                <div class="cell">{{ data?.description }}</div>
+                <div class="cell">
+                  {{ data?.typeOfBreadId[0].breadId.title || "" }}
+                </div>
                 <div class="cell">{{ data?.totalQuantity }}</div>
                 <div class="cell">{{ data?.totalQopQuantity }}</div>
                 <div class="cell d-flex a-center j-end gap12">
@@ -50,15 +50,15 @@
                     "
                   />
 
-                  <Icons
+                  <!-- <Icons
                     name="bottomArrow"
                     class="icon"
                     :class="{ rotated: expanedId === data._id }"
                     @click="toggleHistory(data?._id)"
-                  />
+                  /> -->
                 </div>
               </div>
-              <div v-if="expanedId === data?._id" class="history">
+              <!-- <div v-if="expanedId === data?._id" class="history">
                 <div class="history-header">
                   <div class="row-top">
                     <div class="cell">№</div>
@@ -82,7 +82,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -175,11 +175,9 @@ export default {
           if (status === 200) {
             this.sellerBreads = data?.sellerBreads;
           }
-         
         })
         .catch((error) => {
           console.error(error);
-          
         });
     },
     deleteSellerNon(id) {
