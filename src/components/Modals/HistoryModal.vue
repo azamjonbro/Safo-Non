@@ -88,10 +88,23 @@
                 <div class="cell">Sana</div>
                 <div class="cell">Soni</div>
                 <div class="cell">Narxi</div>
-                <div class="cell" v-if="history?.role !== 'seller'">
+                <div class="cell" v-if="history?.role == 'manager'">
                   Umumiy summa
                 </div>
-                <div class="cell" v-if="history?.role !== 'seller'">
+                <div
+                  class="cell"
+                  v-if="
+                    history?.role !== 'seller' && history?.role !== 'manager'
+                  "
+                >
+                  Umumiy summa
+                </div>
+                <div
+                  class="cell"
+                  v-if="
+                    history?.role !== 'seller' && history?.role !== 'manager'
+                  "
+                >
                   Do`kon nomi
                 </div>
               </div>
@@ -123,28 +136,48 @@
                 </div>
                 <div class="cell">
                   {{
-                    data?.price
-                      ? data?.price
-                      : data?.typeOfBreadId
-                      ? data?.typeOfBreadId.reduce(
-                          (a, b) =>
-                            a +
-                            (b.pricetype === ""
-                              ? b.breadId.price
-                              : b.pricetype === "toyxona"
-                              ? b.breadId.price3
-                              : b.pricetype === "dokon"
-                              ? b.breadId.price2
-                              : b.breadId.price),
-                          0
-                        )
-                      : 0
+                    formatPrice(
+                      data?.price
+                        ? data?.price
+                        : data.pricetype === ""
+                        ? data.breadId.price
+                        : data.pricetype === "toyxona"
+                        ? data.breadId.price3
+                        : data.pricetype === "dokon"
+                        ? data.breadId.price2
+                        : data.breadId.price || 0
+                    )
                   }}
                 </div>
-                <div class="cell" v-if="history?.role !== 'seller'">
+                <div class="cell" v-if="history?.role == 'manager'">
+                  {{
+                    formatPrice(
+                      (data?.price
+                        ? data?.price
+                        : data.pricetype === ""
+                        ? data.breadId.price
+                        : data.pricetype === "toyxona"
+                        ? data.breadId.price3
+                        : data.pricetype === "dokon"
+                        ? data.breadId.price2
+                        : data.breadId.price) * data.quantity
+                    )
+                  }}
+                </div>
+                <div
+                  class="cell"
+                  v-if="
+                    history?.role !== 'seller' && history?.role !== 'manager'
+                  "
+                >
                   {{ formatPrice(data?.money) || "" }}
                 </div>
-                <div class="cell" v-if="history?.role !== 'seller'">
+                <div
+                  class="cell"
+                  v-if="
+                    history?.role !== 'seller' && history?.role !== 'manager'
+                  "
+                >
                   {{ data?.magazineId?.title || "------" }}
                 </div>
               </div>

@@ -16,7 +16,7 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Umumiy hisob</div>
-            <div class="cell">Tavsifi</div>
+            <!-- <div class="cell">Tavsifi</div> -->
             <div class="cell">Soni</div>
             <div class="cell">Sana</div>
             <div class="cell" v-if="role == 'manager'"></div>
@@ -28,13 +28,13 @@
             <div class="cell">
               {{ formatPrice(data?.totalPrice) || 0 }} so`m
             </div>
-            <div class="cell">{{ data?.order.description || "" }}</div>
-            <div class="cell">
+            <!-- <div class="cell">{{ data?.order.description || "" }}</div> -->
+            <!-- <div class="cell">
               {{ data?.order.totalQuantity || 0 }}
-            </div>
-            <div class="cell">
+            </div> -->
+            <!-- <div class="cell">
               {{ formatDate(new Date(data.order.createdAt)) }}
-            </div>
+            </div> -->
             <div
               class="cell d-flex a-center j-end gap12"
               v-if="role == 'manager'"
@@ -123,7 +123,24 @@ export default {
         .get("/api/returnedPros")
         .then(({ status, data }) => {
           if (status === 200) {
-            this.returnedPro = data.returnedPro;
+            this.returnedPro = data.returnedPro.reduce((acc, item) => {
+              item.order.typeOfBreadIds.forEach((breadItem) => {
+                const id = breadItem.breadId._id;
+
+                if (!acc[id]) {
+                  acc[id] = {
+                    title: breadItem.breadId.title,
+                    totalQuantity: 0,
+                  };
+                }
+
+                acc[id].totalQuantity += breadItem.quantity;
+              });
+
+              return acc;
+            }, {});
+            this.returnedPro = Object.values(this.returnedPro);
+            console.log(this.returnedPro);
           }
         })
         .catch((error) => {
@@ -146,7 +163,7 @@ export default {
     },
     giveInvalidPro(data) {
       api
-        .post("/api/InvalidPro", { ReturnedModel: data._id   })
+        .post("/api/InvalidPro", { ReturnedModel: data._id })
         .then(({ status }) => {
           if (status === 201) {
             this.toastOptions = {

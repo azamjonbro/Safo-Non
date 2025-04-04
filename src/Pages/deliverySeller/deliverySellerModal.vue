@@ -198,6 +198,24 @@ export default {
       return this.typeOfBreadIds.reduce((a, b) => a + b.price * b.quantity, 0);
     },
   },
+  watch: {
+    "delivery.pricetype"(newType) {
+      this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
+        const breadData = this.typeOfBreads.find(
+          (b) => b.value.bread._id === item.typeOfBread
+        );
+        if (!breadData) return item;
+
+        const bread = breadData.value.bread;
+        let price = bread.price;
+        if (newType === "toyxona") price = bread.price3;
+        else if (newType === "dokon") price = bread.price2;
+
+        return { ...item, price };
+      });
+    },
+  },
+
   methods: {
     selectPrice(type) {
       this.delivery.pricetype = type;

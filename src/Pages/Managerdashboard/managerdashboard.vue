@@ -8,7 +8,11 @@
         <div
           class="card"
           @click="
-            openModalPage({ history: statics?.prixod.history, type: 'prixod' })
+            openModalPage({
+              history: statics?.prixod.history,
+              type: 'prixod',
+              role: 'manager',
+            })
           "
         >
           <Icons :name="'dayIncr'" />

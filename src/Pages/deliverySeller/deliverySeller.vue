@@ -69,10 +69,9 @@
                 <div class="row">
                   <div class="cell">№</div>
                   <div class="cell">Nomi</div>
-                  <div class="cell">Tan narxi</div>
-                  <div class="cell">Narxi (do'kon)</div>
-                  <div class="cell">To'yxona</div>
-                  <div class="cell">Qop narxi</div>
+                  <div class="cell">Soni</div>
+                  <div class="cell">Narxi</div>
+                  <div class="cell">Umumiy summa</div>
                 </div>
               </div>
               <div class="history-body">
@@ -86,28 +85,31 @@
                     {{ item.breadId?.title ? item.breadId?.title : "" }}
                   </div>
                   <div class="cell">
+                    {{ formatPrice(item?.quantity || 0) }}
+                  </div>
+                  <div class="cell">
                     {{
-                      formatPrice(item.breadId?.price ? item.breadId?.price : 0)
+                      formatPrice(
+                        data.pricetype === "tan"
+                          ? item.breadId.price
+                          : data.pricetype === "toyxona"
+                          ? item.breadId.price3
+                          : data.pricetype === "dokon"
+                          ? item.breadId.price2
+                          : item.breadId.price
+                        )
                     }}
                   </div>
                   <div class="cell">
                     {{
                       formatPrice(
-                        item.breadId?.price2 ? item.breadId?.price2 : 0
-                      )
-                    }}
-                  </div>
-                  <div class="cell">
-                    {{
-                      formatPrice(
-                        item.breadId?.price3 ? item.breadId?.price : 0
-                      )
-                    }}
-                  </div>
-                  <div class="cell">
-                    {{
-                      formatPrice(
-                        item.breadId?.price4 ? item.breadId?.price4 : 0
+                        (data.pricetype === "tan"
+                          ? item.breadId.price
+                          : data.pricetype === "toyxona"
+                          ? item.breadId.price3
+                          : data.pricetype === "dokon"
+                          ? item.breadId.price2
+                          : item.breadId.price) * (item.quantity || 1) || 0
                       )
                     }}
                   </div>
