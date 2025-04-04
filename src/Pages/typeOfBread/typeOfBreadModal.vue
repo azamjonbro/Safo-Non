@@ -20,7 +20,7 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="price">Tan narxi</label>
+              <label for="price">Sotuv narxi</label>
               <input
                 id="price"
                 type="number"
@@ -46,7 +46,7 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="price">to'yxona uchun</label>
+              <label for="price">To'yxona uchun</label>
               <input
                 id="price"
                 type="number"

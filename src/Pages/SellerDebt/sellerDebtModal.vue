@@ -3,7 +3,7 @@
     <div class="modal" @click.self="$emit('close')">
       <div class="modal-content relative">
         <Icons name="xIcon" class="xIcon" @click="closeModal" />
-        <h2>Chiqim yaratish</h2>
+        <h2>Ishxona uchun chiqim</h2>
         <form>
           <div class="modal-form">
             <div class="form-group">
@@ -55,6 +55,20 @@
                 id="price"
                 type="number"
                 v-model="debt.price"
+                placeholder="Soni"
+                maxlength="13"
+                @blur="validateField('price')"
+              />
+              <p v-if="errors.price" class="error-text">
+                {{ errors.price }}
+              </p>
+            </div>
+            <div class="form-group">
+              <label for="price">Umumiy summa</label>
+              <input
+                id="price"
+                type="number"
+                v-model="prostatakPrice"
                 placeholder="Soni"
                 maxlength="13"
                 @blur="validateField('price')"
@@ -116,6 +130,11 @@ export default {
   props: {
     update: {
       type: Object,
+    },
+  },
+  computed: {
+    prostatakPrice() {
+     return this.debt.quantity * this.debt.price;
     },
   },
   methods: {

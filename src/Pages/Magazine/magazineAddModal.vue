@@ -214,13 +214,12 @@ export default {
   },
   methods: {
     selectPrice(type) {
-      console.log(type);
       this.typeOfBread.price =
-        this.magazine.pricetype === "tan"
+        type === "tan"
           ? this.typeOfBread.breadId.price
-          : this.magazine.pricetype === "toyxona"
+          : type === "toyxona"
           ? this.typeOfBread.breadId.price3
-          : this.magazine.pricetype === "dokon"
+          : type === "dokon"
           ? this.typeOfBread.breadId.price2
           : this.typeOfBread.breadId.price;
     },
@@ -257,6 +256,7 @@ export default {
           : this.magazine.pricetype === "dokon"
           ? value?.breadId?.price2 || value?.bread?.price2
           : value?.breadId?.price || value?.bread?.price;
+
       this.typeOfBread.breadId = value?.breadId || value?.bread;
     },
     getBreads() {
