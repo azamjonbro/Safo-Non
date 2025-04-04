@@ -18,6 +18,7 @@
                 <div class="cell">Nomi</div>
                 <div class="cell">Soni</div>
                 <div class="cell">Narxi</div>
+                <div class="cell">Umumiy summa</div>
                 <div class="cell">Sababi</div>
                 <div class="cell" v-if="isHideSeller">Nonvoy</div>
               </div>
@@ -46,11 +47,24 @@
                 </div>
                 <div class="cell">
                   {{
-                    data?.price
-                      ? data?.price
-                      : data?.omborxonaProId?.price
-                      ? data?.omborxonaProId?.price
-                      : 0
+                    formatPrice(
+                      data?.price
+                        ? data?.price
+                        : data?.omborxonaProId?.price
+                        ? data?.omborxonaProId?.price
+                        : 0
+                    )
+                  }}
+                </div>
+                <div class="cell">
+                  {{
+                    formatPrice(
+                      (data?.price
+                        ? data?.price
+                        : data?.omborxonaProId?.price
+                        ? data?.omborxonaProId?.price
+                        : 0) * data?.quantity
+                    )
                   }}
                 </div>
                 <div class="cell">
@@ -287,23 +301,19 @@
                   }}
                 </div>
                 <div class="cell">
-                  {{
-                    formatPrice(data.quantity ? data.quantity : 0)
-                  }}
+                  {{ formatPrice(data.quantity ? data.quantity : 0) }}
                 </div>
                 <div class="cell">
                   {{
                     formatPrice(
-                      data.breadId?.totalQopQuantity ? data.breadId?.totalQopQuantity : 0
+                      data.breadId?.totalQopQuantity
+                        ? data.breadId?.totalQopQuantity
+                        : 0
                     )
                   }}
                 </div>
                 <div class="cell">
-                  {{
-                    formatPrice(
-                      data.price ? data.price : 0
-                    )
-                  }}
+                  {{ formatPrice(data.price ? data.price : 0) }}
                 </div>
                 <div class="cell">{{ data?.deliveryId?.username }}</div>
               </div>
@@ -315,8 +325,7 @@
               <div class="row">
                 <div class="cell">№</div>
                 <div class="cell">Sana</div>
-                <div class="cell">Nomi</div>
-                <div class="cell">Tavsif</div>
+                <div class="cell">Turi</div>
                 <div class="cell">Narxi</div>
                 <div class="cell">Soni</div>
                 <div class="cell">Qop soni</div>
@@ -333,11 +342,13 @@
                   {{ formatDate(new Date(data?.createdAt)) }}
                 </div>
                 <div class="cell">
-                  {{ data?.title ? data?.title : "" }}
+                  {{
+                    data?.typeOfBreadId[0].breadId.title
+                      ? data?.typeOfBreadId[0].breadId.title
+                      : ""
+                  }}
                 </div>
-                <div class="cell">
-                  {{ data?.description ? data?.description : "" }}
-                </div>
+
                 <div class="cell">
                   {{ formatPrice(data?.price ? data?.price : 0) }}
                 </div>
