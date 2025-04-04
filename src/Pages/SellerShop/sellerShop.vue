@@ -25,9 +25,9 @@
               <div class="top">
                 <div class="cell">{{ index + 1 }}</div>
                 <div class="cell">
-                  {{ formatDate(new Date(data?.bread?.createdAt)) }}
+                  {{ formatDate(new Date(data?.createdAt)) }}
                 </div>
-                <div class="cell">{{ data?.text }}</div>
+                <div class="cell">{{ data?.bread.title || "Non turi" }}</div>
                 <!-- <div class="cell">{{ data?.bread?.description }}</div> -->
                 <div class="cell">{{ data?.totalQuantity }}</div>
                 <div class="cell">{{ data?.totalQopQuantity }}</div>
@@ -166,29 +166,10 @@ export default {
     },
     getBreads() {
       api
-        .get("/api/sellerBreads")
+        .get("/api/manager's/warehouse")
         .then(({ status, data }) => {
           if (status === 200) {
-            const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
-              bread.typeOfBreadId.forEach((breadDetail) => {
-                const { breadId } = breadDetail;
-                const { totalQopQuantity, totalQuantity } = bread;
-                if (!acc[breadId._id]) {
-                  acc[breadId._id] = {
-                    text: breadId.title,
-                    totalQuantity: 0,
-                    totalQopQuantity: 0,
-                    bread: breadId,
-                  };
-                }
-                acc[breadId._id].totalQuantity += totalQuantity;
-                acc[breadId._id].totalQopQuantity += totalQopQuantity;
-              });
-              return acc;
-            }, {});
-
-            this.sellerBreads = Object.values(groupedBreads);
-            console.log(this.sellerBreads);
+            this.sellerBreads = data?.datas;
           }
         })
         .catch((error) => {

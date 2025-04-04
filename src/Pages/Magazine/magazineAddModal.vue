@@ -214,7 +214,7 @@ export default {
   },
   methods: {
     selectPrice(type) {
-      this.magazine.pricetype = type;
+      console.log(type);
       this.typeOfBread.price =
         this.magazine.pricetype === "tan"
           ? this.typeOfBread.breadId.price
@@ -232,7 +232,7 @@ export default {
       }
     },
     calculateTotal() {
-      this.totalAmount = this.typeOfBread.price * this.magazine.quantity;
+      this.totalAmount = (this.typeOfBread.price || 0) * this.magazine.quantity;
       this.calculateRemaining();
     },
     calculateRemaining() {
@@ -247,48 +247,26 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      this.typeOfBread.quantity = value.totalQuantity
-      this.magazine.breadId = value.id ;
+      this.typeOfBread.quantity = value.totalQuantity;
+      this.magazine.breadId = value.id || value._id;
       this.typeOfBread.price =
         this.magazine.pricetype === ""
-          ? value.breadId.price
+          ? value?.breadId?.price || value?.bread?.price
           : this.magazine.pricetype === "toyxona"
-          ? value.breadId.price3
+          ? value?.breadId?.price3 || value?.bread?.price3
           : this.magazine.pricetype === "dokon"
-          ? value.breadId.price2
-          : value.breadId.price;
-      this.typeOfBread.breadId = value.breadId;
+          ? value?.breadId?.price2 || value?.bread?.price2
+          : value?.breadId?.price || value?.bread?.price;
+      this.typeOfBread.breadId = value?.breadId || value?.bread;
     },
     getBreads() {
       api
-        .get("/api/sellerBreads")
+        .get("/api/manager's/warehouse")
         .then(({ status, data }) => {
           if (status === 200) {
-            const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
-              bread.typeOfBreadId.forEach((breadDetail) => {
-                const { breadId, quantity, qopQuantity } = breadDetail;
-                if (!acc[breadId._id]) {
-                  acc[breadId._id] = {
-                    text: breadId.title,
-                    value: {
-                      quantity: 0,
-                      qopQuantity: 0,
-                      breadId: breadId,
-                      bread: bread,
-                      id: bread._id,
-                      totalQuantity:0,
-                    },
-                  };
-                }
-                acc[breadId._id].value.quantity += quantity;
-                acc[breadId._id].value.qopQuantity += qopQuantity;
-                acc[breadId._id].value.totalQuantity += (bread.totalQuantity || 0);
-              });
-              return acc;
-            }, {});
-
-            this.typeOfBreads = Object.values(groupedBreads);
-            console.log("this.typeOfBreads=>",this.typeOfBreads);
+            this.typeOfBreads = data.datas.map((i) => {
+              return { text: i.bread.title, value: i };
+            });
           }
         })
         .catch((error) => {
@@ -387,13 +365,14 @@ export default {
                         breadId: breadId,
                         bread: bread,
                         id: bread._id,
-                        totalQuantity: 0
+                        totalQuantity: 0,
                       },
                     };
                   }
                   acc[breadId._id].value.quantity += quantity;
                   acc[breadId._id].value.qopQuantity += qopQuantity;
-                  acc[breadId._id].value.totalQuantity += (bread.totalQuantity || 0);
+                  acc[breadId._id].value.totalQuantity +=
+                    bread.totalQuantity || 0;
                 });
                 return acc;
               },

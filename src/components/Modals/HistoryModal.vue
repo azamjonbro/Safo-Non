@@ -234,13 +234,9 @@
                 class="row"
               >
                 <div class="cell">{{ index + 1 }}</div>
-                <!-- <div class="cell">
-                  {{ formatPrice(data.value?.price ? data.value?.price : data.value?.price) }}
-                </div> -->
-                 <div class="cell">
-                  {{
-                    data.text
-                  }}
+
+                <div class="cell">
+                  {{ data.text }}
                 </div>
                 <div class="cell">
                   {{
@@ -255,9 +251,61 @@
                   }}
                 </div>
                 <div class="cell">
-                  {{ formatPrice(data.value?.totalPrice ? data.value?.totalPrice : 0) }}
+                  {{
+                    formatPrice(
+                      data.value?.totalPrice ? data.value?.totalPrice : 0
+                    )
+                  }}
                 </div>
                 <div class="cell">{{ data.value?.sellerId?.username }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="table" v-if="history?.type == 'sellingbread'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <!-- <div class="cell">Narxi</div> -->
+                <div class="cell">Turi</div>
+                <div class="cell">Soni</div>
+                <div class="cell">Qop soni</div>
+                <div class="cell">Umumiy narxi</div>
+                <div class="cell">Kimdan</div>
+              </div>
+            </div>
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+
+                <div class="cell">
+                  {{
+                    data.breadId.typeOfBreadId[0].breadId.title || "Non turi"
+                  }}
+                </div>
+                <div class="cell">
+                  {{
+                    formatPrice(data.quantity ? data.quantity : 0)
+                  }}
+                </div>
+                <div class="cell">
+                  {{
+                    formatPrice(
+                      data.breadId?.totalQopQuantity ? data.breadId?.totalQopQuantity : 0
+                    )
+                  }}
+                </div>
+                <div class="cell">
+                  {{
+                    formatPrice(
+                      data.price ? data.price : 0
+                    )
+                  }}
+                </div>
+                <div class="cell">{{ data?.deliveryId?.username }}</div>
               </div>
             </div>
           </div>
