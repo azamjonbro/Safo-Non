@@ -75,6 +75,7 @@
                   <div class="cell">Yaratilgan</div>
                   <div class="cell">Yetkazuvchi</div>
                   <div class="cell">Soni</div>
+                  <div class="cell">Olingan pul</div>
                   <div class="cell">Umumiy pul</div>
                   <div class="cell">Qarzdorlik</div>
                   <div class="cell"></div>
@@ -88,6 +89,7 @@
                   </div>
                   <div class="cell">{{ item.deliveryId?.username }}</div>
                   <div class="cell">{{ formatPrice(item.quantity) }}</div>
+                  <div class="cell">{{ formatPrice(item.money) }}</div>
                   <div class="cell">{{ formatPrice(item.totalPrice) }}</div>
                   <div class="cell">{{ formatPrice(item.pending) }}</div>
                   <div class="cell d-flex j-end">
