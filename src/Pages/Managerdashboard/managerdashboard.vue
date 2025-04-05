@@ -63,7 +63,7 @@
 
             <b>{{
               formatPrice(
-                sellerbreads?.reduce((a, i) => a + i.value.quantity, 0) || 0
+                sellerbreads?.reduce((a, i) => a + i.totalQuantity, 0) || 0
               )
             }}</b>
           </span>
@@ -92,7 +92,7 @@
             <b>{{
               formatPrice(
                 Math.abs(
-                  sellerbreads?.reduce((a, i) => a + i.value.quantity, 0) -
+                  sellerbreads?.reduce((a, i) => a + i.totalQuantity, 0) -
                     sellingBreads?.reduce((a, i) => a + (i.quantity || 0), 0)
                 ) || 0
               )
@@ -150,34 +150,35 @@ export default {
     },
     getSellerBread() {
       api
-        .get("/api/sellerBreads")
+        .get("/api/manager's/warehouse")
         .then(({ status, data }) => {
           if (status === 200) {
-            const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
-              bread.typeOfBreadId.forEach((breadDetail) => {
-                const { breadId } = breadDetail;
-                if (!acc[breadId._id]) {
-                  acc[breadId._id] = {
-                    text: breadId.title,
-                    value: {
-                      quantity: 0,
-                      qopQuantity: 0,
-                      totalPrice: 0,
-                      bread: breadId,
-                      sellerId: bread.sellerId,
-                      id: bread._id,
-                    },
-                  };
-                }
-                acc[breadId._id].value.qopQuantity += bread.totalQopQuantity;
-                acc[breadId._id].value.quantity += bread.totalQuantity;
-                acc[breadId._id].value.totalPrice += bread.totalPrice;
-              });
-              return acc;
-            }, {});
+            this.sellerbreads = data.datas;
+            // const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
+            //   bread.typeOfBreadId.forEach((breadDetail) => {
+            //     const { breadId } = breadDetail;
+            //     if (!acc[breadId._id]) {
+            //       acc[breadId._id] = {
+            //         text: breadId.title,
+            //         value: {
+            //           quantity: 0,
+            //           qopQuantity: 0,
+            //           totalPrice: 0,
+            //           bread: breadId,
+            //           sellerId: bread.sellerId,
+            //           id: bread._id,
+            //         },
+            //       };
+            //     }
+            //     acc[breadId._id].value.qopQuantity += bread.totalQopQuantity;
+            //     acc[breadId._id].value.quantity += bread.totalQuantity;
+            //     acc[breadId._id].value.totalPrice += bread.totalPrice;
+            //   });
+            //   return acc;
+            // }, {});
 
-            this.sellerbreads = Object.values(groupedBreads);
-            console.log("this.sellerbreads", this.sellerbreads);
+            // this.sellerbreads = Object.values(groupedBreads);
+            // console.log("this.sellerbreads", this.sellerbreads);
           }
         })
         .catch((error) => {
