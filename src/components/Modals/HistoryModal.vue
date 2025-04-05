@@ -155,12 +155,12 @@
                       (data?.price
                         ? data?.price
                         : data.pricetype === ""
-                        ? data.breadId.price
+                        ? data.breadId?.price || 1
                         : data.pricetype === "toyxona"
-                        ? data.breadId.price3
+                        ? data.breadId?.price3
                         : data.pricetype === "dokon"
-                        ? data.breadId.price2
-                        : data.breadId.price) * data.quantity
+                        ? data.breadId?.price2
+                        : data.breadId?.price || 1) * data.quantity
                     )
                   }}
                 </div>
@@ -267,11 +267,12 @@
               <div class="row">
                 <div class="cell">№</div>
                 <!-- <div class="cell">Narxi</div> -->
+                <div class="cell">Sana</div>
                 <div class="cell">Turi</div>
                 <div class="cell">Soni</div>
                 <div class="cell">Qop soni</div>
-                <div class="cell">Umumiy narxi</div>
-                <div class="cell">Kimdan</div>
+                <!-- <div class="cell">Umumiy narxi</div> -->
+                <!-- <div class="cell">Kimdan</div> -->
               </div>
             </div>
             <div class="table-body">
@@ -283,28 +284,31 @@
                 <div class="cell">{{ index + 1 }}</div>
 
                 <div class="cell">
-                  {{ data.text }}
+                  {{ data.bread.title || "Non turi" }}
+                </div>
+                <div class="cell">
+                  {{ formatDate(new Date(data.createdAt)) }}
                 </div>
                 <div class="cell">
                   {{
-                    formatPrice(data.value?.quantity ? data.value?.quantity : 0)
+                    formatPrice(data?.totalQuantity ? data?.totalQuantity : 0)
                   }}
                 </div>
                 <div class="cell">
                   {{
                     formatPrice(
-                      data.value?.qopQuantity ? data.value?.qopQuantity : 0
+                      data?.totalQopQuantity ? data?.totalQopQuantity : 0
                     )
                   }}
                 </div>
-                <div class="cell">
+                <!-- <div class="cell">
                   {{
                     formatPrice(
                       data.value?.totalPrice ? data.value?.totalPrice : 0
                     )
                   }}
-                </div>
-                <div class="cell">{{ data.value?.sellerId?.username }}</div>
+                </div> -->
+                <!-- <div class="cell">{{ data.value?.sellerId?.username }}</div> -->
               </div>
             </div>
           </div>
@@ -427,7 +431,11 @@
                   {{ formatPrice(data?.totalQuantity) || 0 }}
                 </div>
                 <div class="cell">
-                  {{ data?.title ? data?.title : "" }}
+                  {{
+                    data?.title
+                      ? data?.title
+                      : data?.typeOfBreadIds[0].breadId.title
+                  }}
                 </div>
                 <div class="cell">
                   {{ data?.description ? data?.description : "" }}

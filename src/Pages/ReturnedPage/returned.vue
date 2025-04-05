@@ -15,6 +15,7 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
+            <div class="cell">Nomi</div>
             <div class="cell">Umumiy hisob</div>
             <!-- <div class="cell">Tavsifi</div> -->
             <div class="cell">Soni</div>
@@ -25,8 +26,15 @@
         <div class="table-body">
           <div class="row" v-for="(data, index) in returnedPro" :key="index">
             <div class="cell">{{ index + 1 }}</div>
+            <div class="cell">{{ data.title || "" }}</div>
             <div class="cell">
               {{ formatPrice(data?.totalPrice) || 0 }} so`m
+            </div>
+            <div class="cell">
+              {{ formatPrice(data?.totalQuantity) || 0 }}
+            </div>
+            <div class="cell">
+              {{ formatDate(new Date(data.createdAt)) }}
             </div>
             <!-- <div class="cell">{{ data?.order.description || "" }}</div> -->
             <!-- <div class="cell">
@@ -131,10 +139,13 @@ export default {
                   acc[id] = {
                     title: breadItem.breadId.title,
                     totalQuantity: 0,
+                    totalPrice: 0,
+                    createdAt: item.order.createdAt
                   };
                 }
 
                 acc[id].totalQuantity += breadItem.quantity;
+                acc[id].totalPrice += item.totalPrice;
               });
 
               return acc;

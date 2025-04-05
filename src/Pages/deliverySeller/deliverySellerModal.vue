@@ -35,7 +35,11 @@
               <div class="form-group">
                 <label for="bread">Non turini tanlang</label>
                 <CustomSelect
-                  :options="typeOfBreads"
+                  :options="
+                    typeOfBreads.map((i) => {
+                      return { text: i.bread.title, value: i };
+                    })
+                  "
                   id="bread"
                   :selected="data.breadId"
                   @input="selectArray($event, data.id)"
@@ -202,7 +206,7 @@ export default {
     "delivery.pricetype"(newType) {
       this.typeOfBreadIds = this.typeOfBreadIds.map((item) => {
         const breadData = this.typeOfBreads.find(
-          (b) => b.value.bread._id === item.typeOfBread
+          (b) => b.bread._id === item.typeOfBread
         );
         if (!breadData) return item;
 
@@ -222,30 +226,10 @@ export default {
     },
     getBreads() {
       api
-        .get("/api/sellerBreads")
+        .get("/api/manager's/warehouse")
         .then(({ status, data }) => {
           if (status === 200) {
-            const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
-              bread.typeOfBreadId.forEach((breadDetail) => {
-                const { breadId, quantity, qopQuantity } = breadDetail;
-                if (!acc[breadId._id]) {
-                  acc[breadId._id] = {
-                    text: breadId.title,
-                    value: {
-                      quantity: 0,
-                      qopQuantity: 0,
-                      bread: breadId,
-                      id: bread._id,
-                    },
-                  };
-                }
-                acc[breadId._id].value.quantity += quantity;
-                acc[breadId._id].value.qopQuantity += qopQuantity;
-              });
-              return acc;
-            }, {});
-
-            this.typeOfBreads = Object.values(groupedBreads);
+            this.typeOfBreads = data.datas;
           }
         })
         .catch((error) => {
@@ -268,8 +252,7 @@ export default {
         return item.id === index
           ? {
               ...item,
-              bread: value?.id,
-
+              bread: value?._id,
               price:
                 this.delivery.pricetype === ""
                   ? value.bread.price
