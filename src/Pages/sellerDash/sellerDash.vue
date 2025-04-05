@@ -36,7 +36,7 @@
               formatPrice(
                 statics?.sellerBreads?.reduce(
                   (a, b) =>
-                    a + b.typeOfBreadId.reduce((c, d) => c + d.qopQuantity, 0),
+                    a + b.totalQopQuantity,
                   0
                 ) || 0
               )
