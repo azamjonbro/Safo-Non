@@ -191,6 +191,7 @@
                 <div class="cell">Sana</div>
                 <div class="cell">Soni</div>
                 <div class="cell">Narxi</div>
+                <div class="cell">Olingan pul</div>
                 <div class="cell">Umumiy summa</div>
                 <div class="cell">Do`kon nomi</div>
               </div>
@@ -226,7 +227,10 @@
                   }}
                 </div>
                 <div class="cell">
-                  {{ data?.money || "" }}
+                  {{ data?.money || 0 }}
+                </div>
+                 <div class="cell">
+                  {{ data?.money || 0 }}
                 </div>
                 <div class="cell">
                   {{ data?.magazineId?.title || "id" }}
@@ -333,7 +337,7 @@
                 <!-- <div class="cell">Narxi</div> -->
                 <div class="cell">Turi</div>
                 <div class="cell">Soni</div>
-                <div class="cell">Qop soni</div>
+                <!-- <div class="cell">Qop soni</div> -->
                 <div class="cell">Umumiy narxi</div>
                 <div class="cell">Kimdan</div>
               </div>
@@ -348,21 +352,21 @@
 
                 <div class="cell">
                   {{
-                    data.breadId.typeOfBreadId[0].breadId.title || "Non turi"
+                    data.breadId.title || "Non turi"
                   }}
                 </div>
                 <div class="cell">
                   {{ formatPrice(data.quantity ? data.quantity : 0) }}
                 </div>
-                <div class="cell">
+                <!-- <div class="cell">
                   {{
                     formatPrice(
-                      data.breadId?.totalQopQuantity
-                        ? data.breadId?.totalQopQuantity
+                      data?.totalQopQuantity
+                        ? data?.totalQopQuantity
                         : 0
                     )
                   }}
-                </div>
+                </div> -->
                 <div class="cell">
                   {{ formatPrice(data.price ? data.price : 0) }}
                 </div>

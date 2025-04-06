@@ -33,7 +33,6 @@
                 {{ data?.pricetype || "tan" }}
               </div>
               <div class="cell d-flex a-center j-end gap12">
-               
                 <Icons
                   name="setting"
                   title="sozlama"
@@ -46,7 +45,7 @@
                       quantity: data.quantity,
                       description: data.description,
                       pricetype: data.pricetype,
-                      isUpdate:true
+                      isUpdate: true,
                     })
                   "
                 />
@@ -67,31 +66,22 @@
               <div class="history-header">
                 <div class="row">
                   <div class="cell">№</div>
-                  <div class="cell">Nomi</div>
                   <div class="cell">Sonni</div>
+                  <div class="cell">Nomi</div>
                   <div class="cell">Narxi</div>
                 </div>
               </div>
               <div class="history-body">
-                <div
-                  v-for="(item, i) in data?.breadId.typeOfBreadId"
-                  :key="i"
-                  class="row"
-                >
-                  <div class="cell">{{ i + 1 }}</div>
+                <div class="row">
+                  <div class="cell">1</div>
                   <div class="cell">
-                    {{ item.breadId.title }}
+                    {{ data.breadId.title }}
                   </div>
-                  <div class="cell">{{ data.breadId.totalQuantity || 0 }}</div>
-                  <div class="cell">{{ data.breadId.totalPrice || 0 }}</div>
+                  <div class="cell">{{ data.price || 0 }}</div>
+                  <div class="cell">{{ data.quantity|| 0 }}</div>
                 </div>
-                <p
-                  class="text16 d-flex j-center p-24"
-                  v-if="!data?.breadId.typeOfBreadId.length"
-                >
-                  Non turi mavjud emas
-                </p>
               </div>
+              <p class="text16 d-flex j-center p-24" v-if="!data?.breadId">Non turi mavjud emas</p>
             </div>
           </div>
         </div>
@@ -106,7 +96,7 @@
     @close="(openModal = false), getSales()"
     @status="handleStatus($event)"
   />
-    <SaleModalVue
+  <SaleModalVue
     v-if="update.isUpdate"
     @close="(update.isUpdate = false), getSales()"
     @status="handleStatus($event)"
@@ -146,8 +136,8 @@ export default {
     };
   },
   methods: {
-    openUpdateModel(item){
-        this.update = item
+    openUpdateModel(item) {
+      this.update = item;
     },
     closeDeleteModal(emit) {
       if (emit) {

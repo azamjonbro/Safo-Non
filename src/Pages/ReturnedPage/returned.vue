@@ -133,19 +133,21 @@ export default {
           if (status === 200) {
             this.returnedPro = data.returnedPro.reduce((acc, item) => {
               item.order.typeOfBreadIds.forEach((breadItem) => {
-                const id = breadItem.breadId._id;
+                const _id = breadItem.breadId._id;
 
-                if (!acc[id]) {
-                  acc[id] = {
+                if (!acc[_id]) {
+                  acc[_id] = {
                     title: breadItem.breadId.title,
                     totalQuantity: 0,
                     totalPrice: 0,
-                    createdAt: item.order.createdAt
+                    createdAt: item.order.createdAt,
+                    returnedId: item._id,
+                    orderId: item.order._id,
                   };
                 }
 
-                acc[id].totalQuantity += breadItem.quantity;
-                acc[id].totalPrice += item.totalPrice;
+                acc[_id].totalQuantity += breadItem.quantity;
+                acc[_id].totalPrice += item.totalPrice;
               });
 
               return acc;
@@ -173,8 +175,9 @@ export default {
         });
     },
     giveInvalidPro(data) {
+      console.log(data);
       api
-        .post("/api/InvalidPro", { ReturnedModel: data._id })
+        .post("/api/InvalidPro", { ReturnedModel: data.returnedId })
         .then(({ status }) => {
           if (status === 201) {
             this.toastOptions = {
@@ -182,7 +185,7 @@ export default {
               type: "success",
               text: "Non yarqosiz omborga tushdi",
             };
-            this.deleteReturned(data._id);
+            this.deleteReturned(data.returnedId);
             this.getAllReturned();
           } else {
             this.toastOptions = {
