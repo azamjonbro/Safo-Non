@@ -63,7 +63,7 @@
                         ? data?.price
                         : data?.omborxonaProId?.price
                         ? data?.omborxonaProId?.price
-                        : 0) * data?.quantity
+                        : 0) * data?.quantity || 0
                     )
                   }}
                 </div>
@@ -73,7 +73,7 @@
                 <div class="cell" v-if="isHideSeller">
                   {{
                     data?.sellerId?.username ||
-                    data?.delivertId?.username ||
+                    data?.deliveryId?.username ||
                     "----"
                   }}
                 </div>
@@ -209,7 +209,21 @@
                   {{ data?.quantity || 0 }}
                 </div>
                 <div class="cell">
-                  {{ data?.price || 0 }}
+                  {{
+                    data?.price
+                      ? data.price
+                      : formatPrice(
+                          (data?.price
+                            ? data?.price
+                            : data.pricetype === ""
+                            ? data.breadId?.price || 1
+                            : data.pricetype === "toyxona"
+                            ? data.breadId?.price3
+                            : data.pricetype === "dokon"
+                            ? data.breadId?.price2
+                            : data.breadId?.price || 1) * data.quantity
+                        ) || 0
+                  }}
                 </div>
                 <div class="cell">
                   {{ data?.money || "" }}
