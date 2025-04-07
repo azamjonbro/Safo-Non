@@ -57,6 +57,13 @@
                 name="invalidPro"
                 class="icon info setting"
                 @click="giveInvalidPro(data)"
+                title="yaroqsiz"
+              />
+              <Icons
+                name="firma"
+                class="icon info setting"
+                @click="giveWarehouse(data)"
+                title="omborxona"
               />
             </div>
           </div>
@@ -142,7 +149,7 @@ export default {
                     totalPrice: 0,
                     createdAt: item.order.createdAt,
                     returnedId: item._id,
-                    orderId: item.order._id,
+                    orderId: item.order,
                   };
                 }
 
@@ -175,7 +182,6 @@ export default {
         });
     },
     giveInvalidPro(data) {
-      console.log(data);
       api
         .post("/api/InvalidPro", { ReturnedModel: data.returnedId })
         .then(({ status }) => {
@@ -192,6 +198,42 @@ export default {
               open: true,
               type: "error",
               text: "Non yarqosiz omborga tushishida Xatolik yuz berdi",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            type: "error",
+            text:
+              error.response.data.message ||
+              "Non yarqosiz omborga tushishida Xatolik yuz berdi",
+          };
+        });
+    },
+    giveWarehouse(data) {
+      api
+        .post("/api/manager's/warehouse", {
+          sellerId: "seller",
+          totalQuantity: data.totalQuantity,
+          totalQopQuantity: 1,
+          bread: data.orderId.typeOfBreadIds[0].breadId._id,
+        })
+        .then(({ status }) => {
+          if (status === 201) {
+            this.toastOptions = {
+              open: true,
+              type: "success",
+              text: "Non omborga tushdi",
+            };
+            this.deleteReturned(data.returnedId);
+            this.getAllReturned();
+          } else {
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              text: "Non omborga tushishida Xatolik yuz berdi",
             };
           }
         })
