@@ -13,7 +13,7 @@
                 :search="true"
                 :options="
                   breads.map((i) => {
-                    return { text: i.text, value: i };
+                    return { text: i.bread.title, value: i };
                   })
                 "
                 @blur="validateField('breadId')"
@@ -143,7 +143,7 @@ export default {
   computed: {},
   methods: {
     selectBreadId(value) {
-      this.sale.breadId = value.bread._id;
+      this.sale.breadId = value._id;
     },
     selectPrice(type) {
       this.sale.pricetype = type;
@@ -255,28 +255,10 @@ export default {
     },
     getBreads() {
       api
-        .get("/api/sellerBreads")
+        .get("/api/manager's/warehouse")
         .then(({ status, data }) => {
           if (status === 200) {
-            const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
-              bread.typeOfBreadId.forEach((breadDetail) => {
-                const { breadId } = breadDetail;
-                const { totalQopQuantity, totalQuantity } = bread;
-                if (!acc[breadId._id]) {
-                  acc[breadId._id] = {
-                    text: breadId.title,
-                    totalQuantity: 0,
-                    totalQopQuantity: 0,
-                    bread: bread,
-                  };
-                }
-                acc[breadId._id].totalQuantity += totalQuantity;
-                acc[breadId._id].totalQopQuantity += totalQopQuantity;
-              });
-              return acc;
-            }, {});
-
-            this.breads = Object.values(groupedBreads);
+            this.breads = data?.datas
           }
         })
         .catch((error) => {

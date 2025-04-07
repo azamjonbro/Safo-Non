@@ -72,17 +72,13 @@
         <div
           class="card"
           @click="
-            openModalPage({ history: sellingBreads, type: 'sellingbread' })
+            openModalPage({ history: statics?.sellingBread?.history, type: 'sellingbread' })
           "
         >
           <Icons :name="'dayIncr'" />
           <span class="info-item">
             <h3>Sotilgan nonlar</h3>
-            <b>{{
-              formatPrice(
-                sellingBreads?.reduce((a, i) => a + (i.quantity || 0), 0) || 0
-              )
-            }}</b>
+            <b>{{ formatPrice(statics?.sellingBread?.totalQuantity || 0) }}</b>
           </span>
         </div>
         <div class="card">
@@ -93,7 +89,7 @@
               formatPrice(
                 Math.abs(
                   sellerbreads?.reduce((a, i) => a + i.totalQuantity, 0) -
-                    sellingBreads?.reduce((a, i) => a + (i.quantity || 0), 0)
+                    statics?.sellingBread?.totalQuantity
                 ) || 0
               )
             }}</b>
@@ -185,23 +181,10 @@ export default {
           console.error("Error fetching statistics:", error);
         });
     },
-    getSellingBread() {
-      api
-        .get("/api/sellingBreads")
-        .then(({ status, data }) => {
-          if (status === 200) {
-            this.sellingBreads = data?.sellingBreads;
-          }
-        })
-        .catch((error) => {
-          console.error("Error fetching statistics:", error);
-        });
-    },
   },
   mounted() {
     this.getStatics();
     this.getSellerBread();
-    this.getSellingBread();
   },
 };
 </script>

@@ -11,8 +11,8 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
-            <div class="cell">Turi</div>
             <div class="cell">Vaqt</div>
+            <div class="cell">Turi</div>
             <div class="cell">Soni</div>
             <div class="cell">Qop soni</div>
             <div class="cell"></div>

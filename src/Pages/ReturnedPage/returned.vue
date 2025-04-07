@@ -57,6 +57,13 @@
                 name="invalidPro"
                 class="icon info setting"
                 @click="giveInvalidPro(data)"
+                title="yaroqsiz"
+              />
+              <Icons
+                name="firma"
+                class="icon info setting"
+                @click="giveWarehouse(data)"
+                title="omborxona"
               />
             </div>
           </div>
@@ -133,19 +140,21 @@ export default {
           if (status === 200) {
             this.returnedPro = data.returnedPro.reduce((acc, item) => {
               item.order.typeOfBreadIds.forEach((breadItem) => {
-                const id = breadItem.breadId._id;
+                const _id = breadItem.breadId._id;
 
-                if (!acc[id]) {
-                  acc[id] = {
+                if (!acc[_id]) {
+                  acc[_id] = {
                     title: breadItem.breadId.title,
                     totalQuantity: 0,
                     totalPrice: 0,
-                    createdAt: item.order.createdAt
+                    createdAt: item.order.createdAt,
+                    returnedId: item._id,
+                    orderId: item.order,
                   };
                 }
 
-                acc[id].totalQuantity += breadItem.quantity;
-                acc[id].totalPrice += item.totalPrice;
+                acc[_id].totalQuantity += breadItem.quantity;
+                acc[_id].totalPrice += item.totalPrice;
               });
 
               return acc;
@@ -174,7 +183,7 @@ export default {
     },
     giveInvalidPro(data) {
       api
-        .post("/api/InvalidPro", { ReturnedModel: data._id })
+        .post("/api/InvalidPro", { ReturnedModel: data.returnedId })
         .then(({ status }) => {
           if (status === 201) {
             this.toastOptions = {
@@ -182,13 +191,49 @@ export default {
               type: "success",
               text: "Non yarqosiz omborga tushdi",
             };
-            this.deleteReturned(data._id);
+            this.deleteReturned(data.returnedId);
             this.getAllReturned();
           } else {
             this.toastOptions = {
               open: true,
               type: "error",
               text: "Non yarqosiz omborga tushishida Xatolik yuz berdi",
+            };
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+          this.toastOptions = {
+            open: true,
+            type: "error",
+            text:
+              error.response.data.message ||
+              "Non yarqosiz omborga tushishida Xatolik yuz berdi",
+          };
+        });
+    },
+    giveWarehouse(data) {
+      api
+        .post("/api/manager's/warehouse", {
+          sellerId: "seller",
+          totalQuantity: data.totalQuantity,
+          totalQopQuantity: 1,
+          bread: data.orderId.typeOfBreadIds[0].breadId._id,
+        })
+        .then(({ status }) => {
+          if (status === 201) {
+            this.toastOptions = {
+              open: true,
+              type: "success",
+              text: "Non omborga tushdi",
+            };
+            this.deleteReturned(data.returnedId);
+            this.getAllReturned();
+          } else {
+            this.toastOptions = {
+              open: true,
+              type: "error",
+              text: "Non omborga tushishida Xatolik yuz berdi",
             };
           }
         })
