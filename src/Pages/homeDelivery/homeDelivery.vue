@@ -23,7 +23,7 @@
         <div
           class="card"
           @click="
-            openModalPage({ history: statics?.debt?.history, type: 'debt' })
+            openModalPage({ history: statics?.debt?.history, type: 'deliverydebt' })
           "
         >
           <Icons :name="'wallet'" />
@@ -37,7 +37,7 @@
           @click="
             openModalPage({
               history: statics?.pending?.history,
-              type: 'soldBread',
+              type: 'soldBread2',
             })
           "
         >
