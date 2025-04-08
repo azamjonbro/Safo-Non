@@ -20,7 +20,7 @@
             </div>
 
             <div class="form-group">
-              <label for="description">Description</label>
+              <label for="description">Tavsif</label>
               <input
                 id="description"
                 type="text"

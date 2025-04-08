@@ -43,7 +43,7 @@
                 :search="true"
                 :options="sellerIds"
                 @input="sellectSellerId($event)"
-                :placeholder="'Rasxod sellerIdni tanlang'"
+                :placeholder="'Nonvoyni tanlang'"
                 @blur="validateField('managerId')"
                 :selected="debt.managerId"
               />

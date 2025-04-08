@@ -3,11 +3,19 @@
     <div class="page-top d-flex a-center j-between">
       <h3>Chiqimlar</h3>
       <div class="d-flex a-center gap12">
-        <button class="create-button" @click="createModal2Visible = true" v-if="activePage === 'debt2'">
-          Mahsulot chiqim 
+        <button
+          class="create-button"
+          @click="createModal2Visible = true"
+          v-if="activePage === 'debt2'"
+        >
+          Mahsulot chiqim
         </button>
-        <button class="create-button" @click="createModalVisible = true" v-if="activePage === 'debt1'">
-          Ishxonaga chiqim 
+        <button
+          class="create-button"
+          @click="createModalVisible = true"
+          v-if="activePage === 'debt1'"
+        >
+          Ishxonaga chiqim
         </button>
       </div>
     </div>
@@ -90,6 +98,7 @@
             <div class="cell">Nomi</div>
             <div class="cell">Soni (Dona)</div>
             <div class="cell">Narxi</div>
+            <div class="cell">Umumiy</div>
             <div class="cell">Tavsif</div>
             <div class="cell"></div>
           </div>
@@ -104,6 +113,9 @@
             <div class="cell">{{ data.quantity || 0 }}</div>
             <div class="cell">
               {{ formatPrice(data?.price || 0) }}
+            </div>
+            <div class="cell">
+              {{ formatPrice(data?.price * data?.quantity) }}
             </div>
             <div class="cell">{{ data?.reason }}</div>
             <div class="cell d-flex j-end gap12">
@@ -221,7 +233,7 @@ export default {
       }
       this.delete2ModalVisible = false;
       this.selectedItem = null;
-      this.getSellerDebts2()
+      this.getSellerDebts2();
     },
     changeTab(tab) {
       this.activePage = tab;

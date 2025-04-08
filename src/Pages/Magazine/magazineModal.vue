@@ -136,13 +136,6 @@ export default {
       //     this.errors.phone = "Telefon raqami noto‘g‘ri formatda (+998 XX XXX XX XX)";
       //   }
       // }
-      if (
-        (field === "pending" && !this.magazine.pending) ||
-        isNaN(this.magazine.pending) ||
-        this.magazine.pending < 0
-      ) {
-        this.errors.pending = "Narx musbat son bo‘lishi kerak";
-      }
     },
     applyRegex(field) {
       if (field === "title") {
