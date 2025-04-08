@@ -27,7 +27,7 @@
                   {{ formatDate(new Date(data?.createdAt)) }}
                 </div>
                 <div class="cell">
-                  {{ data?.typeOfBreadId[0].breadId.title || "" }}
+                  {{ data?.typeOfBreadId[0]?.breadId?.title || "" }}
                 </div>
                 <div class="cell">{{ data?.totalQuantity }}</div>
                 <div class="cell">{{ data?.totalQopQuantity }}</div>

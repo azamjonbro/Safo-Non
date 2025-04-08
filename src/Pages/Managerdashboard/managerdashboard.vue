@@ -63,7 +63,7 @@
 
             <b>{{
               formatPrice(
-                sellerbreads?.reduce((a, i) => a + i.totalQuantity, 0) || 0
+                sellerbreads?.reduce((a, i) => a + i.totalQuantity2, 0) || 0
               )
             }}</b>
           </span>
@@ -88,7 +88,7 @@
             <b>{{
               formatPrice(
                 Math.abs(
-                  sellerbreads?.reduce((a, i) => a + i.totalQuantity, 0) -
+                  sellerbreads?.reduce((a, i) => a + i.totalQuantity2, 0) -
                     statics?.sellingBread?.totalQuantity
                 ) || 0
               )

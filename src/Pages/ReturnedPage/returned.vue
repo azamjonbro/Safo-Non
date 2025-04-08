@@ -153,7 +153,7 @@ export default {
                   };
                 }
 
-                acc[_id].totalQuantity += breadItem.quantity;
+                acc[_id].totalQuantity += item.order.totalQuantity;
                 acc[_id].totalPrice += item.totalPrice;
               });
 

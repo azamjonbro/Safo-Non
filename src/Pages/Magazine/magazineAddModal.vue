@@ -249,7 +249,7 @@ export default {
       this.typeOfBread.quantity = value.totalQuantity;
       this.magazine.breadId = value.id || value._id;
       this.typeOfBread.price =
-        this.magazine.pricetype === ""
+        this.magazine.pricetype === "tan"
           ? value?.breadId?.price || value?.bread?.price
           : this.magazine.pricetype === "toyxona"
           ? value?.breadId?.price3 || value?.bread?.price3

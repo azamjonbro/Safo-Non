@@ -19,7 +19,7 @@
                   :options="
                     allTypeOfBread
                       .map((item) => {
-                        return { text: item.title, value: item };
+                        return { text: item?.title, value: item };
                       })
                       .filter(
                         (i) =>

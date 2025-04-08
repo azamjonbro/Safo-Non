@@ -10,10 +10,10 @@
             <div class="cell">№</div>
             <div class="cell">Sana</div>
             <div class="cell">Status</div>
-            <div class="cell">Summa</div>
             <div class="cell">Soni</div>
+            <div class="cell">Summa</div>
+            <div class="cell">Umumiy summa</div>
             <div class="cell">Do`kon nomi</div>
-            <div class="cell">Description</div>
           </div>
         </div>
         <div class="table-body">
@@ -25,28 +25,10 @@
             <div class="cell">{{ index + 1 }}</div>
             <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
             <div class="cell">{{ data.type }}</div>
-            <div class="cell">
-              {{
-                formatPrice(
-                  data.price
-                    ? data.price
-                    : data.typeOfBreadIds
-                    ? data.typeOfBreadIds.reduce(
-                        (a, b) =>
-                          a +
-                          b.breadId.typeOfBreadId.reduce(
-                            (c, d) => c + d.bread.price,
-                            0
-                          ),
-                        0
-                      )
-                    : 0
-                )
-              }}
-            </div>
-            <div class="cell">{{ formatPrice(data.quantity || 0)  }}</div>
+            <div class="cell">{{ formatPrice(data.quantity || 0) }}</div>
+            <div class="cell">{{ formatPrice(data.price || 0) }}</div>
+            <div class="cell">{{ formatPrice(data?.totalPrice || 0) }}</div>
             <div class="cell">{{ data?.magazineId?.title || "-----" }}</div>
-            <div class="cell">{{ data.description || "-----" }}</div>
           </div>
         </div>
       </div>

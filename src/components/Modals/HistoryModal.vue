@@ -10,6 +10,42 @@
         <h1>{{ history?.manager?.username || "" }}</h1>
 
         <div class="scroll">
+          <div class="table" v-if="history?.type == 'deliverydebt'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <div class="cell">Sana</div>
+                <div class="cell">Nomi</div>
+                <div class="cell">Narxi</div>
+                <div class="cell">Sababi</div>
+              </div>
+            </div>
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">
+                  {{ formatDate(new Date(data.createdAt)) }}
+                </div>
+                <div class="cell">
+                  {{
+                    data?.title
+                      ? data.title
+                      : data?.omborxonaProId?.name
+                      ? data?.omborxonaProId?.name
+                      : " ----"
+                  }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.price || 0) }}
+                </div>
+                <div class="cell">{{data.description || "----" }}</div>
+              </div>
+            </div>
+          </div>
           <div class="table" v-if="history?.type == 'debt'">
             <div class="table-header">
               <div class="row">
@@ -229,7 +265,7 @@
                 <div class="cell">
                   {{ data?.money || 0 }}
                 </div>
-                 <div class="cell">
+                <div class="cell">
                   {{ data?.money || 0 }}
                 </div>
                 <div class="cell">
@@ -244,9 +280,10 @@
               <div class="row">
                 <div class="cell">№</div>
                 <div class="cell">Sana</div>
+                <div class="cell">Olingan pul</div>
                 <div class="cell">Soni</div>
                 <div class="cell">Narxi</div>
-                <div class="cell">Olingan pul</div>
+                <div class="cell">Umumiy pull</div>
                 <div class="cell">Do`kon nomi</div>
               </div>
             </div>
@@ -261,18 +298,60 @@
                   {{ formatDate(new Date(data.createdAt)) }}
                 </div>
                 <div class="cell">
-                  {{ data?.quantity }}
+                  {{ formatPrice(data?.money) || "" }}
                 </div>
                 <div class="cell">
-                  {{
-                    data?.typeOfBreadIds.reduce(
-                      (a, b) => a + b.breadId.price2 * b.quantity,
-                      0
-                    ) || 0
-                  }}
+                  {{ formatPrice(data?.quantity) }}
                 </div>
                 <div class="cell">
-                  {{ data?.money || "" }}
+                  {{ formatPrice(data?.price) || 0 }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.totalPrice) || 0 }}
+                </div>
+                <div class="cell">
+                  {{ data?.magazineId?.title || "id" }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table" v-if="history?.type == 'soldBread2'">
+            <div class="table-header">
+              <div class="row">
+                <div class="cell">№</div>
+                <div class="cell">Sana</div>
+                <div class="cell">Olingan pul</div>
+                <div class="cell">Soni</div>
+                <div class="cell">Narxi</div>
+                <div class="cell">Umumiy pull</div>
+                <div class="cell">Qarzdorlik</div>
+                <div class="cell">Do`kon nomi</div>
+              </div>
+            </div>
+            <div class="table-body">
+              <div
+                v-for="(data, index) in history?.history"
+                :key="index"
+                class="row"
+              >
+                <div class="cell">{{ index + 1 }}</div>
+                <div class="cell">
+                  {{ formatDate(new Date(data.createdAt)) }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.money) || "" }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.quantity) }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.price) || 0 }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.totalPrice) || 0 }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.pending) || 0 }}
                 </div>
                 <div class="cell">
                   {{ data?.magazineId?.title || "id" }}
@@ -351,9 +430,7 @@
                 <div class="cell">{{ index + 1 }}</div>
 
                 <div class="cell">
-                  {{
-                    data.breadId.title || "Non turi"
-                  }}
+                  {{ data.breadId.title || "Non turi" }}
                 </div>
                 <div class="cell">
                   {{ formatPrice(data.quantity ? data.quantity : 0) }}
