@@ -14,7 +14,6 @@
             <div class="cell">Summa</div>
             <div class="cell">Umumiy summa</div>
             <div class="cell">Do`kon nomi</div>
-            <div class="cell">Tavsif</div>
 
           </div>
         </div>
