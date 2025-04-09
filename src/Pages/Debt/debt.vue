@@ -31,7 +31,7 @@
             <!-- <div>{{ data?.reason ? data?.reason : "" }}</div> -->
             <div class="cell">{{ data?.quantity ? data?.quantity : 0 }}</div>
             <div class="cell">
-              {{ data?.omborxonaProId ? data?.omborxonaProId.price : 0 }}
+              {{ formatPrice(data?.omborxonaProId ? data?.omborxonaProId.price : data?.price || 0) }}
             </div>
             <div class="cell">
               {{ data?.description?.slice(0, 40) || data?.reason || "" }}

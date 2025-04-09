@@ -16,9 +16,10 @@
           <div class="row">
             <div class="cell">№</div>
             <div class="cell">Nomi</div>
+            <div class="cell">Soni</div>
+            <div class="cell">Narxi</div>
             <div class="cell">Umumiy hisob</div>
             <!-- <div class="cell">Tavsifi</div> -->
-            <div class="cell">Soni</div>
             <div class="cell">Sana</div>
             <div class="cell" v-if="role == 'manager'"></div>
           </div>
@@ -28,10 +29,11 @@
             <div class="cell">{{ index + 1 }}</div>
             <div class="cell">{{ data.title || "" }}</div>
             <div class="cell">
-              {{ formatPrice(data?.totalPrice) || 0 }} so`m
-            </div>
-            <div class="cell">
               {{ formatPrice(data?.totalQuantity) || 0 }}
+            </div>
+            <div class="cell">{{ formatPrice(data?.price) || 0 }} so`m</div>
+            <div class="cell">
+              {{ formatPrice(data?.totalPrice) || 0 }} so`m
             </div>
             <div class="cell">
               {{ formatDate(new Date(data.createdAt)) }}
@@ -150,11 +152,13 @@ export default {
                     createdAt: item.order.createdAt,
                     returnedId: item._id,
                     orderId: item.order,
+                    price: 0,
                   };
                 }
 
                 acc[_id].totalQuantity += item.order.totalQuantity;
                 acc[_id].totalPrice += item.totalPrice;
+                acc[_id].price += item.price;
               });
 
               return acc;

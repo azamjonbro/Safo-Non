@@ -8,9 +8,10 @@
         <div class="table-header">
           <div class="row">
             <div class="cell">№</div>
+            <div class="cell">Soni</div>
+            <div class="cell">Narxi</div>
             <div class="cell">Umumiy hisob</div>
             <div class="cell">Tavsifi</div>
-            <div class="cell">Soni</div>
             <div class="cell">Sana</div>
             <div class="cell"></div>
           </div>
@@ -19,12 +20,13 @@
           <div class="row" v-for="(data, index) in InvalidPro" :key="index">
             <div class="cell">{{ index + 1 }}</div>
             <div class="cell">
-              {{ formatPrice(data?.totalPrice) || 0 }} so`m
+              {{ formatPrice(data?.order.totalQuantity) || 0 }}
+            </div>
+            <div class="cell">{{ formatPrice(data?.price || 0) }} so`m</div>
+            <div class="cell">
+              {{ formatPrice(data?.totalPrice || 0) }} so`m
             </div>
             <div class="cell">{{ data?.order.description || "" }}</div>
-            <div class="cell">
-              {{ data?.order.totalQuantity || 0 }}
-            </div>
             <div class="cell">
               {{ formatDate(new Date(data.order.createdAt)) }}
             </div>
@@ -107,7 +109,7 @@ export default {
               type: "success",
               text: "Yaroqsiz non o`chirildi",
             };
-            this.getInvalidPros()
+            this.getInvalidPros();
           } else {
             this.toastOptions = {
               open: true,

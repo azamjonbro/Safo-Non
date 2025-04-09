@@ -212,7 +212,7 @@ export default {
                     ? "Tan narxi"
                     : item.pricetype === "toyxona"
                     ? "To`yxona"
-                    : item.pricetype === "narxi"
+                    : item.pricetype === "dokon"
                     ? "Do`kon"
                     : "Tan narxi"
                   : "Tan narxi",
