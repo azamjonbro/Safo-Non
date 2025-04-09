@@ -24,10 +24,16 @@
           >
             <div class="cell">{{ index + 1 }}</div>
             <div class="cell">{{ formatDate(new Date(data.createdAt)) }}</div>
-            <div class="cell">{{ data.type }}</div>
-            <div class="cell">{{ formatPrice(data.quantity || 0) }}</div>
-            <div class="cell">{{ formatPrice(data.price || 0) }}</div>
-            <div class="cell">{{ formatPrice(data?.totalPrice || 0) }}</div>
+            <div class="cell">{{ data.type || "-----"}}</div>
+            <div class="cell">
+              {{ formatPrice(data.quantity ||  0) }}
+            </div>
+            <div class="cell">
+              {{ formatPrice(data.price || data.money || 0) }}
+            </div>
+            <div class="cell">
+              {{ formatPrice(data?.totalPrice || 0) }}
+            </div>
             <div class="cell">{{ data?.magazineId?.title || "-----" }}</div>
           </div>
         </div>

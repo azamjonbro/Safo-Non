@@ -214,6 +214,7 @@ export default {
   },
   methods: {
     selectPrice(type) {
+      this.magazine.pricetype = type
       this.typeOfBread.price =
         type === "tan"
           ? this.typeOfBread.breadId.price
