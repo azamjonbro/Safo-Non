@@ -386,8 +386,8 @@ export default {
         return {
           id: index,
           quantity: item.quantity,
-          breadId: item.bread._id,
-          price: item.bread.price,
+          breadId: item?.breadId?._id,
+          price: item?.breadId?.price,
           errors: {},
         };
       })),
