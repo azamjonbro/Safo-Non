@@ -22,12 +22,12 @@
               </p>
             </div>
             <div class="form-group">
-              <label for="reason">Sababi</label>
+              <label for="reason">Tavsif</label>
               <input
                 id="reason"
                 type="text"
                 v-model="debt.reason"
-                placeholder="Sabab kiriting"
+                placeholder="Tavsif kiriting"
                 maxlength="100"
                 @blur="validateField('reason')"
               />
@@ -162,7 +162,7 @@ export default {
         this.errors.title = "Rasxod nomi bo'sh bo'lmasligi kerak";
       }
       if (field === "reason" && !this.debt.reason.trim()) {
-        this.errors.reason = " Rasxod sababi bo'sh bo'lmasligi kerak";
+        this.errors.reason = " Rasxod tavsif bo'sh bo'lmasligi kerak";
       }
 
       if (

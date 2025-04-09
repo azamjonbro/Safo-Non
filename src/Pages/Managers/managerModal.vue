@@ -110,15 +110,15 @@ export default {
     },
     async submitForm() {   
       this.errors = {};
-      this.validateField("username");
-      this.validateField("password");
-
-      if (!Object.keys(this.errors)) {
-        return;
-      }
       this.isSubmitting = true;
-
+      
+      
       if (!this.isUpdate) {
+        this.validateField("username");
+        this.validateField("password");
+        if (!Object.keys(this.errors)) {
+          return;
+        }
         try {
           const response = await api.post("/api/manager", this.user);          
           if (response?.status == 201) {
@@ -145,6 +145,7 @@ export default {
           this.isSubmitting = false;
         }
       } else {
+        this.validateField("username");
         try {
           const response = await api.put(
             "/api/manager/" + this?.update?.id,
