@@ -56,7 +56,7 @@
           class="card"
           @click="
             openModalPage({
-              history: orderWithDeliveries,
+              history: orderWithDeliveries.history,
               type: 'orderwithdelivery',
             })
           "
@@ -64,14 +64,7 @@
           <Icons :name="'dayIncr'" />
           <span class="info-item">
             <h3>Nonlar soni</h3>
-            <b>{{
-              formatPrice(
-                orderWithDeliveries.reduce(
-                  (a, b) => a + (b.totalQuantity2 || 0),
-                  0
-                ) || 0
-              )
-            }}</b>
+            <b>{{ formatPrice(orderWithDeliveries.totalQuantity || 0) }}</b>
           </span>
         </div>
         <div
@@ -102,28 +95,18 @@
             <h3>Qoldiq</h3>
             <b>{{
               formatPrice(
-                orderWithDeliveries.reduce(
-                  (a, b) => a + (b.totalQuantity2 || 0),
-                  0
-                ) -
+                orderWithDeliveries.totalQuantity -
                   statics?.soldBread?.history?.reduce((a, b) => {
                     return a + b.quantity;
                   }, 0) >
                   0
-                  ? orderWithDeliveries.reduce(
-                      (a, b) => a + (b.totalQuantity2 || 0),
-                      0
-                    ) -
+                  ? orderWithDeliveries.totalQuantity -
                       statics?.soldBread?.history?.reduce((a, b) => {
                         return a + b.quantity;
                       }, 0)
                   : statics?.soldBread?.history?.reduce((a, b) => {
                       return a + b.quantity;
-                    }, 0) -
-                      orderWithDeliveries.reduce(
-                        (a, b) => a + (b.totalQuantity2 || 0),
-                        0
-                      ) || 0
+                    }, 0) - orderWithDeliveries.totalQuantity || 0
               )
             }}</b>
           </span>
@@ -181,28 +164,39 @@ export default {
         .get("/api/orderWithDeliveries")
         .then(({ data, status }) => {
           if (status === 200) {
-            this.orderWithDeliveries = data?.orderWithDeliveries.reduce(
-              (acc, item) => {
-                item.typeOfBreadIds.forEach((breadItem) => {
-                  const _id = breadItem.breadId._id;
+            this.orderWithDeliveries = {
+              history: Object.values(
+                data?.orderWithDeliveries.reduce((acc, item) => {
+                  item.typeOfBreadIds.forEach((breadItem) => {
+                    const _id = breadItem.breadId._id;
 
-                  if (!acc[_id]) {
-                    acc[_id] = {
-                      title: breadItem.breadId.title,
-                      totalQuantity: 0,
-                      totalQuantity2: item.totalQuantity2,
-                    };
-                  }
+                    if (!acc[_id]) {
+                      acc[_id] = {
+                        title: breadItem.breadId.title,
+                        totalQuantity: 0,
+                        pricetype: item.pricetype,
+                        price:
+                          item.pricetype === "tan"
+                            ? breadItem.breadId.price
+                            : item.pricetype === "dokon"
+                            ? breadItem.breadId.price2
+                            : item.pricetype === "toyxona"
+                            ? breadItem.breadId.price3
+                            : breadItem.breadId.price,
+                      };
+                    }
 
-                  acc[_id].totalQuantity += breadItem.quantity;
-                });
+                    acc[_id].totalQuantity += breadItem.quantity;
+                  });
 
-                return acc;
-              },
-              {}
-            );
-            this.orderWithDeliveries = Object.values(this.orderWithDeliveries);
-            console.log(this.orderWithDeliveries);
+                  return acc;
+                }, {})
+              ),
+              totalQuantity: data?.orderWithDeliveries.reduce(
+                (a, b) => a + b.totalQuantity2,
+                0
+              ),
+            };
           }
         })
         .catch((error) => {

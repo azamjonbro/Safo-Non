@@ -514,8 +514,10 @@
               <div class="row">
                 <div class="cell">№</div>
                 <!-- <div class="cell">Sana</div> -->
-                <div class="cell">Soni</div>
                 <div class="cell">Nomi</div>
+                <div class="cell">Narx turi</div>
+                <div class="cell">Soni</div>
+                <div class="cell">Narxi</div>
                 <!-- <div class="cell">Tavsif</div> -->
                 <!-- <div class="cell">Umumiy narxi</div> -->
                 <!-- <div class="cell">Kimdan</div> -->
@@ -532,15 +534,23 @@
                   {{ formatDate(new Date(data?.createdAt)) }}
                 </div> -->
                 <div class="cell">
-                  {{ formatPrice(data?.totalQuantity) || 0 }}
-                </div>
-                <div class="cell">
                   {{
                     data?.title
                       ? data?.title
                       : data?.typeOfBreadIds[0].breadId.title
                   }}
                 </div>
+                <div class="cell">
+                  {{ data?.pricetype || "" }}
+                </div>
+                <div class="cell">
+                  {{ formatPrice(data?.totalQuantity) || 0 }}
+                </div>
+
+                <div class="cell">
+                  {{ formatPrice(data?.price) || 0 }}
+                </div>
+
                 <!-- <div class="cell">
                   {{ data?.description ? data?.description : "" }}
                 </div> -->
@@ -615,7 +625,7 @@ export default {
 </script>
 
 <style>
-.h-80{
+.h-80 {
   height: 80vh;
 }
 .scroll-content {
@@ -623,7 +633,6 @@ export default {
   text-align: center;
 }
 .static-history {
-
   padding-left: 10%;
   padding-right: 10%;
   display: flex;

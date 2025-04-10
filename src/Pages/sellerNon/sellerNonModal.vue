@@ -243,7 +243,6 @@ export default {
       });
     },
     selectBread(id, index) {
-      console.log(id)
       if (!id || !id._id || !id.price4) return;
 
       this.count = this.count.map((item) => {

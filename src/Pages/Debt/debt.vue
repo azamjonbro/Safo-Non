@@ -176,7 +176,6 @@ export default {
         });
     },
     deleteDebt(data) {
-      console.log(data);
       api
         .delete(
           `/api/${

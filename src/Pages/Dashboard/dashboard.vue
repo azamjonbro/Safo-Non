@@ -173,7 +173,6 @@ export default {
           .then((response) => {
             this.statics = response.data.statics;
 
-            console.log("response.data.statics",response.data.statics)
 
             this.manager = response.data.managerStatics;
           })
@@ -190,7 +189,6 @@ export default {
     this.getDebt2();
     this.getWarehouses();
     this.gretAllStatistics();
-    console.log("ochildi bo`ta")
   },
 };
 </script>

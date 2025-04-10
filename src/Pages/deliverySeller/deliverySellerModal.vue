@@ -36,9 +36,17 @@
                 <label for="bread">Non turini tanlang</label>
                 <CustomSelect
                   :options="
-                    typeOfBreads.map((i) => {
-                      return { text: i.bread.title, value: i };
-                    })
+                    typeOfBreads
+                      .map((i) => {
+                        return { text: i.bread.title, value: i };
+                      })
+                      .filter((i) => {
+                        return !typeOfBreadIds
+                          .map((item) =>
+                            item.typeOfBread ? item.typeOfBread : item.bread
+                          )
+                          .includes(i?.value?._id);
+                      })
                   "
                   id="bread"
                   :selected="data.breadId"
