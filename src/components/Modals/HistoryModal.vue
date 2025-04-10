@@ -513,12 +513,12 @@
             <div class="table-header">
               <div class="row">
                 <div class="cell">№</div>
-                <div class="cell">Sana</div>
+                <!-- <div class="cell">Sana</div> -->
                 <div class="cell">Soni</div>
                 <div class="cell">Nomi</div>
-                <div class="cell">Tavsif</div>
-                <div class="cell">Umumiy narxi</div>
-                <div class="cell">Kimdan</div>
+                <!-- <div class="cell">Tavsif</div> -->
+                <!-- <div class="cell">Umumiy narxi</div> -->
+                <!-- <div class="cell">Kimdan</div> -->
               </div>
             </div>
             <div class="table-body">
@@ -528,9 +528,9 @@
                 class="row"
               >
                 <div class="cell">{{ index + 1 }}</div>
-                <div class="cell">
+                <!-- <div class="cell">
                   {{ formatDate(new Date(data?.createdAt)) }}
-                </div>
+                </div> -->
                 <div class="cell">
                   {{ formatPrice(data?.totalQuantity) || 0 }}
                 </div>
@@ -541,15 +541,15 @@
                       : data?.typeOfBreadIds[0].breadId.title
                   }}
                 </div>
-                <div class="cell">
+                <!-- <div class="cell">
                   {{ data?.description ? data?.description : "" }}
-                </div>
-                <div class="cell">
+                </div> -->
+                <!-- <div class="cell">
                   {{ formatPrice(data?.totalPrice ? data?.totalPrice : 0) }}
-                </div>
-                <div class="cell">
-                  {{ data.deliveryId.username || "---" }}
-                </div>
+                </div> -->
+                <!-- <div class="cell">
+                  {{ data.username || "---" }}
+                </div> -->
               </div>
             </div>
           </div>

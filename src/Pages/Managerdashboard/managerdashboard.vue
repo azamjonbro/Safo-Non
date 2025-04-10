@@ -150,31 +150,6 @@ export default {
         .then(({ status, data }) => {
           if (status === 200) {
             this.sellerbreads = data.datas;
-            // const groupedBreads = data?.sellerBreads.reduce((acc, bread) => {
-            //   bread.typeOfBreadId.forEach((breadDetail) => {
-            //     const { breadId } = breadDetail;
-            //     if (!acc[breadId._id]) {
-            //       acc[breadId._id] = {
-            //         text: breadId.title,
-            //         value: {
-            //           quantity: 0,
-            //           qopQuantity: 0,
-            //           totalPrice: 0,
-            //           bread: breadId,
-            //           sellerId: bread.sellerId,
-            //           id: bread._id,
-            //         },
-            //       };
-            //     }
-            //     acc[breadId._id].value.qopQuantity += bread.totalQopQuantity;
-            //     acc[breadId._id].value.quantity += bread.totalQuantity;
-            //     acc[breadId._id].value.totalPrice += bread.totalPrice;
-            //   });
-            //   return acc;
-            // }, {});
-
-            // this.sellerbreads = Object.values(groupedBreads);
-            // console.log("this.sellerbreads", this.sellerbreads);
           }
         })
         .catch((error) => {

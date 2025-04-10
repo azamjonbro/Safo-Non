@@ -181,7 +181,28 @@ export default {
         .get("/api/orderWithDeliveries")
         .then(({ data, status }) => {
           if (status === 200) {
-            this.orderWithDeliveries = data?.orderWithDeliveries;
+            this.orderWithDeliveries = data?.orderWithDeliveries.reduce(
+              (acc, item) => {
+                item.typeOfBreadIds.forEach((breadItem) => {
+                  const _id = breadItem.breadId._id;
+
+                  if (!acc[_id]) {
+                    acc[_id] = {
+                      title: breadItem.breadId.title,
+                      totalQuantity: 0,
+                      totalQuantity2: item.totalQuantity2,
+                    };
+                  }
+
+                  acc[_id].totalQuantity += breadItem.quantity;
+                });
+
+                return acc;
+              },
+              {}
+            );
+            this.orderWithDeliveries = Object.values(this.orderWithDeliveries);
+            console.log(this.orderWithDeliveries);
           }
         })
         .catch((error) => {
