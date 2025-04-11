@@ -120,9 +120,7 @@ export default {
         .delete("/api/returnedPro/" + id)
         .then((status) => {
           if (status === 200) {
-            console.log(`zor`);
           } else {
-            console.log("balki zor");
           }
         })
         .catch((error) => {

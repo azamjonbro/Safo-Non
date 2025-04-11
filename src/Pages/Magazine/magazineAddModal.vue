@@ -247,7 +247,7 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      this.typeOfBread.quantity = value.totalQuantity;
+      this.typeOfBread.quantity = value.quantity ? value.quantity : value.totalQuantity;
       this.magazine.breadId = value.id || value._id;
       this.typeOfBread.price =
         this.magazine.pricetype === "tan"
@@ -352,7 +352,6 @@ export default {
         .get("/api/orderWithDeliveries")
         .then(({ data, status }) => {
           if (status === 200) {
-            console.log(data);
             const groupedBreads = data?.orderWithDeliveries.reduce(
               (acc, bread) => {
                 bread.typeOfBreadIds.forEach((breadDetail) => {

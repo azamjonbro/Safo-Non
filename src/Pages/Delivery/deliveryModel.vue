@@ -189,7 +189,6 @@ export default {
         requestData.password = this.delivery.password;
       }
 
-      console.log(requestData);
 
       const request = this.isUpdate
         ? api.put(`/api/delivery/${this.update.id}`, requestData, {
