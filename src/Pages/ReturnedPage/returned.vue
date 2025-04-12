@@ -51,6 +51,7 @@
             >
               <Icons
                 name="delivery"
+                title="yetkazuvchi"
                 class="icon info setting"
                 @click="openModal2(data)"
               />
@@ -84,7 +85,7 @@
   <ToastiffVue :toastOptions="toastOptions" />
   <Returned2ModalVue
     v-if="open2Modal"
-    @close="(open2Modal = false), getAllReturned()"
+    @close="(open2Modal = true), getAllReturned()"
     :datas="datas"
     @status="handleStatus($event)"
   />

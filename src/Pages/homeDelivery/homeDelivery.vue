@@ -182,7 +182,7 @@ export default {
                             ? breadItem.breadId.price2
                             : item.pricetype === "toyxona"
                             ? breadItem.breadId.price3
-                            : breadItem.breadId.price,
+                            : breadItem.breadId.price
                       };
                     }
 

@@ -25,7 +25,9 @@
               <div class="cell">{{ data?.title ? data?.title : "" }}</div>
               <div class="cell">{{ data?.phone ? data?.phone : "" }}</div>
               <div class="cell">{{ data?.address ? data?.address : "" }}</div>
-              <div class="cell">{{ data?.pending ? data?.pending : 0 }}</div>
+              <div class="cell">
+                {{ formatPrice(data?.pending ? data?.pending : 0) }} so`m
+              </div>
               <div class="cell d-flex j-end gap12">
                 <Icons
                   name="payed"
@@ -40,6 +42,7 @@
                   title="To'lov"
                   class="icon info setting"
                   @click="openAddModal(data?._id)"
+                  v-if="role !== 'superAdmin'"
                 />
                 <Icons
                   name="setting"
@@ -191,6 +194,7 @@ export default {
       },
       pendingModalVisible: false,
       pending: {},
+      role: JSON.parse(localStorage.getItem("user"))?.role || "",
     };
   },
   methods: {

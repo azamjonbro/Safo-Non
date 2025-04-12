@@ -208,6 +208,9 @@ export default {
           console.error(error);
         });
     },
+     formatPrice(price) {
+      return new Intl.NumberFormat("ru-RU").format(price);
+    },
   },
   mounted() {
     this.getDebts();

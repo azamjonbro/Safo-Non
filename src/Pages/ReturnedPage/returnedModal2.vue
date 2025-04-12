@@ -17,7 +17,7 @@
                 readonly
               />
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <label for="bread">Tavsif</label>
               <input
                 id="price"
@@ -36,8 +36,8 @@
                 v-model="datas.order.totalQuantity"
                 readonly
               />
-            </div>
-            <div class="form-group">
+            </div> -->
+            <!-- <div class="form-group">
               <label for="bread">Yetkazuvchi</label>
               <CustomSelect
                 :selected="datas.deliveryId.username"
@@ -52,7 +52,7 @@
               <p v-if="errors.deliveryId" class="error-text">
                 {{ errors.deliveryId }}
               </p>
-            </div>
+            </div> -->
           </div>
         </div>
 
@@ -151,10 +151,10 @@ export default {
           typeOfBreadIds: this.datas.order.typeOfBreadIds.map((item) => {
             return { bread: item._id, quantity: item.quantity };
           }),
-          totalQuantity: this.datas.order.totalQuantity,
-          pricetype: this.datas.order.pricetype,
-          description: this.datas.order.description,
-          deliveryId: this.deliveryId,
+          totalQuantity: this.datas?.order?.totalQuantity || 0,
+          pricetype: this.datas?.order?.pricetype || "",
+          description: this.datas?.order?.description || "",
+          deliveryId: this.deliveryId || "",
           type: "returned",
         })
         .then(({ status }) => {
