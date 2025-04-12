@@ -247,7 +247,8 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      this.typeOfBread.quantity = value.quantity ? value.quantity : value.totalQuantity;
+      console.log(value)
+      this.typeOfBread.quantity = value.quantity ? value.totalQuantity : value.totalQuantity;
       this.magazine.breadId = value.id || value._id;
       this.typeOfBread.price =
         this.magazine.pricetype === "tan"

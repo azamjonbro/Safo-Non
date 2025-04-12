@@ -250,7 +250,7 @@
                     data?.price
                       ? data.price
                       : formatPrice(
-                          (data?.price
+                          data?.price
                             ? data?.price
                             : data.pricetype === ""
                             ? data.breadId?.price || 1
@@ -258,7 +258,7 @@
                             ? data.breadId?.price3
                             : data.pricetype === "dokon"
                             ? data.breadId?.price2
-                            : data.breadId?.price || 1) 
+                            : data.breadId?.price || 1
                         ) || 0
                   }}
                 </div>
@@ -414,11 +414,12 @@
               <div class="row">
                 <div class="cell">№</div>
                 <!-- <div class="cell">Narxi</div> -->
+                <div class="cell">Kimdan</div>
                 <div class="cell">Turi</div>
                 <div class="cell">Soni</div>
                 <!-- <div class="cell">Qop soni</div> -->
-                <div class="cell">Umumiy narxi</div>
-                <div class="cell">Kimdan</div>
+                <!-- <div class="cell">Umumiy narxi</div> -->
+                <div class="cell">Dokon nomi</div>
               </div>
             </div>
             <div class="table-body">
@@ -428,7 +429,7 @@
                 class="row"
               >
                 <div class="cell">{{ index + 1 }}</div>
-
+                <div class="cell">{{ data?.deliveryId?.username }}</div>
                 <div class="cell">
                   {{ data.breadId.title || "Non turi" }}
                 </div>
@@ -445,9 +446,10 @@
                   }}
                 </div> -->
                 <div class="cell">
-                  {{ formatPrice(data.price ? data.price : 0) }}
+                  {{
+                   data?.magazineId?.title ? data?.magazineId?.title : "----"
+                  }}
                 </div>
-                <div class="cell">{{ data?.deliveryId?.username }}</div>
               </div>
             </div>
           </div>
