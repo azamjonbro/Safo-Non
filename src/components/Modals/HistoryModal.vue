@@ -96,7 +96,7 @@
                   {{
                     formatPrice(
                       (data?.price
-                        ? data?.price
+                        ? data?.price * data?.quantity
                         : data?.omborxonaProId?.price
                         ? data?.omborxonaProId?.price * data?.quantity
                         : 0) || 0
@@ -258,7 +258,7 @@
                             ? data.breadId?.price3
                             : data.pricetype === "dokon"
                             ? data.breadId?.price2
-                            : data.breadId?.price || 1) * data.quantity
+                            : data.breadId?.price || 1) 
                         ) || 0
                   }}
                 </div>
@@ -266,7 +266,7 @@
                   {{ formatPrice(data?.money || 0) }}
                 </div>
                 <div class="cell">
-                  {{ formatPrice(data?.totalPrice || 0) }}
+                  {{ formatPrice(data?.totalPrice - data?.money || 0) }}
                 </div>
                 <div class="cell">
                   {{ data?.magazineId?.title || "id" }}

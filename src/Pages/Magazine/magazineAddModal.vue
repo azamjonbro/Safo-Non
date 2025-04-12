@@ -325,8 +325,7 @@ export default {
           this.$emit("status", {
             message:
               error.response?.data?.message ||
-              error?.message ||
-              "Xatolik yuz berdi",
+              error?.message,
             status: "error",
           });
         })

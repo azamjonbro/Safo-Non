@@ -181,10 +181,10 @@ export default {
             });
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.$emit("status", {
             status: "error",
-            message: "Xatolik yuzberdi",
+            message: error.response.data.message || error.message,
           });
         })
         .finally(() => {
