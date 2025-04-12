@@ -183,6 +183,7 @@ export default {
         money: 0,
         magazineId: "",
         breadId: "",
+        bread: "",
         quantity: 0,
         pricetype: "tan",
       },
@@ -248,8 +249,9 @@ export default {
     },
     selectArray(value) {
       console.log(value)
-      this.typeOfBread.quantity = value.quantity ? value.totalQuantity : value.totalQuantity;
-      this.magazine.breadId = value.id || value._id;
+      this.magazine.bread = value.breadId._id 
+      this.typeOfBread.quantity =  value.quantity;
+      this.magazine.breadId =  value.id;
       this.typeOfBread.price =
         this.magazine.pricetype === "tan"
           ? value?.breadId?.price || value?.bread?.price
