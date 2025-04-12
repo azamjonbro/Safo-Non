@@ -54,7 +54,7 @@
         <div
           class="card"
           @click="
-            openModalPage({ history: sellerbreads, type: 'sellerbreads' })
+            openModalPage({ history: statics?.managerware?.history, type: 'sellerbreads' })
           "
         >
           <Icons :name="'dayIncr'" />
@@ -63,7 +63,7 @@
 
             <b>{{
               formatPrice(
-                sellerbreads?.reduce((a, i) => a + i.totalQuantity2, 0) || 0
+                statics?.managerware?.totalQuantity || 0
               )
             }}</b>
           </span>
@@ -88,7 +88,7 @@
             <b>{{
               formatPrice(
                 Math.abs(
-                  sellerbreads?.reduce((a, i) => a + i.totalQuantity2, 0) -
+                  statics?.managerware?.totalQuantity -
                     statics?.sellingBread?.totalQuantity
                 ) || 0
               )
