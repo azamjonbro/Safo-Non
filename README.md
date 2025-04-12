@@ -1,3 +1,3 @@
-bugun men nimalarni o'rgandim?
+bugun men bu projectdan nimalarni o'rgandim?
 
 ## xech narsa :)
