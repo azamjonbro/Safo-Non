@@ -21,7 +21,7 @@
             <b>{{
               formatPrice(
                 statics?.sellerBreads?.reduce(
-                  (a, b) => a + b.totalQuantity,
+                  (a, b) => a + b.totalQuantity * b.totalQopQuantity,
                   0
                 ) || 0
               )
