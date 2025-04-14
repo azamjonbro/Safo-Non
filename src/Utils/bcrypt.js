@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 
 const SECRET_KEY = "your_secret_key"; // Bu kalit JWT token yaratish uchun ishlatiladi
 
-// Parolni hash qilish funksiyasi
 const hashPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
     return await bcrypt.hash(password, salt);

@@ -40,6 +40,7 @@ export default {
   mounted() {
     const token = JSON.parse(localStorage.getItem("user")) || "";
     this.getUserBytoken();
+    
     if (!token) {
       this.$router.push("/login");
     } else {
