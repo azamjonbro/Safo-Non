@@ -112,7 +112,6 @@
 import HistoryModal from "@/components/Modals/HistoryModal.vue";
 import Icons from "@/components/Template/Icons.vue";
 import Api from "@/Utils/axios.js";
-import api from "@/Utils/axios.js";
 export default {
   components: {
     Icons,

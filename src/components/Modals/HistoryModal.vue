@@ -628,7 +628,7 @@ export default {
 
 <style>
 .h-80 {
-  height: 80vh;
+  height: 100vh;
 }
 .scroll-content {
   width: 100%;
