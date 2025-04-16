@@ -6,7 +6,7 @@
         <h2>Non yaratish</h2>
 
         <form>
-          <div class="d-flex column gap12 scroll" style="height:300px;">
+          <div class="d-flex column gap12 scroll" style="height: 300px">
             <div
               class="yemagan d-flex a-center"
               v-for="(data, index) in count"
@@ -17,14 +17,23 @@
                 <CustomSelectVue
                   :search="true"
                   :options="
-                    allTypeOfBread
-                      .map((item) => {
-                        return { text: item?.title, value: item };
-                      })
-                      .filter(
-                        (i) =>
-                          !count.map((i) => i.breadId).includes(i.value._id)
-                      )
+                    !isUpdate
+                      ? allTypeOfBread
+                          .map((item) => {
+                            return { text: item?.title, value: item };
+                          })
+                          .filter(
+                            (i) =>
+                              !count.map((i) => i.breadId).includes(i.value._id)
+                          )
+                      : allTypeOfBread
+                          .map((item) => {
+                            return { text: item?.title, value: item };
+                          })
+                          .filter(
+                            (i) =>
+                              !count.map((i) => i.breadId).includes(i.value._id)
+                          )
                   "
                   id="bread"
                   :selected="data?.breadId"
@@ -61,12 +70,9 @@
                   {{ data.errors.qopQuantity }}
                 </p>
               </div>
-            
-              <div
-                style="display: flex;"
-                class="gap12 yonbosh"
-              >
-                <div class="form-group" >
+
+              <div style="display: flex" class="gap12 yonbosh">
+                <div class="form-group">
                   <label for="quantity">Soni (Dona)</label>
                   <input
                     id="quantity"
@@ -106,7 +112,6 @@
             </div>
           </div>
           <div class="modal-form">
-      
             <div class="form-group">
               <label for="qopQuantity">Qop soni</label>
               <input
@@ -205,7 +210,7 @@ export default {
       return this.count.reduce((a, b) => a + b.quantity, 0);
     },
     totalPrice2() {
-      return this.count.reduce((a, b) => a + (b.price * b.qopQuantity), 0);
+      return this.count.reduce((a, b) => a + b.price * b.qopQuantity, 0);
     },
   },
   methods: {
@@ -256,7 +261,7 @@ export default {
     },
     validateField(field) {
       this.errors[field] = "";
- 
+
       if (
         field === "ovenId" &&
         (!this.bread.ovenId || isNaN(this.bread.ovenId))
@@ -396,11 +401,13 @@ export default {
   },
   mounted() {
     if (this?.update?.isUpdate) {
+      console.log(this.update)
       this.count = this.update.typeOfBreadId.map((item, index) => {
+      console.log(item)
         return {
           id: index,
           breadId: item.breadId._id,
-          quantity: item.quantity,
+          quantity: this.update?.totalQuantity,
           qopQuantity: item.qopQuantity,
           price: item.breadId.price,
           errors: {},
@@ -415,16 +422,16 @@ export default {
 </script>
 
 <style scoped>
-.yemagan{
+.yemagan {
   display: flex;
-  justify-content:space-between ;
+  justify-content: space-between;
   gap: 12px;
 }
-.yemagan>.form-group{
+.yemagan > .form-group {
   flex: 1;
 }
 @media (max-width: 1180px) {
-  .yemagan{
+  .yemagan {
     flex-wrap: wrap !important;
   }
   /* .yemagan>.form-group{
@@ -435,7 +442,6 @@ export default {
   }
 }
 @media (max-width: 480px) {
- 
   form {
     max-height: 500px;
   }
