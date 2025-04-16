@@ -53,7 +53,7 @@
                   <!-- <Icons
                     name="bottomArrow"
                     class="icon"
-                    :class="{ rotated: expanedId === data._id }"
+                    :class="{ rotated: expanedId === data._id }" 
                     @click="toggleHistory(data?._id)"
                   /> -->
                 </div>

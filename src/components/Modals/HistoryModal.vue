@@ -230,6 +230,7 @@
                 <div class="cell">Olingan pul</div>
                 <div class="cell">Umumiy summa</div>
                 <div class="cell">Do`kon nomi</div>
+                <div class="cell">Non turi</div>
               </div>
             </div>
             <div class="table-body">
@@ -270,6 +271,9 @@
                 </div>
                 <div class="cell">
                   {{ data?.magazineId?.title || "id" }}
+                </div>
+                 <div class="cell">
+                  {{ data?.breadId?.title || "id" }}
                 </div>
               </div>
             </div>
