@@ -272,7 +272,7 @@
                 <div class="cell">
                   {{ data?.magazineId?.title || "id" }}
                 </div>
-                 <div class="cell">
+                <div class="cell">
                   {{ data?.breadId?.title || "id" }}
                 </div>
               </div>
@@ -313,6 +313,7 @@
                 <div class="cell">
                   {{ formatPrice(data?.totalPrice) || 0 }}
                 </div>
+             
                 <div class="cell">
                   {{ data?.magazineId?.title || "id" }}
                 </div>
@@ -451,7 +452,7 @@
                 </div> -->
                 <div class="cell">
                   {{
-                   data?.magazineId?.title ? data?.magazineId?.title : "----"
+                    data?.magazineId?.title ? data?.magazineId?.title : "----"
                   }}
                 </div>
               </div>
