@@ -248,7 +248,6 @@ export default {
       this.magazine.deliveryId = value._id;
     },
     selectArray(value) {
-      console.log(value)
       this.magazine.bread = value.breadId._id 
       this.typeOfBread.quantity =  value.quantity;
       this.magazine.breadId =  value.id;

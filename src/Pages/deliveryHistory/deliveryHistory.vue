@@ -13,6 +13,7 @@
             <div class="cell">Soni</div>
             <div class="cell">Summa</div>
             <div class="cell">Umumiy summa</div>
+            <div class="cell">Non nomi</div>
             <div class="cell">Do`kon nomi</div>
 
           </div>
@@ -35,6 +36,7 @@
             <div class="cell">
               {{ formatPrice(data?.totalPrice || 0) }}
             </div>
+            <div class="cell">{{ data?.breadId?.title || "-----" }}</div>
             <div class="cell">{{ data?.magazineId?.title || "-----" }}</div>
           </div>
         </div>
