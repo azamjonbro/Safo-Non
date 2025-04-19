@@ -156,34 +156,10 @@
                   {{ formatDate(new Date(data.createdAt)) }}
                 </div>
                 <div class="cell">
-                  {{
-                    data?.quantity
-                      ? data?.quantity
-                      : data?.typeOfBreadId
-                      ? data.pricetype === ""
-                        ? data.breadId.price
-                        : data.pricetype === "toyxona"
-                        ? data.breadId.price3
-                        : data.pricetype === "dokon"
-                        ? data.breadId.price2
-                        : data.breadId.price
-                      : 0
-                  }}
+                  {{ formatPrice(data?.quantity || 0  ) }}
                 </div>
                 <div class="cell">
-                  {{
-                    formatPrice(
-                      data?.price
-                        ? data?.price
-                        : data.pricetype === ""
-                        ? data.breadId.price
-                        : data.pricetype === "toyxona"
-                        ? data.breadId.price3
-                        : data.pricetype === "dokon"
-                        ? data.breadId.price2
-                        : data.breadId.price || 0
-                    )
-                  }}
+                  {{ formatPrice(data?.price || 0) }}
                 </div>
                 <div class="cell" v-if="history?.role == 'manager'">
                   {{
@@ -313,7 +289,7 @@
                 <div class="cell">
                   {{ formatPrice(data?.totalPrice) || 0 }}
                 </div>
-             
+
                 <div class="cell">
                   {{ data?.magazineId?.title || "id" }}
                 </div>
