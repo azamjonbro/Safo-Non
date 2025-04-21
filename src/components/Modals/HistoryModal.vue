@@ -205,7 +205,7 @@
                 <div class="cell">Narxi</div>
                 <div class="cell">Olingan pul</div>
                 <div class="cell">Umumiy summa</div>
-                <div class="cell">Do`kon nomi</div>
+                <!-- <div class="cell">Do`kon nomi</div> -->
                 <div class="cell">Non turi</div>
               </div>
             </div>
@@ -245,9 +245,9 @@
                 <div class="cell">
                   {{ formatPrice(data?.totalPrice - data?.money || 0) }}
                 </div>
-                <div class="cell">
+                <!-- <div class="cell">
                   {{ data?.magazineId?.title || "id" }}
-                </div>
+                </div> -->
                 <div class="cell">
                   {{ data?.breadId?.title || "id" }}
                 </div>

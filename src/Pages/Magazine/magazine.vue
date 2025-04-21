@@ -42,7 +42,7 @@
                   title="To'lov"
                   class="icon info setting"
                   @click="openAddModal(data?._id)"
-                  v-if="role !== 'superAdmin'"
+                  v-if="role !== 'superAdmin' && role !== 'manager'"
                 />
                 <Icons
                   name="setting"
